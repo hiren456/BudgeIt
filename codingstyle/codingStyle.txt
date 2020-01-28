@@ -1,0 +1,4 @@
+I think we should use the coding style proposed in the html file named
+Google Java Style Guide.html. They do not have the I infront of 
+interfaces so I, if we go with this one, I guess we should drop the I.
+
