@@ -1,0 +1,44 @@
+I think we should use the git workflow proposed in the html file with the name GitHubFlow.html. This is what it would look like in summary.
+
+-To work on something new, branch off master.
+-Name your branch something descriptive
+-Once finished(Tested, works with the most current master branch
+,at least one other person has signed off on it) merge your branch
+into master
+-When making commits, follow the 7 rules proposed in the html file
+named How To Write a Git Commit Message.html
+-If a change is made to master while you are working on your branch,
+use git rebase to update your branch to the most current version
+
+I've tried out this workflow with this branch just to get a feel of it
+. Here are the commands I used to do so.
+
+// clone the git lab repository onto my laptop
+git clone <gitlab url>
+
+// switch to the master branch
+git checkout master
+
+// create a new branch called git-workflow
+// note that I am branching off of the master branch
+git checkout -b git-workflow master
+
+I then downloaded the html files into budge-it-9 folder on my laptop
+I created this file and the codingStyle.txt file
+
+// Use git status to see what files have been changed from the
+// git-workflow branch. Currently it is all the files except the read
+// me
+git status
+
+// add all the files I created/downloaded
+// I ran this many times
+git add <file names>
+
+// commit changes to my local version of git-workflow
+// add a descriptive commit message
+git commit
+
+// push/"upload" my changes to the server(origin is the server)
+// the "server" is gitlab
+git push git-workflow
