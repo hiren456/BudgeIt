@@ -1,4 +1,4 @@
-package LogicLayer;
+package LogicLayer.EntryCalculator;
 
 import java.util.List;
 

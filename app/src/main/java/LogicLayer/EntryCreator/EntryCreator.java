@@ -1,4 +1,4 @@
-package LogicLayer;
+package LogicLayer.EntryCreator;
 
 interface EntryCreator {
 
