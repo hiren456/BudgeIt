@@ -1,4 +1,4 @@
-// TODO: Move to proper package
+package LogicLayer;
 
 // TODO: Replace Java date with our date
 import java.util.Date;
@@ -20,7 +20,7 @@ interface LogicLayer {
     // Fetches all Purchase Entrys from startDate to endDate
     // Returns them in a list with the earliest date at position 0
     // and the latest date at the last position
-    List<Entry> fetchAllPurchaseEntrys(Date startDate,Date endDate);
+    List<Entry> fetchAllPurchaseEntrys(Date startDate, Date endDate);
 
     // Fetches all Purchase Entrys from a month from the current date
     // to the current date
@@ -31,7 +31,7 @@ interface LogicLayer {
     // Fetches all Entrys from startDate to endDate
     // Returns them in a list with the earliest date at position 0
     // and the latest date at the last position
-    List<Entry> fetchAllEntrys(Date startDate,Date endDate);
+    List<Entry> fetchAllEntrys(Date startDate, Date endDate);
 
     // Fetches all Entrys from a month from the current date
     // to the current date
