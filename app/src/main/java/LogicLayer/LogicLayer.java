@@ -45,22 +45,22 @@ public interface LogicLayer {
     // Calculates the sum total of all Income entered from
     // the startDate to the endDate
     // always returns a non negative number
-    int calculalateTotalIncome(Date startDate, Date endDate);
+    int calculateTotalIncome(Date startDate, Date endDate);
 
     // Calculates the sum total of all Income entered from
     // the a month from the current date to the current date
     // always returns a non negative number
-    //int calculalateTotalIncome();
+    //int calculateTotalIncome();
 
     // Calculates the sum total of all Purchases entered from
     // the startDate to the endDate
     // always returns a non positive number
-    int calculalateTotalPurchases(Date startDate, Date endDate);
+    int calculateTotalPurchases(Date startDate, Date endDate);
 
     // Calculates the sum total of all Purchases entered from
     // the a month from the current date to the current date
     // always returns a non positive number
-    //int calculalateTotalPurchases();
+    //int calculateTotalPurchases();
 
     //List<Object> fetchIncomeDisplayInfo(Date startDate, Date endDate);
 

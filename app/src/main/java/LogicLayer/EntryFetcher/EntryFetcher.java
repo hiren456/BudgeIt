@@ -1,4 +1,4 @@
-package LogicLayer;
+package LogicLayer.EntryFetcher;
 
 import java.util.Date;
 import java.util.List;
