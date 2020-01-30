@@ -1,11 +1,11 @@
-package LogicLayer;
+package Entry;
 
 import java.util.Date;
 
-interface Entry {
+public interface Entry {
 
     // not allowed in interface
-    //LogicLayer.Entry(int amount,int entryID,int catID, String details, Date date);
+    //Entry.Entry(int amount,int entryID,int catID, String details, Date date);
 
     // getters
     int getAmount();

@@ -4,7 +4,9 @@ package LogicLayer;
 import java.util.Date;
 import java.util.List;
 
-interface LogicLayer {
+import Entry.Entry;
+
+public interface LogicLayer {
 
     // Fetches all Income Entrys from startDate to endDate
     // Returns them in a list with the earliest date at position 0
