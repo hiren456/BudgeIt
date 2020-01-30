@@ -1,6 +1,7 @@
 package LogicLayer.EntryCreator;
 
-public class DefaultEntryCreator implements EntryCreator {
+class DefaultEntryCreator implements EntryCreator {
+
     // TODO: add method
     // TODO: add test
     @Override

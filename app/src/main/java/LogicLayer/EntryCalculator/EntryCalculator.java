@@ -4,7 +4,7 @@ import java.util.List;
 
 import Entry.Entry;
 
-interface EntryCalculator {
+public interface EntryCalculator {
 
     // Takes a list of entrys and sums
     // their amount

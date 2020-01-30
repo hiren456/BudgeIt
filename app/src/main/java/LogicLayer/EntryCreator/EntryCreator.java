@@ -1,6 +1,6 @@
 package LogicLayer.EntryCreator;
 
-interface EntryCreator {
+public interface EntryCreator {
 
     // Creates and stores an entry
     // TODO: through exception if strings are invalid
