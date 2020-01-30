@@ -18,5 +18,4 @@ public interface Entry {
     // if parameter is Null that indicates not to change that variable
     // leaves original entry untouched
     Entry modifyEntry(int amount,int entryID,int catID, String details, Date date);
-
 }
