@@ -1,7 +1,6 @@
 package LogicLayer.EntryFetcher;
 
-
-class EntryFetcherFactory {
+public class EntryFetcherFactory {
     public EntryFetcher createEntryFetcher(){
         return new DefaultEntryFetcher();
     }
