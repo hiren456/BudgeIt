@@ -3,6 +3,8 @@ package LogicLayer;
 import java.util.Date;
 import java.util.List;
 
+import Database.Database;
+import Database.DatabaseFactory;
 import Entry.Entry;
 import LogicLayer.EntryCalculator.EntryCalculator;
 import LogicLayer.EntryCalculator.EntryCalculatorFactory;
@@ -19,6 +21,8 @@ class DefaultLogicLayer implements LogicLayer {
     private EntryFetcher entryFetcher;
     private EntryCalculator entryCalculator;
     private EntryCreator entryCreator;
+    private DatabaseFactory databaseFactory;
+    private Database database;
 
 
     DefaultLogicLayer(){
@@ -26,11 +30,14 @@ class DefaultLogicLayer implements LogicLayer {
         this.entryCalculatorFactory = new EntryCalculatorFactory();
         this.entryFetcherFactory = new EntryFetcherFactory();
         this.entryCreatorFactory = new EntryCreatorFactory();
+        this.databaseFactory = new DatabaseFactory();
 
         // Create objects with factories
-        this.entryCreator = this.entryCreatorFactory.createEntryCreator();
-        this.entryFetcher = this.entryFetcherFactory.createEntryFetcher();
-        this.entryCalculator = this.entryCalculatorFactory.createEntryCaluculor();
+        this.database = this.databaseFactory.createDatabase(0);
+        this.entryCreator = this.entryCreatorFactory.createEntryCreator(this.database);
+        this.entryFetcher = this.entryFetcherFactory.createEntryFetcher(this.database);
+        this.entryCalculator = this.entryCalculatorFactory.createEntryCalculator();
+
     }
 
     @Override
@@ -73,9 +80,9 @@ class DefaultLogicLayer implements LogicLayer {
     }
 
     @Override
-    public void createEntry(String amount, String category, String details, String date) {
+    public void createEntry(String amount,  String details, String date) {
         // TODO: ensure validity of parameters
         // TODO: test for successful creation
-        this.entryCreator.createEntry(amount,category,details,date);
+        this.entryCreator.createEntry(amount,details,date);
     }
 }

@@ -66,6 +66,6 @@ public interface LogicLayer {
 
 
     // Creates and stores an entry
-    void createEntry(String amount, String category, String details,String date);
+    void createEntry(String amount, String details,String date);
 
 }
