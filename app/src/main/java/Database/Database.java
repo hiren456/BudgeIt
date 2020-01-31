@@ -8,9 +8,13 @@ import Entry.Entry;
 public interface Database {
 
     void insertEntry(Entry entry);
+
     Entry selectByID(int ID);
+
     List<Entry> selectByDate(Date startDate, Date endDate);
+
     List<Entry> selectByCategory(int catID);
+
     boolean deleteEntry(int ID);
 
     // returns current entry id counter
