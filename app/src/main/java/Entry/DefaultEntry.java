@@ -1,5 +1,6 @@
 package Entry;
 
+import java.security.InvalidParameterException;
 import java.util.Date;
 
 class DefaultEntry implements Entry {
@@ -9,8 +10,20 @@ class DefaultEntry implements Entry {
     private String details;
     private Date date;
 
-    DefaultEntry(int amount, int entryID, String details, Date date){
-        // TODO: ensure for valid parameters
+    DefaultEntry(int amount, int entryID, String details, Date date) {
+
+        // check that parameters are valid
+        if(date == null){
+
+            throw new InvalidParameterException();
+        }
+
+        // details cannot be null
+        // is this ok?
+        if(details == null){
+
+            throw new InvalidParameterException();
+        }
 
         this.amount = amount;
         this.entryID = entryID;
