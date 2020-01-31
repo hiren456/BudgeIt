@@ -1,8 +1,8 @@
-package LogicLayer.EntryCreator;
+package com.codemonkeys9.budgeit.LogicLayer.EntryCreator;
 import java.util.Date;
 import java.text.SimpleDateFormat;
-import Database.Database;
-import Entry.EntryFactory;
+import com.codemonkeys9.budgeit.Database.Database;
+import com.codemonkeys9.budgeit.Entry.EntryFactory;
 
 class DefaultEntryCreator implements EntryCreator {
 

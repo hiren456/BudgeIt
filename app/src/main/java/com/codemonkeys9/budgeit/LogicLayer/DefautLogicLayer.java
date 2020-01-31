@@ -1,17 +1,17 @@
-package LogicLayer;
+package com.codemonkeys9.budgeit.LogicLayer;
 
 import java.util.Date;
 import java.util.List;
 
-import Database.Database;
-import Database.DatabaseFactory;
-import Entry.Entry;
-import LogicLayer.EntryCalculator.EntryCalculator;
-import LogicLayer.EntryCalculator.EntryCalculatorFactory;
-import LogicLayer.EntryCreator.EntryCreator;
-import LogicLayer.EntryCreator.EntryCreatorFactory;
-import LogicLayer.EntryFetcher.EntryFetcher;
-import LogicLayer.EntryFetcher.EntryFetcherFactory;
+import com.codemonkeys9.budgeit.Database.Database;
+import com.codemonkeys9.budgeit.Database.DatabaseFactory;
+import com.codemonkeys9.budgeit.Entry.Entry;
+import com.codemonkeys9.budgeit.LogicLayer.EntryCalculator.EntryCalculator;
+import com.codemonkeys9.budgeit.LogicLayer.EntryCalculator.EntryCalculatorFactory;
+import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreator;
+import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreatorFactory;
+import com.codemonkeys9.budgeit.LogicLayer.EntryFetcher.EntryFetcher;
+import com.codemonkeys9.budgeit.LogicLayer.EntryFetcher.EntryFetcherFactory;
 
 class DefaultLogicLayer implements LogicLayer {
 

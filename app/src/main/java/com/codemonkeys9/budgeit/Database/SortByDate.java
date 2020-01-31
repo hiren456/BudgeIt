@@ -1,8 +1,8 @@
-package Database;
+package com.codemonkeys9.budgeit.Database;
 
 import java.util.Comparator;
 
-import Entry.Entry;
+import com.codemonkeys9.budgeit.Entry.Entry;
 
 
 // This class is used by stubDatabase to allow it to sort the list

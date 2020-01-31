@@ -1,4 +1,4 @@
-package LogicLayer.EntryCreator;
+package com.codemonkeys9.budgeit.LogicLayer.EntryCreator;
 
 public interface EntryCreator {
 

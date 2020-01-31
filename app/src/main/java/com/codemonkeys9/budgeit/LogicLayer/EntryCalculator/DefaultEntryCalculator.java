@@ -1,10 +1,10 @@
-package LogicLayer.EntryCalculator;
+package com.codemonkeys9.budgeit.LogicLayer.EntryCalculator;
 
 
 import java.util.Iterator;
 import java.util.List;
 
-import Entry.Entry;
+import com.codemonkeys9.budgeit.Entry.Entry;
 
 class DefaultEntryCalculator implements EntryCalculator {
 

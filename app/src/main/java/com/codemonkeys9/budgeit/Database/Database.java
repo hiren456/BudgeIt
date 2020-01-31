@@ -1,12 +1,9 @@
-package Database;
+package com.codemonkeys9.budgeit.Database;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
-import Entry.Entry;
+import com.codemonkeys9.budgeit.Entry.Entry;
 
 public interface Database {
 
@@ -16,7 +13,7 @@ public interface Database {
 
     List<Entry> selectByDate(Date startDate, Date endDate);
 
-    //List<Entry> selectByCategory(int catID);
+    //List<com.codemonkeys9.budgeit.Entry> selectByCategory(int catID);
 
     boolean deleteEntry(int ID);
 

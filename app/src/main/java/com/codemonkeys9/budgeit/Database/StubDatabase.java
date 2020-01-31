@@ -1,4 +1,4 @@
-package Database;
+package com.codemonkeys9.budgeit.Database;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import Entry.Entry;
+import com.codemonkeys9.budgeit.Entry.Entry;
 
 class StubDatabase implements Database {
 
@@ -74,12 +74,12 @@ class StubDatabase implements Database {
     }
 
     //@Override
-    //public List<Entry> selectByCategory(int catID) {
+    //public List<com.codemonkeys9.budgeit.Entry> selectByCategory(int catID) {
     //    // TODO: ensure valid parameters
-    //    ArrayList<Entry> returnList = new ArrayList<Entry>();
+    //    ArrayList<com.codemonkeys9.budgeit.Entry> returnList = new ArrayList<com.codemonkeys9.budgeit.Entry>();
 
     //    // find all entries within the specified range
-    //    for ( Entry entry : this.entryMap.values()){
+    //    for ( com.codemonkeys9.budgeit.Entry entry : this.entryMap.values()){
     //        int entryCatID = entry.getCatID();
 
     //        // might be a bug if this does not include start date

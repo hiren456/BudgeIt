@@ -1,6 +1,6 @@
-package LogicLayer.EntryFetcher;
+package com.codemonkeys9.budgeit.LogicLayer.EntryFetcher;
 
-import Database.Database;
+import com.codemonkeys9.budgeit.Database.Database;
 
 public class EntryFetcherFactory {
     public EntryFetcher createEntryFetcher(Database database){

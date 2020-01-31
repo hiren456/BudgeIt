@@ -1,10 +1,10 @@
-package LogicLayer;
+package com.codemonkeys9.budgeit.LogicLayer;
 
 // TODO: Replace Java date with our date
 import java.util.Date;
 import java.util.List;
 
-import Entry.Entry;
+import com.codemonkeys9.budgeit.Entry.Entry;
 
 public interface LogicLayer {
 
@@ -17,7 +17,7 @@ public interface LogicLayer {
     // to the current date
     // Returns them in a list with the earliest date at position 0
     // and the latest date at the last position
-    //List<Entry> fetchAllIncomeEntrys();
+    //List<com.codemonkeys9.budgeit.Entry> fetchAllIncomeEntrys();
 
     // Fetches all Purchase Entrys from startDate to endDate
     // Returns them in a list with the earliest date at position 0
@@ -28,7 +28,7 @@ public interface LogicLayer {
     // to the current date
     // Returns them in a list with the earliest date at position 0
     // and the latest date at the last position
-    //List<Entry> fetchAllPurchaseEntrys();
+    //List<com.codemonkeys9.budgeit.Entry> fetchAllPurchaseEntrys();
 
     // Fetches all Entrys from startDate to endDate
     // Returns them in a list with the earliest date at position 0
@@ -39,7 +39,7 @@ public interface LogicLayer {
     // to the current date
     // Returns them in a list with the earliest date at position 0
     // and the latest date at the last position
-    //List<Entry> fetchAllEntrys();
+    //List<com.codemonkeys9.budgeit.Entry> fetchAllEntrys();
 
 
     // Calculates the sum total of all Income entered from

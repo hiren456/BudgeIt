@@ -1,4 +1,7 @@
-package Entry;
+package com.codemonkeys9.budgeit;
+
+import com.codemonkeys9.budgeit.Entry.Entry;
+import com.codemonkeys9.budgeit.Entry.EntryFactory;
 
 import org.junit.Test;
 
@@ -23,7 +26,7 @@ public class EntryTest {
 
     @Test
     public void ValidEntryGetEntryIDTest() {
-        //Create valid Entry
+        //Create valid com.codemonkeys9.budgeit.Entry
         int amount = 999;
         int entryID = 42;
         String details = "A very creative description";
@@ -36,7 +39,7 @@ public class EntryTest {
 
     @Test
     public void ValidEntryGetDetailsTest() {
-        //Create valid Entry
+        //Create valid com.codemonkeys9.budgeit.Entry
         int amount = 999;
         int entryID = 42;
         String details = "A very creative description";
@@ -49,7 +52,7 @@ public class EntryTest {
 
     @Test
     public void ValidEntryGetDateTest() {
-        //Create valid Entry
+        //Create valid com.codemonkeys9.budgeit.Entry
         int amount = 999;
         int entryID = 42;
         String details = "A very creative description";
@@ -231,9 +234,51 @@ public class EntryTest {
         try{
 
             Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
-            fail("Passing the null date does not cause an exception");
+            fail("Passing a null date does not cause an exception");
         }catch (Exception e){
 
         }
     }
+
+    //modifyEntry Tests
+
+    @Test
+    public void modifyEntryTest() {
+        int amount = 999;
+        int entryID = 52;
+        String details = "A creative description";
+        Date date = new Date(1999,04,23);
+
+        Entry entry1 = new EntryFactory().createEntry(amount, entryID, details, date);
+
+        int newAmount = 123;
+        String newDetails = "Another creative description";
+        Date newDate = new Date(2000,05,24);
+
+        Entry entry2 = entry1.modifyEntry(newAmount,newDetails,newDate);
+
+
+        assertEquals("When an entrys modifyEntry method has been called," +
+                "the original amount gets changed",entry1.getAmount(), 999);
+        assertEquals("When an entrys modifyEntry method has been called," +
+                "the original ID gets changed",entry1.getEntryID(), 52);
+
+        assertEquals("When an entrys modifyEntry method get called," +
+                "the returned entrys amount is not what it should be",entry2.getAmount(), 123);
+        assertEquals("When an entrys modifyEntry method get called," +
+                "the returned entrys id is not what it should be",entry2.getEntryID(), 52);
+
+
+        assertTrue("When an entrys modifyEntry method has been called," +
+                "the original details string gets changed","A creative description".equals(entry1.getDetails()));
+        assertTrue("When an entrys modifyEntry method has been called," +
+                "the original date gets changed",date.equals(entry1.getDate()));
+
+
+        assertTrue("When an entrys modifyEntry method gets called," +
+                "the returned entrys details string gets changed","Another creative description".equals(entry2.getDetails()));
+        assertTrue("When an entrys modifyEntry method gets called," +
+                "the returned entrys date gets changed",newDate.equals(entry2.getDate()));
+    }
+
 }

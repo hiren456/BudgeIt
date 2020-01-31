@@ -1,9 +1,9 @@
-package LogicLayer.EntryFetcher;
+package com.codemonkeys9.budgeit.LogicLayer.EntryFetcher;
 
 import java.util.Date;
 import java.util.List;
 
-import Entry.Entry;
+import com.codemonkeys9.budgeit.Entry.Entry;
 
 public interface EntryFetcher {
 

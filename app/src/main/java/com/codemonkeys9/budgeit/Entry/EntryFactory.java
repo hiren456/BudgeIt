@@ -1,4 +1,4 @@
-package Entry;
+package com.codemonkeys9.budgeit.Entry;
 
 import java.util.Date;
 

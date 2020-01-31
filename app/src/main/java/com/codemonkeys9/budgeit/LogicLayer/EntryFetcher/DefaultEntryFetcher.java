@@ -1,12 +1,12 @@
-package LogicLayer.EntryFetcher;
+package com.codemonkeys9.budgeit.LogicLayer.EntryFetcher;
 
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import Database.Database;
-import Database.DatabaseFactory;
-import Entry.Entry;
+import com.codemonkeys9.budgeit.Database.Database;
+
+import com.codemonkeys9.budgeit.Entry.Entry;
 
 class DefaultEntryFetcher implements EntryFetcher {
     Database database;
