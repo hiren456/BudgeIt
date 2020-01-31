@@ -1,7 +1,7 @@
 package Database;
 
 public class DatabaseFactory {
-    public Database createDatabase(){
-        return new StubDatabase();
+    public Database createDatabase(int initialEntryID,int initialCatID){
+        return new StubDatabase(initialCatID,initialCatID);
     }
 }

@@ -29,7 +29,7 @@ class DefaultEntry implements Entry {
     }
 
     @Override
-    public Entry modifyEntry(int amount, int entryID, int catID, String details, Date date) {
+    public Entry modifyEntry(int amount, int catID, String details, Date date) {
         return null;
     }
 }
