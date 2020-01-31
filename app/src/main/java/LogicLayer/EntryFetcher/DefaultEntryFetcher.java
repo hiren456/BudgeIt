@@ -9,8 +9,11 @@ import Database.DatabaseFactory;
 import Entry.Entry;
 
 class DefaultEntryFetcher implements EntryFetcher {
-    DatabaseFactory databaseFactory;
     Database database;
+
+    DefaultEntryFetcher(Database database){
+        this.database = database;
+    }
 
     @Override
     public List<Entry> fetchAllIncomeEntrys(Date startDate, Date endDate) {

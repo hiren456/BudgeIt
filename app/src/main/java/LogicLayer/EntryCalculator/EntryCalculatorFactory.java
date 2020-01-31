@@ -2,7 +2,7 @@ package LogicLayer.EntryCalculator;
 
 public class EntryCalculatorFactory {
 
-    public EntryCalculator createEntryCaluculor(){
+    public EntryCalculator createEntryCalculator(){
         return new DefaultEntryCalculator();
     }
 }

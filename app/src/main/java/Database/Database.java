@@ -1,6 +1,9 @@
 package Database;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import Entry.Entry;
@@ -13,7 +16,7 @@ public interface Database {
 
     List<Entry> selectByDate(Date startDate, Date endDate);
 
-    List<Entry> selectByCategory(int catID);
+    //List<Entry> selectByCategory(int catID);
 
     boolean deleteEntry(int ID);
 
@@ -22,4 +25,5 @@ public interface Database {
 
     // updates entry id counter
     void updateIDCounter(int newCounter);
+
 }

@@ -2,37 +2,45 @@ package Database;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import Entry.Entry;
 
-
 class StubDatabase implements Database {
 
-    HashMap<Integer,Entry> entryMap;
-    int catCounter;
-    int idCounter;
-    StubDatabase(int initialIDCounter, int initialCatCounter){
+    // This is where all the entrys are stored
+    // they are searched and inserted by their ID
+    private HashMap<Integer,Entry> entryMap;
+
+    //private int catCounter;
+
+    private int idCounter;
+
+
+    StubDatabase(int initialIDCounter){
         this.entryMap = new HashMap<Integer,Entry>();
-        this.catCounter = initialCatCounter;
+        //this.catCounter = initialCatCounter;
+
         this.idCounter = initialIDCounter;
     }
     @Override
     public void insertEntry(Entry entry) {
-        // TODO: Ensure proper entry
-        // TODO: Make sure entry with same id is not in list
-        if(entryMap.containsKey(entry.getAmount())){
+        // TODO: Ensure valid entry
 
-            //exception
+        // Checks if an entry with the same key is already in
+        // the database
+        if(entryMap.containsKey(entry.getEntryID())){
+
+            // TODO: throw exception
         }else{
 
-            this.entryMap.put(entry.getAmount(),entry);
+            this.entryMap.put(entry.getEntryID(),entry);
         }
 
         // TODO: test to make sure entry is in the list
+        // TODO: test to make sure an exception is thrown
     }
 
     @Override
@@ -65,30 +73,30 @@ class StubDatabase implements Database {
         return returnList;
     }
 
-    @Override
-    public List<Entry> selectByCategory(int catID) {
-        // TODO: ensure valid parameters
-        ArrayList<Entry> returnList = new ArrayList<Entry>();
+    //@Override
+    //public List<Entry> selectByCategory(int catID) {
+    //    // TODO: ensure valid parameters
+    //    ArrayList<Entry> returnList = new ArrayList<Entry>();
 
-        // find all entries within the specified range
-        for ( Entry entry : this.entryMap.values()){
-            int entryCatID = entry.getCatID();
+    //    // find all entries within the specified range
+    //    for ( Entry entry : this.entryMap.values()){
+    //        int entryCatID = entry.getCatID();
 
-            // might be a bug if this does not include start date
-            if(entryCatID == catID){
+    //        // might be a bug if this does not include start date
+    //        if(entryCatID == catID){
 
-                returnList.add(entry);
-            }
-        }
+    //            returnList.add(entry);
+    //        }
+    //    }
 
 
-        // sort the entries by date
-        Collections.sort(returnList,new SortByDate());
+    //    // sort the entries by date
+    //    Collections.sort(returnList,new SortByDate());
 
-        // TODO: test for proper list
-        // TODO: test for proper order
-        return returnList;
-    }
+    //    // TODO: test for proper list
+    //    // TODO: test for proper order
+    //    return returnList;
+    //}
 
     @Override
     public boolean deleteEntry(int ID) {
@@ -105,17 +113,15 @@ class StubDatabase implements Database {
 
     @Override
     public int getIDCounter() {
+        // TODO: test for proper id counter
         return this.idCounter;
     }
 
     @Override
     public void updateIDCounter(int newCounter) {
-        this.idCounter = newCounter;
-    }
-}
+        // TODO: ensure valid parameters
 
-class SortByDate implements Comparator<Entry> {
-    public int compare(Entry a, Entry b) {
-        return a.getDate().compareTo(b.getDate());
+        // TODO: test that it is actually updated
+        this.idCounter = newCounter;
     }
 }
