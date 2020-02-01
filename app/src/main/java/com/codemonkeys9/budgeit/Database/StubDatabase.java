@@ -58,8 +58,8 @@ class StubDatabase implements Database {
         for ( Entry entry : this.entryMap.values()){
             Date date = entry.getDate();
 
-            // might be a bug if this does not include start date
-            if(date.before(endDate) && date.after(startDate)){
+
+            if((date.getTime() <= endDate.getTime()) && (date.getTime() >= startDate.getTime())){
 
                 returnList.add(entry);
             }
