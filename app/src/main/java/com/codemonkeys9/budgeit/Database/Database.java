@@ -13,7 +13,7 @@ public interface Database {
 
     List<Entry> selectByDate(Date startDate, Date endDate);
 
-    //List<com.codemonkeys9.budgeit.Entry> selectByCategory(int catID);
+    //List<Entry> selectByCategory(int catID);
 
     boolean deleteEntry(int ID);
 
