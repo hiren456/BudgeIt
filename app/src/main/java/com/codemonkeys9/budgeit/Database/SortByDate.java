@@ -1,7 +1,6 @@
 package com.codemonkeys9.budgeit.Database;
 
 import java.util.Comparator;
-
 import com.codemonkeys9.budgeit.Entry.Entry;
 
 

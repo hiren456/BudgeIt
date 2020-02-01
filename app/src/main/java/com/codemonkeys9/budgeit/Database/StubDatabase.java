@@ -1,12 +1,12 @@
 package com.codemonkeys9.budgeit.Database;
 
+import com.codemonkeys9.budgeit.Entry.Entry;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import com.codemonkeys9.budgeit.Entry.Entry;
 
 class StubDatabase implements Database {
 

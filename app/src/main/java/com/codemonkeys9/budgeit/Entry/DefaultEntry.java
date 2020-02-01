@@ -63,8 +63,8 @@ class DefaultEntry implements Entry {
         int newAmount = amount;
         int newEntryID = this.entryID;
         //int newCatID = catID;
-        String newDetails = details;
-        Date newDate = date;
+        String newDetails = String.valueOf(details);
+        Date newDate = new Date(date.getTime());
 
         return new DefaultEntry(newAmount,newEntryID,newDetails,newDate);
     }

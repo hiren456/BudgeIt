@@ -4,9 +4,6 @@ import java.util.Date;
 
 public interface Entry {
 
-    // not allowed in interface
-    //com.codemonkeys9.budgeit.Entry.com.codemonkeys9.budgeit.Entry(int amount,int entryID,int catID, String details, Date date);
-
     // getters
     int getAmount();
     int getEntryID();
