@@ -1,5 +1,7 @@
 package com.codemonkeys9.budgeit.LogicLayer;
 
+import android.util.Pair;
+
 import java.util.Date;
 import java.util.List;
 
@@ -71,9 +73,75 @@ class DefaultLogicLayer implements LogicLayer {
     }
 
     @Override
+    public int calculateTotalIncome() {
+        List<Entry> entryList = fetchAllIncomeEntrys();
+        return this.entryCalculator.sumEntryList(entryList);
+    }
+
+    @Override
     public int calculateTotalPurchases(Date startDate, Date endDate) {
         List<Entry> entryList = fetchAllPurchaseEntrys(startDate,endDate);
         return this.entryCalculator.sumEntryList(entryList);
+    }
+
+    @Override
+    public int calculateTotalPurchases() {
+        List<Entry> entryList = fetchAllPurchaseEntrys();
+        return this.entryCalculator.sumEntryList(entryList);
+    }
+
+    @Override
+    public int calculateTotal(Date startDate, Date endDate) {
+        List<Entry> entryList = fetchAllEntrys(startDate,endDate);
+        return this.entryCalculator.sumEntryList(entryList);
+    }
+
+    @Override
+    public int calculateTotal() {
+        List<Entry> entryList = fetchAllEntrys();
+        return this.entryCalculator.sumEntryList(entryList);
+    }
+
+    @Override
+    public Pair<List<Entry>, Integer> fetchIncomeDisplayInfo(Date startDate, Date endDate) {
+        List<Entry> list = fetchAllIncomeEntrys(startDate,endDate);
+        int sum = entryCalculator.sumEntryList(list);
+        return new Pair<List<Entry>,Integer>(list,sum);
+    }
+
+    @Override
+    public Pair<List<Entry>, Integer> fetchPurchasesDisplayInfo(Date startDate, Date endDate) {
+        List<Entry> list = fetchAllPurchaseEntrys(startDate,endDate);
+        int sum = entryCalculator.sumEntryList(list);
+        return new Pair<List<Entry>,Integer>(list,sum);
+    }
+
+    @Override
+    public Pair<List<Entry>, Integer> fetchAllDisplayInfo(Date startDate, Date endDate) {
+        List<Entry> list = fetchAllEntrys(startDate,endDate);
+        int sum = entryCalculator.sumEntryList(list);
+        return new Pair<List<Entry>,Integer>(list,sum);
+    }
+
+    @Override
+    public Pair<List<Entry>, Integer> fetchIncomeDisplayInfo() {
+        List<Entry> list = fetchAllIncomeEntrys();
+        int sum = entryCalculator.sumEntryList(list);
+        return new Pair<List<Entry>,Integer>(list,sum);
+    }
+
+    @Override
+    public Pair<List<Entry>, Integer> fetchPurchasesDisplayInfo() {
+        List<Entry> list = fetchAllPurchaseEntrys();
+        int sum = entryCalculator.sumEntryList(list);
+        return new Pair<List<Entry>,Integer>(list,sum);
+    }
+
+    @Override
+    public Pair<List<Entry>, Integer> fetchAllDisplayInfo() {
+        List<Entry> list = fetchAllEntrys();
+        int sum = entryCalculator.sumEntryList(list);
+        return new Pair<List<Entry>,Integer>(list,sum);
     }
 
     @Override

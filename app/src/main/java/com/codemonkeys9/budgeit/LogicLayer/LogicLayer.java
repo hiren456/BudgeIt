@@ -1,6 +1,8 @@
 package com.codemonkeys9.budgeit.LogicLayer;
 
 // TODO: Replace Java date with our date
+import android.util.Pair;
+
 import java.util.Date;
 import java.util.List;
 
@@ -48,9 +50,9 @@ public interface LogicLayer {
     int calculateTotalIncome(Date startDate, Date endDate);
 
     // Calculates the sum total of all Income entered from
-    // the a month from the current date to the current date
+    // the default date to the current date
     // always returns a non negative number
-    //int calculateTotalIncome();
+    int calculateTotalIncome();
 
     // Calculates the sum total of all Purchases entered from
     // the startDate to the endDate
@@ -58,11 +60,30 @@ public interface LogicLayer {
     int calculateTotalPurchases(Date startDate, Date endDate);
 
     // Calculates the sum total of all Purchases entered from
-    // the a month from the current date to the current date
+    // the default date to the current date
     // always returns a non positive number
-    //int calculateTotalPurchases();
+    int calculateTotalPurchases();
 
-    //List<Object> fetchIncomeDisplayInfo(Date startDate, Date endDate);
+    // Calculates the sum total of all Entrys entered from
+    // the startDate to the endDate
+    // always returns a non positive number
+    int calculateTotal(Date startDate, Date endDate);
+
+    // Calculates the sum total of all Entrys entered from
+    // the default date to the current date
+    // always returns a non positive number
+    int calculateTotal();
+
+    // These method return a list of entrys returned by the
+    // indicated name as well as their sum as in Integer
+    // more could be added as the statistics needed
+    // grows past just a sum
+    Pair<List<Entry>,Integer> fetchIncomeDisplayInfo(Date startDate, Date endDate);
+    Pair<List<Entry>,Integer>fetchPurchasesDisplayInfo(Date startDate, Date endDate);
+    Pair<List<Entry>,Integer> fetchAllDisplayInfo(Date startDate, Date endDate);
+    Pair<List<Entry>,Integer> fetchIncomeDisplayInfo();
+    Pair<List<Entry>,Integer> fetchPurchasesDisplayInfo();
+    Pair<List<Entry>,Integer> fetchAllDisplayInfo();
 
 
     // Creates and stores an entry
