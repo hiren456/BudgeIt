@@ -17,4 +17,6 @@ public interface Entry {
     // takes values and returns an entry
     // with those updated updated values
     Entry modifyEntry(int amount,String details, Date date);
+
+    boolean equals(Entry other);
 }
