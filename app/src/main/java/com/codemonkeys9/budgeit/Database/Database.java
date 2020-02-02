@@ -7,13 +7,14 @@ import com.codemonkeys9.budgeit.Entry.Entry;
 
 public interface Database {
 
+    //Inserts an entry into the database
     void insertEntry(Entry entry);
 
     Entry selectByID(int ID);
 
     List<Entry> selectByDate(Date startDate, Date endDate);
 
-    //List<com.codemonkeys9.budgeit.Entry> selectByCategory(int catID);
+    //List<Entry> selectByCategory(int catID);
 
     boolean deleteEntry(int ID);
 
