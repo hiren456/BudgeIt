@@ -39,14 +39,12 @@ class StubDatabase implements Database {
             this.entryMap.put(entry.getEntryID(),entry);
         }
 
-        // TODO: test to make sure entry is in the list
         // TODO: test to make sure an exception is thrown
     }
 
     @Override
     public Entry selectByID(int ID) {
         return this.entryMap.get(ID);
-        // TODO: test to make sure the proper entry is returned
     }
 
     @Override
@@ -66,10 +64,8 @@ class StubDatabase implements Database {
         }
 
         // sort the entries by date
-        Collections.sort(returnList,new SortByDate());
+        Collections.sort(returnList,new EntryDateComparator());
 
-        // TODO: test for proper list
-        // TODO: test for proper order
         return returnList;
     }
 
@@ -91,7 +87,7 @@ class StubDatabase implements Database {
 
 
     //    // sort the entries by date
-    //    Collections.sort(returnList,new SortByDate());
+    //    Collections.sort(returnList,new EntryDateComparator());
 
     //    // TODO: test for proper list
     //    // TODO: test for proper order
@@ -113,7 +109,6 @@ class StubDatabase implements Database {
 
     @Override
     public int getIDCounter() {
-        // TODO: test for proper id counter
         return this.idCounter;
     }
 
@@ -121,7 +116,6 @@ class StubDatabase implements Database {
     public void updateIDCounter(int newCounter) {
         // TODO: ensure valid parameters
 
-        // TODO: test that it is actually updated
         this.idCounter = newCounter;
     }
 }
