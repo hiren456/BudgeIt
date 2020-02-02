@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.LogicLayer.EntryFetcher;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -17,41 +18,52 @@ class DefaultEntryFetcher implements EntryFetcher {
 
     @Override
     public List<Entry> fetchAllIncomeEntrys(Date startDate, Date endDate) {
-        // TODO: ensure valid parameters
 
         // get all entrys within the specified date and remove any with negative amounts
         List<Entry> initialList = database.selectByDate(startDate,endDate);
-        Iterator<Entry> iter = initialList.iterator();
-        while(iter.hasNext()){
+        ArrayList<Entry> entriesToRemove = new ArrayList<Entry>();
 
-            Entry curr = iter.next();
-            if(curr.getAmount() > 0){
-
-                initialList.remove(curr);
-            }
-        }
-
-        // TODO: test the validity of the list
-        return initialList;
-    }
-
-    @Override
-    public List<Entry> fetchAllPurchasesEntrys(Date startDate, Date endDate) {
-        // TODO: ensure valid parameters
-
-        // get all entrys within the specified date and remove any with positive amounts
-        List<Entry> initialList = database.selectByDate(startDate,endDate);
         Iterator<Entry> iter = initialList.iterator();
         while(iter.hasNext()){
 
             Entry curr = iter.next();
             if(curr.getAmount() < 0){
 
-                initialList.remove(curr);
+                entriesToRemove.add(curr);
             }
         }
 
-        // TODO: test the validity of the list
+        for( Entry curr : entriesToRemove){
+
+            initialList.remove(curr);
+        }
+
+
+        return initialList;
+    }
+
+    @Override
+    public List<Entry> fetchAllPurchasesEntrys(Date startDate, Date endDate) {
+
+        // get all entrys within the specified date and remove any with positive amounts
+        List<Entry> initialList = database.selectByDate(startDate,endDate);
+        ArrayList<Entry> entriesToRemove = new ArrayList<Entry>();
+
+        Iterator<Entry> iter = initialList.iterator();
+        while(iter.hasNext()){
+
+            Entry curr = iter.next();
+            if(curr.getAmount() > 0){
+
+                entriesToRemove.add(curr);
+            }
+        }
+
+        for( Entry curr : entriesToRemove){
+
+            initialList.remove(curr);
+        }
+
         return initialList;
     }
 
