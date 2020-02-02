@@ -50,8 +50,18 @@ class DefaultLogicLayer implements LogicLayer {
     }
 
     @Override
+    public List<Entry> fetchAllPurchaseEntrys() {
+        return this.entryFetcher.fetchAllPurchasesEntrys(this.defaultStartDate, new Date());
+    }
+
+    @Override
     public List<Entry> fetchAllEntrys(Date startDate, Date endDate) {
         return this.entryFetcher.fetchAllEntrys(startDate,endDate);
+    }
+
+    @Override
+    public List<Entry> fetchAllEntrys() {
+        return this.entryFetcher.fetchAllEntrys(this.defaultStartDate,new Date());
     }
 
     @Override

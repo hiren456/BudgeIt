@@ -24,22 +24,22 @@ public interface LogicLayer {
     // and the latest date at the last position
     List<Entry> fetchAllPurchaseEntrys(Date startDate, Date endDate);
 
-    // Fetches all Purchase Entrys from a month from the current date
+    // Fetches all Purchase Entrys from the default date
     // to the current date
     // Returns them in a list with the earliest date at position 0
     // and the latest date at the last position
-    //List<com.codemonkeys9.budgeit.Entry> fetchAllPurchaseEntrys();
+    List<Entry> fetchAllPurchaseEntrys();
 
     // Fetches all Entrys from startDate to endDate
     // Returns them in a list with the earliest date at position 0
     // and the latest date at the last position
     List<Entry> fetchAllEntrys(Date startDate, Date endDate);
 
-    // Fetches all Entrys from a month from the current date
+    // Fetches all Entrys from a month from the dafault date
     // to the current date
     // Returns them in a list with the earliest date at position 0
     // and the latest date at the last position
-    //List<com.codemonkeys9.budgeit.Entry> fetchAllEntrys();
+    List<Entry> fetchAllEntrys();
 
 
     // Calculates the sum total of all Income entered from
