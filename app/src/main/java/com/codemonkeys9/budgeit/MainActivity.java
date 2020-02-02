@@ -1,6 +1,12 @@
 package com.codemonkeys9.budgeit;
 
 import android.os.Bundle;
+
+import java.util.Date;
+import java.util.List;
+import com.codemonkeys9.budgeit.Entry.Entry;
+import com.codemonkeys9.budgeit.LogicLayer.LogicLayer;
+import com.codemonkeys9.budgeit.LogicLayer.LogicLayerFactory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -26,6 +32,19 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        LogicLayer logic = new LogicLayerFactory().createLogicLayer();
+
+        // Fetch all entries from "the beginning of time" to right now
+        List<Entry> entries = logic.fetchAllEntrys(new Date(0), new Date());
+
+        // Add fake data if there's no data in the DB already
+        if(entries.isEmpty()) {
+            logic.createEntry("-60", "Half-Life: Alyx Pre-order", "1/12/2019");
+            logic.createEntry("-20", "Gas", "15/01/2020");
+            logic.createEntry("1000", "Paycheck", "31/01/2020");
+            entries = logic.fetchAllEntrys(new Date(0), new Date());
+        }
     }
 
     @Override
