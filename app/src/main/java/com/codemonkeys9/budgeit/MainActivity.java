@@ -11,6 +11,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
             logic.createEntry("1000", "Paycheck", "31/01/2020");
             entries = logic.fetchAllEntrys(new Date(0), new Date());
         }
+
+        RecyclerView recycler = findViewById(R.id.recycler);
+        recycler.setAdapter(new EntryAdapter(entries));
+        recycler.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
