@@ -15,34 +15,33 @@ import com.codemonkeys9.budgeit.LogicLayer.EntryFetcher.EntryFetcherFactory;
 
 class DefaultLogicLayer implements LogicLayer {
 
-    private EntryFetcherFactory entryFetcherFactory;
-    private EntryCalculatorFactory entryCalculatorFactory;
-    private EntryCreatorFactory entryCreatorFactory;
     private EntryFetcher entryFetcher;
     private EntryCalculator entryCalculator;
     private EntryCreator entryCreator;
-    private DatabaseFactory databaseFactory;
     private Database database;
+    private Date defaultStartDate;
 
 
     DefaultLogicLayer(){
-        // Create factories for objects
-        this.entryCalculatorFactory = new EntryCalculatorFactory();
-        this.entryFetcherFactory = new EntryFetcherFactory();
-        this.entryCreatorFactory = new EntryCreatorFactory();
-        this.databaseFactory = new DatabaseFactory();
+        // Create objects using factories
+        this.database = new DatabaseFactory().createDatabase(0);
+        this.entryCreator = new EntryCreatorFactory().createEntryCreator(this.database);
+        this.entryFetcher = new EntryFetcherFactory().createEntryFetcher(this.database);
+        this.entryCalculator = new EntryCalculatorFactory().createEntryCalculator();
 
-        // Create objects with factories
-        this.database = this.databaseFactory.createDatabase(0);
-        this.entryCreator = this.entryCreatorFactory.createEntryCreator(this.database);
-        this.entryFetcher = this.entryFetcherFactory.createEntryFetcher(this.database);
-        this.entryCalculator = this.entryCalculatorFactory.createEntryCalculator();
-
+        // DEFAULT IS THE BEGININIG OF TIME,
+        // consider creating a method that allows you to customize this
+        this.defaultStartDate = new Date(0);
     }
 
     @Override
     public List<Entry> fetchAllIncomeEntrys(Date startDate, Date endDate) {
         return this.entryFetcher.fetchAllIncomeEntrys(startDate, endDate);
+    }
+
+    @Override
+    public List<Entry> fetchAllIncomeEntrys() {
+        return this.entryFetcher.fetchAllIncomeEntrys(this.defaultStartDate, new Date());
     }
 
     @Override

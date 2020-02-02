@@ -13,11 +13,11 @@ public interface LogicLayer {
     // and the latest date at the last position
     List<Entry> fetchAllIncomeEntrys(Date startDate, Date endDate);
 
-    // Fetches all Income Entrys from a month from the current date
+    // Fetches all Income Entrys from the default date
     // to the current date
     // Returns them in a list with the earliest date at position 0
     // and the latest date at the last position
-    //List<com.codemonkeys9.budgeit.Entry> fetchAllIncomeEntrys();
+    List<Entry> fetchAllIncomeEntrys();
 
     // Fetches all Purchase Entrys from startDate to endDate
     // Returns them in a list with the earliest date at position 0
