@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewEntryActivity">
+
+    <EditText
+        android:id="@+id/editText_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:gravity="top|start"
+        android:hint="amount"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/editText_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editText_amount"
+        android:hint="dd/mm/yyyy"
+        android:ems="10"
+        android:inputType="date" />
+    <EditText
+        android:id="@+id/editText_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editText_date"
+        android:hint="details"
+        android:ems="10"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Submit" />
+
+
+</RelativeLayout>
