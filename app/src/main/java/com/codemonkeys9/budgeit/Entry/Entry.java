@@ -11,6 +11,9 @@ public interface Entry {
     String getDetails();
     Date getDate();
 
+    // Returns the amount as a display friendly string
+    String getDisplayAmount();
+
     // A method that returns the date as a display friendly string
     String getDisplayDate();
 

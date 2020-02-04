@@ -58,6 +58,19 @@ class DefaultEntry implements Entry {
     }
 
     @Override
+    public String getDisplayAmount() {
+        String result = Integer.toString(amount);
+        // Make sure there are at least three digits: one before the decimal point and two after
+        while(result.length() < 3) {
+            result = '0' + result;
+        }
+        int decimalPointPos = result.length() - 2;
+        String beforeDecimalPoint = result.substring(0, decimalPointPos);
+        String afterDecimalPoint = result.substring(decimalPointPos);
+        return beforeDecimalPoint + '.' + afterDecimalPoint;
+    }
+
+    @Override
     public String getDisplayDate() {
         String displayDate = this.date.toGMTString();
         displayDate = displayDate.substring(0,displayDate.length()-13);
