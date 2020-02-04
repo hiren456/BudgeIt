@@ -8,11 +8,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/amount" />
+        android:layout_toLeftOf="@+id/amount"
+        android:layout_marginLeft="5sp"
+        android:layout_marginTop="5sp"
+        android:textSize="17sp"
+        android:textColor="#000" />
 
     <TextView
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5sp"
+        android:layout_marginTop="5sp" />
 </RelativeLayout>
