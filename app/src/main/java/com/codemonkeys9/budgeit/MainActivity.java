@@ -3,13 +3,9 @@ package com.codemonkeys9.budgeit;
 import android.content.Intent;
 import android.os.Bundle;
 
-import java.util.Date;
 import java.util.List;
 import com.codemonkeys9.budgeit.Entry.Entry;
 import com.codemonkeys9.budgeit.LogicLayer.LogicLayer;
-import com.codemonkeys9.budgeit.LogicLayer.LogicLayerFactory;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        LogicLayer logic = new LogicLayerFactory().createLogicLayer();
+        LogicLayerHolder.init();
+        LogicLayer logic = LogicLayerHolder.getLogicLayer();
         List<Entry> entries = logic.fetchAllEntrys();
 
         // Add fake data if there's no data in the DB already
