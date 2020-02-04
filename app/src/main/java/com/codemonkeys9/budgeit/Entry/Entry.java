@@ -11,6 +11,9 @@ public interface Entry {
     String getDetails();
     Date getDate();
 
+    // A method that returns the date as a display friendly string
+    String getDisplayDate();
+
     // takes values and returns an entry
     // with those updated updated values
     Entry modifyEntry(int amount,String details, Date date);
