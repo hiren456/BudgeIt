@@ -13,13 +13,14 @@ import com.codemonkeys9.budgeit.Entry.Entry;
 import com.codemonkeys9.budgeit.Entry.EntryFactory;
 import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreator;
 import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreatorFactory;
+import com.codemonkeys9.budgeit.LogicLayer.LogicLayer;
+import com.codemonkeys9.budgeit.LogicLayer.LogicLayerFactory;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
 public class NewEntryActivity extends AppCompatActivity {
 
-    static int entryID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +40,29 @@ public class NewEntryActivity extends AppCompatActivity {
     }
 
     public void submitEntry(){
+        // The app should have exactly one LogicLayer, I don't know how to do this properly in the UI
+        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+
         String amount = ((EditText)findViewById(R.id.editText_amount)).getText().toString();
         String date = ((EditText)findViewById(R.id.editText_date)).getText().toString();
         String details = ((EditText)findViewById(R.id.editText_details)).getText().toString();
-        int a = Integer.parseInt(amount);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date d = new Date();
+
+        // Hiren is working on creating exceptions
+        // once that is done then createEntry will throw
+        // an exception such as "InvalidParameterException"
+        // this will happen if any of the above strings are invalid
+        // I think it would be good to have a diff. exception for each type of invalid string
+        // such as "InvalidDateFormat", "FutureDateException", "EmptyDetailsException",
+        // "OldDateException", and "InvalidAmountFormat"
+        // then you can check for each type and react/inform the user accordingly
         try {
-            d = formatter.parse(date);
+
+            ll.createEntry(amount,details,date);
         } catch(Exception e){
-            System.out.println(e.getClass()+" bad date format");
+            //System.out.println(e.getClass()+" bad date format");
         }
-        Entry entry = new EntryFactory().createEntry(a, entryID, details, d);
 
-        System.out.println("amount: "+entry.getAmount()+" date: "+entry.getDate()+" details: "+entry.getDetails());
 
+        //System.out.println("amount: "+entry.getAmount()+" date: "+entry.getDate()+" details: "+entry.getDetails());
     }
 }
