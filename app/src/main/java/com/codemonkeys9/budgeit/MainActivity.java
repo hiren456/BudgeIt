@@ -36,16 +36,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         LogicLayer logic = new LogicLayerFactory().createLogicLayer();
-
-        // Fetch all entries from "the beginning of time" to right now
-        List<Entry> entries = logic.fetchAllEntrys(new Date(0), new Date());
+        List<Entry> entries = logic.fetchAllEntrys();
 
         // Add fake data if there's no data in the DB already
         if(entries.isEmpty()) {
             logic.createEntry("-60", "Half-Life: Alyx Pre-order", "1/12/2019");
             logic.createEntry("-20", "Gas", "15/01/2020");
             logic.createEntry("1000", "Paycheck", "31/01/2020");
-            entries = logic.fetchAllEntrys(new Date(0), new Date());
+            entries = logic.fetchAllEntrys();
         }
 
         RecyclerView recycler = findViewById(R.id.recycler);
