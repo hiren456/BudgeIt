@@ -4,6 +4,7 @@ import android.util.Pair;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -41,8 +42,6 @@ class DefaultLogicLayer implements LogicLayer {
     @Override
     public List<Entry> fetchAllIncomeEntrys(String startDate, String endDate) {
         // startDate and endDate are expected to be in "dd/mm/yyyy" format
-
-
         Date parsedStartDate = null;
         try {
             parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
@@ -60,12 +59,23 @@ class DefaultLogicLayer implements LogicLayer {
                 e.printStackTrace();
             }
         }
-        return this.entryFetcher.fetchAllIncomeEntrys(parsedStartDate, parsedEndDate);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        List<Entry> entryList = this.entryFetcher.fetchAllIncomeEntrys(parsedStartDate, parsedEndDate);
+        Collections.reverse(entryList);
+        return entryList;
     }
 
     @Override
     public List<Entry> fetchAllIncomeEntrys() {
-        return this.entryFetcher.fetchAllIncomeEntrys(this.defaultStartDate, new Date());
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        List<Entry> entryList = this.entryFetcher.fetchAllIncomeEntrys(this.defaultStartDate, new Date());;
+        Collections.reverse(entryList);
+        return entryList;
     }
 
     @Override
@@ -87,12 +97,22 @@ class DefaultLogicLayer implements LogicLayer {
                 e.printStackTrace();
             }
         }
-        return this.entryFetcher.fetchAllPurchasesEntrys(parsedStartDate, parsedEndDate);
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        List<Entry> entryList = this.entryFetcher.fetchAllPurchasesEntrys(parsedStartDate, parsedEndDate);
+        Collections.reverse(entryList);
+        return entryList;
     }
 
     @Override
     public List<Entry> fetchAllPurchaseEntrys() {
-        return this.entryFetcher.fetchAllPurchasesEntrys(this.defaultStartDate, new Date());
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        List<Entry> entryList = this.entryFetcher.fetchAllPurchasesEntrys(this.defaultStartDate, new Date());
+        Collections.reverse(entryList);
+        return entryList;
     }
 
     @Override
@@ -114,12 +134,22 @@ class DefaultLogicLayer implements LogicLayer {
                 e.printStackTrace();
             }
         }
-        return this.entryFetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        List<Entry> entryList = this.entryFetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
+        Collections.reverse(entryList);
+        return entryList;
     }
 
     @Override
     public List<Entry> fetchAllEntrys() {
-        return this.entryFetcher.fetchAllEntrys(this.defaultStartDate,new Date());
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        List<Entry> entryList = this.entryFetcher.fetchAllEntrys(this.defaultStartDate,new Date());
+        Collections.reverse(entryList);
+        return entryList;
     }
 
     @Override
@@ -162,6 +192,11 @@ class DefaultLogicLayer implements LogicLayer {
     public Pair<List<Entry>, Integer> fetchIncomeDisplayInfo(String startDate, String  endDate) {
         List<Entry> list = fetchAllIncomeEntrys(startDate,endDate);
         int sum = entryCalculator.sumEntryList(list);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        Collections.reverse(list);
         return new Pair<List<Entry>,Integer>(list,sum);
     }
 
@@ -169,6 +204,11 @@ class DefaultLogicLayer implements LogicLayer {
     public Pair<List<Entry>, Integer> fetchPurchasesDisplayInfo(String  startDate, String  endDate) {
         List<Entry> list = fetchAllPurchaseEntrys(startDate,endDate);
         int sum = entryCalculator.sumEntryList(list);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        Collections.reverse(list);
         return new Pair<List<Entry>,Integer>(list,sum);
     }
 
@@ -176,6 +216,11 @@ class DefaultLogicLayer implements LogicLayer {
     public Pair<List<Entry>, Integer> fetchAllDisplayInfo(String  startDate, String  endDate) {
         List<Entry> list = fetchAllEntrys(startDate,endDate);
         int sum = entryCalculator.sumEntryList(list);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        Collections.reverse(list);
         return new Pair<List<Entry>,Integer>(list,sum);
     }
 
@@ -183,6 +228,11 @@ class DefaultLogicLayer implements LogicLayer {
     public Pair<List<Entry>, Integer> fetchIncomeDisplayInfo() {
         List<Entry> list = fetchAllIncomeEntrys();
         int sum = entryCalculator.sumEntryList(list);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        Collections.reverse(list);
         return new Pair<List<Entry>,Integer>(list,sum);
     }
 
@@ -190,6 +240,11 @@ class DefaultLogicLayer implements LogicLayer {
     public Pair<List<Entry>, Integer> fetchPurchasesDisplayInfo() {
         List<Entry> list = fetchAllPurchaseEntrys();
         int sum = entryCalculator.sumEntryList(list);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        Collections.reverse(list);
         return new Pair<List<Entry>,Integer>(list,sum);
     }
 
@@ -197,6 +252,11 @@ class DefaultLogicLayer implements LogicLayer {
     public Pair<List<Entry>, Integer> fetchAllDisplayInfo() {
         List<Entry> list = fetchAllEntrys();
         int sum = entryCalculator.sumEntryList(list);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        Collections.reverse(list);
         return new Pair<List<Entry>,Integer>(list,sum);
     }
 
