@@ -2,6 +2,8 @@ package com.codemonkeys9.budgeit.LogicLayer;
 
 import android.util.Pair;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -37,8 +39,18 @@ class DefaultLogicLayer implements LogicLayer {
     }
 
     @Override
-    public List<Entry> fetchAllIncomeEntrys(Date startDate, Date endDate) {
-        return this.entryFetcher.fetchAllIncomeEntrys(startDate, endDate);
+    public List<Entry> fetchAllIncomeEntrys(String startDate, String endDate) {
+        // startDate and endDate are expected to be in "dd/mm/yyyy" format
+
+        Date parsedStartDate = null;
+        Date parsedEndDate = null;
+        try {
+            parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
+            parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return this.entryFetcher.fetchAllIncomeEntrys(parsedStartDate, parsedEndDate);
     }
 
     @Override
@@ -47,8 +59,16 @@ class DefaultLogicLayer implements LogicLayer {
     }
 
     @Override
-    public List<Entry> fetchAllPurchaseEntrys(Date startDate, Date endDate) {
-        return this.entryFetcher.fetchAllPurchasesEntrys(startDate, endDate);
+    public List<Entry> fetchAllPurchaseEntrys(String startDate, String endDate) {
+        Date parsedStartDate = null;
+        Date parsedEndDate = null;
+        try {
+            parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
+            parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return this.entryFetcher.fetchAllPurchasesEntrys(parsedStartDate, parsedEndDate);
     }
 
     @Override
@@ -57,8 +77,16 @@ class DefaultLogicLayer implements LogicLayer {
     }
 
     @Override
-    public List<Entry> fetchAllEntrys(Date startDate, Date endDate) {
-        return this.entryFetcher.fetchAllEntrys(startDate,endDate);
+    public List<Entry> fetchAllEntrys(String startDate, String endDate) {
+        Date parsedStartDate = null;
+        Date parsedEndDate = null;
+        try {
+            parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
+            parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return this.entryFetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
     }
 
     @Override
@@ -67,7 +95,7 @@ class DefaultLogicLayer implements LogicLayer {
     }
 
     @Override
-    public int calculateTotalIncome(Date startDate, Date endDate) {
+    public int calculateTotalIncome(String startDate, String endDate) {
         List<Entry> entryList = fetchAllIncomeEntrys(startDate,endDate);
         return this.entryCalculator.sumEntryList(entryList);
     }
@@ -79,8 +107,8 @@ class DefaultLogicLayer implements LogicLayer {
     }
 
     @Override
-    public int calculateTotalPurchases(Date startDate, Date endDate) {
-        List<Entry> entryList = fetchAllPurchaseEntrys(startDate,endDate);
+    public int calculateTotalPurchases(String  startDate, String  endDate) {
+        List<Entry> entryList = fetchAllPurchaseEntrys(startDate, endDate);
         return this.entryCalculator.sumEntryList(entryList);
     }
 
@@ -91,7 +119,7 @@ class DefaultLogicLayer implements LogicLayer {
     }
 
     @Override
-    public int calculateTotal(Date startDate, Date endDate) {
+    public int calculateTotal(String startDate, String endDate) {
         List<Entry> entryList = fetchAllEntrys(startDate,endDate);
         return this.entryCalculator.sumEntryList(entryList);
     }
@@ -103,21 +131,21 @@ class DefaultLogicLayer implements LogicLayer {
     }
 
     @Override
-    public Pair<List<Entry>, Integer> fetchIncomeDisplayInfo(Date startDate, Date endDate) {
+    public Pair<List<Entry>, Integer> fetchIncomeDisplayInfo(String startDate, String  endDate) {
         List<Entry> list = fetchAllIncomeEntrys(startDate,endDate);
         int sum = entryCalculator.sumEntryList(list);
         return new Pair<List<Entry>,Integer>(list,sum);
     }
 
     @Override
-    public Pair<List<Entry>, Integer> fetchPurchasesDisplayInfo(Date startDate, Date endDate) {
+    public Pair<List<Entry>, Integer> fetchPurchasesDisplayInfo(String  startDate, String  endDate) {
         List<Entry> list = fetchAllPurchaseEntrys(startDate,endDate);
         int sum = entryCalculator.sumEntryList(list);
         return new Pair<List<Entry>,Integer>(list,sum);
     }
 
     @Override
-    public Pair<List<Entry>, Integer> fetchAllDisplayInfo(Date startDate, Date endDate) {
+    public Pair<List<Entry>, Integer> fetchAllDisplayInfo(String  startDate, String  endDate) {
         List<Entry> list = fetchAllEntrys(startDate,endDate);
         int sum = entryCalculator.sumEntryList(list);
         return new Pair<List<Entry>,Integer>(list,sum);
