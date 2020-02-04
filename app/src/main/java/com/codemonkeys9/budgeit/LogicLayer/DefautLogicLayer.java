@@ -42,13 +42,23 @@ class DefaultLogicLayer implements LogicLayer {
     public List<Entry> fetchAllIncomeEntrys(String startDate, String endDate) {
         // startDate and endDate are expected to be in "dd/mm/yyyy" format
 
+
         Date parsedStartDate = null;
-        Date parsedEndDate = null;
         try {
             parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
-            parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+
+        Date parsedEndDate = null;
+        if ( endDate.equals("now")){
+            parsedEndDate = new Date();
+        }else{
+            try {
+                parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
         return this.entryFetcher.fetchAllIncomeEntrys(parsedStartDate, parsedEndDate);
     }
@@ -61,12 +71,21 @@ class DefaultLogicLayer implements LogicLayer {
     @Override
     public List<Entry> fetchAllPurchaseEntrys(String startDate, String endDate) {
         Date parsedStartDate = null;
-        Date parsedEndDate = null;
         try {
             parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
-            parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+
+        Date parsedEndDate = null;
+        if ( endDate.equals("now")){
+            parsedEndDate = new Date();
+        }else{
+            try {
+                parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
         return this.entryFetcher.fetchAllPurchasesEntrys(parsedStartDate, parsedEndDate);
     }
@@ -79,12 +98,21 @@ class DefaultLogicLayer implements LogicLayer {
     @Override
     public List<Entry> fetchAllEntrys(String startDate, String endDate) {
         Date parsedStartDate = null;
-        Date parsedEndDate = null;
         try {
             parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
-            parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+
+        Date parsedEndDate = null;
+        if ( endDate.equals("now")){
+            parsedEndDate = new Date();
+        }else{
+            try {
+                parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
         return this.entryFetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
     }
