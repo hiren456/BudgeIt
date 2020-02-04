@@ -41,8 +41,23 @@ public class MainActivity extends AppCompatActivity {
         // Add fake data if there's no data in the DB already
         if(entries.isEmpty()) {
             logic.createEntry("-60", "Half-Life: Alyx Pre-order", "1/12/2019");
-            logic.createEntry("-20", "Gas", "15/01/2020");
-            logic.createEntry("1000", "Paycheck", "31/01/2020");
+            for(int year = 2018; year <= 2020; year++) {
+                for(int month = 1; month <= 12; month++) {
+                    // Gas every week-ish
+                    for(int j = 0; j < 4; j++) {
+                        int day = j * 7 + 1;
+                        logic.createEntry("-50", "Gas", day + "/" + month + "/" + year);
+                    }
+                    // Paycheck every two weeks-ish
+                    logic.createEntry("1000", "Paycheck", "1/" + month + "/" + year);
+                    logic.createEntry("1000", "Paycheck", "15/" + month + "/" + year);
+                }
+                logic.createEntry(
+                        "-120",
+                        "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
+                        "13/2/" + year
+                );
+            }
             entries = logic.fetchAllEntrys();
         }
 
