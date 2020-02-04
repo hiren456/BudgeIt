@@ -18,11 +18,13 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
     final static class ViewHolder extends RecyclerView.ViewHolder {
         TextView description;
         TextView amount;
+        TextView date;
 
         ViewHolder(View entryView) {
             super(entryView);
             description = entryView.findViewById(R.id.description);
             amount = entryView.findViewById(R.id.amount);
+            date = entryView.findViewById(R.id.date);
         }
     }
 
@@ -55,7 +57,8 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Entry entry = getItem(position);
         viewHolder.description.setText(entry.getDetails());
-        viewHolder.amount.setText(Integer.toString(entry.getAmount()));
+        viewHolder.date.setText(entry.getDisplayDate());
+        viewHolder.amount.setText(entry.getDisplayAmount());
     }
 
     public void updateEntries(List<Entry> newEntries) {

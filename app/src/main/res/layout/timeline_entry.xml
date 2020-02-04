@@ -19,6 +19,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="5sp"
-        android:layout_marginTop="5sp" />
+        android:layout_marginTop="5sp"
+        android:layout_marginRight="5sp" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/description"
+        android:layout_marginLeft="5sp"
+        android:layout_marginBottom="5sp"
+        android:textColor="#777" />
 </RelativeLayout>
