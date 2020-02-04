@@ -58,6 +58,13 @@ class DefaultEntry implements Entry {
     }
 
     @Override
+    public String getDisplayDate() {
+        String displayDate = this.date.toGMTString();
+        displayDate = displayDate.substring(0,displayDate.length()-13);
+        return displayDate;
+    }
+
+    @Override
     public Entry modifyEntry(int amount, String details, Date date) {
 
         int newAmount = amount;

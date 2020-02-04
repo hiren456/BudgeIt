@@ -1,7 +1,6 @@
-package com.codemonkeys9.budgeit;
+package com.codemonkeys9.budgeit.Entry;
 
-import com.codemonkeys9.budgeit.Entry.Entry;
-import com.codemonkeys9.budgeit.Entry.EntryFactory;
+import android.app.admin.SystemUpdateInfo;
 
 import org.junit.Test;
 
@@ -10,6 +9,27 @@ import java.util.Date;
 import static org.junit.Assert.*;
 
 public class EntryTest {
+
+    @Test
+    public void displayDateTest() {
+
+        //Create valid Entry
+        int amount = 999;
+        int entryID = 42;
+        String details = "A very creative description";
+        int month = 10;
+        int year = 1999;
+        Date date = new Date(year - 1900,month - 1,23);
+
+        String displayDate = "23 Oct 1999";
+
+
+        //test getAmount
+        Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+        assertEquals(displayDate.length(),entry.getDisplayDate().length());
+        assertTrue("Actual:"+entry.getDisplayDate() + " Expected:"+ displayDate,entry.getDisplayDate().equals(displayDate));
+    }
+
     @Test
     public void ValidEntryGetAmountTest() {
 
