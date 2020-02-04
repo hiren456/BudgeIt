@@ -12,6 +12,8 @@ import com.codemonkeys9.budgeit.Entry.Entry;
 public interface LogicLayer {
 
     // Fetches all Income Entrys from startDate to endDate
+    // startDate and endDate should be in "dd/mm/yyyy" format
+    // passing "now" for endDate will use the current date as the endDate
     // Returns them in a list with the earliest date at position 0
     // and the latest date at the last position
     List<Entry> fetchAllIncomeEntrys(String  startDate, String endDate);
@@ -23,6 +25,8 @@ public interface LogicLayer {
     List<Entry> fetchAllIncomeEntrys();
 
     // Fetches all Purchase Entrys from startDate to endDate
+    // startDate and endDate should be in "dd/mm/yyyy" format
+    // passing "now" for endDate will use the current date as the endDate
     // Returns them in a list with the earliest date at position 0
     // and the latest date at the last position
     List<Entry> fetchAllPurchaseEntrys(String  startDate, String endDate);
@@ -34,6 +38,8 @@ public interface LogicLayer {
     List<Entry> fetchAllPurchaseEntrys();
 
     // Fetches all Entrys from startDate to endDate
+    // startDate and endDate should be in "dd/mm/yyyy" format
+    // passing "now" for endDate will use the current date as the endDate
     // Returns them in a list with the earliest date at position 0
     // and the latest date at the last position
     List<Entry> fetchAllEntrys(String  startDate, String  endDate);
@@ -46,6 +52,8 @@ public interface LogicLayer {
 
 
     // Calculates the sum total of all Income entered from
+    // startDate and endDate should be in "dd/mm/yyyy" format
+    // passing "now" for endDate will use the current date as the endDate
     // the startDate to the endDate
     // always returns a non negative number
     int calculateTotalIncome(String startDate, String  endDate);
@@ -56,6 +64,8 @@ public interface LogicLayer {
     int calculateTotalIncome();
 
     // Calculates the sum total of all Purchases entered from
+    // startDate and endDate should be in "dd/mm/yyyy" format
+    // passing "now" for endDate will use the current date as the endDate
     // the startDate to the endDate
     // always returns a non positive number
     int calculateTotalPurchases(String startDate, String endDate);
@@ -66,6 +76,8 @@ public interface LogicLayer {
     int calculateTotalPurchases();
 
     // Calculates the sum total of all Entrys entered from
+    // startDate and endDate should be in "dd/mm/yyyy" format
+    // passing "now" for endDate will use the current date as the endDate
     // the startDate to the endDate
     // always returns a non positive number
     int calculateTotal(String startDate, String endDate);
