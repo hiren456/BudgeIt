@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        LogicLayer logic = new LogicLayerFactory().createLogicLayer();
+        LogicLayerHolder.init();
+        LogicLayer logic = LogicLayerHolder.getLogicLayer();
         List<Entry> entries = logic.fetchAllEntrys();
 
         // Add fake data if there's no data in the DB already

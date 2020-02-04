@@ -40,8 +40,7 @@ public class NewEntryActivity extends AppCompatActivity {
     }
 
     public void submitEntry(){
-        // The app should have exactly one LogicLayer, I don't know how to do this properly in the UI
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerHolder.getLogicLayer();
 
         String amount = ((EditText)findViewById(R.id.editText_amount)).getText().toString();
         String date = ((EditText)findViewById(R.id.editText_date)).getText().toString();
