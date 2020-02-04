@@ -58,6 +58,18 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         Entry entry = getItem(position);
         viewHolder.description.setText(entry.getDetails());
         viewHolder.date.setText(entry.getDisplayDate());
+
+        // Decide which color to make the amount based on whether it is negative or positive
+        // Colors are encoded in ARGB format, one byte (or two hex digits) per channel.
+        int color;
+        if(entry.getAmount() < 0) {
+            // Red
+            color = 0xFFFF0000;
+        } else {
+            // Green
+            color = 0xFF00AA00;
+        }
+        viewHolder.amount.setTextColor(color);
         viewHolder.amount.setText(entry.getDisplayAmount());
     }
 
