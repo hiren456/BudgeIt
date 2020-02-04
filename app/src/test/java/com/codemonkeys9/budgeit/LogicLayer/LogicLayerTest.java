@@ -86,8 +86,8 @@ public class LogicLayerTest {
         assertEquals(entryList.size(),2);
 
 
-        Entry entry2 = entryList.get(1);
-        Entry entry4 = entryList.get(0);
+        Entry entry2 = entryList.get(0);
+        Entry entry4 = entryList.get(1);
 
 
         assertEquals(-12247,entry2.getAmount());
@@ -136,8 +136,8 @@ public class LogicLayerTest {
         List<Entry> entryList = ll.fetchAllEntrys("24/01/1999","now");
         assertEquals(entryList.size(),3);
 
-        Entry entry1 = entryList.get(0);
-        Entry entry2 = entryList.get(2);
+        Entry entry1 = entryList.get(2);
+        Entry entry2 = entryList.get(0);
         Entry entry4 = entryList.get(1);
 
         assertEquals(10092,entry1.getAmount());
@@ -233,8 +233,8 @@ public class LogicLayerTest {
         assertEquals(entryList.size(),2);
 
 
-        Entry entry2 = entryList.get(1);
-        Entry entry4 = entryList.get(0);
+        Entry entry2 = entryList.get(0);
+        Entry entry4 = entryList.get(1);
 
 
         assertEquals(-12247,entry2.getAmount());
@@ -283,8 +283,8 @@ public class LogicLayerTest {
         List<Entry> entryList = ll.fetchAllEntrys("24/01/1999","01/01/2019");
         assertEquals(entryList.size(),3);
 
-        Entry entry1 = entryList.get(0);
-        Entry entry2 = entryList.get(2);
+        Entry entry1 = entryList.get(2);
+        Entry entry2 = entryList.get(0);
         Entry entry4 = entryList.get(1);
 
         assertEquals(10092,entry1.getAmount());
@@ -337,8 +337,8 @@ public class LogicLayerTest {
         List<Entry> entryList = ll.fetchAllIncomeEntrys();
         assertEquals(entryList.size(),2);
 
-        Entry entry1 = entryList.get(1);
-        Entry entry3 = entryList.get(0);
+        Entry entry1 = entryList.get(0);
+        Entry entry3 = entryList.get(1);
 
 
         assertEquals(10092,entry1.getAmount());
@@ -387,8 +387,8 @@ public class LogicLayerTest {
         assertEquals(entryList.size(),2);
 
 
-        Entry entry2 = entryList.get(1);
-        Entry entry4 = entryList.get(0);
+        Entry entry2 = entryList.get(0);
+        Entry entry4 = entryList.get(1);
 
 
         assertEquals(-12247,entry2.getAmount());
@@ -437,10 +437,10 @@ public class LogicLayerTest {
         List<Entry> entryList = ll.fetchAllEntrys();
         assertEquals(entryList.size(),4);
 
-        Entry entry1 = entryList.get(1);
-        Entry entry2 = entryList.get(3);
-        Entry entry3 = entryList.get(0);
-        Entry entry4 = entryList.get(2);
+        Entry entry1 = entryList.get(2);
+        Entry entry2 = entryList.get(0);
+        Entry entry3 = entryList.get(3);
+        Entry entry4 = entryList.get(1);
 
         assertEquals(10092,entry1.getAmount());
         assertTrue("Ender was bullied by his older brother Peter".equals(entry1.getDetails()));

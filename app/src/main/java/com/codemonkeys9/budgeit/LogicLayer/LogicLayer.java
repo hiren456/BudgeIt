@@ -14,40 +14,40 @@ public interface LogicLayer {
     // Fetches all Income Entrys from startDate to endDate
     // startDate and endDate should be in "dd/mm/yyyy" format
     // passing "now" for endDate will use the current date as the endDate
-    // Returns them in a list with the earliest date at position 0
-    // and the latest date at the last position
+    // Returns them in a list with the latest date at position 0
+    // and the earliest date at the last position
     List<Entry> fetchAllIncomeEntrys(String  startDate, String endDate);
 
     // Fetches all Income Entrys from the default date
     // to the current date
-    // Returns them in a list with the earliest date at position 0
-    // and the latest date at the last position
+    // Returns them in a list with the latest date at position 0
+    // and the earliest date at the last position
     List<Entry> fetchAllIncomeEntrys();
 
     // Fetches all Purchase Entrys from startDate to endDate
     // startDate and endDate should be in "dd/mm/yyyy" format
     // passing "now" for endDate will use the current date as the endDate
-    // Returns them in a list with the earliest date at position 0
-    // and the latest date at the last position
+    // Returns them in a list with the latest date at position 0
+    // and the earliest date at the last position
     List<Entry> fetchAllPurchaseEntrys(String  startDate, String endDate);
 
     // Fetches all Purchase Entrys from the default date
     // to the current date
-    // Returns them in a list with the earliest date at position 0
-    // and the latest date at the last position
+    // Returns them in a list with the latest date at position 0
+    // and the earliest date at the last position
     List<Entry> fetchAllPurchaseEntrys();
 
     // Fetches all Entrys from startDate to endDate
     // startDate and endDate should be in "dd/mm/yyyy" format
     // passing "now" for endDate will use the current date as the endDate
-    // Returns them in a list with the earliest date at position 0
-    // and the latest date at the last position
+    // Returns them in a list with the latest date at position 0
+    // and the earliest date at the last position
     List<Entry> fetchAllEntrys(String  startDate, String  endDate);
 
     // Fetches all Entrys from a month from the dafault date
     // to the current date
-    // Returns them in a list with the earliest date at position 0
-    // and the latest date at the last position
+    // Returns them in a list with the latest date at position 0
+    // and the earliest date at the last position
     List<Entry> fetchAllEntrys();
 
 
