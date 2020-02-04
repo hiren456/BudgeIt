@@ -11,6 +11,25 @@ import static org.junit.Assert.*;
 public class EntryTest {
 
     @Test
+    public void displayAmountTest() {
+
+        //Create valid Entry
+        int amount = 999;
+        int entryID = 42;
+        String details = "A very creative description";
+        int month = 10;
+        int year = 1999;
+        Date date = new Date(year - 1900,month - 1,23);
+
+        String displayAmount = "9.99";
+
+
+        //test getAmount
+        Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+        assertTrue("Actual:"+entry.getDisplayAmount() + " Expected:"+ displayAmount,entry.getDisplayAmount().equals(displayAmount));
+    }
+
+    @Test
     public void displayDateTest() {
 
         //Create valid Entry

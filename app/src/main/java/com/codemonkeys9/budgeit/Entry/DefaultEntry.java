@@ -65,6 +65,15 @@ class DefaultEntry implements Entry {
     }
 
     @Override
+    public String getDisplayAmount() {
+        String string = Integer.toString(this.amount);
+        String out = string.substring(0,string.length()-2);
+        out += ".";
+        out += string.substring(string.length() -2);
+        return out;
+    }
+
+    @Override
     public Entry modifyEntry(int amount, String details, Date date) {
 
         int newAmount = amount;
