@@ -16,7 +16,7 @@ class DefaultEntryCreator implements EntryCreator {
 
     @Override
     public void createEntry(String amount, String details, String date) {
-        // TODO: through exception if strings are invalid
+        // TODO: throw exception if strings are invalid
 
         int parsedAmount;
         Date parsedDate = null;
