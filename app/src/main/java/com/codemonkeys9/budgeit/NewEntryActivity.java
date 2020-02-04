@@ -4,20 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.DropBoxManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.codemonkeys9.budgeit.Entry.Entry;
-import com.codemonkeys9.budgeit.Entry.EntryFactory;
-import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreator;
-import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreatorFactory;
 import com.codemonkeys9.budgeit.LogicLayer.LogicLayer;
-import com.codemonkeys9.budgeit.LogicLayer.LogicLayerFactory;
-
-import java.util.Date;
-import java.text.SimpleDateFormat;
 
 public class NewEntryActivity extends AppCompatActivity {
 
