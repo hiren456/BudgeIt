@@ -2,13 +2,12 @@ package com.codemonkeys9.budgeit.LogicLayer;
 
 import android.util.Pair;
 
-import java.util.Collections;
 import java.util.List;
 
 import com.codemonkeys9.budgeit.LogicLayer.EntryListFilterer.EntryListFilterer;
 import com.codemonkeys9.budgeit.LogicLayer.EntryListFilterer.EntryListFiltererFactory;
-import com.codemonkeys9.budgeit.LogicLayer.Database.Database;
-import com.codemonkeys9.budgeit.LogicLayer.Database.DatabaseFactory;
+import com.codemonkeys9.budgeit.Database.Database;
+import com.codemonkeys9.budgeit.Database.DatabaseFactory;
 import com.codemonkeys9.budgeit.Entry.Entry;
 import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParser;
 import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParserFactory;
@@ -70,111 +69,83 @@ class DefaultLogicLayer implements LogicLayer {
     }
 
     @Override
-    public int calculateTotalIncome(String startDate, String endDate) {
+    public String calculateTotalIncome(String startDate, String endDate) {
         List<Entry> entryList = fetchAllIncomeEntrys(startDate,endDate);
         return this.entryCalculator.sumEntryList(entryList);
     }
 
     @Override
-    public int calculateTotalIncome() {
+    public String calculateTotalIncome() {
         List<Entry> entryList = fetchAllIncomeEntrys();
         return this.entryCalculator.sumEntryList(entryList);
     }
 
     @Override
-    public int calculateTotalPurchases(String  startDate, String  endDate) {
+    public String calculateTotalPurchases(String  startDate, String  endDate) {
         List<Entry> entryList = fetchAllPurchaseEntrys(startDate, endDate);
         return this.entryCalculator.sumEntryList(entryList);
     }
 
     @Override
-    public int calculateTotalPurchases() {
+    public String calculateTotalPurchases() {
         List<Entry> entryList = fetchAllPurchaseEntrys();
         return this.entryCalculator.sumEntryList(entryList);
     }
 
     @Override
-    public int calculateTotal(String startDate, String endDate) {
+    public String calculateTotal(String startDate, String endDate) {
         List<Entry> entryList = fetchAllEntrys(startDate,endDate);
         return this.entryCalculator.sumEntryList(entryList);
     }
 
     @Override
-    public int calculateTotal() {
+    public String calculateTotal() {
         List<Entry> entryList = fetchAllEntrys();
         return this.entryCalculator.sumEntryList(entryList);
     }
 
     @Override
-    public Pair<List<Entry>, Integer> fetchIncomeDisplayInfo(String startDate, String  endDate) {
+    public Pair<List<Entry>, String> fetchIncomeDisplayInfo(String startDate, String  endDate) {
         List<Entry> list = fetchAllIncomeEntrys(startDate,endDate);
-        int sum = entryCalculator.sumEntryList(list);
-
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
-        Collections.reverse(list);
-        return new Pair<List<Entry>,Integer>(list,sum);
+        String sum = entryCalculator.sumEntryList(list);
+        return new Pair<List<Entry>,String>(list,sum);
     }
 
     @Override
-    public Pair<List<Entry>, Integer> fetchPurchasesDisplayInfo(String  startDate, String  endDate) {
+    public Pair<List<Entry>, String> fetchPurchasesDisplayInfo(String  startDate, String  endDate) {
         List<Entry> list = fetchAllPurchaseEntrys(startDate,endDate);
-        int sum = entryCalculator.sumEntryList(list);
-
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
-        Collections.reverse(list);
-        return new Pair<List<Entry>,Integer>(list,sum);
+        String sum = entryCalculator.sumEntryList(list);
+        return new Pair<List<Entry>,String>(list,sum);
     }
 
     @Override
-    public Pair<List<Entry>, Integer> fetchAllDisplayInfo(String  startDate, String  endDate) {
+    public Pair<List<Entry>, String> fetchAllDisplayInfo(String  startDate, String  endDate) {
         List<Entry> list = fetchAllEntrys(startDate,endDate);
-        int sum = entryCalculator.sumEntryList(list);
-
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
-        Collections.reverse(list);
-        return new Pair<List<Entry>,Integer>(list,sum);
+        String sum = entryCalculator.sumEntryList(list);
+        return new Pair<List<Entry>,String>(list,sum);
     }
 
     @Override
-    public Pair<List<Entry>, Integer> fetchIncomeDisplayInfo() {
+    public Pair<List<Entry>,String> fetchIncomeDisplayInfo() {
         List<Entry> list = fetchAllIncomeEntrys();
-        int sum = entryCalculator.sumEntryList(list);
-
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
-        Collections.reverse(list);
-        return new Pair<List<Entry>,Integer>(list,sum);
+        String sum = entryCalculator.sumEntryList(list);
+        return new Pair<List<Entry>,String>(list,sum);
     }
 
     @Override
-    public Pair<List<Entry>, Integer> fetchPurchasesDisplayInfo() {
+    public Pair<List<Entry>, String> fetchPurchasesDisplayInfo() {
         List<Entry> list = fetchAllPurchaseEntrys();
-        int sum = entryCalculator.sumEntryList(list);
+        String sum = entryCalculator.sumEntryList(list);
 
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
-        Collections.reverse(list);
-        return new Pair<List<Entry>,Integer>(list,sum);
+        return new Pair<List<Entry>,String>(list,sum);
     }
 
     @Override
-    public Pair<List<Entry>, Integer> fetchAllDisplayInfo() {
+    public Pair<List<Entry>, String> fetchAllDisplayInfo() {
         List<Entry> list = fetchAllEntrys();
-        int sum = entryCalculator.sumEntryList(list);
+        String sum = entryCalculator.sumEntryList(list);
 
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
-        Collections.reverse(list);
-        return new Pair<List<Entry>,Integer>(list,sum);
+        return new Pair<List<Entry>,String>(list,sum);
     }
 
     @Override

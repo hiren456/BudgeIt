@@ -1,7 +1,7 @@
 package com.codemonkeys9.budgeit.LogicLayer.EntryFetcher;
 
-import com.codemonkeys9.budgeit.LogicLayer.Database.Database;
-import com.codemonkeys9.budgeit.LogicLayer.Database.DatabaseFactory;
+import com.codemonkeys9.budgeit.Database.Database;
+import com.codemonkeys9.budgeit.Database.DatabaseFactory;
 import com.codemonkeys9.budgeit.Entry.Entry;
 import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParser;
 import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParserFactory;
@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.util.Date;
 import java.util.List;
 
 public class EntryFetcherTest {

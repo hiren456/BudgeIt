@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.codemonkeys9.budgeit.LogicLayer.EntryListFilterer.EntryListFilterer;
-import com.codemonkeys9.budgeit.LogicLayer.Database.Database;
+import com.codemonkeys9.budgeit.Database.Database;
 
 import com.codemonkeys9.budgeit.Entry.Entry;
 import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParser;

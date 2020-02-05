@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.LogicLayer.Database;
+package com.codemonkeys9.budgeit.Database;
 
 
 import com.codemonkeys9.budgeit.Entry.Entry;

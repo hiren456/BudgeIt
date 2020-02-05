@@ -1,7 +1,7 @@
 package com.codemonkeys9.budgeit.LogicLayer.EntryFetcher;
 
 import com.codemonkeys9.budgeit.LogicLayer.EntryListFilterer.EntryListFilterer;
-import com.codemonkeys9.budgeit.LogicLayer.Database.Database;
+import com.codemonkeys9.budgeit.Database.Database;
 import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParser;
 
 public class EntryFetcherFactory {
