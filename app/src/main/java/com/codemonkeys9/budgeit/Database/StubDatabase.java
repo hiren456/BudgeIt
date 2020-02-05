@@ -25,6 +25,7 @@ class StubDatabase implements Database {
 
         this.idCounter = initialIDCounter;
     }
+
     @Override
     public void insertEntry(Entry entry) {
         // TODO: Ensure valid entry
@@ -42,11 +43,29 @@ class StubDatabase implements Database {
         // TODO: test to make sure an exception is thrown
     }
 
+    //Since the entry is object, the hashmap will be updated automatically,
+    //this method need to fake an update for the future release with real database
+    @Override
+    public void updateEntry(Entry entry) {
+
+        // Checks if an entry with the same key is already in
+        // the database, if not throw an exception
+        if(!entryMap.containsKey(entry.getEntryID())){
+
+            // TODO: throw exception
+        }
+    }
+
+    //return an entry by ID
+    //if not found returns null
     @Override
     public Entry selectByID(int ID) {
         return this.entryMap.get(ID);
     }
 
+
+    //returns the list of entries from Date startDate till Date endDate
+    //returns empty list if the are no entries
     @Override
     public List<Entry> selectByDate(Date startDate, Date endDate) {
         // TODO: ensure valid parameters
@@ -94,6 +113,8 @@ class StubDatabase implements Database {
     //    return returnList;
     //}
 
+
+    //returns true if an entry deleted successfully
     @Override
     public boolean deleteEntry(int ID) {
         Entry removed = this.entryMap.remove(ID);
