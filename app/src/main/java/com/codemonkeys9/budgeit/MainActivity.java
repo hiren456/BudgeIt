@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+    private EntryAdapter entryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,14 +61,27 @@ public class MainActivity extends AppCompatActivity {
             entries = logic.fetchAllEntrys();
         }
 
+        this.entryAdapter = new EntryAdapter(entries);
         RecyclerView recycler = findViewById(R.id.recycler);
-        recycler.setAdapter(new EntryAdapter(entries));
+        recycler.setAdapter(this.entryAdapter);
         recycler.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public void openNewEntryActivity(){
+    private void refreshTimeline() {
+        LogicLayer logic = LogicLayerHolder.getLogicLayer();
+        List<Entry> entries = logic.fetchAllEntrys();
+        entryAdapter.updateEntries(entries);
+    }
+
+    private void openNewEntryActivity(){
         Intent i = new Intent(this, NewEntryActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    public void onResume() {
+        refreshTimeline();
+        super.onResume();
     }
 
     @Override
