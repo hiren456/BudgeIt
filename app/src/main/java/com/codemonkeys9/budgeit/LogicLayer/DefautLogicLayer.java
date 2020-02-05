@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.codemonkeys9.budgeit.Database.Database;
-import com.codemonkeys9.budgeit.Database.DatabaseFactory;
+import com.codemonkeys9.budgeit.LogicLayer.Database.Database;
+import com.codemonkeys9.budgeit.LogicLayer.Database.DatabaseFactory;
 import com.codemonkeys9.budgeit.Entry.Entry;
 import com.codemonkeys9.budgeit.LogicLayer.EntryCalculator.EntryCalculator;
 import com.codemonkeys9.budgeit.LogicLayer.EntryCalculator.EntryCalculatorFactory;
@@ -24,7 +24,6 @@ class DefaultLogicLayer implements LogicLayer {
     private EntryCalculator entryCalculator;
     private EntryCreator entryCreator;
     private Database database;
-    private Date defaultStartDate;
 
 
     DefaultLogicLayer(){
@@ -33,123 +32,38 @@ class DefaultLogicLayer implements LogicLayer {
         this.entryCreator = new EntryCreatorFactory().createEntryCreator(this.database);
         this.entryFetcher = new EntryFetcherFactory().createEntryFetcher(this.database);
         this.entryCalculator = new EntryCalculatorFactory().createEntryCalculator();
-
-        // DEFAULT IS THE BEGININIG OF TIME,
-        // consider creating a method that allows you to customize this
-        this.defaultStartDate = new Date(0);
     }
 
     @Override
     public List<Entry> fetchAllIncomeEntrys(String startDate, String endDate) {
         // startDate and endDate are expected to be in "dd/mm/yyyy" format
-        Date parsedStartDate = null;
-        try {
-            parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Date parsedEndDate = null;
-        if ( endDate.equals("now")){
-            parsedEndDate = new Date();
-        }else{
-            try {
-                parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
-        List<Entry> entryList = this.entryFetcher.fetchAllIncomeEntrys(parsedStartDate, parsedEndDate);
-        Collections.reverse(entryList);
-        return entryList;
+        // or "past", "now"
+        return this.entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
     }
 
     @Override
     public List<Entry> fetchAllIncomeEntrys() {
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
-        List<Entry> entryList = this.entryFetcher.fetchAllIncomeEntrys(this.defaultStartDate, new Date());;
-        Collections.reverse(entryList);
-        return entryList;
+        return this.entryFetcher.fetchAllIncomeEntrys("past","now");
     }
 
     @Override
     public List<Entry> fetchAllPurchaseEntrys(String startDate, String endDate) {
-        Date parsedStartDate = null;
-        try {
-            parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Date parsedEndDate = null;
-        if ( endDate.equals("now")){
-            parsedEndDate = new Date();
-        }else{
-            try {
-                parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
-        List<Entry> entryList = this.entryFetcher.fetchAllPurchasesEntrys(parsedStartDate, parsedEndDate);
-        Collections.reverse(entryList);
-        return entryList;
+        return this.entryFetcher.fetchAllPurchasesEntrys(startDate, endDate);
     }
 
     @Override
     public List<Entry> fetchAllPurchaseEntrys() {
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
-        List<Entry> entryList = this.entryFetcher.fetchAllPurchasesEntrys(this.defaultStartDate, new Date());
-        Collections.reverse(entryList);
-        return entryList;
+        return this.entryFetcher.fetchAllPurchasesEntrys("past", "now");
     }
 
     @Override
     public List<Entry> fetchAllEntrys(String startDate, String endDate) {
-        Date parsedStartDate = null;
-        try {
-            parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Date parsedEndDate = null;
-        if ( endDate.equals("now")){
-            parsedEndDate = new Date();
-        }else{
-            try {
-                parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
-        List<Entry> entryList = this.entryFetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
-        Collections.reverse(entryList);
-        return entryList;
+        return this.entryFetcher.fetchAllEntrys(startDate,endDate);
     }
 
     @Override
     public List<Entry> fetchAllEntrys() {
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
-        List<Entry> entryList = this.entryFetcher.fetchAllEntrys(this.defaultStartDate,new Date());
-        Collections.reverse(entryList);
-        return entryList;
+        return this.entryFetcher.fetchAllEntrys("past","now");
     }
 
     @Override

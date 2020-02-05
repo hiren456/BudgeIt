@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.Database;
+package com.codemonkeys9.budgeit.LogicLayer.Database;
 
 import java.util.Date;
 import java.util.List;

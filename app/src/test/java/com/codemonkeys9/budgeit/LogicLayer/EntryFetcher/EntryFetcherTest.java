@@ -1,7 +1,7 @@
 package com.codemonkeys9.budgeit.LogicLayer.EntryFetcher;
 
-import com.codemonkeys9.budgeit.Database.Database;
-import com.codemonkeys9.budgeit.Database.DatabaseFactory;
+import com.codemonkeys9.budgeit.LogicLayer.Database.Database;
+import com.codemonkeys9.budgeit.LogicLayer.Database.DatabaseFactory;
 import com.codemonkeys9.budgeit.Entry.Entry;
 import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreator;
 import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreatorFactory;
@@ -43,11 +43,11 @@ public class EntryFetcherTest {
         entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys(new Date(0),new Date());
+        List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys("past","now");
         assertEquals(entryList.size(),2);
 
-        Entry entry1 = entryList.get(1);
-        Entry entry3 = entryList.get(0);
+        Entry entry1 = entryList.get(0);
+        Entry entry3 = entryList.get(1);
 
 
         assertEquals(10092,entry1.getAmount());
@@ -92,11 +92,11 @@ public class EntryFetcherTest {
         entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllPurchasesEntrys(new Date(0),new Date());
+        List<Entry> entryList = entryFetcher.fetchAllPurchasesEntrys("past","now");
         assertEquals(entryList.size(),2);
 
-        Entry entry2 = entryList.get(1);
-        Entry entry4 = entryList.get(0);
+        Entry entry2 = entryList.get(0);
+        Entry entry4 = entryList.get(1);
 
         assertEquals(-12247,entry2.getAmount());
         assertTrue("Ender and his siblings were all some of the smartest children in the world".equals(entry2.getDetails()));
@@ -141,13 +141,13 @@ public class EntryFetcherTest {
         entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllEntrys(new Date(0),new Date());
+        List<Entry> entryList = entryFetcher.fetchAllEntrys("past","now");
         assertEquals(entryList.size(),4);
 
-        Entry entry1 = entryList.get(1);
-        Entry entry2 = entryList.get(3);
-        Entry entry3 = entryList.get(0);
-        Entry entry4 = entryList.get(2);
+        Entry entry1 = entryList.get(2);
+        Entry entry2 = entryList.get(0);
+        Entry entry3 = entryList.get(3);
+        Entry entry4 = entryList.get(1);
 
 
         assertEquals(10092,entry1.getAmount());
@@ -183,7 +183,7 @@ public class EntryFetcherTest {
         EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllEntrys(new Date(0),new Date());
+        List<Entry> entryList = entryFetcher.fetchAllEntrys("past","now");
         assertEquals(entryList.size(),0);
     }
 
@@ -194,7 +194,7 @@ public class EntryFetcherTest {
         EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllPurchasesEntrys(new Date(0),new Date());
+        List<Entry> entryList = entryFetcher.fetchAllPurchasesEntrys("past","now");
         assertEquals(entryList.size(),0);
     }
 
@@ -205,7 +205,7 @@ public class EntryFetcherTest {
         EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys(new Date(0),new Date());
+        List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys("past","now");
         assertEquals(entryList.size(),0);
     }
 }
