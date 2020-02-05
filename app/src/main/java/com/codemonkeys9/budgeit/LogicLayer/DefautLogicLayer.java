@@ -1,5 +1,10 @@
 package com.codemonkeys9.budgeit.LogicLayer;
 
+import android.util.Pair;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -15,74 +20,248 @@ import com.codemonkeys9.budgeit.LogicLayer.EntryFetcher.EntryFetcherFactory;
 
 class DefaultLogicLayer implements LogicLayer {
 
-    private EntryFetcherFactory entryFetcherFactory;
-    private EntryCalculatorFactory entryCalculatorFactory;
-    private EntryCreatorFactory entryCreatorFactory;
     private EntryFetcher entryFetcher;
     private EntryCalculator entryCalculator;
     private EntryCreator entryCreator;
-    private DatabaseFactory databaseFactory;
     private Database database;
+    private Date defaultStartDate;
 
 
     DefaultLogicLayer(){
-        // Create factories for objects
-        this.entryCalculatorFactory = new EntryCalculatorFactory();
-        this.entryFetcherFactory = new EntryFetcherFactory();
-        this.entryCreatorFactory = new EntryCreatorFactory();
-        this.databaseFactory = new DatabaseFactory();
+        // Create objects using factories
+        this.database = new DatabaseFactory().createDatabase(0);
+        this.entryCreator = new EntryCreatorFactory().createEntryCreator(this.database);
+        this.entryFetcher = new EntryFetcherFactory().createEntryFetcher(this.database);
+        this.entryCalculator = new EntryCalculatorFactory().createEntryCalculator();
 
-        // Create objects with factories
-        this.database = this.databaseFactory.createDatabase(0);
-        this.entryCreator = this.entryCreatorFactory.createEntryCreator(this.database);
-        this.entryFetcher = this.entryFetcherFactory.createEntryFetcher(this.database);
-        this.entryCalculator = this.entryCalculatorFactory.createEntryCalculator();
-
+        // DEFAULT IS THE BEGININIG OF TIME,
+        // consider creating a method that allows you to customize this
+        this.defaultStartDate = new Date(0);
     }
 
     @Override
-    public List<Entry> fetchAllIncomeEntrys(Date startDate, Date endDate) {
-        // TODO: ensure valid start date and end date
-        // TODO: test the validity of the returned list
-        return this.entryFetcher.fetchAllIncomeEntrys(startDate, endDate);
+    public List<Entry> fetchAllIncomeEntrys(String startDate, String endDate) {
+        // startDate and endDate are expected to be in "dd/mm/yyyy" format
+        Date parsedStartDate = null;
+        try {
+            parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Date parsedEndDate = null;
+        if ( endDate.equals("now")){
+            parsedEndDate = new Date();
+        }else{
+            try {
+                parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        List<Entry> entryList = this.entryFetcher.fetchAllIncomeEntrys(parsedStartDate, parsedEndDate);
+        Collections.reverse(entryList);
+        return entryList;
     }
 
     @Override
-    public List<Entry> fetchAllPurchaseEntrys(Date startDate, Date endDate) {
-        // TODO: ensure valid start date and end date
-        // TODO: test the validity of the returned list
-        return this.entryFetcher.fetchAllPurchasesEntrys(startDate, endDate);
+    public List<Entry> fetchAllIncomeEntrys() {
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        List<Entry> entryList = this.entryFetcher.fetchAllIncomeEntrys(this.defaultStartDate, new Date());;
+        Collections.reverse(entryList);
+        return entryList;
     }
 
     @Override
-    public List<Entry> fetchAllEntrys(Date startDate, Date endDate) {
-        // TODO: ensure valid start date and end date
-        // TODO: test the validity of the returned list
-        return this.entryFetcher.fetchAllEntrys(startDate,endDate);
+    public List<Entry> fetchAllPurchaseEntrys(String startDate, String endDate) {
+        Date parsedStartDate = null;
+        try {
+            parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Date parsedEndDate = null;
+        if ( endDate.equals("now")){
+            parsedEndDate = new Date();
+        }else{
+            try {
+                parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        List<Entry> entryList = this.entryFetcher.fetchAllPurchasesEntrys(parsedStartDate, parsedEndDate);
+        Collections.reverse(entryList);
+        return entryList;
     }
 
     @Override
-    public int calculateTotalIncome(Date startDate, Date endDate) {
-        // TODO: ensure valid start date and end date
+    public List<Entry> fetchAllPurchaseEntrys() {
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        List<Entry> entryList = this.entryFetcher.fetchAllPurchasesEntrys(this.defaultStartDate, new Date());
+        Collections.reverse(entryList);
+        return entryList;
+    }
+
+    @Override
+    public List<Entry> fetchAllEntrys(String startDate, String endDate) {
+        Date parsedStartDate = null;
+        try {
+            parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Date parsedEndDate = null;
+        if ( endDate.equals("now")){
+            parsedEndDate = new Date();
+        }else{
+            try {
+                parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        List<Entry> entryList = this.entryFetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
+        Collections.reverse(entryList);
+        return entryList;
+    }
+
+    @Override
+    public List<Entry> fetchAllEntrys() {
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        List<Entry> entryList = this.entryFetcher.fetchAllEntrys(this.defaultStartDate,new Date());
+        Collections.reverse(entryList);
+        return entryList;
+    }
+
+    @Override
+    public int calculateTotalIncome(String startDate, String endDate) {
         List<Entry> entryList = fetchAllIncomeEntrys(startDate,endDate);
-        // TODO: ensure validity of entry list
-        // TODO: test validity of sum
         return this.entryCalculator.sumEntryList(entryList);
     }
 
     @Override
-    public int calculateTotalPurchases(Date startDate, Date endDate) {
-        // TODO: ensure valid start date and end date
-        List<Entry> entryList = fetchAllPurchaseEntrys(startDate,endDate);
-        // TODO: ensure validity of entry list
-        // TODO: test validity of sum
+    public int calculateTotalIncome() {
+        List<Entry> entryList = fetchAllIncomeEntrys();
         return this.entryCalculator.sumEntryList(entryList);
+    }
+
+    @Override
+    public int calculateTotalPurchases(String  startDate, String  endDate) {
+        List<Entry> entryList = fetchAllPurchaseEntrys(startDate, endDate);
+        return this.entryCalculator.sumEntryList(entryList);
+    }
+
+    @Override
+    public int calculateTotalPurchases() {
+        List<Entry> entryList = fetchAllPurchaseEntrys();
+        return this.entryCalculator.sumEntryList(entryList);
+    }
+
+    @Override
+    public int calculateTotal(String startDate, String endDate) {
+        List<Entry> entryList = fetchAllEntrys(startDate,endDate);
+        return this.entryCalculator.sumEntryList(entryList);
+    }
+
+    @Override
+    public int calculateTotal() {
+        List<Entry> entryList = fetchAllEntrys();
+        return this.entryCalculator.sumEntryList(entryList);
+    }
+
+    @Override
+    public Pair<List<Entry>, Integer> fetchIncomeDisplayInfo(String startDate, String  endDate) {
+        List<Entry> list = fetchAllIncomeEntrys(startDate,endDate);
+        int sum = entryCalculator.sumEntryList(list);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        Collections.reverse(list);
+        return new Pair<List<Entry>,Integer>(list,sum);
+    }
+
+    @Override
+    public Pair<List<Entry>, Integer> fetchPurchasesDisplayInfo(String  startDate, String  endDate) {
+        List<Entry> list = fetchAllPurchaseEntrys(startDate,endDate);
+        int sum = entryCalculator.sumEntryList(list);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        Collections.reverse(list);
+        return new Pair<List<Entry>,Integer>(list,sum);
+    }
+
+    @Override
+    public Pair<List<Entry>, Integer> fetchAllDisplayInfo(String  startDate, String  endDate) {
+        List<Entry> list = fetchAllEntrys(startDate,endDate);
+        int sum = entryCalculator.sumEntryList(list);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        Collections.reverse(list);
+        return new Pair<List<Entry>,Integer>(list,sum);
+    }
+
+    @Override
+    public Pair<List<Entry>, Integer> fetchIncomeDisplayInfo() {
+        List<Entry> list = fetchAllIncomeEntrys();
+        int sum = entryCalculator.sumEntryList(list);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        Collections.reverse(list);
+        return new Pair<List<Entry>,Integer>(list,sum);
+    }
+
+    @Override
+    public Pair<List<Entry>, Integer> fetchPurchasesDisplayInfo() {
+        List<Entry> list = fetchAllPurchaseEntrys();
+        int sum = entryCalculator.sumEntryList(list);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        Collections.reverse(list);
+        return new Pair<List<Entry>,Integer>(list,sum);
+    }
+
+    @Override
+    public Pair<List<Entry>, Integer> fetchAllDisplayInfo() {
+        List<Entry> list = fetchAllEntrys();
+        int sum = entryCalculator.sumEntryList(list);
+
+        // entryFetcher returns entry in chronological order
+        // this method needs to return a list in reverse chronological order
+        // this code makes that change
+        Collections.reverse(list);
+        return new Pair<List<Entry>,Integer>(list,sum);
     }
 
     @Override
     public void createEntry(String amount,  String details, String date) {
-        // TODO: ensure validity of parameters
-        // TODO: test for successful creation
         this.entryCreator.createEntry(amount,details,date);
     }
 }

@@ -16,7 +16,7 @@ class DefaultEntryCreator implements EntryCreator {
 
     @Override
     public void createEntry(String amount, String details, String date) {
-        // TODO: through exception if strings are invalid
+        // TODO: throw exception if strings are invalid
 
         int parsedAmount;
         Date parsedDate = null;
@@ -28,7 +28,9 @@ class DefaultEntryCreator implements EntryCreator {
             // Handle invalid date
         }
 
-        parsedAmount = Integer.parseInt(amount);
+        // parse string into double then remove decimal and store as whole number
+        // eg. "100.92" gets turned into 10092
+        parsedAmount = (int) (Double.parseDouble(amount) * 100 );
         int entryID = database.getIDCounter();
         database.updateIDCounter(entryID + 1);
 

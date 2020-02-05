@@ -58,6 +58,22 @@ class DefaultEntry implements Entry {
     }
 
     @Override
+    public String getDisplayDate() {
+        String displayDate = this.date.toGMTString();
+        displayDate = displayDate.substring(0,displayDate.length()-13);
+        return displayDate;
+    }
+
+    @Override
+    public String getDisplayAmount() {
+        String string = Integer.toString(this.amount);
+        String out = string.substring(0,string.length()-2);
+        out += ".";
+        out += string.substring(string.length() -2);
+        return out;
+    }
+
+    @Override
     public Entry modifyEntry(int amount, String details, Date date) {
 
         int newAmount = amount;
@@ -67,5 +83,21 @@ class DefaultEntry implements Entry {
         Date newDate = new Date(date.getTime());
 
         return new DefaultEntry(newAmount,newEntryID,newDetails,newDate);
+    }
+
+    // NOTE: what it means for two entries to be equal doesn't change based on the specific
+    // implementation. Actually, it's hard to imagine *anything* changing between implementations
+    // since the Entry interface is just a data model, but that's besides the point. Anyway, we
+    // should consider making Entry an abstract class and putting this implementation in its body.
+    // I tried making this a defaulted method in the interface body as well, but that requires API
+    // version 24, and we only have v23 available to us on the Nexus 7 :(
+    //     - Zach
+    @Override
+    public boolean equals(Entry other) {
+        return getEntryID() == other.getEntryID()
+                && getAmount() == other.getAmount()
+                //&& getCatID() == other.getCatID()
+                && getDetails() == other.getDetails()
+                && getDate() == other.getDate();
     }
 }
