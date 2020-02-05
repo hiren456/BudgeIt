@@ -9,6 +9,8 @@ final class LogicLayerHolder {
         return logicLayer;
     }
     public static void init() {
-        logicLayer = new LogicLayerFactory().createLogicLayer();
+        if(logicLayer == null) {
+            logicLayer = new LogicLayerFactory().createLogicLayer();
+        }
     }
 }
