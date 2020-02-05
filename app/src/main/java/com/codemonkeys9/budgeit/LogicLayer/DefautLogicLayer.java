@@ -11,6 +11,8 @@ import java.util.List;
 import com.codemonkeys9.budgeit.LogicLayer.Database.Database;
 import com.codemonkeys9.budgeit.LogicLayer.Database.DatabaseFactory;
 import com.codemonkeys9.budgeit.Entry.Entry;
+import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParser;
+import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParserFactory;
 import com.codemonkeys9.budgeit.LogicLayer.EntryCalculator.EntryCalculator;
 import com.codemonkeys9.budgeit.LogicLayer.EntryCalculator.EntryCalculatorFactory;
 import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreator;
@@ -27,10 +29,12 @@ class DefaultLogicLayer implements LogicLayer {
 
 
     DefaultLogicLayer(){
+        DateParser dateParser = new DateParserFactory().createDateParser();
+
         // Create objects using factories
         this.database = new DatabaseFactory().createDatabase(0);
         this.entryCreator = new EntryCreatorFactory().createEntryCreator(this.database);
-        this.entryFetcher = new EntryFetcherFactory().createEntryFetcher(this.database);
+        this.entryFetcher = new EntryFetcherFactory().createEntryFetcher(this.database,dateParser);
         this.entryCalculator = new EntryCalculatorFactory().createEntryCalculator();
     }
 

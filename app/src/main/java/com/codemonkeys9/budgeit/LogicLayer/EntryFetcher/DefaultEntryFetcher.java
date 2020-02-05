@@ -11,38 +11,21 @@ import java.util.List;
 import com.codemonkeys9.budgeit.LogicLayer.Database.Database;
 
 import com.codemonkeys9.budgeit.Entry.Entry;
+import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParser;
 
 class DefaultEntryFetcher implements EntryFetcher {
+    DateParser dateParser;
     Database database;
 
-    DefaultEntryFetcher(Database database){
+    DefaultEntryFetcher(Database database, DateParser dateParser){
         this.database = database;
+        this.dateParser = dateParser;
     }
 
     @Override
     public List<Entry> fetchAllIncomeEntrys(String startDate, String endDate) {
-
-        Date parsedStartDate = null;
-        if( startDate.equals("past")){
-            parsedStartDate = new Date(0);
-        }else {
-            try {
-                parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        Date parsedEndDate = null;
-        if ( endDate.equals("now")){
-            parsedEndDate = new Date();
-        }else{
-            try {
-                parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
+        Date parsedEndDate = this.dateParser.parseDate(endDate);
+        Date parsedStartDate = this.dateParser.parseDate(startDate);
 
         // get all entrys within the specified date and remove any with negative amounts
         List<Entry> initialList = database.selectByDate(parsedStartDate,parsedEndDate);
@@ -71,27 +54,8 @@ class DefaultEntryFetcher implements EntryFetcher {
 
     @Override
     public List<Entry> fetchAllPurchasesEntrys(String startDate, String endDate) {
-        Date parsedStartDate = null;
-        if( startDate.equals("past")){
-            parsedStartDate = new Date(0);
-        }else {
-            try {
-                parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        Date parsedEndDate = null;
-        if ( endDate.equals("now")){
-            parsedEndDate = new Date();
-        }else{
-            try {
-                parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
+        Date parsedEndDate = this.dateParser.parseDate(endDate);
+        Date parsedStartDate = this.dateParser.parseDate(startDate);
 
         // get all entrys within the specified date and remove any with positive amounts
         List<Entry> initialList = database.selectByDate(parsedStartDate,parsedEndDate);
@@ -121,34 +85,13 @@ class DefaultEntryFetcher implements EntryFetcher {
 
     @Override
     public List<Entry> fetchAllEntrys(String startDate, String endDate) {
-        Date parsedStartDate = null;
-        if( startDate.equals("past")){
-            parsedStartDate = new Date(0);
-        }else {
-            try {
-                parsedStartDate = new SimpleDateFormat("dd/MM/yyyy").parse(startDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        Date parsedEndDate = null;
-        if ( endDate.equals("now")){
-            parsedEndDate = new Date();
-        }else{
-            try {
-                parsedEndDate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
+        Date parsedEndDate = this.dateParser.parseDate(endDate);
+        Date parsedStartDate = this.dateParser.parseDate(startDate);
 
         // get all entrys within the specified date
         List<Entry> list = database.selectByDate(parsedStartDate,parsedEndDate);
 
-        // entryFetcher returns entry in chronological order
-        // this method needs to return a list in reverse chronological order
-        // this code makes that change
+        // entryFetcher returns entry in reverse chronological order
         Collections.reverse(list);
         return list;
     }
