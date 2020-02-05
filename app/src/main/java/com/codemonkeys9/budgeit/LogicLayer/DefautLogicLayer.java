@@ -2,12 +2,11 @@ package com.codemonkeys9.budgeit.LogicLayer;
 
 import android.util.Pair;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
+import com.codemonkeys9.budgeit.LogicLayer.EntryListFilterer.EntryListFilterer;
+import com.codemonkeys9.budgeit.LogicLayer.EntryListFilterer.EntryListFiltererFactory;
 import com.codemonkeys9.budgeit.LogicLayer.Database.Database;
 import com.codemonkeys9.budgeit.LogicLayer.Database.DatabaseFactory;
 import com.codemonkeys9.budgeit.Entry.Entry;
@@ -30,11 +29,11 @@ class DefaultLogicLayer implements LogicLayer {
 
     DefaultLogicLayer(){
         DateParser dateParser = new DateParserFactory().createDateParser();
-
+        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
         // Create objects using factories
         this.database = new DatabaseFactory().createDatabase(0);
         this.entryCreator = new EntryCreatorFactory().createEntryCreator(this.database);
-        this.entryFetcher = new EntryFetcherFactory().createEntryFetcher(this.database,dateParser);
+        this.entryFetcher = new EntryFetcherFactory().createEntryFetcher(this.database,dateParser,filter);
         this.entryCalculator = new EntryCalculatorFactory().createEntryCalculator();
     }
 
