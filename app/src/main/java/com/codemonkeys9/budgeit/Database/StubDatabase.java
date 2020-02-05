@@ -48,6 +48,7 @@ class StubDatabase implements Database {
     @Override
     public void updateEntry(Entry entry) {
 
+        // TODO: Ensure valid entry
         // Checks if an entry with the same key is already in
         // the database, if not throw an exception
         if(!entryMap.containsKey(entry.getEntryID())){
