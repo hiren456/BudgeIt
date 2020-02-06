@@ -6,4 +6,5 @@
     <string name="action_show_expenses">Show expenses</string>
     <string name="action_show_income">Show income</string>
     <string name="action_filter_by_date">Filter by date</string>
+    <string name="action_remove_date_filter">Remove date filter</string>
 </resources>
