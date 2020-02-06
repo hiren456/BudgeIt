@@ -72,7 +72,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void refreshTimeline() {
         LogicLayer logic = LogicLayerHolder.getLogicLayer();
-        List<Entry> entries = logic.fetchAllEntrys();
+        List<Entry> entries = null;
+        switch(visibility) {
+            case Income:
+                entries = logic.fetchAllIncomeEntrys();
+                break;
+            case Expenses:
+                entries = logic.fetchAllPurchaseEntrys();
+                break;
+            case Both:
+                entries = logic.fetchAllEntrys();
+                break;
+        }
         entryAdapter.updateEntries(entries);
     }
 
