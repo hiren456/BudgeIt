@@ -8,9 +8,6 @@ import java.util.List;
 class DefaultEntryListOrderer implements EntryListOrderer {
     @Override
     public void orderEntryList(List<Entry> list) {
-        // currently chronoligical is the desired order and also
-        // the order that the DB return entrys
-        // this may change in the future
-
+        Collections.reverse(list);
     }
 }
