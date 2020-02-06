@@ -22,9 +22,11 @@ public class MainActivity extends AppCompatActivity {
     private EntryTypeVisibility visibility = EntryTypeVisibility.Both;
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
+    private MenuItem dateFilterToggle;
 
-    private String startDate = "1/1/2000";
+    private String startDate = "1/1/1970";
     private String endDate = "now";
+    private boolean hasDateFilter = false;
 
     private static final int DATE_RANGE_REQUEST = 0;
 
@@ -110,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK && requestCode == DATE_RANGE_REQUEST) {
             if(data.hasExtra("start_date") && data.hasExtra("end_date")) {
                 Bundle extras = data.getExtras();
+                hasDateFilter = true;
+                invalidateOptionsMenu();
                 startDate = extras.getString("start_date");
                 endDate = extras.getString("end_date");
             }
@@ -122,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         incomeToggle = menu.findItem(R.id.action_toggle_income);
         expensesToggle = menu.findItem(R.id.action_toggle_expenses);
+        dateFilterToggle = menu.findItem(R.id.action_filter_by_date);
         return true;
     }
 
@@ -150,6 +155,12 @@ public class MainActivity extends AppCompatActivity {
             expensesToggle.setTitle(getString(R.string.action_show_expenses));
         }
 
+        if(hasDateFilter) {
+            dateFilterToggle.setTitle(getString(R.string.action_remove_date_filter));
+        } else {
+            dateFilterToggle.setTitle(getString(R.string.action_filter_by_date));
+        }
+
         return true;
     }
 
@@ -173,8 +184,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(id == R.id.action_filter_by_date) {
-            Intent i = new Intent(this, DateRangeActivity.class);
-            startActivityForResult(i, DATE_RANGE_REQUEST);
+            if(hasDateFilter) {
+                hasDateFilter = false;
+                startDate = "1/1/1970";
+                endDate = "now";
+                refreshTimeline();
+                invalidateOptionsMenu();
+            } else {
+                // hasDateFilter is set to true in onActivityResult
+                Intent i = new Intent(this, DateRangeActivity.class);
+                startActivityForResult(i, DATE_RANGE_REQUEST);
+            }
             return true;
         }
 
