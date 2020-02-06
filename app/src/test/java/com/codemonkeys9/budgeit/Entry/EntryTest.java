@@ -1,6 +1,7 @@
 package com.codemonkeys9.budgeit.Entry;
 
-import android.app.admin.SystemUpdateInfo;
+import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.entry.EntryFactory;
 
 import org.junit.Test;
 

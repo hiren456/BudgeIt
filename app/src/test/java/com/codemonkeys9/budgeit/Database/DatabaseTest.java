@@ -1,8 +1,10 @@
 package com.codemonkeys9.budgeit.Database;
 
 
-import com.codemonkeys9.budgeit.Entry.Entry;
-import com.codemonkeys9.budgeit.Entry.EntryFactory;
+import com.codemonkeys9.budgeit.database.Database;
+import com.codemonkeys9.budgeit.database.DatabaseFactory;
+import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.entry.EntryFactory;
 
 import org.junit.Test;
 

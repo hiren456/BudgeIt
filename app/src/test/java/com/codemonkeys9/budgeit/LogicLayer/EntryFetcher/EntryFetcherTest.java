@@ -1,14 +1,16 @@
 package com.codemonkeys9.budgeit.LogicLayer.EntryFetcher;
 
-import com.codemonkeys9.budgeit.Database.Database;
-import com.codemonkeys9.budgeit.Database.DatabaseFactory;
-import com.codemonkeys9.budgeit.Entry.Entry;
-import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParser;
-import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParserFactory;
-import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreator;
-import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreatorFactory;
-import com.codemonkeys9.budgeit.LogicLayer.EntryListFilterer.EntryListFilterer;
-import com.codemonkeys9.budgeit.LogicLayer.EntryListFilterer.EntryListFiltererFactory;
+import com.codemonkeys9.budgeit.database.Database;
+import com.codemonkeys9.budgeit.database.DatabaseFactory;
+import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParser;
+import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParserFactory;
+import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
+import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
+import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
+import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFiltererFactory;
 
 import org.junit.Test;
 
