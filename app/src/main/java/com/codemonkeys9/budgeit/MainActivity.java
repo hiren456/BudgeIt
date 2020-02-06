@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
 
+    private String startDate = "1/1/2000";
+    private String endDate = "now";
+
     private static final int DATE_RANGE_REQUEST = 0;
 
     @Override
@@ -77,13 +80,13 @@ public class MainActivity extends AppCompatActivity {
         List<Entry> entries = null;
         switch(visibility) {
             case Income:
-                entries = logic.fetchAllIncomeEntrys();
+                entries = logic.fetchAllIncomeEntrys(startDate, endDate);
                 break;
             case Expenses:
-                entries = logic.fetchAllPurchaseEntrys();
+                entries = logic.fetchAllPurchaseEntrys(startDate, endDate);
                 break;
             case Both:
-                entries = logic.fetchAllEntrys();
+                entries = logic.fetchAllEntrys(startDate, endDate);
                 break;
         }
         entryAdapter.updateEntries(entries);
@@ -98,6 +101,17 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         refreshTimeline();
         super.onResume();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK && requestCode == DATE_RANGE_REQUEST) {
+            if(data.hasExtra("start_date") && data.hasExtra("end_date")) {
+                Bundle extras = data.getExtras();
+                startDate = extras.getString("start_date");
+                endDate = extras.getString("end_date");
+            }
+        }
     }
 
     @Override
