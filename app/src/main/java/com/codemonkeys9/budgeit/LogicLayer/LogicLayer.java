@@ -56,47 +56,47 @@ public interface LogicLayer {
     // passing "now" for endDate will use the current date as the endDate
     // the startDate to the endDate
     // always returns a non negative number
-    int calculateTotalIncome(String startDate, String  endDate);
+    String calculateTotalIncome(String startDate, String  endDate);
 
     // Calculates the sum total of all Income entered from
     // the default date to the current date
     // always returns a non negative number
-    int calculateTotalIncome();
+    String calculateTotalIncome();
 
     // Calculates the sum total of all Purchases entered from
     // startDate and endDate should be in "dd/mm/yyyy" format
     // passing "now" for endDate will use the current date as the endDate
     // the startDate to the endDate
     // always returns a non positive number
-    int calculateTotalPurchases(String startDate, String endDate);
+    String calculateTotalPurchases(String startDate, String endDate);
 
     // Calculates the sum total of all Purchases entered from
     // the default date to the current date
     // always returns a non positive number
-    int calculateTotalPurchases();
+    String calculateTotalPurchases();
 
     // Calculates the sum total of all Entrys entered from
     // startDate and endDate should be in "dd/mm/yyyy" format
     // passing "now" for endDate will use the current date as the endDate
     // the startDate to the endDate
     // always returns a non positive number
-    int calculateTotal(String startDate, String endDate);
+    String calculateTotal(String startDate, String endDate);
 
     // Calculates the sum total of all Entrys entered from
     // the default date to the current date
     // always returns a non positive number
-    int calculateTotal();
+    String calculateTotal();
 
     // These method return a list of entrys returned by the
     // indicated name as well as their sum as in Integer
     // more could be added as the statistics needed
     // grows past just a sum
-    Pair<List<Entry>,Integer> fetchIncomeDisplayInfo(String startDate, String endDate);
-    Pair<List<Entry>,Integer>fetchPurchasesDisplayInfo(String startDate, String endDate);
-    Pair<List<Entry>,Integer> fetchAllDisplayInfo(String startDate, String endDate);
-    Pair<List<Entry>,Integer> fetchIncomeDisplayInfo();
-    Pair<List<Entry>,Integer> fetchPurchasesDisplayInfo();
-    Pair<List<Entry>,Integer> fetchAllDisplayInfo();
+    Pair<List<Entry>,String> fetchIncomeDisplayInfo(String startDate, String endDate);
+    Pair<List<Entry>,String>fetchPurchasesDisplayInfo(String startDate, String endDate);
+    Pair<List<Entry>,String> fetchAllDisplayInfo(String startDate, String endDate);
+    Pair<List<Entry>,String> fetchIncomeDisplayInfo();
+    Pair<List<Entry>,String> fetchPurchasesDisplayInfo();
+    Pair<List<Entry>,String> fetchAllDisplayInfo();
 
 
     // Creates and stores an entry

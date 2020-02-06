@@ -59,18 +59,12 @@ class DefaultEntry implements Entry {
 
     @Override
     public String getDisplayDate() {
-        String displayDate = this.date.toGMTString();
-        displayDate = displayDate.substring(0,displayDate.length()-13);
-        return displayDate;
+        return DisplayConverter.createDisplayDate(this.date);
     }
 
     @Override
     public String getDisplayAmount() {
-        String string = Integer.toString(this.amount);
-        String out = string.substring(0,string.length()-2);
-        out += ".";
-        out += string.substring(string.length() -2);
-        return out;
+        return DisplayConverter.createDisplayAmount(this.amount);
     }
 
     @Override
@@ -100,4 +94,5 @@ class DefaultEntry implements Entry {
                 && getDetails() == other.getDetails()
                 && getDate() == other.getDate();
     }
+
 }

@@ -3,22 +3,27 @@ package com.codemonkeys9.budgeit.LogicLayer.EntryFetcher;
 import com.codemonkeys9.budgeit.Database.Database;
 import com.codemonkeys9.budgeit.Database.DatabaseFactory;
 import com.codemonkeys9.budgeit.Entry.Entry;
+import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParser;
+import com.codemonkeys9.budgeit.LogicLayer.DateParser.DateParserFactory;
 import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreator;
 import com.codemonkeys9.budgeit.LogicLayer.EntryCreator.EntryCreatorFactory;
+import com.codemonkeys9.budgeit.LogicLayer.EntryListFilterer.EntryListFilterer;
+import com.codemonkeys9.budgeit.LogicLayer.EntryListFilterer.EntryListFiltererFactory;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.util.Date;
 import java.util.List;
 
 public class EntryFetcherTest {
     @Test
     public void mixedFetchIncomeTest() {
         Database database = new DatabaseFactory().createDatabase(0);
+        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
+        DateParser dateParser = new DateParserFactory().createDateParser();
         EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
-        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database);
+        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database,dateParser,filter);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -43,11 +48,11 @@ public class EntryFetcherTest {
         entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys(new Date(0),new Date());
+        List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys("past","now");
         assertEquals(entryList.size(),2);
 
-        Entry entry1 = entryList.get(1);
-        Entry entry3 = entryList.get(0);
+        Entry entry1 = entryList.get(0);
+        Entry entry3 = entryList.get(1);
 
 
         assertEquals(10092,entry1.getAmount());
@@ -66,8 +71,10 @@ public class EntryFetcherTest {
     @Test
     public void mixedFetchPurchaseTest() {
         Database database = new DatabaseFactory().createDatabase(0);
+        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
+        DateParser dateParser = new DateParserFactory().createDateParser();
         EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
-        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database);
+        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database,dateParser,filter);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -92,11 +99,11 @@ public class EntryFetcherTest {
         entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllPurchasesEntrys(new Date(0),new Date());
+        List<Entry> entryList = entryFetcher.fetchAllPurchasesEntrys("past","now");
         assertEquals(entryList.size(),2);
 
-        Entry entry2 = entryList.get(1);
-        Entry entry4 = entryList.get(0);
+        Entry entry2 = entryList.get(0);
+        Entry entry4 = entryList.get(1);
 
         assertEquals(-12247,entry2.getAmount());
         assertTrue("Ender and his siblings were all some of the smartest children in the world".equals(entry2.getDetails()));
@@ -115,8 +122,10 @@ public class EntryFetcherTest {
     @Test
     public void mixedFetchAllTest() {
         Database database = new DatabaseFactory().createDatabase(0);
+        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
+        DateParser dateParser = new DateParserFactory().createDateParser();
         EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
-        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database);
+        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database,dateParser,filter);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -141,13 +150,13 @@ public class EntryFetcherTest {
         entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllEntrys(new Date(0),new Date());
+        List<Entry> entryList = entryFetcher.fetchAllEntrys("past","now");
         assertEquals(entryList.size(),4);
 
-        Entry entry1 = entryList.get(1);
-        Entry entry2 = entryList.get(3);
-        Entry entry3 = entryList.get(0);
-        Entry entry4 = entryList.get(2);
+        Entry entry1 = entryList.get(2);
+        Entry entry2 = entryList.get(0);
+        Entry entry3 = entryList.get(3);
+        Entry entry4 = entryList.get(1);
 
 
         assertEquals(10092,entry1.getAmount());
@@ -179,33 +188,39 @@ public class EntryFetcherTest {
     @Test
     public void emptyFetchAllTest() {
         Database database = new DatabaseFactory().createDatabase(0);
+        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
+        DateParser dateParser = new DateParserFactory().createDateParser();
         EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
-        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database);
+        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database,dateParser,filter);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllEntrys(new Date(0),new Date());
+        List<Entry> entryList = entryFetcher.fetchAllEntrys("past","now");
         assertEquals(entryList.size(),0);
     }
 
     @Test
     public void emptyFetchAllPurchaseTest() {
         Database database = new DatabaseFactory().createDatabase(0);
+        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
+        DateParser dateParser = new DateParserFactory().createDateParser();
         EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
-        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database);
+        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database,dateParser,filter);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllPurchasesEntrys(new Date(0),new Date());
+        List<Entry> entryList = entryFetcher.fetchAllPurchasesEntrys("past","now");
         assertEquals(entryList.size(),0);
     }
 
     @Test
     public void emptyFetchAllIncomeTest() {
         Database database = new DatabaseFactory().createDatabase(0);
+        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
+        DateParser dateParser = new DateParserFactory().createDateParser();
         EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
-        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database);
+        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database,dateParser,filter);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys(new Date(0),new Date());
+        List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys("past","now");
         assertEquals(entryList.size(),0);
     }
 }

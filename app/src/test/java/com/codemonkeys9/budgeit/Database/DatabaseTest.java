@@ -7,7 +7,6 @@ import com.codemonkeys9.budgeit.Entry.EntryFactory;
 import org.junit.Test;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.*;

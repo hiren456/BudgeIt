@@ -27,19 +27,16 @@ class StubDatabase implements Database {
     }
     @Override
     public void insertEntry(Entry entry) {
-        // TODO: Ensure valid entry
 
         // Checks if an entry with the same key is already in
         // the database
         if(entryMap.containsKey(entry.getEntryID())){
 
-            // TODO: throw exception
         }else{
 
             this.entryMap.put(entry.getEntryID(),entry);
         }
 
-        // TODO: test to make sure an exception is thrown
     }
 
     @Override
@@ -49,7 +46,6 @@ class StubDatabase implements Database {
 
     @Override
     public List<Entry> selectByDate(Date startDate, Date endDate) {
-        // TODO: ensure valid parameters
         ArrayList<Entry> returnList = new ArrayList<Entry>();
 
         // find all entries within the specified range
@@ -71,7 +67,6 @@ class StubDatabase implements Database {
 
     //@Override
     //public List<com.codemonkeys9.budgeit.Entry> selectByCategory(int catID) {
-    //    // TODO: ensure valid parameters
     //    ArrayList<com.codemonkeys9.budgeit.Entry> returnList = new ArrayList<com.codemonkeys9.budgeit.Entry>();
 
     //    // find all entries within the specified range
@@ -89,8 +84,6 @@ class StubDatabase implements Database {
     //    // sort the entries by date
     //    Collections.sort(returnList,new EntryDateComparator());
 
-    //    // TODO: test for proper list
-    //    // TODO: test for proper order
     //    return returnList;
     //}
 
@@ -114,8 +107,6 @@ class StubDatabase implements Database {
 
     @Override
     public void updateIDCounter(int newCounter) {
-        // TODO: ensure valid parameters
-
         this.idCounter = newCounter;
     }
 }
