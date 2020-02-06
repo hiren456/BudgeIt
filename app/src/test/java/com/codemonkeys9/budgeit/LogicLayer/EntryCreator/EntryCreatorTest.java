@@ -1,8 +1,10 @@
 package com.codemonkeys9.budgeit.LogicLayer.EntryCreator;
 
-import com.codemonkeys9.budgeit.Database.Database;
-import com.codemonkeys9.budgeit.Database.DatabaseFactory;
-import com.codemonkeys9.budgeit.Entry.Entry;
+import com.codemonkeys9.budgeit.database.Database;
+import com.codemonkeys9.budgeit.database.DatabaseFactory;
+import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
+import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 
 import org.junit.Test;
 

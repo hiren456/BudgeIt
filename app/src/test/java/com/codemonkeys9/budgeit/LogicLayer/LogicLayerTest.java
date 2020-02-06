@@ -1,13 +1,14 @@
 package com.codemonkeys9.budgeit.LogicLayer;
 
 
-import com.codemonkeys9.budgeit.Entry.Entry;
+import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.logiclayer.LogicLayer;
+import com.codemonkeys9.budgeit.logiclayer.LogicLayerFactory;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.util.Date;
 import java.util.List;
 
 
