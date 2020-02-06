@@ -8,7 +8,9 @@ import java.util.List;
 class DefaultEntryListOrderer implements EntryListOrderer {
     @Override
     public void orderEntryList(List<Entry> list) {
-        // entryFetcher returns entry in reverse chronological order
-        //Collections.reverse(list);
+        // currently chronoligical is the desired order and also
+        // the order that the DB return entrys
+        // this may change in the future
+
     }
 }
