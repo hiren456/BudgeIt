@@ -24,9 +24,8 @@ public class NewEntryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 submitEntry();
-
-                Intent i = new Intent(NewEntryActivity.this, MainActivity.class);
-                startActivity(i);
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }
