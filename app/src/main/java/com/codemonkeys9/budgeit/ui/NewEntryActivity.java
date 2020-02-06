@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 
 import com.codemonkeys9.budgeit.logiclayer.LogicLayer;
 import com.codemonkeys9.budgeit.R;
@@ -47,12 +48,19 @@ public class NewEntryActivity extends AppCompatActivity {
         // then you can check for each type and react/inform the user accordingly
         try {
 
-            ll.createEntry(amount,details,date);
+            ToggleButton tb = findViewById(R.id.button_incomeOrExpense);
+
+            if ( tb.isChecked() ) {
+                ll.createEntry("-"+amount,details,date);
+            }
+
+            else {
+                ll.createEntry(amount,details,date);
+            }
+
         } catch(Exception e){
             //System.out.println(e.getClass()+" bad date format");
         }
 
-
-        //System.out.println("amount: "+entry.getAmount()+" date: "+entry.getDate()+" details: "+entry.getDetails());
     }
 }

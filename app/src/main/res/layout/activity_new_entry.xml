@@ -41,5 +41,14 @@
         android:layout_alignParentRight="true"
         android:text="Submit" />
 
+    <ToggleButton
+        android:id="@+id/button_incomeOrExpense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editText_details"
+        android:text="income or expense?"
+        android:textOff="income"
+        android:textOn="expense" />
+
 
 </RelativeLayout>
