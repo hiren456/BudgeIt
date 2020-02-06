@@ -17,6 +17,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     private EntryAdapter entryAdapter;
+    private EntryTypeVisibility visibility = EntryTypeVisibility.Both;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
