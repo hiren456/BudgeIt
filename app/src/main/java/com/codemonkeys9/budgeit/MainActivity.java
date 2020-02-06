@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
 
+    private static final int DATE_RANGE_REQUEST = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +153,12 @@ public class MainActivity extends AppCompatActivity {
             refreshTimeline();
             // Make sure Android updates the options menu next time it gets displayed
             invalidateOptionsMenu();
+            return true;
+        }
+
+        if(id == R.id.action_filter_by_date) {
+            Intent i = new Intent(this, DateRangeActivity.class);
+            startActivityForResult(i, DATE_RANGE_REQUEST);
             return true;
         }
 
