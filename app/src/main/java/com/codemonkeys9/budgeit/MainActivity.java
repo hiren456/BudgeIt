@@ -18,6 +18,8 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
     private EntryAdapter entryAdapter;
     private EntryTypeVisibility visibility = EntryTypeVisibility.Both;
+    private MenuItem incomeToggle;
+    private MenuItem expensesToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,36 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        incomeToggle = menu.findItem(R.id.action_toggle_income);
+        expensesToggle = menu.findItem(R.id.action_toggle_expenses);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        incomeToggle.setVisible(true);
+        expensesToggle.setVisible(true);
+
+        if(visibility.isIncomeVisible()) {
+            incomeToggle.setTitle(getString(R.string.action_hide_income));
+            // Don't allow the user to hide both types of entries
+            if(!visibility.areExpensesVisible()) {
+                incomeToggle.setVisible(false);
+            }
+        } else {
+            incomeToggle.setTitle(getString(R.string.action_show_income));
+        }
+
+        if(visibility.areExpensesVisible()) {
+            expensesToggle.setTitle(getString(R.string.action_hide_expenses));
+            // Don't allow the user to hide both types of entries
+            if(!visibility.isIncomeVisible()) {
+                expensesToggle.setVisible(false);
+            }
+        } else {
+            expensesToggle.setTitle(getString(R.string.action_show_expenses));
+        }
+
         return true;
     }
 
@@ -106,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
         }
         if(id == R.id.action_toggle_income || id == R.id.action_toggle_expenses) {
             refreshTimeline();
+            // Make sure Android updates the options menu next time it gets displayed
+            invalidateOptionsMenu();
             return true;
         }
 
