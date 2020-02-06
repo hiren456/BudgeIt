@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.LogicLayer.EntryFetcher;
+package com.codemonkeys9.budgeit.logiclayer.entryfetcher;
 
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseFactory;
@@ -7,8 +7,6 @@ import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParser;
 import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParserFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFiltererFactory;
 

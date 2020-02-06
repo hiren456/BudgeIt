@@ -1,7 +1,4 @@
-package com.codemonkeys9.budgeit.Entry;
-
-import com.codemonkeys9.budgeit.entry.Entry;
-import com.codemonkeys9.budgeit.entry.EntryFactory;
+package com.codemonkeys9.budgeit.entry;
 
 import org.junit.Test;
 

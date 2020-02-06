@@ -1,9 +1,8 @@
-package com.codemonkeys9.budgeit.LogicLayer.EntryCalculator;
+package com.codemonkeys9.budgeit.logiclayer.entrycalculator;
 
 import com.codemonkeys9.budgeit.entry.DisplayConverter;
 import com.codemonkeys9.budgeit.entry.Entry;
 import com.codemonkeys9.budgeit.entry.EntryFactory;
-import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculatorFactory;
 
 import org.junit.Test;
 
