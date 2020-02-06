@@ -12,4 +12,9 @@
         android:orderInCategory="100"
         android:title="@string/action_hide_expenses"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_filter_by_date"
+        android:orderInCategory="100"
+        android:title="@string/action_filter_by_date"
+        app:showAsAction="never" />
 </menu>
