@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.activities;
+package com.codemonkeys9.budgeit.ui;
 
 enum EntryTypeVisibility {
     Income,
