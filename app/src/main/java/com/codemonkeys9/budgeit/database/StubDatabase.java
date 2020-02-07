@@ -89,13 +89,15 @@ class StubDatabase implements Database {
     @Override
     public boolean deleteEntry(int ID) {
 
+        boolean isRemoved = false;
         Entry removed = this.entryMap.remove(ID);
 
         if(removed == null){
-            return false;
+            isRemoved = false;
         }else{
-            return true;
+            isRemoved = true;
         }
+        return isRemoved;
     }
 
     @Override

@@ -429,8 +429,8 @@ public class DatabaseTest {
         int amount1 = 50;
         int entryID1 = 42;
         String details1 = "Tutor";
-
         Date date1 = new Date(2016, 7, 7);
+
         Entry entry1 = new EntryFactory().createEntry(amount1, entryID1, details1, date1);
 
         //insert it into the database
@@ -459,6 +459,7 @@ public class DatabaseTest {
         assertTrue(isUpdated);
     }
 
+    @Test
     public void updateNotExistedTest() {
         //Create Database
         int intitialIDCounter = 42;
@@ -468,8 +469,8 @@ public class DatabaseTest {
         int amount1 = 50;
         int entryID1 = 42;
         String details1 = "Tutor";
-
         Date date1 = new Date(2016, 7, 7);
+
         Entry entry1 = new EntryFactory().createEntry(amount1, entryID1, details1, date1);
 
         //update an entry
@@ -482,4 +483,24 @@ public class DatabaseTest {
     }
 
 
+    @Test(expected = RuntimeException.class)
+    public void insertTwoTimesSameTest() {
+        //Create Database
+        int intitialIDCounter = 42;
+        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+
+        //Create valid Entry
+        int amount1 = 50;
+        int entryID1 = 42;
+        String details1 = "Tutor";
+        Date date1 = new Date(2016, 7, 7);
+
+        //Two same entries
+        Entry entry1 = new EntryFactory().createEntry(amount1, entryID1, details1, date1);
+
+        //insert it into the database
+        database.insertEntry(entry1);
+        database.insertEntry(entry1);
+
+    }
 }
