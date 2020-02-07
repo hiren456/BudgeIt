@@ -10,8 +10,9 @@ public interface Database {
     //Inserts an entry into the database
     void insertEntry(Entry entry);
 
-    //Update an entry in the database
-    void updateEntry(Entry entry);
+    //Update the entry
+    //return true if the entry is found in the hashmap and then updated, otherwise return false
+    boolean updateEntry(Entry entry);
 
     //return an entry by ID
     //if not found returns null
@@ -21,10 +22,8 @@ public interface Database {
     //returns empty list if the are no entries
     List<Entry> selectByDate(Date startDate, Date endDate);
 
-    //TODO
-    //List<Entry> selectByCategory(int catID);
-
-    //returns true if an entry deleted successfully
+    //delete an entry and return true if the entry deleted successfully,
+    //otherwise return false
     boolean deleteEntry(int ID);
 
     // returns current entry id counter

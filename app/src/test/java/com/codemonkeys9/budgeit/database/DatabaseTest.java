@@ -419,5 +419,67 @@ public class DatabaseTest {
         assertEquals("List is not empty", 0, retList.size());
     }
 
+    @Test
+    public void updateThenSelectTest() {
+        //Create Database
+        int intitialIDCounter = 42;
+        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+
+        //Create valid Entry
+        int amount1 = 50;
+        int entryID1 = 42;
+        String details1 = "Tutor";
+
+        Date date1 = new Date(2016, 7, 7);
+        Entry entry1 = new EntryFactory().createEntry(amount1, entryID1, details1, date1);
+
+        //insert it into the database
+        database.insertEntry(entry1);
+
+        //update an entry
+        int updatedAmount = 60;
+        String updatedDetails = "Not a tutor";
+        Date updatedDate = new Date(2017, 3, 4);
+
+        entry1 = entry1.modifyEntry(updatedAmount, updatedDetails, updatedDate);
+        boolean isUpdated = database.updateEntry(entry1);
+
+        Entry retEntry1 = database.selectByID(entryID1);
+
+        // test that it is the one we want
+        assertNotNull("Database returns null when it should return an entry using selecBYID",retEntry1);
+        assertEquals("Database returns a entry with the wrong amount using selectByID",
+                updatedAmount,retEntry1.getAmount());
+        assertEquals("Database returns a entry with the wrong entryID using selectByID",
+                entryID1,retEntry1.getEntryID());
+        assertTrue("Database returns a entry with the wrong details string using selectByID",
+                updatedDetails.equals(retEntry1.getDetails()));
+        assertTrue("Database returns a entry with the wrong date using selectByID",
+                updatedDate.equals(retEntry1.getDate()));
+        assertTrue(isUpdated);
+    }
+
+    public void updateNotExistedTest() {
+        //Create Database
+        int intitialIDCounter = 42;
+        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+
+        //Create valid Entry
+        int amount1 = 50;
+        int entryID1 = 42;
+        String details1 = "Tutor";
+
+        Date date1 = new Date(2016, 7, 7);
+        Entry entry1 = new EntryFactory().createEntry(amount1, entryID1, details1, date1);
+
+        //update an entry
+        boolean isUpdated = database.updateEntry(entry1);
+        Entry retEntry1 = database.selectByID(entryID1);
+
+        assertNull("Database should not contain the entry, but it does", retEntry1);
+        assertFalse("Database is updated, but should not", isUpdated);
+
+    }
+
 
 }
