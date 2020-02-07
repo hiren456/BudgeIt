@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.NewEntryActivity">
+    tools:context=".ui.NewEntryActivity"
+    android:fitsSystemWindows="true" >
 
     <EditText
         android:id="@+id/editText_amount"
@@ -37,9 +38,9 @@
         android:id="@+id/button_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Submit"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="Submit" />
+        android:layout_alignParentRight="true"/>
 
     <ToggleButton
         android:id="@+id/button_incomeOrExpense"

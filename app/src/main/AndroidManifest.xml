@@ -16,7 +16,9 @@
 
         <activity
             android:name=".ui.NewEntryActivity"
-            android:parentActivityName=".ui.MainActivity">
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:fitsSystemWindows="true">
         </activity>
 
         <activity
