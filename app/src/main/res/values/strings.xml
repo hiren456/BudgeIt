@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">BudgeIt</string>
     <string name="action_settings">Settings</string>
+    <string name="action_hide_expenses">Hide expenses</string>
+    <string name="action_hide_income">Hide income</string>
+    <string name="action_show_expenses">Show expenses</string>
+    <string name="action_show_income">Show income</string>
+    <string name="action_filter_by_date">Filter by date</string>
+    <string name="action_remove_date_filter">Remove date filter</string>
 </resources>

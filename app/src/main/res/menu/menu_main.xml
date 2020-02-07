@@ -1,9 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.codemonkeys9.budgeit.MainActivity" >
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+    tools:context="com.codemonkeys9.budgeit.ui.MainActivity" >
+    <item
+        android:id="@+id/action_toggle_income"
         android:orderInCategory="100"
+        android:title="@string/action_hide_income"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_toggle_expenses"
+        android:orderInCategory="100"
+        android:title="@string/action_hide_expenses"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_filter_by_date"
+        android:orderInCategory="100"
+        android:title="@string/action_filter_by_date"
         app:showAsAction="never" />
 </menu>
