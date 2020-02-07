@@ -51,8 +51,8 @@ public class EntryFetcherTest {
         List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys("past","now");
         assertEquals(entryList.size(),2);
 
-        Entry entry1 = entryList.get(1);
-        Entry entry3 = entryList.get(0);
+        Entry entry1 = entryList.get(0);
+        Entry entry3 = entryList.get(1);
 
 
         assertEquals(10092,entry1.getAmount());
@@ -102,8 +102,8 @@ public class EntryFetcherTest {
         List<Entry> entryList = entryFetcher.fetchAllPurchasesEntrys("past","now");
         assertEquals(entryList.size(),2);
 
-        Entry entry2 = entryList.get(1);
-        Entry entry4 = entryList.get(0);
+        Entry entry2 = entryList.get(0);
+        Entry entry4 = entryList.get(1);
 
         assertEquals(-12247,entry2.getAmount());
         assertTrue("Ender and his siblings were all some of the smartest children in the world".equals(entry2.getDetails()));
@@ -153,10 +153,10 @@ public class EntryFetcherTest {
         List<Entry> entryList = entryFetcher.fetchAllEntrys("past","now");
         assertEquals(entryList.size(),4);
 
-        Entry entry1 = entryList.get(1);
-        Entry entry2 = entryList.get(3);
-        Entry entry3 = entryList.get(0);
-        Entry entry4 = entryList.get(2);
+        Entry entry1 = entryList.get(2);
+        Entry entry2 = entryList.get(0);
+        Entry entry3 = entryList.get(3);
+        Entry entry4 = entryList.get(1);
 
 
         assertEquals(10092,entry1.getAmount());
