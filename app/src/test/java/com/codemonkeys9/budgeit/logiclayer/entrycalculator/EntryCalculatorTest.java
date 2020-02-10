@@ -22,28 +22,28 @@ public class EntryCalculatorTest {
         int entryID1 = 81;
         String details1 = "Some letters put next to eachother";
         Date date1 = new Date(2001,07,07);
-        Entry entry1 = new EntryFactory().createEntry(amount1,entryID1,details1,date1);
+        Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
         int amount2 = 520;
         int entryID2 = 72;
         String details2 = "Some letters put next to eachother again";
         Date date2 = new Date(2001,11,07);
-        Entry entry2 = new EntryFactory().createEntry(amount2,entryID2,details2,date2);
+        Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
         int amount3 = 604;
         int entryID3 = -7;
         String details3 = "I am running out of ideas";
         Date date3 = new Date(2009,07,06);
-        Entry entry3 = new EntryFactory().createEntry(amount3,entryID3,details3,date3);
+        Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
         int amount4 = -724;
         int entryID4 = 6;
         String details4 = "Ender's game is an interesting book";
         Date date4 = new Date(2009,07,07);
-        Entry entry4 = new EntryFactory().createEntry(amount4,entryID4,details4,date4);
+        Entry entry4 = EntryFactory.createEntry(amount4,entryID4,details4,date4);
 
         // add them to a list
         List<Entry> entryList = new ArrayList<Entry>(4);
@@ -58,7 +58,7 @@ public class EntryCalculatorTest {
         expectedSum = expectedSum + 604;
         expectedSum = expectedSum - 724;
 
-        String actualSum = new EntryCalculatorFactory().createEntryCalculator().sumEntryList(entryList);
+        String actualSum = EntryCalculatorFactory.createEntryCalculator().sumEntryList(entryList);
 
         String expectedDisplaySum = DisplayConverter.createDisplayAmount(expectedSum);
         assertTrue(expectedDisplaySum.equals(actualSum));
@@ -71,7 +71,7 @@ public class EntryCalculatorTest {
         int entryID1 = 81;
         String details1 = "Some letters put next to eachother";
         Date date1 = new Date(2001,07,07);
-        Entry entry1 = new EntryFactory().createEntry(amount1,entryID1,details1,date1);
+        Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         // add them to a list
         List<Entry> entryList = new ArrayList<Entry>(4);
@@ -80,7 +80,7 @@ public class EntryCalculatorTest {
         int expectedSum = 0;
         expectedSum = expectedSum + 7249;
 
-        String actualSum = new EntryCalculatorFactory().createEntryCalculator().sumEntryList(entryList);
+        String actualSum = EntryCalculatorFactory.createEntryCalculator().sumEntryList(entryList);
 
         String expectedDisplaySum = DisplayConverter.createDisplayAmount(expectedSum);
         assertTrue(expectedDisplaySum.equals(actualSum));
@@ -93,7 +93,7 @@ public class EntryCalculatorTest {
 
         int expectedSum = 0;
 
-        String actualSum = new EntryCalculatorFactory().createEntryCalculator().sumEntryList(entryList);
+        String actualSum = EntryCalculatorFactory.createEntryCalculator().sumEntryList(entryList);
 
         String expectedDisplaySum = DisplayConverter.createDisplayAmount(expectedSum);
         assertTrue(expectedDisplaySum.equals(actualSum));

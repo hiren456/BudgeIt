@@ -19,11 +19,11 @@ import java.util.List;
 public class EntryFetcherTest {
     @Test
     public void mixedFetchIncomeTest() {
-        Database database = new DatabaseFactory().createDatabase(0);
-        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
-        DateParser dateParser = new DateParserFactory().createDateParser();
-        EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
-        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database,dateParser,filter);
+        Database database = DatabaseFactory.createDatabase(0);
+        EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
+        DateParser dateParser = DateParserFactory.createDateParser();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher(database,dateParser,filter);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -70,11 +70,11 @@ public class EntryFetcherTest {
 
     @Test
     public void mixedFetchPurchaseTest() {
-        Database database = new DatabaseFactory().createDatabase(0);
-        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
-        DateParser dateParser = new DateParserFactory().createDateParser();
-        EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
-        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database,dateParser,filter);
+        Database database = DatabaseFactory.createDatabase(0);
+        EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
+        DateParser dateParser = DateParserFactory.createDateParser();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher(database,dateParser,filter);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -121,11 +121,11 @@ public class EntryFetcherTest {
 
     @Test
     public void mixedFetchAllTest() {
-        Database database = new DatabaseFactory().createDatabase(0);
-        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
-        DateParser dateParser = new DateParserFactory().createDateParser();
-        EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
-        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database,dateParser,filter);
+        Database database = DatabaseFactory.createDatabase(0);
+        EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
+        DateParser dateParser = DateParserFactory.createDateParser();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher(database,dateParser,filter);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -187,11 +187,11 @@ public class EntryFetcherTest {
 
     @Test
     public void emptyFetchAllTest() {
-        Database database = new DatabaseFactory().createDatabase(0);
-        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
-        DateParser dateParser = new DateParserFactory().createDateParser();
-        EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
-        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database,dateParser,filter);
+        Database database = DatabaseFactory.createDatabase(0);
+        EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
+        DateParser dateParser = DateParserFactory.createDateParser();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher(database,dateParser,filter);
 
 
         List<Entry> entryList = entryFetcher.fetchAllEntrys("past","now");
@@ -200,11 +200,11 @@ public class EntryFetcherTest {
 
     @Test
     public void emptyFetchAllPurchaseTest() {
-        Database database = new DatabaseFactory().createDatabase(0);
-        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
-        DateParser dateParser = new DateParserFactory().createDateParser();
-        EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
-        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database,dateParser,filter);
+        Database database = DatabaseFactory.createDatabase(0);
+        EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
+        DateParser dateParser = DateParserFactory.createDateParser();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher(database,dateParser,filter);
 
 
         List<Entry> entryList = entryFetcher.fetchAllPurchasesEntrys("past","now");
@@ -213,11 +213,11 @@ public class EntryFetcherTest {
 
     @Test
     public void emptyFetchAllIncomeTest() {
-        Database database = new DatabaseFactory().createDatabase(0);
-        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
-        DateParser dateParser = new DateParserFactory().createDateParser();
-        EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
-        EntryFetcher entryFetcher = new EntryFetcherFactory().createEntryFetcher(database,dateParser,filter);
+        Database database = DatabaseFactory.createDatabase(0);
+        EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
+        DateParser dateParser = DateParserFactory.createDateParser();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher(database,dateParser,filter);
 
 
         List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys("past","now");

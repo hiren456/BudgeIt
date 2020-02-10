@@ -7,11 +7,9 @@ import com.codemonkeys9.budgeit.entry.EntryFactory;
 class DefaultEntryCreator implements EntryCreator {
 
     private Database database;
-    private EntryFactory entryFactory;
 
     DefaultEntryCreator(Database database) {
         this.database = database;
-        this.entryFactory = new EntryFactory();
     }
 
     @Override
@@ -34,7 +32,7 @@ class DefaultEntryCreator implements EntryCreator {
         int entryID = database.getIDCounter();
         database.updateIDCounter(entryID + 1);
 
-        database.insertEntry(this.entryFactory.createEntry(parsedAmount,entryID,details,parsedDate));
+        database.insertEntry(EntryFactory.createEntry(parsedAmount,entryID,details,parsedDate));
     }
 }
 

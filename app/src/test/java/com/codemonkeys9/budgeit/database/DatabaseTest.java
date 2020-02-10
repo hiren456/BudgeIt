@@ -16,7 +16,7 @@ public class DatabaseTest {
     @Test
     public void idCounterInitialValueTest() {
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         assertEquals("When a database is initialized, " +
                 "the intitial value for the id counter, passed as a parameter," +
@@ -26,7 +26,7 @@ public class DatabaseTest {
     @Test
     public void idCounterUpdateValueTest() {
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
         database.updateIDCounter(23);
 
         assertEquals("When updateIDCounter is called, " +
@@ -38,14 +38,14 @@ public class DatabaseTest {
     public void insertThenSelectTest() {
         //Create Database
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         //Create valid Entry
         int amount1 = 7249;
         int entryID1 = 81;
         String details1 = "Some letters put next to eachother";
         Date date1 = new Date(2002,7,7);
-        Entry entry1 = new EntryFactory().createEntry(amount1,entryID1,details1,date1);
+        Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //insert it into the database
         database.insertEntry(entry1);
@@ -68,35 +68,35 @@ public class DatabaseTest {
     public void insertManyThenSelectByIDTest() {
         //Create Database
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         //Create valid Entry1
         int amount1 = 7249;
         int entryID1 = 81;
         String details1 = "Some letters put next to eachother";
         Date date1 = new Date(2001,7,7);
-        Entry entry1 = new EntryFactory().createEntry(amount1,entryID1,details1,date1);
+        Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
         int amount2 = 520;
         int entryID2 = 72;
         String details2 = "Some letters put next to eachother again";
         Date date2 = new Date(2001,11,7);
-        Entry entry2 = new EntryFactory().createEntry(amount2,entryID2,details2,date2);
+        Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
         int amount3 = 604;
         int entryID3 = -7;
         String details3 = "I am running out of ideas";
         Date date3 = new Date(2009,7,6);
-        Entry entry3 = new EntryFactory().createEntry(amount3,entryID3,details3,date3);
+        Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
         int amount4 = -724;
         int entryID4 = 6;
         String details4 = "Ender's game is an interesting book";
         Date date4 = new Date(2009,7,7);
-        Entry entry4 = new EntryFactory().createEntry(amount4,entryID4,details4,date4);
+        Entry entry4 = EntryFactory.createEntry(amount4,entryID4,details4,date4);
 
         //insert them into the database
         database.insertEntry(entry1);
@@ -149,35 +149,35 @@ public class DatabaseTest {
     public void insertManyThenSelectByDateTest() {
         //Create Database
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         //Create valid Entry1
         int amount1 = 7249;
         int entryID1 = 81;
         String details1 = "Some letters put next to eachother";
         Date date1 = new Date(2001,7,7);
-        Entry entry1 = new EntryFactory().createEntry(amount1,entryID1,details1,date1);
+        Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
         int amount2 = 520;
         int entryID2 = 72;
         String details2 = "Some letters put next to eachother again";
         Date date2 = new Date(2001,11,7);
-        Entry entry2 = new EntryFactory().createEntry(amount2,entryID2,details2,date2);
+        Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
         int amount3 = 604;
         int entryID3 = -7;
         String details3 = "I am running out of ideas";
         Date date3 = new Date(2009,7,6);
-        Entry entry3 = new EntryFactory().createEntry(amount3,entryID3,details3,date3);
+        Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
         int amount4 = -724;
         int entryID4 = 6;
         String details4 = "Ender's game is an interesting book";
         Date date4 = new Date(2009,7,7);
-        Entry entry4 = new EntryFactory().createEntry(amount4,entryID4,details4,date4);
+        Entry entry4 = EntryFactory.createEntry(amount4,entryID4,details4,date4);
 
         //insert them into the database
         database.insertEntry(entry1);
@@ -232,14 +232,14 @@ public class DatabaseTest {
     public void deleteOneTest(){
         //Create Database
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         //Create valid Entry1
         int amount1 = -100;
         int entryID1 = 81;
         String details1 = "PC game gta 6";
         Date date1 = new Date(2021,3,21);
-        Entry entry1 = new EntryFactory().createEntry(amount1,entryID1,details1,date1);
+        Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //insert the entry into the database
         database.insertEntry(entry1);
@@ -258,35 +258,35 @@ public class DatabaseTest {
 
         //Create Database
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         //Create valid Entry1
         int amount1 = -5900;
         int entryID1 = 81;
         String details1 = "New car";
         Date date1 = new Date(2001,7,7);
-        Entry entry1 = new EntryFactory().createEntry(amount1,entryID1,details1,date1);
+        Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
         int amount2 = -120;
         int entryID2 = 72;
         String details2 = "New book";
         Date date2 = new Date(2001,11,7);
-        Entry entry2 = new EntryFactory().createEntry(amount2,entryID2,details2,date2);
+        Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
         int amount3 = -4;
         int entryID3 = -7;
         String details3 = "Large cofee";
         Date date3 = new Date(2009,7,6);
-        Entry entry3 = new EntryFactory().createEntry(amount3,entryID3,details3,date3);
+        Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
         int amount4 = 10000;
         int entryID4 = 6;
         String details4 = "Salary";
         Date date4 = new Date(2009,7,7);
-        Entry entry4 = new EntryFactory().createEntry(amount4,entryID4,details4,date4);
+        Entry entry4 = EntryFactory.createEntry(amount4,entryID4,details4,date4);
 
         //insert entries into the database
         database.insertEntry(entry1);
@@ -322,35 +322,35 @@ public class DatabaseTest {
 
         //Create Database
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         //Create valid Entry1
         int amount1 = -5900;
         int entryID1 = 81;
         String details1 = "New car";
         Date date1 = new Date(2001,7,7);
-        Entry entry1 = new EntryFactory().createEntry(amount1,entryID1,details1,date1);
+        Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
         int amount2 = -120;
         int entryID2 = 72;
         String details2 = "New book";
         Date date2 = new Date(2001,11,7);
-        Entry entry2 = new EntryFactory().createEntry(amount2,entryID2,details2,date2);
+        Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
         int amount3 = -4;
         int entryID3 = -7;
         String details3 = "Large cofee";
         Date date3 = new Date(2009,7,6);
-        Entry entry3 = new EntryFactory().createEntry(amount3,entryID3,details3,date3);
+        Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
         int amount4 = 10000;
         int entryID4 = 6;
         String details4 = "Salary";
         Date date4 = new Date(2009,7,7);
-        Entry entry4 = new EntryFactory().createEntry(amount4,entryID4,details4,date4);
+        Entry entry4 = EntryFactory.createEntry(amount4,entryID4,details4,date4);
 
         //insert entries into the database
         database.insertEntry(entry1);
@@ -385,7 +385,7 @@ public class DatabaseTest {
 
         //Create Database
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         //select an entry from the database
         Entry retEntry1 = database.selectByID(81);
@@ -398,7 +398,7 @@ public class DatabaseTest {
 
         //Create Database
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         //select an entry from the database
         boolean isDeleted1 = database.deleteEntry(6);
@@ -411,7 +411,7 @@ public class DatabaseTest {
 
         //Create Database
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         //select an entry List from the database
         List<Entry> retList = database.selectByDate(new Date(2001,10,7),new Date(2009,7,7));
@@ -423,7 +423,7 @@ public class DatabaseTest {
     public void updateThenSelectTest() {
         //Create Database
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         //Create valid Entry
         int amount1 = 50;
@@ -431,7 +431,7 @@ public class DatabaseTest {
         String details1 = "Tutor";
         Date date1 = new Date(2016, 7, 7);
 
-        Entry entry1 = new EntryFactory().createEntry(amount1, entryID1, details1, date1);
+        Entry entry1 = EntryFactory.createEntry(amount1, entryID1, details1, date1);
 
         //insert it into the database
         database.insertEntry(entry1);
@@ -463,7 +463,7 @@ public class DatabaseTest {
     public void updateNotExistedTest() {
         //Create Database
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         //Create valid Entry
         int amount1 = 50;
@@ -471,7 +471,7 @@ public class DatabaseTest {
         String details1 = "Tutor";
         Date date1 = new Date(2016, 7, 7);
 
-        Entry entry1 = new EntryFactory().createEntry(amount1, entryID1, details1, date1);
+        Entry entry1 = EntryFactory.createEntry(amount1, entryID1, details1, date1);
 
         //update an entry
         boolean isUpdated = database.updateEntry(entry1);
@@ -487,7 +487,7 @@ public class DatabaseTest {
     public void insertTwoTimesSameTest() {
         //Create Database
         int intitialIDCounter = 42;
-        Database database = new DatabaseFactory().createDatabase(intitialIDCounter);
+        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
 
         //Create valid Entry
         int amount1 = 50;
@@ -496,7 +496,7 @@ public class DatabaseTest {
         Date date1 = new Date(2016, 7, 7);
 
         //Two same entries
-        Entry entry1 = new EntryFactory().createEntry(amount1, entryID1, details1, date1);
+        Entry entry1 = EntryFactory.createEntry(amount1, entryID1, details1, date1);
 
         //insert it into the database
         database.insertEntry(entry1);

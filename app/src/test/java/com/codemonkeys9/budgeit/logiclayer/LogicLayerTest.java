@@ -12,7 +12,7 @@ import java.util.List;
 public class LogicLayerTest {
     @Test
     public void fetchIncomeWithNowTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -54,7 +54,7 @@ public class LogicLayerTest {
 
     @Test
     public void fetchAllPurchasesWithNowTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -105,7 +105,7 @@ public class LogicLayerTest {
 
     @Test
     public void fetchAllEntrysWithNowTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -159,7 +159,7 @@ public class LogicLayerTest {
     }
     @Test
     public void fetchIncomeWithDateTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -201,7 +201,7 @@ public class LogicLayerTest {
 
     @Test
     public void fetchAllPurchasesWithDateTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -252,7 +252,7 @@ public class LogicLayerTest {
 
     @Test
     public void fetchAllEntrysWithDateTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -306,7 +306,7 @@ public class LogicLayerTest {
     }
     @Test
     public void fetchAllIncomeNoDateTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -355,7 +355,7 @@ public class LogicLayerTest {
 
     @Test
     public void fetchAllPurchasesNoDateTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -406,7 +406,7 @@ public class LogicLayerTest {
 
     @Test
     public void fetchAllEntrysNoDateTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -468,7 +468,7 @@ public class LogicLayerTest {
 
     @Test
     public void calculateTotalIncomeWithDateTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -500,7 +500,7 @@ public class LogicLayerTest {
 
     @Test
     public void calculateTotalIncomeNoDateTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -532,7 +532,7 @@ public class LogicLayerTest {
 
     @Test
     public void calculateTotalPurchaseWithDateTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -564,7 +564,7 @@ public class LogicLayerTest {
 
     @Test
     public void calculateTotalPurchaseNoDateTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -596,7 +596,7 @@ public class LogicLayerTest {
 
     @Test
     public void calculateTotalWithDateTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -628,7 +628,7 @@ public class LogicLayerTest {
 
     @Test
     public void calculateTotalNoDateTest() {
-        LogicLayer ll = new LogicLayerFactory().createLogicLayer();
+        LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";

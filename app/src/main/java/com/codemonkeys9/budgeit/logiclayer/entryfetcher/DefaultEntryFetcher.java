@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrderer;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrdererFactor;
+import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrdererFactory;
+import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrdererFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
 import com.codemonkeys9.budgeit.database.Database;
 
@@ -17,11 +18,12 @@ class DefaultEntryFetcher implements EntryFetcher {
     Database database;
     EntryListFilterer filter;
     EntryListOrderer orderer;
+
     DefaultEntryFetcher(Database database, DateParser dateParser, EntryListFilterer filter){
         this.database = database;
         this.dateParser = dateParser;
         this.filter = filter;
-        this.orderer = new EntryListOrdererFactor().createEntryListOrderer();
+        this.orderer = EntryListOrdererFactory.createEntryListOrderer();
     }
 
     @Override

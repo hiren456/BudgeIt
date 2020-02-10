@@ -27,13 +27,13 @@ class DefaultLogicLayer implements LogicLayer {
 
 
     DefaultLogicLayer(){
-        DateParser dateParser = new DateParserFactory().createDateParser();
-        EntryListFilterer filter = new EntryListFiltererFactory().creatEntryListFilterer();
+        DateParser dateParser = DateParserFactory.createDateParser();
+        EntryListFilterer filter = new EntryListFiltererFactory().createEntryListFilterer();
         // Create objects using factories
-        this.database = new DatabaseFactory().createDatabase(0);
-        this.entryCreator = new EntryCreatorFactory().createEntryCreator(this.database);
-        this.entryFetcher = new EntryFetcherFactory().createEntryFetcher(this.database,dateParser,filter);
-        this.entryCalculator = new EntryCalculatorFactory().createEntryCalculator();
+        this.database = DatabaseFactory.createDatabase(0);
+        this.entryCreator = EntryCreatorFactory.createEntryCreator(this.database);
+        this.entryFetcher = EntryFetcherFactory.createEntryFetcher(this.database,dateParser,filter);
+        this.entryCalculator = EntryCalculatorFactory.createEntryCalculator();
     }
 
     @Override

@@ -23,7 +23,7 @@ public class EntryTest {
 
 
         //test getAmount
-        Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+        Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         assertTrue("Actual:"+entry.getDisplayAmount() + " Expected:"+ displayAmount,entry.getDisplayAmount().equals(displayAmount));
     }
 
@@ -42,7 +42,7 @@ public class EntryTest {
 
 
         //test getAmount
-        Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+        Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         assertEquals(displayDate.length(),entry.getDisplayDate().length());
         assertTrue("Actual:"+entry.getDisplayDate() + " Expected:"+ displayDate,entry.getDisplayDate().equals(displayDate));
     }
@@ -57,7 +57,7 @@ public class EntryTest {
         Date date = new Date(1999,04,23);
 
         //test getAmount
-        Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+        Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         assertEquals(entry.getAmount(), 999);
     }
 
@@ -70,7 +70,7 @@ public class EntryTest {
         Date date = new Date(1999,04,23);
 
 
-        Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+        Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         assertEquals(entry.getEntryID(),42);
     }
 
@@ -83,7 +83,7 @@ public class EntryTest {
         Date date = new Date(1999,04,23);
         String details2 = "A very creative description";
 
-        Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+        Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         assertTrue(details2.equals(entry.getDetails()));
     }
 
@@ -97,7 +97,7 @@ public class EntryTest {
         Date date2 = new Date(1999,04,23);
 
 
-        Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+        Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         assertTrue(date2.equals(entry.getDate()));
     }
 
@@ -110,7 +110,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         }catch (Exception e){
 
             fail("Making an entry with amount 0 causes an exception");
@@ -126,7 +126,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         }catch (Exception e){
 
             fail("Making an entry with positive causes an exception");
@@ -142,7 +142,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         }catch (Exception e){
 
             fail("Making an entry with negative amount causes an exception");
@@ -158,7 +158,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         }catch (Exception e){
 
             fail("Making an entry with entry 0 causes an exception");
@@ -174,7 +174,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         }catch (Exception e){
 
             fail("Making an entry with negative entryID causes an exception");
@@ -190,7 +190,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         }catch (Exception e){
 
             fail("Making an entry with positive entryID causes an exception");
@@ -206,7 +206,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         }catch (Exception e){
 
             fail("Passing \"A creative description\" for details String causes an exception");
@@ -222,7 +222,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
             fail("Passing null for details String does not cause an exception");
         }catch (Exception e){
 
@@ -238,7 +238,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         }catch (Exception e){
 
             fail("Passing empty string causes an exception");
@@ -254,7 +254,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
         }catch (Exception e){
 
             fail("Passing the date 23/04/1999 causes an exception");
@@ -270,7 +270,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = new EntryFactory().createEntry(amount, entryID, details, date);
+            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
             fail("Passing a null date does not cause an exception");
         }catch (Exception e){
 
@@ -286,7 +286,7 @@ public class EntryTest {
         String details = "A creative description";
         Date date = new Date(1999,04,23);
 
-        Entry entry1 = new EntryFactory().createEntry(amount, entryID, details, date);
+        Entry entry1 = EntryFactory.createEntry(amount, entryID, details, date);
 
         int newAmount = 123;
         String newDetails = "Another creative description";

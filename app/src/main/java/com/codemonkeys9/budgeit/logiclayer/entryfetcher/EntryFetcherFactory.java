@@ -5,7 +5,7 @@ import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParser;
 
 public class EntryFetcherFactory {
-    public EntryFetcher createEntryFetcher(Database database, DateParser dateParser, EntryListFilterer filter){
+    public static EntryFetcher createEntryFetcher(Database database, DateParser dateParser, EntryListFilterer filter){
         return new DefaultEntryFetcher(database,dateParser,filter);
     }
 }

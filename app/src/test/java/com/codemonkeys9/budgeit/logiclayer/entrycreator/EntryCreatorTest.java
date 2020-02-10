@@ -15,8 +15,8 @@ public class EntryCreatorTest {
 
     @Test
     public void createOneThenSelectAllTest() {
-        Database database = new DatabaseFactory().createDatabase(0);
-        EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
+        Database database = DatabaseFactory.createDatabase(0);
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -36,8 +36,8 @@ public class EntryCreatorTest {
     }
     @Test
     public void createManyThenSelectAllTest() {
-        Database database = new DatabaseFactory().createDatabase(0);
-        EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
+        Database database = DatabaseFactory.createDatabase(0);
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -85,8 +85,8 @@ public class EntryCreatorTest {
     // no use testing if there is no right answer yet
     @Test
     public void createInvalidAmountThenSelectAllTest() {
-        Database database = new DatabaseFactory().createDatabase(0);
-        EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
+        Database database = DatabaseFactory.createDatabase(0);
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -97,8 +97,8 @@ public class EntryCreatorTest {
 
     @Test
     public void createInvalidDateThenSelectAllTest() {
-        Database database = new DatabaseFactory().createDatabase(0);
-        EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
+        Database database = DatabaseFactory.createDatabase(0);
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -109,8 +109,8 @@ public class EntryCreatorTest {
 
     @Test
     public void createInvalidDetailsThenSelectAllTest() {
-        Database database = new DatabaseFactory().createDatabase(0);
-        EntryCreator entryCreator = new EntryCreatorFactory().createEntryCreator(database);
+        Database database = DatabaseFactory.createDatabase(0);
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
