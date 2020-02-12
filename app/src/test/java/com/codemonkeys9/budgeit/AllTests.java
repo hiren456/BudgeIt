@@ -6,6 +6,7 @@ import com.codemonkeys9.budgeit.logiclayer.LogicLayerTest;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculatorTest;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorTest;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherTest;
+import com.codemonkeys9.budgeit.logiclayer.uifetchrequesthandler.UIFetchRequestHandleTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -21,7 +22,8 @@ import org.junit.runners.Suite;
         LogicLayerTest.class,
         EntryCalculatorTest.class,
         EntryCreatorTest.class,
-        EntryFetcherTest.class
+        EntryFetcherTest.class,
+        UIFetchRequestHandleTest.class
 })
 
 

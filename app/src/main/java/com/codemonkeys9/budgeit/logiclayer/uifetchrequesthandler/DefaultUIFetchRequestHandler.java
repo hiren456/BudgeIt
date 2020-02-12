@@ -1,26 +1,22 @@
 package com.codemonkeys9.budgeit.logiclayer.uifetchrequesthandler;
 
-import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.entry.Entry;
 import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParser;
+import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrderer;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrdererFactory;
-import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
 
 import java.util.Date;
 import java.util.List;
 
 class DefaultUIFetchRequestHandler implements UIFetchRequestHandler {
     DateParser dateParser;
-    Database database;
-    EntryListFilterer filter;
     EntryListOrderer orderer;
+    EntryFetcher fetcher;
 
-    DefaultEntryFetcher(Database database, DateParser dateParser, EntryListFilterer filter){
-        this.database = database;
+    DefaultUIFetchRequestHandler(DateParser dateParser, EntryFetcher fetcher,EntryListOrderer orderer){
         this.dateParser = dateParser;
-        this.filter = filter;
-        this.orderer = EntryListOrdererFactory.createEntryListOrderer();
+        this.orderer = orderer;
+        this.fetcher = fetcher;
     }
 
     @Override
@@ -28,24 +24,20 @@ class DefaultUIFetchRequestHandler implements UIFetchRequestHandler {
         Date parsedEndDate = this.dateParser.parseDate(endDate);
         Date parsedStartDate = this.dateParser.parseDate(startDate);
 
-        // get all entrys within the specified date and remove any with negative amounts
-        List<Entry> list = database.selectByDate(parsedStartDate,parsedEndDate);
-        this.filter.getIncome(list);
+        List<Entry> list = this.fetcher.fetchAllIncomeEntrys(parsedStartDate,parsedEndDate);
 
-        orderer.orderEntryList(list);
+        this.orderer.orderEntryList(list);
         return list;
     }
 
     @Override
-    public List<Entry> fetchAllPurchasesEntrys(String startDate, String endDate) {
+    public List<Entry> fetchAllPurchaseEntrys(String startDate, String endDate) {
         Date parsedEndDate = this.dateParser.parseDate(endDate);
         Date parsedStartDate = this.dateParser.parseDate(startDate);
 
-        // get all entrys within the specified date and remove any with positive amounts
-        List<Entry> list = database.selectByDate(parsedStartDate,parsedEndDate);
-        this.filter.getPurchases(list);
+        List<Entry> list = this.fetcher.fetchAllPurchasesEntrys(parsedStartDate,parsedEndDate);
 
-        orderer.orderEntryList(list);
+        this.orderer.orderEntryList(list);
         return list;
     }
 
@@ -54,10 +46,42 @@ class DefaultUIFetchRequestHandler implements UIFetchRequestHandler {
         Date parsedEndDate = this.dateParser.parseDate(endDate);
         Date parsedStartDate = this.dateParser.parseDate(startDate);
 
-        // get all entrys within the specified date
-        List<Entry> list = database.selectByDate(parsedStartDate,parsedEndDate);
+        List<Entry> list = this.fetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
 
-        orderer.orderEntryList(list);
+        this.orderer.orderEntryList(list);
+        return list;
+    }
+
+    @Override
+    public List<Entry> fetchAllIncomeEntrys() {
+        Date parsedEndDate = this.dateParser.parseDate("now");
+        Date parsedStartDate = this.dateParser.parseDate("past");
+
+        List<Entry> list = this.fetcher.fetchAllIncomeEntrys(parsedStartDate,parsedEndDate);
+
+        this.orderer.orderEntryList(list);
+        return list;
+    }
+
+    @Override
+    public List<Entry> fetchAllPurchaseEntrys() {
+        Date parsedEndDate = this.dateParser.parseDate("now");
+        Date parsedStartDate = this.dateParser.parseDate("past");
+
+        List<Entry> list = this.fetcher.fetchAllPurchasesEntrys(parsedStartDate,parsedEndDate);
+
+        this.orderer.orderEntryList(list);
+        return list;
+    }
+
+    @Override
+    public List<Entry> fetchAllEntrys() {
+        Date parsedEndDate = this.dateParser.parseDate("now");
+        Date parsedStartDate = this.dateParser.parseDate("past");
+
+        List<Entry> list = this.fetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
+
+        this.orderer.orderEntryList(list);
         return list;
     }
 }

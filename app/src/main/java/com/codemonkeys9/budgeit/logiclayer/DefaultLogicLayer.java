@@ -4,6 +4,8 @@ import android.util.Pair;
 
 import java.util.List;
 
+import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrderer;
+import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrdererFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFiltererFactory;
 import com.codemonkeys9.budgeit.database.Database;
@@ -17,55 +19,59 @@ import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.uifetchrequesthandler.UIFetchRequestHandler;
+import com.codemonkeys9.budgeit.logiclayer.uifetchrequesthandler.UIFetchRequestHandlerFactory;
 
 class DefaultLogicLayer implements LogicLayer {
 
-    private EntryFetcher entryFetcher;
-    private EntryCalculator entryCalculator;
-    private EntryCreator entryCreator;
-    private Database database;
+    // Idealy only ui handlers
+    UIFetchRequestHandler uiFetchRequestHandler;
+
+    EntryCalculator entryCalculator;
+    EntryCreator entryCreator;
 
 
     DefaultLogicLayer(){
         DateParser dateParser = DateParserFactory.createDateParser();
-        EntryListFilterer filter = new EntryListFiltererFactory().createEntryListFilterer();
-        // Create objects using factories
-        this.database = DatabaseFactory.createDatabase(0);
-        this.entryCreator = EntryCreatorFactory.createEntryCreator(this.database);
-        this.entryFetcher = EntryFetcherFactory.createEntryFetcher(this.database,dateParser,filter);
+        EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
+        Database database = DatabaseFactory.createDatabase(0);
+        EntryListOrderer orderer = EntryListOrdererFactory.createEntryListOrderer();
+
+        EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
+
         this.entryCalculator = EntryCalculatorFactory.createEntryCalculator();
+        this.entryCreator = EntryCreatorFactory.createEntryCreator(database);
+        this.uiFetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler(dateParser, fetcher, orderer);
     }
 
     @Override
     public List<Entry> fetchAllIncomeEntrys(String startDate, String endDate) {
-        // startDate and endDate are expected to be in "dd/mm/yyyy" format
-        // or "past", "now"
-        return this.entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
+        return this.uiFetchRequestHandler.fetchAllIncomeEntrys(startDate,endDate);
     }
 
     @Override
     public List<Entry> fetchAllIncomeEntrys() {
-        return this.entryFetcher.fetchAllIncomeEntrys("past","now");
+        return this.uiFetchRequestHandler.fetchAllIncomeEntrys();
     }
 
     @Override
     public List<Entry> fetchAllPurchaseEntrys(String startDate, String endDate) {
-        return this.entryFetcher.fetchAllPurchasesEntrys(startDate, endDate);
+        return this.uiFetchRequestHandler.fetchAllPurchaseEntrys(startDate, endDate);
     }
 
     @Override
     public List<Entry> fetchAllPurchaseEntrys() {
-        return this.entryFetcher.fetchAllPurchasesEntrys("past", "now");
+        return this.uiFetchRequestHandler.fetchAllPurchaseEntrys();
     }
 
     @Override
     public List<Entry> fetchAllEntrys(String startDate, String endDate) {
-        return this.entryFetcher.fetchAllEntrys(startDate,endDate);
+        return this.uiFetchRequestHandler.fetchAllEntrys(startDate,endDate);
     }
 
     @Override
     public List<Entry> fetchAllEntrys() {
-        return this.entryFetcher.fetchAllEntrys("past","now");
+        return this.uiFetchRequestHandler.fetchAllEntrys();
     }
 
     @Override
