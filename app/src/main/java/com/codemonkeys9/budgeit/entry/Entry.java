@@ -2,8 +2,6 @@ package com.codemonkeys9.budgeit.entry;
 
 import java.util.Date;
 
-// add catID
-// add
 public interface Entry {
 
     // getters
@@ -12,6 +10,7 @@ public interface Entry {
     //int getCatID();
     String getDetails();
     Date getDate();
+    // Add flag/catID
 
     // A method that returns the date as a display friendly string
     String getDisplayDate();
@@ -19,8 +18,9 @@ public interface Entry {
     // A method that returns the amount as a display friendly string
     String getDisplayAmount();
 
-    // Add flag/catID
 
+    // add the ability to flag/unflag
+    // add the ability to update catID
     // takes values and returns an entry
     // with those updated updated values
     Entry modifyEntry(int amount,String details, Date date);

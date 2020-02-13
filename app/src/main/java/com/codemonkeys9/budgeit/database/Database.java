@@ -36,6 +36,4 @@ public interface Database {
 
     // Create all functionality for Category's
     // except for select by date
-
-
 }

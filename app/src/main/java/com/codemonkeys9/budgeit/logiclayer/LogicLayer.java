@@ -103,6 +103,12 @@ public interface LogicLayer {
     // Shadow to allow bool representing bad purchase
     // void createEntry(String amount, String details,String date,boolean bad);
 
+    // Shadow to allow int representing cat id
+    // void createEntry(String amount, String details,String date,int catID);
+
+    // Shadow to allow both the above parameter
+    // void createEntry(String amount, String details,String date,boolean bad,int catID);
+
     // flag entry
     // Entry flagEntry(int entryID)
 
@@ -129,6 +135,9 @@ public interface LogicLayer {
 
     // change cat goal
     // void changeCatGoal
+
+    // Add Entry to to a category
+    // void addEntryToCategory(int entryID,int catID)
 
 
 }
