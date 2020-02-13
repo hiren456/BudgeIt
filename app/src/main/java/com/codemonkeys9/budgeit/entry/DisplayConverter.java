@@ -26,4 +26,10 @@ public class DisplayConverter {
         displayDate = displayDate.substring(0,displayDate.length()-13);
         return displayDate;
     }
+
+    public static int parseDisplayAmount(String displayAmount){
+        // parse string into double then remove decimal and store as whole number
+        // eg. "100.92" gets turned into 10092
+        return (int) (Double.parseDouble(displayAmount) * 100 );
+    }
 }

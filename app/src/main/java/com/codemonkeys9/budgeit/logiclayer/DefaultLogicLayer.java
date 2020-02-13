@@ -4,6 +4,8 @@ import android.util.Pair;
 
 import java.util.List;
 
+import com.codemonkeys9.budgeit.logiclayer.ParameterConverter.ParameterConverter;
+import com.codemonkeys9.budgeit.logiclayer.ParameterConverter.ParameterConverterFactory;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrderer;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrdererFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
@@ -11,14 +13,16 @@ import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFiltererFa
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.entry.Entry;
-import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParser;
-import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParserFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculator;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.uicalculaterequesthandler.UICalculateRequestHandler;
+import com.codemonkeys9.budgeit.logiclayer.uicalculaterequesthandler.UICalculaterRequestHandlerFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientrymodificationrequesthandler.UIEntryModificationRequestHandler;
+import com.codemonkeys9.budgeit.logiclayer.uientrymodificationrequesthandler.UIEntryModificationRequestHandlerFactory;
 import com.codemonkeys9.budgeit.logiclayer.uifetchrequesthandler.UIFetchRequestHandler;
 import com.codemonkeys9.budgeit.logiclayer.uifetchrequesthandler.UIFetchRequestHandlerFactory;
 
@@ -26,22 +30,22 @@ class DefaultLogicLayer implements LogicLayer {
 
     // Idealy only ui handlers
     UIFetchRequestHandler uiFetchRequestHandler;
-
-    EntryCalculator entryCalculator;
-    EntryCreator entryCreator;
-
+    UICalculateRequestHandler uiCalculateRequestHandler;
+    UIEntryModificationRequestHandler uiEntryModificationHandler;
 
     DefaultLogicLayer(){
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         Database database = DatabaseFactory.createDatabase(0);
         EntryListOrderer orderer = EntryListOrdererFactory.createEntryListOrderer();
+        EntryCalculator calculator = EntryCalculatorFactory.createEntryCalculator();
 
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-        this.entryCalculator = EntryCalculatorFactory.createEntryCalculator();
-        this.entryCreator = EntryCreatorFactory.createEntryCreator(database);
-        this.uiFetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler(dateParser, fetcher, orderer);
+        this.uiFetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler(converter, fetcher, orderer);
+        this.uiCalculateRequestHandler = UICalculaterRequestHandlerFactory.createUICalculateRequestHandler(converter,fetcher,calculator);
+        this.uiEntryModificationHandler = UIEntryModificationRequestHandlerFactory.createUIEntryModificationRequestHandler(converter,entryCreator);
     }
 
     @Override
@@ -76,86 +80,66 @@ class DefaultLogicLayer implements LogicLayer {
 
     @Override
     public String calculateTotalIncome(String startDate, String endDate) {
-        List<Entry> entryList = fetchAllIncomeEntrys(startDate,endDate);
-        return this.entryCalculator.sumEntryList(entryList);
+        return this.uiCalculateRequestHandler.calculateTotalIncome(startDate,endDate);
     }
 
     @Override
     public String calculateTotalIncome() {
-        List<Entry> entryList = fetchAllIncomeEntrys();
-        return this.entryCalculator.sumEntryList(entryList);
+        return this.uiCalculateRequestHandler.calculateTotalIncome();
     }
 
     @Override
     public String calculateTotalPurchases(String  startDate, String  endDate) {
-        List<Entry> entryList = fetchAllPurchaseEntrys(startDate, endDate);
-        return this.entryCalculator.sumEntryList(entryList);
+        return this.uiCalculateRequestHandler.calculateTotalPurchases(startDate,endDate);
     }
 
     @Override
     public String calculateTotalPurchases() {
-        List<Entry> entryList = fetchAllPurchaseEntrys();
-        return this.entryCalculator.sumEntryList(entryList);
+        return this.uiCalculateRequestHandler.calculateTotalPurchases();
     }
 
     @Override
     public String calculateTotal(String startDate, String endDate) {
-        List<Entry> entryList = fetchAllEntrys(startDate,endDate);
-        return this.entryCalculator.sumEntryList(entryList);
+        return this.uiCalculateRequestHandler.calculateTotal(startDate,endDate);
     }
 
     @Override
     public String calculateTotal() {
-        List<Entry> entryList = fetchAllEntrys();
-        return this.entryCalculator.sumEntryList(entryList);
+        return this.uiCalculateRequestHandler.calculateTotal();
     }
 
     @Override
     public Pair<List<Entry>, String> fetchIncomeDisplayInfo(String startDate, String  endDate) {
-        List<Entry> list = fetchAllIncomeEntrys(startDate,endDate);
-        String sum = entryCalculator.sumEntryList(list);
-        return new Pair<List<Entry>,String>(list,sum);
+        return null;
     }
 
     @Override
     public Pair<List<Entry>, String> fetchPurchasesDisplayInfo(String  startDate, String  endDate) {
-        List<Entry> list = fetchAllPurchaseEntrys(startDate,endDate);
-        String sum = entryCalculator.sumEntryList(list);
-        return new Pair<List<Entry>,String>(list,sum);
+        return null;
     }
 
     @Override
     public Pair<List<Entry>, String> fetchAllDisplayInfo(String  startDate, String  endDate) {
-        List<Entry> list = fetchAllEntrys(startDate,endDate);
-        String sum = entryCalculator.sumEntryList(list);
-        return new Pair<List<Entry>,String>(list,sum);
+        return null;
     }
 
     @Override
     public Pair<List<Entry>,String> fetchIncomeDisplayInfo() {
-        List<Entry> list = fetchAllIncomeEntrys();
-        String sum = entryCalculator.sumEntryList(list);
-        return new Pair<List<Entry>,String>(list,sum);
+        return null;
     }
 
     @Override
     public Pair<List<Entry>, String> fetchPurchasesDisplayInfo() {
-        List<Entry> list = fetchAllPurchaseEntrys();
-        String sum = entryCalculator.sumEntryList(list);
-
-        return new Pair<List<Entry>,String>(list,sum);
+        return null;
     }
 
     @Override
     public Pair<List<Entry>, String> fetchAllDisplayInfo() {
-        List<Entry> list = fetchAllEntrys();
-        String sum = entryCalculator.sumEntryList(list);
-
-        return new Pair<List<Entry>,String>(list,sum);
+        return null;
     }
 
     @Override
     public void createEntry(String amount,  String details, String date) {
-        this.entryCreator.createEntry(amount,details,date);
+        this.uiEntryModificationHandler.createEntry(amount,details,date);
     }
 }

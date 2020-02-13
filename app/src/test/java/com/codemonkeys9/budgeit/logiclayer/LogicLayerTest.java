@@ -495,6 +495,7 @@ public class LogicLayerTest {
 
         String amount = ll.calculateTotalIncome("0/02/1999","23/03/2000");
 
+        System.out.println(amount);
         assertTrue(amount.equals("100.92"));
     }
 
