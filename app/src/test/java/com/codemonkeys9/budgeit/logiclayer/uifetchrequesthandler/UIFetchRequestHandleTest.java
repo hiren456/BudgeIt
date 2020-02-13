@@ -3,18 +3,15 @@ package com.codemonkeys9.budgeit.logiclayer.uifetchrequesthandler;
 
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseFactory;
-import com.codemonkeys9.budgeit.entry.DisplayConverter;
 import com.codemonkeys9.budgeit.entry.Entry;
-import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParser;
-import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParserFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherFactory;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrderer;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrdererFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFiltererFactory;
+import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
+import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverterFactory;
 
 import org.junit.Test;
 
@@ -28,13 +25,12 @@ public class UIFetchRequestHandleTest {
     public void fetchIncomeWithNowTest() {
         Database database = DatabaseFactory.createDatabase(0);
         EntryCreator entryCreator= EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
-        EntryListOrderer orderer = EntryListOrdererFactory.createEntryListOrderer();
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler
-                (dateParser,fetcher,orderer);
+        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+                .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -53,11 +49,14 @@ public class UIFetchRequestHandleTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount4), details4, dateParser.parseDate(date4));
-
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1),
+                details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2),
+                details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3),
+                details3, converter.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount4),
+                details4, converter.parseDate(date4));
 
         List<Entry> entryList = fetchRequestHandler.fetchAllIncomeEntrys("24/01/1999","now");
         assertEquals(entryList.size(),1);
@@ -77,14 +76,13 @@ public class UIFetchRequestHandleTest {
     @Test
     public void fetchAllPurchasesWithNowTest() {
         Database database = DatabaseFactory.createDatabase(0);
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator= EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
-        EntryListOrderer orderer = EntryListOrdererFactory.createEntryListOrderer();
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler
-                (dateParser,fetcher,orderer);
+        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+                .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -103,10 +101,14 @@ public class UIFetchRequestHandleTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount4), details4, dateParser.parseDate(date4));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1),
+                details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2),
+                details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3),
+                details3, converter.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount4),
+                details4, converter.parseDate(date4));
 
         List<Entry> entryList = fetchRequestHandler.fetchAllPurchaseEntrys("24/01/1999","now");
         assertEquals(entryList.size(),2);
@@ -135,14 +137,13 @@ public class UIFetchRequestHandleTest {
     @Test
     public void fetchAllEntrysWithNowTest() {
         Database database = DatabaseFactory.createDatabase(0);
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator= EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
-        EntryListOrderer orderer = EntryListOrdererFactory.createEntryListOrderer();
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler
-                (dateParser,fetcher,orderer);
+        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+                .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -161,10 +162,14 @@ public class UIFetchRequestHandleTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount4), details4, dateParser.parseDate(date4));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1),
+                details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2),
+                details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3),
+                details3, converter.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount4),
+                details4, converter.parseDate(date4));
 
         List<Entry> entryList = fetchRequestHandler.fetchAllEntrys("24/01/1999","now");
         assertEquals(entryList.size(),3);
@@ -196,14 +201,13 @@ public class UIFetchRequestHandleTest {
     @Test
     public void fetchIncomeWithDateTest() {
         Database database = DatabaseFactory.createDatabase(0);
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator= EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
-        EntryListOrderer orderer = EntryListOrdererFactory.createEntryListOrderer();
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler
-                (dateParser,fetcher,orderer);
+        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+                .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -222,10 +226,14 @@ public class UIFetchRequestHandleTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount4), details4, dateParser.parseDate(date4));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1),
+                details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2),
+                details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3),
+                details3, converter.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount4),
+                details4, converter.parseDate(date4));
 
         List<Entry> entryList = fetchRequestHandler.fetchAllIncomeEntrys("24/01/1999","01/01/2019");
         assertEquals(entryList.size(),1);
@@ -245,14 +253,13 @@ public class UIFetchRequestHandleTest {
     @Test
     public void fetchAllPurchasesWithDateTest() {
         Database database = DatabaseFactory.createDatabase(0);
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator= EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
-        EntryListOrderer orderer = EntryListOrdererFactory.createEntryListOrderer();
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler
-                (dateParser,fetcher,orderer);
+        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+                .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -271,10 +278,14 @@ public class UIFetchRequestHandleTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount4), details4, dateParser.parseDate(date4));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1),
+                details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2),
+                details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3),
+                details3, converter.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount4),
+                details4, converter.parseDate(date4));
 
         List<Entry> entryList = fetchRequestHandler.fetchAllPurchaseEntrys("24/01/1999","01/01/2019");
         assertEquals(entryList.size(),2);
@@ -303,14 +314,13 @@ public class UIFetchRequestHandleTest {
     @Test
     public void fetchAllEntrysWithDateTest() {
         Database database = DatabaseFactory.createDatabase(0);
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator= EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
-        EntryListOrderer orderer = EntryListOrdererFactory.createEntryListOrderer();
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler
-                (dateParser,fetcher,orderer);
+        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+                .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -329,10 +339,14 @@ public class UIFetchRequestHandleTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount4), details4, dateParser.parseDate(date4));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1),
+                details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2),
+                details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3),
+                details3, converter.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount4),
+                details4, converter.parseDate(date4));
 
         List<Entry> entryList = fetchRequestHandler.fetchAllEntrys("24/01/1999","01/01/2019");
         assertEquals(entryList.size(),3);
@@ -364,14 +378,13 @@ public class UIFetchRequestHandleTest {
     @Test
     public void fetchAllIncomeNoDateTest() {
         Database database = DatabaseFactory.createDatabase(0);
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator= EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
-        EntryListOrderer orderer = EntryListOrdererFactory.createEntryListOrderer();
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler
-                (dateParser,fetcher,orderer);
+        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+                .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -390,10 +403,14 @@ public class UIFetchRequestHandleTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount4), details4, dateParser.parseDate(date4));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1),
+                details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2),
+                details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3),
+                details3, converter.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount4),
+                details4, converter.parseDate(date4));
 
         List<Entry> entryList = fetchRequestHandler.fetchAllIncomeEntrys();
         assertEquals(entryList.size(),2);
@@ -420,14 +437,13 @@ public class UIFetchRequestHandleTest {
     @Test
     public void fetchAllPurchasesNoDateTest() {
         Database database = DatabaseFactory.createDatabase(0);
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator= EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
-        EntryListOrderer orderer = EntryListOrdererFactory.createEntryListOrderer();
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler
-                (dateParser,fetcher,orderer);
+        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+                .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -446,10 +462,14 @@ public class UIFetchRequestHandleTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount4), details4, dateParser.parseDate(date4));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1),
+                details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2),
+                details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3),
+                details3, converter.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount4),
+                details4, converter.parseDate(date4));
 
         List<Entry> entryList = fetchRequestHandler.fetchAllPurchaseEntrys();
         assertEquals(entryList.size(),2);
@@ -478,14 +498,13 @@ public class UIFetchRequestHandleTest {
     @Test
     public void fetchAllEntrysNoDateTest() {
         Database database = DatabaseFactory.createDatabase(0);
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator= EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
-        EntryListOrderer orderer = EntryListOrdererFactory.createEntryListOrderer();
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler
-                (dateParser,fetcher,orderer);
+        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+                .createUIFetchRequestHandler(converter,fetcher);
 
 
         String amount1 = "100.92";
@@ -505,10 +524,14 @@ public class UIFetchRequestHandleTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount4), details4, dateParser.parseDate(date4));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1),
+                details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2),
+                details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3),
+                details3, converter.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount4),
+                details4, converter.parseDate(date4));
 
         List<Entry> entryList = fetchRequestHandler.fetchAllEntrys();
         assertEquals(entryList.size(),4);

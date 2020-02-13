@@ -4,10 +4,8 @@ import android.util.Pair;
 
 import java.util.List;
 
-import com.codemonkeys9.budgeit.logiclayer.ParameterConverter.ParameterConverter;
-import com.codemonkeys9.budgeit.logiclayer.ParameterConverter.ParameterConverterFactory;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrderer;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.entrylistorderer.EntryListOrdererFactory;
+import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
+import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverterFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFiltererFactory;
 import com.codemonkeys9.budgeit.database.Database;
@@ -37,15 +35,17 @@ class DefaultLogicLayer implements LogicLayer {
         ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         Database database = DatabaseFactory.createDatabase(0);
-        EntryListOrderer orderer = EntryListOrdererFactory.createEntryListOrderer();
         EntryCalculator calculator = EntryCalculatorFactory.createEntryCalculator();
 
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-        this.uiFetchRequestHandler = UIFetchRequestHandlerFactory.createUIFetchRequestHandler(converter, fetcher, orderer);
-        this.uiCalculateRequestHandler = UICalculaterRequestHandlerFactory.createUICalculateRequestHandler(converter,fetcher,calculator);
-        this.uiEntryModificationHandler = UIEntryModificationRequestHandlerFactory.createUIEntryModificationRequestHandler(converter,entryCreator);
+        this.uiFetchRequestHandler = UIFetchRequestHandlerFactory.
+                createUIFetchRequestHandler(converter, fetcher);
+        this.uiCalculateRequestHandler = UICalculaterRequestHandlerFactory.
+                createUICalculateRequestHandler(converter,fetcher,calculator);
+        this.uiEntryModificationHandler = UIEntryModificationRequestHandlerFactory.
+                createUIEntryModificationRequestHandler(converter,entryCreator);
     }
 
     @Override

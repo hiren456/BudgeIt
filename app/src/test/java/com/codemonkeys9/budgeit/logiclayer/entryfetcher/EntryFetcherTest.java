@@ -2,14 +2,13 @@ package com.codemonkeys9.budgeit.logiclayer.entryfetcher;
 
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseFactory;
-import com.codemonkeys9.budgeit.entry.DisplayConverter;
 import com.codemonkeys9.budgeit.entry.Entry;
-import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParser;
-import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParserFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFiltererFactory;
+import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
+import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverterFactory;
 
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ public class EntryFetcherTest {
     public void mixedFetchIncomeTest() {
         Database database = DatabaseFactory.createDatabase(0);
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
 
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
@@ -45,14 +44,18 @@ public class EntryFetcherTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount4), details4, dateParser.parseDate(date4));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1),
+                details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2),
+                details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3),
+                details3, converter.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount4),
+                details4, converter.parseDate(date4));
 
 
-        Date parsedEndDate = dateParser.parseDate("now");
-        Date parsedStartDate = dateParser.parseDate("past");
+        Date parsedEndDate = converter.parseDate("now");
+        Date parsedStartDate = converter.parseDate("past");
 
         List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys(parsedStartDate,parsedEndDate);
         assertEquals(entryList.size(),2);
@@ -78,7 +81,7 @@ public class EntryFetcherTest {
     public void mixedFetchPurchaseTest() {
         Database database = DatabaseFactory.createDatabase(0);
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
@@ -99,13 +102,17 @@ public class EntryFetcherTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount4), details4, dateParser.parseDate(date4));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1),
+                details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2),
+                details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3),
+                details3, converter.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount4),
+                details4, converter.parseDate(date4));
 
-        Date parsedEndDate = dateParser.parseDate("now");
-        Date parsedStartDate = dateParser.parseDate("past");
+        Date parsedEndDate = converter.parseDate("now");
+        Date parsedStartDate = converter.parseDate("past");
 
         List<Entry> entryList = entryFetcher.fetchAllPurchasesEntrys(parsedStartDate,parsedEndDate);
         assertEquals(entryList.size(),2);
@@ -131,7 +138,7 @@ public class EntryFetcherTest {
     public void mixedFetchAllTest() {
         Database database = DatabaseFactory.createDatabase(0);
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
@@ -152,13 +159,17 @@ public class EntryFetcherTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount4), details4, dateParser.parseDate(date4));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1),
+                details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2),
+                details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3),
+                details3, converter.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount4),
+                details4, converter.parseDate(date4));
 
-        Date parsedEndDate = dateParser.parseDate("now");
-        Date parsedStartDate = dateParser.parseDate("past");
+        Date parsedEndDate = converter.parseDate("now");
+        Date parsedStartDate = converter.parseDate("past");
 
         List<Entry> entryList = entryFetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
         assertEquals(entryList.size(),4);
@@ -199,13 +210,12 @@ public class EntryFetcherTest {
     public void emptyFetchAllTest() {
         Database database = DatabaseFactory.createDatabase(0);
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-
-        Date parsedEndDate = dateParser.parseDate("now");
-        Date parsedStartDate = dateParser.parseDate("past");
+        Date parsedEndDate = converter.parseDate("now");
+        Date parsedStartDate = converter.parseDate("past");
 
         List<Entry> entryList = entryFetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
         assertEquals(entryList.size(),0);
@@ -215,13 +225,12 @@ public class EntryFetcherTest {
     public void emptyFetchAllPurchaseTest() {
         Database database = DatabaseFactory.createDatabase(0);
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-
-        Date parsedEndDate = dateParser.parseDate("now");
-        Date parsedStartDate = dateParser.parseDate("past");
+        Date parsedEndDate = converter.parseDate("now");
+        Date parsedStartDate = converter.parseDate("past");
 
         List<Entry> entryList = entryFetcher.fetchAllPurchasesEntrys(parsedStartDate,parsedEndDate);
         assertEquals(entryList.size(),0);
@@ -231,13 +240,12 @@ public class EntryFetcherTest {
     public void emptyFetchAllIncomeTest() {
         Database database = DatabaseFactory.createDatabase(0);
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-
-        Date parsedEndDate = dateParser.parseDate("now");
-        Date parsedStartDate = dateParser.parseDate("past");
+        Date parsedEndDate = converter.parseDate("now");
+        Date parsedStartDate = converter.parseDate("past");
 
         List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys(parsedStartDate,parsedEndDate);
         assertEquals(entryList.size(),0);

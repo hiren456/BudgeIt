@@ -2,10 +2,9 @@ package com.codemonkeys9.budgeit.logiclayer.entrycreator;
 
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseFactory;
-import com.codemonkeys9.budgeit.entry.DisplayConverter;
 import com.codemonkeys9.budgeit.entry.Entry;
-import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParser;
-import com.codemonkeys9.budgeit.logiclayer.dateparser.DateParserFactory;
+import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
+import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverterFactory;
 
 import org.junit.Test;
 
@@ -20,13 +19,13 @@ public class EntryCreatorTest {
     public void createOneThenSelectAllTest() {
         Database database = DatabaseFactory.createDatabase(0);
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1), details1, converter.parseDate(date1));
 
         List<Entry> entryList = database.selectByDate(new Date(0),new Date());
         assertEquals(entryList.size(),1);
@@ -42,7 +41,7 @@ public class EntryCreatorTest {
     public void createManyThenSelectAllTest() {
         Database database = DatabaseFactory.createDatabase(0);
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -56,9 +55,9 @@ public class EntryCreatorTest {
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount2), details2, dateParser.parseDate(date2));
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount3), details3, dateParser.parseDate(date3));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1), details1, converter.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount2), details2, converter.parseDate(date2));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount3), details3, converter.parseDate(date3));
 
         List<Entry> entryList = database.selectByDate(new Date(0),new Date());
         assertEquals(entryList.size(),3);
@@ -92,38 +91,38 @@ public class EntryCreatorTest {
     public void createInvalidAmountThenSelectAllTest() {
         Database database = DatabaseFactory.createDatabase(0);
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1), details1, converter.parseDate(date1));
     }
 
     @Test
     public void createInvalidDateThenSelectAllTest() {
         Database database = DatabaseFactory.createDatabase(0);
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1), details1, converter.parseDate(date1));
     }
 
     @Test
     public void createInvalidDetailsThenSelectAllTest() {
         Database database = DatabaseFactory.createDatabase(0);
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
-        DateParser dateParser = DateParserFactory.createDateParser();
+        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        entryCreator.createEntry(DisplayConverter.parseDisplayAmount(amount1), details1, dateParser.parseDate(date1));
+        entryCreator.createEntry(converter.parseDisplayAmount(amount1), details1, converter.parseDate(date1));
     }
 }

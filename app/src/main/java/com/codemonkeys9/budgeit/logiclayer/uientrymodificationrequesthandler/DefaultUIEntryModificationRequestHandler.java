@@ -1,7 +1,6 @@
 package com.codemonkeys9.budgeit.logiclayer.uientrymodificationrequesthandler;
 
-import com.codemonkeys9.budgeit.entry.DisplayConverter;
-import com.codemonkeys9.budgeit.logiclayer.ParameterConverter.ParameterConverter;
+import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 
 import java.util.Date;
@@ -17,7 +16,7 @@ class DefaultUIEntryModificationRequestHandler implements UIEntryModificationReq
 
     @Override
     public void createEntry(String amount, String details, String date) {
-        int parsedAmount = DisplayConverter.parseDisplayAmount(amount);
+        int parsedAmount = this.converter.parseDisplayAmount(amount);
         String parsedDetails = details;
         Date parsedDate = this.converter.parseDate(date);
 

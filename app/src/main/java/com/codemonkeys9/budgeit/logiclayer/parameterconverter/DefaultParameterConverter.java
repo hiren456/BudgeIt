@@ -1,10 +1,13 @@
-package com.codemonkeys9.budgeit.logiclayer.ParameterConverter;
+package com.codemonkeys9.budgeit.logiclayer.parameterconverter;
 
 import com.codemonkeys9.budgeit.entry.DisplayConverter;
+import com.codemonkeys9.budgeit.entry.Entry;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class DefaultParameterConverter implements ParameterConverter {
     @Override
@@ -37,5 +40,13 @@ public class DefaultParameterConverter implements ParameterConverter {
             }
         }
         return parsedDate;
+    }
+
+
+    @Override
+    public List<Entry> createDisplayEntryList(List<Entry> list) {
+        // converts list from chronological to reverse chronological
+        Collections.reverse(list);
+        return list;
     }
 }

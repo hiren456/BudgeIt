@@ -1,8 +1,7 @@
 package com.codemonkeys9.budgeit.logiclayer.uicalculaterequesthandler;
 
-import com.codemonkeys9.budgeit.entry.DisplayConverter;
 import com.codemonkeys9.budgeit.entry.Entry;
-import com.codemonkeys9.budgeit.logiclayer.ParameterConverter.ParameterConverter;
+import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculator;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
 
@@ -28,7 +27,7 @@ class DefaultUICalculateRequestHandler implements UICalculateRequestHandler {
         List<Entry> entryList = this.fetcher.fetchAllIncomeEntrys(parsedStartDate,parsedEndDate);
         int sum = this.calculator.sumEntryList(entryList);
 
-        String displaySum = DisplayConverter.createDisplayAmount(sum);
+        String displaySum = this.converter.createDisplayAmount(sum);
         return displaySum;
     }
 
@@ -40,7 +39,7 @@ class DefaultUICalculateRequestHandler implements UICalculateRequestHandler {
         List<Entry> entryList = this.fetcher.fetchAllIncomeEntrys(parsedStartDate,parsedEndDate);
         int sum = this.calculator.sumEntryList(entryList);
 
-        String displaySum = DisplayConverter.createDisplayAmount(sum);
+        String displaySum = this.converter.createDisplayAmount(sum);
         return displaySum;
     }
 
@@ -52,7 +51,7 @@ class DefaultUICalculateRequestHandler implements UICalculateRequestHandler {
         List<Entry> entryList = this.fetcher.fetchAllPurchasesEntrys(parsedStartDate,parsedEndDate);
         int sum = this.calculator.sumEntryList(entryList);
 
-        String displaySum = DisplayConverter.createDisplayAmount(sum);
+        String displaySum = this.converter.createDisplayAmount(sum);
         return displaySum;
     }
 
@@ -64,7 +63,7 @@ class DefaultUICalculateRequestHandler implements UICalculateRequestHandler {
         List<Entry> entryList = this.fetcher.fetchAllPurchasesEntrys(parsedStartDate,parsedEndDate);
         int sum = this.calculator.sumEntryList(entryList);
 
-        String displaySum = DisplayConverter.createDisplayAmount(sum);
+        String displaySum  = this.converter.createDisplayAmount(sum);
         return displaySum;
     }
 
@@ -76,7 +75,7 @@ class DefaultUICalculateRequestHandler implements UICalculateRequestHandler {
         List<Entry> entryList = this.fetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
         int sum = this.calculator.sumEntryList(entryList);
 
-        String displaySum = DisplayConverter.createDisplayAmount(sum);
+        String displaySum = this.converter.createDisplayAmount(sum);
         return displaySum;
     }
 
@@ -88,7 +87,7 @@ class DefaultUICalculateRequestHandler implements UICalculateRequestHandler {
         List<Entry> entryList = this.fetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
         int sum = this.calculator.sumEntryList(entryList);
 
-        String displaySum = DisplayConverter.createDisplayAmount(sum);
+        String displaySum = this.converter.createDisplayAmount(sum);
         return displaySum;
     }
 }
