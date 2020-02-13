@@ -7,6 +7,8 @@ import com.codemonkeys9.budgeit.entry.Entry;
 
 public interface Database {
 
+    // store two ID one for cat and one for entry
+
     //Inserts an entry into the database
     void insertEntry(Entry entry);
 
@@ -31,5 +33,9 @@ public interface Database {
 
     // updates entry id counter
     void updateIDCounter(int newCounter);
+
+    // Create all functionality for Category's
+    // except for select by date
+
 
 }

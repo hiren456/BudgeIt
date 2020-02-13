@@ -100,4 +100,35 @@ public interface LogicLayer {
     // Creates and stores an entry
     void createEntry(String amount, String details,String date);
 
+    // Shadow to allow bool representing bad purchase
+    // void createEntry(String amount, String details,String date,boolean bad);
+
+    // flag entry
+    // Entry flagEntry(int entryID)
+
+    // unflag entry
+    // Entry unflagEntry(int entryID)
+
+    //Create Category
+    //void createCategory
+
+    // delete Category
+    //void deleteCategory(int catID)
+
+    // Get all category
+    // List<Category> getAllCategories
+
+    // Get category display info
+    // returns map with keys
+    // "Entry List"
+    // "Sum"
+    // Map<String,Object> getCategoryDisplayInfo(int catID)
+
+    // change cat name
+    // void changeCatName
+
+    // change cat goal
+    // void changeCatGoal
+
+
 }
