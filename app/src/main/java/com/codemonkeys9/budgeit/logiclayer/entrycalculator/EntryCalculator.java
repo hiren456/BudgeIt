@@ -8,6 +8,6 @@ public interface EntryCalculator {
 
     // Takes a list of entries and sums
     // their amount
-    String sumEntryList(List<Entry> entryList);
+    int sumEntryList(List<Entry> entryList);
 
 }

@@ -1,6 +1,5 @@
 package com.codemonkeys9.budgeit.logiclayer.entrycalculator;
 
-import com.codemonkeys9.budgeit.entry.DisplayConverter;
 import com.codemonkeys9.budgeit.entry.Entry;
 import com.codemonkeys9.budgeit.entry.EntryFactory;
 
@@ -58,10 +57,8 @@ public class EntryCalculatorTest {
         expectedSum = expectedSum + 604;
         expectedSum = expectedSum - 724;
 
-        String actualSum = EntryCalculatorFactory.createEntryCalculator().sumEntryList(entryList);
-
-        String expectedDisplaySum = DisplayConverter.createDisplayAmount(expectedSum);
-        assertTrue(expectedDisplaySum.equals(actualSum));
+        int actualSum = EntryCalculatorFactory.createEntryCalculator().sumEntryList(entryList);
+        assertEquals(actualSum,expectedSum);
     }
 
     @Test
@@ -80,10 +77,8 @@ public class EntryCalculatorTest {
         int expectedSum = 0;
         expectedSum = expectedSum + 7249;
 
-        String actualSum = EntryCalculatorFactory.createEntryCalculator().sumEntryList(entryList);
-
-        String expectedDisplaySum = DisplayConverter.createDisplayAmount(expectedSum);
-        assertTrue(expectedDisplaySum.equals(actualSum));
+        int actualSum = EntryCalculatorFactory.createEntryCalculator().sumEntryList(entryList);
+        assertEquals(actualSum,expectedSum);
     }
 
     @Test
@@ -93,9 +88,7 @@ public class EntryCalculatorTest {
 
         int expectedSum = 0;
 
-        String actualSum = EntryCalculatorFactory.createEntryCalculator().sumEntryList(entryList);
-
-        String expectedDisplaySum = DisplayConverter.createDisplayAmount(expectedSum);
-        assertTrue(expectedDisplaySum.equals(actualSum));
+        int actualSum = EntryCalculatorFactory.createEntryCalculator().sumEntryList(entryList);
+        assertEquals(actualSum,expectedSum);
     }
 }
