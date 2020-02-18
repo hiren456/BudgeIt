@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface EntryListFilterer {
 
-    public void getIncome(List<Entry> list);
-    public void getPurchases(List<Entry> list);
+    void getIncome(List<Entry> list);
+    void getPurchases(List<Entry> list);
 }

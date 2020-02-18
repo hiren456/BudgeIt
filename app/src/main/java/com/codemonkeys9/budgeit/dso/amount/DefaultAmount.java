@@ -17,7 +17,7 @@ class DefaultAmount implements Amount{
     }
 
     @Override
-    public int getAmount() {
+    public int getValue() {
         return this.amount;
     }
 

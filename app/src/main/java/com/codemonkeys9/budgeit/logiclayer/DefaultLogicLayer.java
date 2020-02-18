@@ -4,6 +4,7 @@ import android.util.Pair;
 
 import java.util.List;
 
+import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
 import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverterFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
@@ -79,32 +80,32 @@ class DefaultLogicLayer implements LogicLayer {
     }
 
     @Override
-    public String calculateTotalIncome(String startDate, String endDate) {
+    public Amount calculateTotalIncome(String startDate, String endDate) {
         return this.uiCalculateRequestHandler.calculateTotalIncome(startDate,endDate);
     }
 
     @Override
-    public String calculateTotalIncome() {
+    public Amount calculateTotalIncome() {
         return this.uiCalculateRequestHandler.calculateTotalIncome();
     }
 
     @Override
-    public String calculateTotalPurchases(String  startDate, String  endDate) {
+    public Amount calculateTotalPurchases(String  startDate, String  endDate) {
         return this.uiCalculateRequestHandler.calculateTotalPurchases(startDate,endDate);
     }
 
     @Override
-    public String calculateTotalPurchases() {
+    public Amount calculateTotalPurchases() {
         return this.uiCalculateRequestHandler.calculateTotalPurchases();
     }
 
     @Override
-    public String calculateTotal(String startDate, String endDate) {
+    public Amount calculateTotal(String startDate, String endDate) {
         return this.uiCalculateRequestHandler.calculateTotal(startDate,endDate);
     }
 
     @Override
-    public String calculateTotal() {
+    public Amount calculateTotal() {
         return this.uiCalculateRequestHandler.calculateTotal();
     }
 

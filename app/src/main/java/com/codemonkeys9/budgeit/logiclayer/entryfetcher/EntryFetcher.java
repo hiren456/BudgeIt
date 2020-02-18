@@ -1,6 +1,6 @@
 package com.codemonkeys9.budgeit.logiclayer.entryfetcher;
 
-import java.util.Date;
+import com.codemonkeys9.budgeit.dso.date.Date;
 import java.util.List;
 
 import com.codemonkeys9.budgeit.dso.entry.Entry;

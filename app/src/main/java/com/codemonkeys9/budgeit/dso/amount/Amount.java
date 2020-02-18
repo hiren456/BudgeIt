@@ -15,6 +15,6 @@ public interface Amount {
     Returns the amount as a fixed point integer
     ie. 99.99 gets returned as 9999
      */
-    int getAmount();
+    int getValue();
 
 }

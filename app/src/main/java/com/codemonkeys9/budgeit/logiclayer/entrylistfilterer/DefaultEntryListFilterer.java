@@ -15,7 +15,7 @@ class DefaultEntryListFilterer implements EntryListFilterer {
         while(iter.hasNext()){
 
             Entry curr = iter.next();
-            if(curr.getAmount() < 0){
+            if(curr.getAmount().getValue() < 0){
 
                 entriesToRemove.add(curr);
             }
@@ -35,7 +35,7 @@ class DefaultEntryListFilterer implements EntryListFilterer {
         while(iter.hasNext()){
 
             Entry curr = iter.next();
-            if(curr.getAmount() > 0){
+            if(curr.getAmount().getValue() > 0){
 
                 entriesToRemove.add(curr);
             }

@@ -1,10 +1,11 @@
 package com.codemonkeys9.budgeit.database;
 
 import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.entry.EntryDateComparator;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
+import java.util.Collections;;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,7 +61,6 @@ class StubDatabase implements Database {
         return this.entryMap.get(ID);
     }
 
-
     //returns the list of entries from Date startDate till Date endDate
     //returns empty list if the are no entries
     @Override
@@ -71,7 +71,8 @@ class StubDatabase implements Database {
         for ( Entry entry : this.entryMap.values()){
             Date date = entry.getDate();
 
-            if((date.getTime() <= endDate.getTime()) && (date.getTime() >= startDate.getTime())){
+            if((date.compareTo(startDate) >= 0) && (date.compareTo(endDate) <= 0
+            )){
                 returnList.add(entry);
             }
         }
@@ -81,7 +82,6 @@ class StubDatabase implements Database {
 
         return returnList;
     }
-
 
     //returns true if an entry deleted successfully, otherwise return false
     @Override

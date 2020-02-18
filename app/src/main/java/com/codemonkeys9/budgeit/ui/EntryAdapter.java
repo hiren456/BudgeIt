@@ -56,13 +56,13 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Entry entry = getItem(position);
-        viewHolder.description.setText(entry.getDetails());
-        viewHolder.date.setText(entry.getDisplayDate());
+        viewHolder.description.setText(entry.getDetails().getValue());
+        viewHolder.date.setText(entry.getDate().getDisplay());
 
         // Decide which color to make the amount based on whether it is negative or positive
         // Colors are encoded in ARGB format, one byte (or two hex digits) per channel.
         int color;
-        if(entry.getAmount() < 0) {
+        if(entry.getAmount().getValue() < 0) {
             // Red
             color = 0xFFFF0000;
         } else {
@@ -70,7 +70,7 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
             color = 0xFF00AA00;
         }
         viewHolder.amount.setTextColor(color);
-        viewHolder.amount.setText(entry.getDisplayAmount());
+        viewHolder.amount.setText(entry.getAmount().getDisplay());
     }
 
     public void updateEntries(List<Entry> newEntries) {

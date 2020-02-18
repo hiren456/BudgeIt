@@ -9,7 +9,7 @@ class DefaultDetails implements Details {
     }
 
     @Override
-    public String getDetails() {
+    public String getValue() {
         return this.details;
     }
 

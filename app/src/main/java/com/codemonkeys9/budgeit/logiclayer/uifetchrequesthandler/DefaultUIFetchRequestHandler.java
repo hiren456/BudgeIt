@@ -1,10 +1,11 @@
 package com.codemonkeys9.budgeit.logiclayer.uifetchrequesthandler;
 
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
 
-import java.util.Date;
 import java.util.List;
 
 class DefaultUIFetchRequestHandler implements UIFetchRequestHandler {
@@ -18,8 +19,8 @@ class DefaultUIFetchRequestHandler implements UIFetchRequestHandler {
 
     @Override
     public List<Entry> fetchAllIncomeEntrys(String startDate, String endDate) {
-        Date parsedEndDate = this.converter.parseDate(endDate);
-        Date parsedStartDate = this.converter.parseDate(startDate);
+        Date parsedStartDate = DateFactory.fromString(startDate);
+        Date parsedEndDate = DateFactory.fromString(endDate);
 
         List<Entry> list = this.fetcher.fetchAllIncomeEntrys(parsedStartDate,parsedEndDate);
 
@@ -29,8 +30,8 @@ class DefaultUIFetchRequestHandler implements UIFetchRequestHandler {
 
     @Override
     public List<Entry> fetchAllPurchaseEntrys(String startDate, String endDate) {
-        Date parsedEndDate = this.converter.parseDate(endDate);
-        Date parsedStartDate = this.converter.parseDate(startDate);
+        Date parsedStartDate = DateFactory.fromString(startDate);
+        Date parsedEndDate = DateFactory.fromString(endDate);
 
         List<Entry> list = this.fetcher.fetchAllPurchasesEntrys(parsedStartDate,parsedEndDate);
 
@@ -40,8 +41,8 @@ class DefaultUIFetchRequestHandler implements UIFetchRequestHandler {
 
     @Override
     public List<Entry> fetchAllEntrys(String startDate, String endDate) {
-        Date parsedEndDate = this.converter.parseDate(endDate);
-        Date parsedStartDate = this.converter.parseDate(startDate);
+        Date parsedStartDate = DateFactory.fromString(startDate);
+        Date parsedEndDate = DateFactory.fromString(endDate);
 
         List<Entry> list = this.fetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
 
@@ -51,8 +52,8 @@ class DefaultUIFetchRequestHandler implements UIFetchRequestHandler {
 
     @Override
     public List<Entry> fetchAllIncomeEntrys() {
-        Date parsedEndDate = this.converter.parseDate("now");
-        Date parsedStartDate = this.converter.parseDate("past");
+        Date parsedStartDate = DateFactory.fromString("past");
+        Date parsedEndDate = DateFactory.fromString("now");
 
         List<Entry> list = this.fetcher.fetchAllIncomeEntrys(parsedStartDate,parsedEndDate);
 
@@ -62,8 +63,8 @@ class DefaultUIFetchRequestHandler implements UIFetchRequestHandler {
 
     @Override
     public List<Entry> fetchAllPurchaseEntrys() {
-        Date parsedEndDate = this.converter.parseDate("now");
-        Date parsedStartDate = this.converter.parseDate("past");
+        Date parsedStartDate = DateFactory.fromString("past");
+        Date parsedEndDate = DateFactory.fromString("now");
 
         List<Entry> list = this.fetcher.fetchAllPurchasesEntrys(parsedStartDate,parsedEndDate);
 
@@ -73,8 +74,8 @@ class DefaultUIFetchRequestHandler implements UIFetchRequestHandler {
 
     @Override
     public List<Entry> fetchAllEntrys() {
-        Date parsedEndDate = this.converter.parseDate("now");
-        Date parsedStartDate = this.converter.parseDate("past");
+        Date parsedStartDate = DateFactory.fromString("past");
+        Date parsedEndDate = DateFactory.fromString("now");
 
         List<Entry> list = this.fetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
 

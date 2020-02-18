@@ -1,9 +1,14 @@
 package com.codemonkeys9.budgeit.logiclayer.uientrymodificationrequesthandler;
 
+import com.codemonkeys9.budgeit.dso.amount.Amount;
+import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
+import com.codemonkeys9.budgeit.dso.details.Details;
+import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 
-import java.util.Date;
 
 class DefaultUIEntryModificationRequestHandler implements UIEntryModificationRequestHandler {
     ParameterConverter converter;
@@ -16,9 +21,9 @@ class DefaultUIEntryModificationRequestHandler implements UIEntryModificationReq
 
     @Override
     public void createEntry(String amount, String details, String date) {
-        int parsedAmount = this.converter.parseDisplayAmount(amount);
-        String parsedDetails = details;
-        Date parsedDate = this.converter.parseDate(date);
+        Amount parsedAmount = AmountFactory.fromString(amount);
+        Details parsedDetails = DetailsFactory.fromString(details);
+        Date parsedDate = DateFactory.fromString(date);
 
         this.entryCreator.createEntry(parsedAmount,parsedDetails,parsedDate);
     }

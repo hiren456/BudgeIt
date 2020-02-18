@@ -1,28 +1,33 @@
 package com.codemonkeys9.budgeit.dso.entry;
-
-import java.security.InvalidParameterException;
-import java.util.Date;
+import com.codemonkeys9.budgeit.dso.amount.Amount;
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
+import com.codemonkeys9.budgeit.dso.details.Details;
+import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 
 class DefaultEntry implements Entry {
-    private int amount;
-    private int entryID;
+    Amount amount;
+    int entryID;
     //private int catID;
-    private String details;
-    private Date date;
+    Details details;
+    Date date;
 
-    DefaultEntry(int amount, int entryID, String details, Date date) {
+    DefaultEntry(Amount amount, int entryID, Details details, Date date) {
 
         // check that parameters are valid
         if(date == null){
 
-            throw new InvalidParameterException();
+            throw new NullPointerException();
         }
 
-        // details cannot be null
-        // is this ok?
         if(details == null){
 
-            throw new InvalidParameterException();
+            throw new NullPointerException();
+        }
+
+        if(amount == null){
+
+            throw new NullPointerException();
         }
 
         this.amount = amount;
@@ -33,7 +38,7 @@ class DefaultEntry implements Entry {
     }
 
     @Override
-    public int getAmount() {
+    public Amount getAmount() {
         return this.amount;
     }
 
@@ -48,7 +53,7 @@ class DefaultEntry implements Entry {
     //}
 
     @Override
-    public String getDetails() {
+    public Details getDetails() {
         return this.details;
     }
 
@@ -58,23 +63,13 @@ class DefaultEntry implements Entry {
     }
 
     @Override
-    public String getDisplayDate() {
-        return DisplayConverter.createDisplayDate(this.date);
-    }
+    public Entry modifyEntry(Amount amount, Details details, Date date) {
 
-    @Override
-    public String getDisplayAmount() {
-        return DisplayConverter.createDisplayAmount(this.amount);
-    }
-
-    @Override
-    public Entry modifyEntry(int amount, String details, Date date) {
-
-        int newAmount = amount;
+        Amount newAmount = amount;
         int newEntryID = this.entryID;
         //int newCatID = catID;
-        String newDetails = String.valueOf(details);
-        Date newDate = new Date(date.getTime());
+        Details newDetails = DetailsFactory.fromString(this.details.getValue());
+        Date newDate = DateFactory.fromInts(this.date.getYear(),this.date.getMonth(),this.date.getDay());
 
         return new DefaultEntry(newAmount,newEntryID,newDetails,newDate);
     }
@@ -89,10 +84,10 @@ class DefaultEntry implements Entry {
     @Override
     public boolean equals(Entry other) {
         return getEntryID() == other.getEntryID()
-                && getAmount() == other.getAmount()
+                && getAmount().equals(other.getAmount())
                 //&& getCatID() == other.getCatID()
-                && getDetails() == other.getDetails()
-                && getDate() == other.getDate();
+                && getDetails().equals(other.getDetails())
+                && getDate().equals(other.getDate());
     }
 
 }

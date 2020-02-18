@@ -1,29 +1,24 @@
 package com.codemonkeys9.budgeit.dso.entry;
 
-import java.util.Date;
+import com.codemonkeys9.budgeit.dso.amount.Amount;
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.details.Details;
 
 public interface Entry {
 
     // getters
-    int getAmount();
+    Amount getAmount();
     int getEntryID();
     //int getCatID();
-    String getDetails();
+    Details getDetails();
     Date getDate();
     // Add flag/catID
-
-    // A method that returns the date as a display friendly string
-    String getDisplayDate();
-
-    // A method that returns the amount as a display friendly string
-    String getDisplayAmount();
-
 
     // add the ability to flag/unflag
     // add the ability to update catID
     // takes values and returns an entry
     // with those updated updated values
-    Entry modifyEntry(int amount,String details, Date date);
+    Entry modifyEntry(Amount amount,Details details, Date date);
 
     boolean equals(Entry other);
 }

@@ -1,11 +1,13 @@
 package com.codemonkeys9.budgeit.logiclayer.uicalculaterequesthandler;
 
+import com.codemonkeys9.budgeit.dso.amount.Amount;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculator;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
 
-import java.util.Date;
 import java.util.List;
 
 class DefaultUICalculateRequestHandler implements UICalculateRequestHandler {
@@ -20,74 +22,68 @@ class DefaultUICalculateRequestHandler implements UICalculateRequestHandler {
     }
 
     @Override
-    public String calculateTotalIncome(String startDate, String endDate) {
-        Date parsedEndDate = this.converter.parseDate(endDate);
-        Date parsedStartDate = this.converter.parseDate(startDate);
+    public Amount calculateTotalIncome(String startDate, String endDate) {
+        Date parsedStartDate = DateFactory.fromString(startDate);
+        Date parsedEndDate = DateFactory.fromString(endDate);
 
         List<Entry> entryList = this.fetcher.fetchAllIncomeEntrys(parsedStartDate,parsedEndDate);
-        int sum = this.calculator.sumEntryList(entryList);
+        Amount sum = this.calculator.sumEntryList(entryList);
 
-        String displaySum = this.converter.createDisplayAmount(sum);
-        return displaySum;
+        return sum;
     }
 
     @Override
-    public String calculateTotalIncome() {
-        Date parsedEndDate = this.converter.parseDate("now");
-        Date parsedStartDate = this.converter.parseDate("past");
+    public Amount calculateTotalIncome() {
+        Date parsedStartDate = DateFactory.fromString("past");
+        Date parsedEndDate = DateFactory.fromString("now");
 
         List<Entry> entryList = this.fetcher.fetchAllIncomeEntrys(parsedStartDate,parsedEndDate);
-        int sum = this.calculator.sumEntryList(entryList);
+        Amount sum = this.calculator.sumEntryList(entryList);
 
-        String displaySum = this.converter.createDisplayAmount(sum);
-        return displaySum;
+        return sum;
     }
 
     @Override
-    public String calculateTotalPurchases(String startDate, String endDate) {
-        Date parsedEndDate = this.converter.parseDate(endDate);
-        Date parsedStartDate = this.converter.parseDate(startDate);
+    public Amount calculateTotalPurchases(String startDate, String endDate) {
+        Date parsedStartDate = DateFactory.fromString(startDate);
+        Date parsedEndDate = DateFactory.fromString(endDate);
 
         List<Entry> entryList = this.fetcher.fetchAllPurchasesEntrys(parsedStartDate,parsedEndDate);
-        int sum = this.calculator.sumEntryList(entryList);
+        Amount sum = this.calculator.sumEntryList(entryList);
 
-        String displaySum = this.converter.createDisplayAmount(sum);
-        return displaySum;
+        return sum;
     }
 
     @Override
-    public String calculateTotalPurchases() {
-        Date parsedEndDate = this.converter.parseDate("now");
-        Date parsedStartDate = this.converter.parseDate("past");
+    public Amount calculateTotalPurchases() {
+        Date parsedStartDate = DateFactory.fromString("past");
+        Date parsedEndDate = DateFactory.fromString("now");
 
         List<Entry> entryList = this.fetcher.fetchAllPurchasesEntrys(parsedStartDate,parsedEndDate);
-        int sum = this.calculator.sumEntryList(entryList);
+        Amount sum = this.calculator.sumEntryList(entryList);
 
-        String displaySum  = this.converter.createDisplayAmount(sum);
-        return displaySum;
+        return sum;
     }
 
     @Override
-    public String calculateTotal(String startDate, String endDate) {
-        Date parsedEndDate = this.converter.parseDate(endDate);
-        Date parsedStartDate = this.converter.parseDate(startDate);
+    public Amount calculateTotal(String startDate, String endDate) {
+        Date parsedStartDate = DateFactory.fromString(startDate);
+        Date parsedEndDate = DateFactory.fromString(endDate);
 
         List<Entry> entryList = this.fetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
-        int sum = this.calculator.sumEntryList(entryList);
+        Amount sum = this.calculator.sumEntryList(entryList);
 
-        String displaySum = this.converter.createDisplayAmount(sum);
-        return displaySum;
+        return sum;
     }
 
     @Override
-    public String calculateTotal() {
-        Date parsedEndDate = this.converter.parseDate("now");
-        Date parsedStartDate = this.converter.parseDate("past");
+    public Amount calculateTotal() {
+        Date parsedStartDate = DateFactory.fromString("past");
+        Date parsedEndDate = DateFactory.fromString("now");
 
         List<Entry> entryList = this.fetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
-        int sum = this.calculator.sumEntryList(entryList);
+        Amount sum = this.calculator.sumEntryList(entryList);
 
-        String displaySum = this.converter.createDisplayAmount(sum);
-        return displaySum;
+        return sum;
     }
 }

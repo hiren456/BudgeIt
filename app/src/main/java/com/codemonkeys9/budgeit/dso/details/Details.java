@@ -9,5 +9,5 @@ public interface Details {
     /*
     gets a string representing the details
      */
-    String getDetails();
+    String getValue();
 }
