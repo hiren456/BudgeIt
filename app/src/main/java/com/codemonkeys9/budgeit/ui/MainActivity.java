@@ -5,18 +5,25 @@ import android.os.Bundle;
 
 import java.util.List;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
-import com.codemonkeys9.budgeit.logiclayer.LogicLayer;
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
+import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+
+import com.codemonkeys9.budgeit.database.DatabaseHolder;
+
 public class MainActivity extends AppCompatActivity {
     private EntryAdapter entryAdapter;
     private EntryTypeVisibility visibility = EntryTypeVisibility.Both;
@@ -51,13 +58,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        LogicLayerHolder.init();
-        LogicLayer logic = LogicLayerHolder.getLogicLayer();
-        List<Entry> entries = logic.fetchAllEntrys();
+        DatabaseHolder.init();
+        UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
+
+        List<Entry> entries = entryFetcher.fetchAllEntrys();
 
         // Add fake data if there's no data in the DB already
         if(entries.isEmpty()) {
-            logic.createEntry("-60", "Half-Life: Alyx Pre-order", "2019-12-01");
+            entryManager.createEntry("-60", "Half-Life: Alyx Pre-order", "2019-12-01");
             for(int year = 2018; year <= 2020; year++) {
                 for(int month = 1; month <= 12; month++) {
                     // Gas every week-ish
@@ -81,19 +90,19 @@ public class MainActivity extends AppCompatActivity {
                             dayString = "" + day;
                         }
 
-                        logic.createEntry("-50", "Gas", year + "-" + monthString + "-" + dayString);
+                        entryManager.createEntry("-50", "Gas", year + "-" + monthString + "-" + dayString);
                     }
                     // Paycheck every two weeks-ish
-                    logic.createEntry("1000", "Paycheck", year + "-" + monthString + "-01" );
-                    logic.createEntry("1000", "Paycheck", year + "-" + monthString + "-15");
+                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01" );
+                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15");
                 }
-                logic.createEntry(
+                entryManager.createEntry(
                         "-120",
                         "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
                         year + "-02-13"
                 );
             }
-            entries = logic.fetchAllEntrys();
+            entries = entryFetcher.fetchAllEntrys();
         }
 
         this.entryAdapter = new EntryAdapter(entries);
@@ -103,17 +112,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshTimeline() {
-        LogicLayer logic = LogicLayerHolder.getLogicLayer();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
         List<Entry> entries = null;
         switch(visibility) {
             case Income:
-                entries = logic.fetchAllIncomeEntrys(startDate, endDate);
+                entries = entryFetcher.fetchAllIncomeEntrys(startDate, endDate);
                 break;
             case Expenses:
-                entries = logic.fetchAllPurchaseEntrys(startDate, endDate);
+                entries = entryFetcher.fetchAllPurchaseEntrys(startDate, endDate);
                 break;
             case Both:
-                entries = logic.fetchAllEntrys(startDate, endDate);
+                entries = entryFetcher.fetchAllEntrys(startDate, endDate);
                 break;
         }
         entryAdapter.updateEntries(entries);

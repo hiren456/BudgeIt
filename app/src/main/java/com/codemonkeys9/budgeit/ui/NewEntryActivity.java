@@ -2,15 +2,16 @@ package com.codemonkeys9.budgeit.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ToggleButton;
 
-import com.codemonkeys9.budgeit.logiclayer.LogicLayer;
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
+import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
 public class NewEntryActivity extends AppCompatActivity {
 
@@ -32,7 +33,7 @@ public class NewEntryActivity extends AppCompatActivity {
     }
 
     public void submitEntry(){
-        LogicLayer ll = LogicLayerHolder.getLogicLayer();
+        UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
 
         String amount = ((EditText)findViewById(R.id.editText_amount)).getText().toString();
         String date = ((EditText)findViewById(R.id.editText_date)).getText().toString();
@@ -51,11 +52,11 @@ public class NewEntryActivity extends AppCompatActivity {
             ToggleButton tb = findViewById(R.id.button_incomeOrExpense);
 
             if ( tb.isChecked() ) {
-                ll.createEntry("-"+amount,details,date);
+                entryManager.createEntry("-"+amount,details,date);
             }
 
             else {
-                ll.createEntry(amount,details,date);
+                entryManager.createEntry(amount,details,date);
             }
 
         } catch(Exception e){

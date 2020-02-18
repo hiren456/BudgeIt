@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.logiclayer.uifetchrequesthandler;
+package com.codemonkeys9.budgeit.logiclayer.uientryfetcher;
 
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
@@ -8,11 +8,11 @@ import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
 
 import java.util.List;
 
-class DefaultUIFetchRequestHandler implements UIFetchRequestHandler {
+class DefaultUIEntryFetcher implements UIEntryFetcher {
     ParameterConverter converter;
     EntryFetcher fetcher;
 
-    DefaultUIFetchRequestHandler(ParameterConverter converter, EntryFetcher fetcher){
+    DefaultUIEntryFetcher(ParameterConverter converter, EntryFetcher fetcher){
         this.converter = converter;
         this.fetcher = fetcher;
     }

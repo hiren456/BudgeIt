@@ -1,10 +1,10 @@
-package com.codemonkeys9.budgeit.logiclayer.uifetchrequesthandler;
+package com.codemonkeys9.budgeit.logiclayer.uientryfetcher;
 
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 import java.util.List;
 
-public interface UIFetchRequestHandler {
+public interface UIEntryFetcher {
 
     // Fetches all Income Entrys from startDate to endDate
     // Returns them in a list with the earliest date at position 0

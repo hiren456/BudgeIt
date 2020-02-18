@@ -12,6 +12,8 @@ import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFiltererFactory;
 import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
 import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverterFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 
 import org.junit.Test;
 
@@ -29,7 +31,7 @@ public class UIFetchRequestHandleTest {
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+        UIEntryFetcher fetchRequestHandler = UIEntryFetcherFactory
                 .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
@@ -81,7 +83,7 @@ public class UIFetchRequestHandleTest {
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+        UIEntryFetcher fetchRequestHandler = UIEntryFetcherFactory
                 .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
@@ -142,7 +144,7 @@ public class UIFetchRequestHandleTest {
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+        UIEntryFetcher fetchRequestHandler = UIEntryFetcherFactory
                 .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
@@ -206,7 +208,7 @@ public class UIFetchRequestHandleTest {
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+        UIEntryFetcher fetchRequestHandler = UIEntryFetcherFactory
                 .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
@@ -258,7 +260,7 @@ public class UIFetchRequestHandleTest {
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+        UIEntryFetcher fetchRequestHandler = UIEntryFetcherFactory
                 .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
@@ -319,7 +321,7 @@ public class UIFetchRequestHandleTest {
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+        UIEntryFetcher fetchRequestHandler = UIEntryFetcherFactory
                 .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
@@ -383,7 +385,7 @@ public class UIFetchRequestHandleTest {
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+        UIEntryFetcher fetchRequestHandler = UIEntryFetcherFactory
                 .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
@@ -442,7 +444,7 @@ public class UIFetchRequestHandleTest {
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+        UIEntryFetcher fetchRequestHandler = UIEntryFetcherFactory
                 .createUIFetchRequestHandler(converter,fetcher);
 
         String amount1 = "100.92";
@@ -503,7 +505,7 @@ public class UIFetchRequestHandleTest {
         EntryListFilterer filter = EntryListFiltererFactory.createEntryListFilterer();
         EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher(database,filter);
 
-        UIFetchRequestHandler fetchRequestHandler = UIFetchRequestHandlerFactory
+        UIEntryFetcher fetchRequestHandler = UIEntryFetcherFactory
                 .createUIFetchRequestHandler(converter,fetcher);
 
 

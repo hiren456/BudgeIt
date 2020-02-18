@@ -1,8 +1,8 @@
-package com.codemonkeys9.budgeit.logiclayer.uicalculaterequesthandler;
+package com.codemonkeys9.budgeit.logiclayer.uicalculator;
 
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 
-public interface UICalculateRequestHandler {
+public interface UICalculator {
     // Calculates the sum total of all Income entered from
     // startDate and endDate should be in "dd/mm/yyyy" format
     // passing "now" for endDate will use the current date as the endDate

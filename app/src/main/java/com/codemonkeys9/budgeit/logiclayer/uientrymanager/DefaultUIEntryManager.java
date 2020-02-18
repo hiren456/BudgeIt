@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.logiclayer.uientrymodificationrequesthandler;
+package com.codemonkeys9.budgeit.logiclayer.uientrymanager;
 
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
@@ -10,11 +10,11 @@ import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 
 
-class DefaultUIEntryModificationRequestHandler implements UIEntryModificationRequestHandler {
+class DefaultUIEntryManager implements UIEntryManager {
     ParameterConverter converter;
     EntryCreator entryCreator;
 
-    DefaultUIEntryModificationRequestHandler(ParameterConverter converter, EntryCreator entryCreator){
+    DefaultUIEntryManager(ParameterConverter converter, EntryCreator entryCreator){
         this.converter = converter;
         this.entryCreator = entryCreator;
     }

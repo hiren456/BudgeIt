@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.logiclayer.uicalculaterequesthandler;
+package com.codemonkeys9.budgeit.logiclayer.uicalculator;
 
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
@@ -10,12 +10,12 @@ import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
 
 import java.util.List;
 
-class DefaultUICalculateRequestHandler implements UICalculateRequestHandler {
+class DefaultUICalculator implements UICalculator {
     ParameterConverter converter;
     EntryFetcher fetcher;
     EntryCalculator calculator;
 
-    DefaultUICalculateRequestHandler(ParameterConverter converter,EntryFetcher fetcher, EntryCalculator calculator){
+    DefaultUICalculator(ParameterConverter converter, EntryFetcher fetcher, EntryCalculator calculator){
         this.converter = converter;
         this.calculator = calculator;
         this.fetcher = fetcher;
