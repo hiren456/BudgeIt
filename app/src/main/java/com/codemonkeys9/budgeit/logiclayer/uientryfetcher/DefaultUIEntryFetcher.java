@@ -1,7 +1,7 @@
 package com.codemonkeys9.budgeit.logiclayer.uientryfetcher;
 
-import com.codemonkeys9.budgeit.dso.date.Date;
-import com.codemonkeys9.budgeit.dso.date.DateFactory;
+import com.codemonkeys9.budgeit.dso.dateintervel.DateInterval;
+import com.codemonkeys9.budgeit.dso.dateintervel.DateIntervalFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
@@ -19,10 +19,9 @@ class DefaultUIEntryFetcher implements UIEntryFetcher {
 
     @Override
     public List<Entry> fetchAllIncomeEntrys(String startDate, String endDate) {
-        Date parsedStartDate = DateFactory.fromString(startDate);
-        Date parsedEndDate = DateFactory.fromString(endDate);
+        DateInterval dateInterval = DateIntervalFactory.fromString(startDate,endDate);
 
-        List<Entry> list = this.fetcher.fetchAllIncomeEntrys(parsedStartDate,parsedEndDate);
+        List<Entry> list = this.fetcher.fetchAllIncomeEntrys(dateInterval);
 
         List<Entry> displayList = this.converter.createDisplayEntryList(list);
         return displayList;
@@ -30,10 +29,9 @@ class DefaultUIEntryFetcher implements UIEntryFetcher {
 
     @Override
     public List<Entry> fetchAllPurchaseEntrys(String startDate, String endDate) {
-        Date parsedStartDate = DateFactory.fromString(startDate);
-        Date parsedEndDate = DateFactory.fromString(endDate);
+        DateInterval dateInterval = DateIntervalFactory.fromString(startDate,endDate);
 
-        List<Entry> list = this.fetcher.fetchAllPurchasesEntrys(parsedStartDate,parsedEndDate);
+        List<Entry> list = this.fetcher.fetchAllPurchasesEntrys(dateInterval);
 
         List<Entry> displayList = this.converter.createDisplayEntryList(list);
         return displayList;
@@ -41,10 +39,9 @@ class DefaultUIEntryFetcher implements UIEntryFetcher {
 
     @Override
     public List<Entry> fetchAllEntrys(String startDate, String endDate) {
-        Date parsedStartDate = DateFactory.fromString(startDate);
-        Date parsedEndDate = DateFactory.fromString(endDate);
+        DateInterval dateInterval = DateIntervalFactory.fromString(startDate,endDate);
 
-        List<Entry> list = this.fetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
+        List<Entry> list = this.fetcher.fetchAllEntrys(dateInterval);
 
         List<Entry> displayList = this.converter.createDisplayEntryList(list);
         return displayList;
@@ -52,10 +49,9 @@ class DefaultUIEntryFetcher implements UIEntryFetcher {
 
     @Override
     public List<Entry> fetchAllIncomeEntrys() {
-        Date parsedStartDate = DateFactory.fromString("past");
-        Date parsedEndDate = DateFactory.fromString("now");
+        DateInterval dateInterval = DateIntervalFactory.fromString("past","now");
 
-        List<Entry> list = this.fetcher.fetchAllIncomeEntrys(parsedStartDate,parsedEndDate);
+        List<Entry> list = this.fetcher.fetchAllIncomeEntrys(dateInterval);
 
         List<Entry> displayList = this.converter.createDisplayEntryList(list);
         return displayList;
@@ -63,10 +59,9 @@ class DefaultUIEntryFetcher implements UIEntryFetcher {
 
     @Override
     public List<Entry> fetchAllPurchaseEntrys() {
-        Date parsedStartDate = DateFactory.fromString("past");
-        Date parsedEndDate = DateFactory.fromString("now");
+        DateInterval dateInterval = DateIntervalFactory.fromString("past","now");
 
-        List<Entry> list = this.fetcher.fetchAllPurchasesEntrys(parsedStartDate,parsedEndDate);
+        List<Entry> list = this.fetcher.fetchAllPurchasesEntrys(dateInterval);
 
         List<Entry> displayList = this.converter.createDisplayEntryList(list);
         return displayList;
@@ -74,10 +69,9 @@ class DefaultUIEntryFetcher implements UIEntryFetcher {
 
     @Override
     public List<Entry> fetchAllEntrys() {
-        Date parsedStartDate = DateFactory.fromString("past");
-        Date parsedEndDate = DateFactory.fromString("now");
+        DateInterval dateInterval = DateIntervalFactory.fromString("past","now");
 
-        List<Entry> list = this.fetcher.fetchAllEntrys(parsedStartDate,parsedEndDate);
+        List<Entry> list = this.fetcher.fetchAllEntrys(dateInterval);
 
         List<Entry> displayList = this.converter.createDisplayEntryList(list);
         return displayList;

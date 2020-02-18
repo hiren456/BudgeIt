@@ -1,8 +1,8 @@
 package com.codemonkeys9.budgeit.database;
 
-import com.codemonkeys9.budgeit.dso.date.Date;
 import java.util.List;
 
+import com.codemonkeys9.budgeit.dso.dateintervel.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 public interface Database {
@@ -20,9 +20,9 @@ public interface Database {
     //if not found returns null
     Entry selectByID(int ID);
 
-    //returns the list of entries from Date startDate till Date endDate
+    //returns the list of entries from DateIntervalFactory startDate till DateIntervalFactory endDate
     //returns empty list if the are no entries
-    List<Entry> selectByDate(Date startDate, Date endDate);
+    List<Entry> selectByDate(DateInterval dateInterval);
 
     //delete an entry and return true if the entry deleted successfully,
     //otherwise return false

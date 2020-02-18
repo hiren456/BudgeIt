@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.database;
 
+import com.codemonkeys9.budgeit.dso.dateintervel.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.entry.EntryDateComparator;
@@ -61,18 +62,17 @@ class StubDatabase implements Database {
         return this.entryMap.get(ID);
     }
 
-    //returns the list of entries from Date startDate till Date endDate
+    //returns the list of entries from DateIntervalFactory startDate till DateIntervalFactory endDate
     //returns empty list if the are no entries
     @Override
-    public List<Entry> selectByDate(Date startDate, Date endDate) {
+    public List<Entry> selectByDate(DateInterval dateInterval) {
         ArrayList<Entry> returnList = new ArrayList<Entry>();
 
         // find all entries within the specified range
         for ( Entry entry : this.entryMap.values()){
             Date date = entry.getDate();
 
-            if((date.compareTo(startDate) >= 0) && (date.compareTo(endDate) <= 0
-            )){
+            if(dateInterval.in(date)){
                 returnList.add(entry);
             }
         }
