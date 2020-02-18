@@ -3,11 +3,11 @@ package com.codemonkeys9.budgeit.dso.amount;
 class DefaultAmount implements Amount{
     int amount;
 
-    public DefaultAmount(int amount) {
+    DefaultAmount(int amount) {
         this.amount = amount;
     }
 
-    public DefaultAmount(String amount) {
+    DefaultAmount(String amount) {
         this.amount = stringToInt(amount);
     }
 
