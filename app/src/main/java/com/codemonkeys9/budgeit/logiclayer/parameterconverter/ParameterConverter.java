@@ -1,6 +1,6 @@
 package com.codemonkeys9.budgeit.logiclayer.parameterconverter;
 
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 import java.util.Date;
 import java.util.List;

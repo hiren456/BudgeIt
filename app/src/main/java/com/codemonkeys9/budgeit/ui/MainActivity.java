@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.List;
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.logiclayer.LogicLayer;
 import com.codemonkeys9.budgeit.R;
 

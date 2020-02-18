@@ -3,7 +3,7 @@ package com.codemonkeys9.budgeit.database;
 import java.util.Date;
 import java.util.List;
 
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 public interface Database {
 

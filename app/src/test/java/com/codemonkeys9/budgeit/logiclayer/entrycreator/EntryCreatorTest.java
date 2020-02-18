@@ -2,7 +2,7 @@ package com.codemonkeys9.budgeit.logiclayer.entrycreator;
 
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseFactory;
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
 import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverterFactory;
 

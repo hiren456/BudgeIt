@@ -1,5 +1,5 @@
 package com.codemonkeys9.budgeit.logiclayer.entrylistfilterer;
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 import java.util.List;
 

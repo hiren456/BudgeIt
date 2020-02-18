@@ -5,7 +5,7 @@ import android.util.Pair;
 
 import java.util.List;
 
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 public interface LogicLayer {
 

@@ -1,7 +1,7 @@
 package com.codemonkeys9.budgeit.logiclayer.entrycalculator;
 
-import com.codemonkeys9.budgeit.entry.Entry;
-import com.codemonkeys9.budgeit.entry.EntryFactory;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.EntryFactory;
 
 import org.junit.Test;
 

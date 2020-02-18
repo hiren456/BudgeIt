@@ -1,6 +1,6 @@
 package com.codemonkeys9.budgeit.ui;
 
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.R;
 
 import java.util.List;

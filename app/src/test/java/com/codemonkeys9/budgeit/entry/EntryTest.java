@@ -1,5 +1,8 @@
 package com.codemonkeys9.budgeit.entry;
 
+import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.EntryFactory;
+
 import org.junit.Test;
 
 import java.util.Date;

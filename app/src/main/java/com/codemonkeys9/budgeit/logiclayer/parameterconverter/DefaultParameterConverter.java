@@ -1,7 +1,7 @@
 package com.codemonkeys9.budgeit.logiclayer.parameterconverter;
 
-import com.codemonkeys9.budgeit.entry.DisplayConverter;
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.DisplayConverter;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

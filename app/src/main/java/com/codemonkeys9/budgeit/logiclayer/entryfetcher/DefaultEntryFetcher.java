@@ -6,7 +6,7 @@ import java.util.List;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
 import com.codemonkeys9.budgeit.database.Database;
 
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 class DefaultEntryFetcher implements EntryFetcher {
     Database database;

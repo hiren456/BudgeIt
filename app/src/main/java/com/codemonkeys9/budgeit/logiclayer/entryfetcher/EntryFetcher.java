@@ -3,7 +3,7 @@ package com.codemonkeys9.budgeit.logiclayer.entryfetcher;
 import java.util.Date;
 import java.util.List;
 
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 /*
 This class is fetches list of entries from the database

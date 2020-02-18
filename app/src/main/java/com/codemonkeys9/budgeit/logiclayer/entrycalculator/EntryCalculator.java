@@ -2,7 +2,7 @@ package com.codemonkeys9.budgeit.logiclayer.entrycalculator;
 
 import java.util.List;
 
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 public interface EntryCalculator {
 

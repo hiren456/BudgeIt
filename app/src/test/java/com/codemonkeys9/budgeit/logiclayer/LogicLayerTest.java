@@ -1,7 +1,7 @@
 package com.codemonkeys9.budgeit.logiclayer;
 
 
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 import org.junit.Test;
 

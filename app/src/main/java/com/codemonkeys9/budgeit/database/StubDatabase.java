@@ -1,8 +1,6 @@
 package com.codemonkeys9.budgeit.database;
 
-import android.content.res.Resources;
-
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 import java.util.ArrayList;
 import java.util.Collections;
