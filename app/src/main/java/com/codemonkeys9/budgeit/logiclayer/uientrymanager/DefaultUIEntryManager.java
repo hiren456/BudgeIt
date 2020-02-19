@@ -6,16 +6,13 @@ import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
-import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 
 
 class DefaultUIEntryManager implements UIEntryManager {
-    ParameterConverter converter;
     EntryCreator entryCreator;
 
-    DefaultUIEntryManager(ParameterConverter converter, EntryCreator entryCreator){
-        this.converter = converter;
+    DefaultUIEntryManager(EntryCreator entryCreator){
         this.entryCreator = entryCreator;
     }
 

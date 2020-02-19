@@ -6,6 +6,7 @@ import android.os.Bundle;
 import java.util.List;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
@@ -62,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
         UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
         UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
 
-        List<Entry> entries = entryFetcher.fetchAllEntrys();
+        EntryList entryList = entryFetcher.fetchAllEntrys();
+        List<Entry> entries = entryList.getReverseChrono();
 
         // Add fake data if there's no data in the DB already
         if(entries.isEmpty()) {
@@ -102,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
                         year + "-02-13"
                 );
             }
-            entries = entryFetcher.fetchAllEntrys();
+            entryList = entryFetcher.fetchAllEntrys();
+            entries = entryList.getReverseChrono();
         }
 
         this.entryAdapter = new EntryAdapter(entries);
@@ -113,18 +116,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void refreshTimeline() {
         UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
+        EntryList entryList = null;
         List<Entry> entries = null;
         switch(visibility) {
             case Income:
-                entries = entryFetcher.fetchAllIncomeEntrys(startDate, endDate);
+                entryList = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
                 break;
             case Expenses:
-                entries = entryFetcher.fetchAllPurchaseEntrys(startDate, endDate);
+                entryList = entryFetcher.fetchAllPurchaseEntrys(startDate,endDate);
                 break;
             case Both:
-                entries = entryFetcher.fetchAllEntrys(startDate, endDate);
+                entryList = entryFetcher.fetchAllEntrys(startDate,endDate);
                 break;
         }
+        entries =  entryList.getReverseChrono();
         entryAdapter.updateEntries(entries);
     }
 

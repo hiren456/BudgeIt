@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.ToggleButton;
 
 import com.codemonkeys9.budgeit.R;
-import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
