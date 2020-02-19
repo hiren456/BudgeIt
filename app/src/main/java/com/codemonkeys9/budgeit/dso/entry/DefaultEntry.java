@@ -8,7 +8,7 @@ import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 class DefaultEntry implements Entry {
     Amount amount;
     int entryID;
-    //private int catID;
+    //Iteration 2.5 int catID;
     Details details;
     Date date;
 

@@ -62,8 +62,6 @@ class StubDatabase implements Database {
         return this.entryMap.get(ID);
     }
 
-    //returns the list of entries from DateIntervalFactory startDate till DateIntervalFactory endDate
-    //returns empty list if the are no entries
     @Override
     public List<Entry> selectByDate(DateInterval dateInterval) {
         ArrayList<Entry> returnList = new ArrayList<Entry>();
@@ -83,7 +81,6 @@ class StubDatabase implements Database {
         return returnList;
     }
 
-    //returns true if an entry deleted successfully, otherwise return false
     @Override
     public boolean deleteEntry(int ID) {
 

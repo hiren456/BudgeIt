@@ -9,15 +9,16 @@ public interface Entry {
     // getters
     Amount getAmount();
     int getEntryID();
-    //int getCatID();
+    //Iteration 2.5 int getCatID();
     Details getDetails();
     Date getDate();
-    // Add flag/catID
 
-    // add the ability to flag/unflag
-    // add the ability to update catID
-    // takes values and returns an entry
-    // with those updated updated values
+    //Iteration 2.5 Add flag/catID
+
+    //Iteration 2.5 add the ability to flag/unflag
+    //Iteration 2.5 add the ability to update catID
+    //Iteration 2.5 takes values and returns an entry
+    //Iteration 2.5 with those updated updated values
     Entry modifyEntry(Amount amount,Details details, Date date);
 
     boolean equals(Entry other);

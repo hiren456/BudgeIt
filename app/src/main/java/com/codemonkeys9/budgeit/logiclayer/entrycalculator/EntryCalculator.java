@@ -5,8 +5,10 @@ import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 
 public interface EntryCalculator {
 
-    // Takes a list of entries and sums
-    // their amount
+    /*
+    Takes an EntryList and returns the sum of the
+    entries in that EntryList as an Amount Object
+     */
     Amount sumEntryList(EntryList entryList);
 
 }

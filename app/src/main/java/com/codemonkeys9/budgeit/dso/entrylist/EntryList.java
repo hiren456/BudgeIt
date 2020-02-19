@@ -21,5 +21,4 @@ public interface EntryList{
 
     // in the future we may want to add order by largest amount
     // and other stuff
-    // we could also have methods that return iterators
 }

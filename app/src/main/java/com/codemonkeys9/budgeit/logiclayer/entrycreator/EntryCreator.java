@@ -6,6 +6,8 @@ import com.codemonkeys9.budgeit.dso.details.Details;
 
 public interface EntryCreator {
 
-    // Creates and stores an entry
+    /*
+    Creates an Entry object using other DSO and stores it in the datebase
+     */
     void createEntry(Amount amount, Details details, Date date);
 }
