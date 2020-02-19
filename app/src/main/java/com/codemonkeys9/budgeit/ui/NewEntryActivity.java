@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ToggleButton;
 
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.exceptions.UserInputException;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
@@ -38,14 +39,6 @@ public class NewEntryActivity extends AppCompatActivity {
         String date = ((EditText)findViewById(R.id.editText_date)).getText().toString();
         String details = ((EditText)findViewById(R.id.editText_details)).getText().toString();
 
-        // Hiren is working on creating exceptions
-        // once that is done then createEntry will throw
-        // an exception such as "InvalidParameterException"
-        // this will happen if any of the above strings are invalid
-        // I think it would be good to have a diff. exception for each type of invalid string
-        // such as "InvalidDateFormat", "FutureDateException", "EmptyDetailsException",
-        // "OldDateException", and "InvalidAmountFormat"
-        // then you can check for each type and react/inform the user accordingly
         try {
 
             ToggleButton tb = findViewById(R.id.button_incomeOrExpense);
@@ -58,8 +51,9 @@ public class NewEntryActivity extends AppCompatActivity {
                 entryManager.createEntry(amount,details,date);
             }
 
-        } catch(Exception e){
-            //System.out.println(e.getClass()+" bad date format");
+        } catch(UserInputException e){
+            String userErrorMessage = e.getUserErrorMessage();
+            // show this to the user
         }
 
     }

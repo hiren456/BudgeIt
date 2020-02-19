@@ -118,6 +118,15 @@ public class MainActivity extends AppCompatActivity {
         UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
         EntryList entryList = null;
         List<Entry> entries = null;
+
+        // if the user inputs -123456789 and then 123456789
+        // or any other invalid date range
+        // either a InvalidDateException
+        // or a InvalidDateInterval exception will be thrown
+        // you should probably catch them both by catching
+        // the UserInputException and printing out
+        // an error message to the user with UserInputException's
+        // getUserErrorMessage method
         switch(visibility) {
             case Income:
                 entryList = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);

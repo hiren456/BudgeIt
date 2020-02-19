@@ -2,6 +2,7 @@ package com.codemonkeys9.budgeit.dso.dateintervel;
 
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
+import com.codemonkeys9.budgeit.exceptions.InvalidDateIntervalException;
 
 class DefaultDateInterval implements DateInterval {
     Date start;
@@ -10,7 +11,12 @@ class DefaultDateInterval implements DateInterval {
     public DefaultDateInterval(String start, String end) {
         this.start = DateFactory.fromString(start);
         this.end = DateFactory.fromString(end);
-        // throw exception
+
+        // if start is later then end throw an exception
+        if(this.start.compareTo(this.end) > 0){
+
+            throw new InvalidDateIntervalException(start+"-"+end+"is not a valid interval");
+        }
     }
 
     public DefaultDateInterval(Date start, Date end) {

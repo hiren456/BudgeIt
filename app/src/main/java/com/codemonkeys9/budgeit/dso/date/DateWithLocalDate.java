@@ -1,5 +1,7 @@
 package com.codemonkeys9.budgeit.dso.date;
 
+import com.codemonkeys9.budgeit.exceptions.InvalidDateException;
+
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
@@ -19,8 +21,11 @@ public class DateWithLocalDate implements Date {
 
             this.date = LocalDate.parse("1970-01-01");
         }else{
-
-            this.date = LocalDate.parse(date);
+            try {
+                this.date = LocalDate.parse(date);
+            } catch (Exception e) {
+                throw new InvalidDateException("Date String "+date+" is invalid.");
+            }
         }
     }
 

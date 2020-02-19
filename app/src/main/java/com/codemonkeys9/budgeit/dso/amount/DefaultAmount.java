@@ -1,5 +1,7 @@
 package com.codemonkeys9.budgeit.dso.amount;
 
+import com.codemonkeys9.budgeit.exceptions.InvalidAmountException;
+
 class DefaultAmount implements Amount{
     int amount;
 
@@ -26,7 +28,15 @@ class DefaultAmount implements Amount{
     eg. "100.92" gets turned into 10092
      */
     private int stringToInt(String amount){
-        return (int) (Double.parseDouble(amount) * 100 );
+        int out;
+
+        try {
+            out = (int) (Double.parseDouble(amount) * 100);
+        }catch (Exception e){
+            throw new InvalidAmountException("Amount "+amount+" is not valid");
+        }
+
+        return out;
     }
 
     /*
