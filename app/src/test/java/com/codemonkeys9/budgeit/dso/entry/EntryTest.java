@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.entry;
+package com.codemonkeys9.budgeit.dso.entry;
 
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.EntryFactory;

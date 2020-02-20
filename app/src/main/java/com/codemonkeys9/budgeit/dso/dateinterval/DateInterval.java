@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.dso.dateintervel;
+package com.codemonkeys9.budgeit.dso.dateinterval;
 
 import com.codemonkeys9.budgeit.dso.date.Date;
 

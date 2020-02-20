@@ -3,7 +3,7 @@ package com.codemonkeys9.budgeit.logiclayer.entryfetcher;
 import java.util.List;
 
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
-import com.codemonkeys9.budgeit.dso.dateintervel.DateInterval;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryListFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;

@@ -1,6 +1,6 @@
 package com.codemonkeys9.budgeit.database;
 
-import com.codemonkeys9.budgeit.dso.dateintervel.DateInterval;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.entry.EntryDateComparator;

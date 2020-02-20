@@ -2,7 +2,7 @@ package com.codemonkeys9.budgeit.database;
 
 import java.util.List;
 
-import com.codemonkeys9.budgeit.dso.dateintervel.DateInterval;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 public interface Database {

@@ -1,8 +1,8 @@
 package com.codemonkeys9.budgeit.logiclayer.uicalculator;
 
 import com.codemonkeys9.budgeit.dso.amount.Amount;
-import com.codemonkeys9.budgeit.dso.dateintervel.DateInterval;
-import com.codemonkeys9.budgeit.dso.dateintervel.DateIntervalFactory;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculator;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;

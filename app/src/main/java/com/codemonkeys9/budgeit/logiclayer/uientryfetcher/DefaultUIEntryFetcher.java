@@ -1,12 +1,9 @@
 package com.codemonkeys9.budgeit.logiclayer.uientryfetcher;
 
-import com.codemonkeys9.budgeit.dso.dateintervel.DateInterval;
-import com.codemonkeys9.budgeit.dso.dateintervel.DateIntervalFactory;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
-
-import java.util.List;
 
 class DefaultUIEntryFetcher implements UIEntryFetcher {
     EntryFetcher fetcher;

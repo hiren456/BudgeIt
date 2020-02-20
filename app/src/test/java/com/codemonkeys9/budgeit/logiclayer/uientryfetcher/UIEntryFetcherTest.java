@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.logiclayer.uifetchrequesthandler;
+package com.codemonkeys9.budgeit.logiclayer.uientryfetcher;
 
 
 import com.codemonkeys9.budgeit.database.Database;
@@ -12,8 +12,6 @@ import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFilterer;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFiltererFactory;
 import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
 import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverterFactory;
-import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
-import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 
 import org.junit.Test;
 
@@ -22,7 +20,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class UIFetchRequestHandleTest {
+public class UIEntryFetcherTest {
     @Test
     public void fetchIncomeWithNowTest() {
         Database database = DatabaseFactory.createDatabase(0);

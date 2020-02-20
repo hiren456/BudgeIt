@@ -1,6 +1,6 @@
 package com.codemonkeys9.budgeit.logiclayer.entryfetcher;
 
-import com.codemonkeys9.budgeit.dso.dateintervel.DateInterval;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 
 /*
