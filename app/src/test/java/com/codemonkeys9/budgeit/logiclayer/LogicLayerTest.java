@@ -1,6 +1,9 @@
 package com.codemonkeys9.budgeit.logiclayer;
 
 import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
@@ -45,7 +48,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        List<Entry> entryList = ll.fetchAllIncomeEntrys("24/01/1999","now");
+        DateInterval interval = DateIntervalFactory.fromString("1999-01-24", "now");
+        EntryList entryList = entryFetcher.fetchAllIncomeEntrys(interval);
         assertEquals(entryList.size(),1);
 
         Entry entry1 = entryList.get(0);
@@ -89,10 +93,9 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        List<Entry> entryList = entryFetcher.fetchAllPurchaseEntrys("24/01/1999","now");
+        DateInterval interval = DateIntervalFactory.fromString("1999-01-24", "now");
+        EntryList entryList = entryFetcher.fetchAllPurchasesEntrys(interval);
         assertEquals(entryList.size(),2);
-
 
         Entry entry2 = entryList.get(0);
         Entry entry4 = entryList.get(1);
@@ -102,7 +105,7 @@ public class LogicLayerTest {
         assertTrue("Ender and his siblings were all some of the smartest children in the world".equals(entry2.getDetails()));
         assertEquals(2000 - 1900,entry2.getDate().getYear());
         assertEquals(4 - 1,entry2.getDate().getMonth());
-        assertEquals(23,entry2.getDate().getDate());
+        assertEquals(23,entry2.getDate().getDay());
 
 
         assertEquals(-3000000,entry4.getAmount());
@@ -145,8 +148,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        List<Entry> entryList = entryFetcher.fetchAllEntrys("24/01/1999","now");
+        DateInterval interval = DateIntervalFactory.fromString("1999-01-24", "now");
+        EntryList entryList = entryFetcher.fetchAllEntrys(interval);
         assertEquals(entryList.size(),3);
 
         Entry entry1 = entryList.get(2);
@@ -204,8 +207,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys("24/01/1999","01/01/2019");
+        DateInterval interval = DateIntervalFactory.fromString("1999-01-24", "2019-01-01");
+        EntryList entryList = entryFetcher.fetchAllIncomeEntrys(interval);
         assertEquals(entryList.size(),1);
 
         Entry entry1 = entryList.get(0);
@@ -251,8 +254,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        List<Entry> entryList = entryFetcher.fetchAllPurchaseEntrys("24/01/1999","01/01/2019");
+        DateInterval interval = DateIntervalFactory.fromString("1999-01-24", "2019-01-01");
+        EntryList entryList = entryFetcher.fetchAllPurchasesEntrys(interval);
         assertEquals(entryList.size(),2);
 
 
@@ -307,8 +310,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        List<Entry> entryList = entryFetcher.fetchAllEntrys("24/01/1999","01/01/2019");
+        DateInterval interval = DateIntervalFactory.fromString("1999-01-24", "2019-01-01");
+        EntryList entryList = entryFetcher.fetchAllEntrys(interval);
         assertEquals(entryList.size(),3);
 
         Entry entry1 = entryList.get(2);
@@ -336,7 +339,7 @@ public class LogicLayerTest {
 
     }
     @Test
-    public void fetchAllIncomeNoDateTest() {
+    public void fetchAllIncomePastToNowTest() {
         // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
         //       shouldn't) do that.
         //     - Zach
@@ -367,7 +370,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys();
+        DateInterval interval = DateIntervalFactory.fromString("past", "now");
+        EntryList entryList = entryFetcher.fetchAllIncomeEntrys(interval);
         assertEquals(entryList.size(),2);
 
         Entry entry1 = entryList.get(0);
@@ -390,7 +394,7 @@ public class LogicLayerTest {
     }
 
     @Test
-    public void fetchAllPurchasesNoDateTest() {
+    public void fetchAllPurchasesPastToNowTest() {
         // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
         //       shouldn't) do that.
         //     - Zach
@@ -420,8 +424,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        List<Entry> entryList = entryFetcher.fetchAllPurchaseEntrys();
+        DateInterval interval = DateIntervalFactory.fromString("past", "now");
+        EntryList entryList = entryFetcher.fetchAllPurchasesEntrys(interval);
         assertEquals(entryList.size(),2);
 
 
@@ -433,7 +437,7 @@ public class LogicLayerTest {
         assertTrue("Ender and his siblings were all some of the smartest children in the world".equals(entry2.getDetails()));
         assertEquals(2000 - 1900,entry2.getDate().getYear());
         assertEquals(4 - 1,entry2.getDate().getMonth());
-        assertEquals(23,entry2.getDate().getDate());
+        assertEquals(23,entry2.getDate().getDay());
 
 
         assertEquals(-3000000,entry4.getAmount());
@@ -446,7 +450,7 @@ public class LogicLayerTest {
     }
 
     @Test
-    public void fetchAllEntrysNoDateTest() {
+    public void fetchAllEntrysPastToNowTest() {
         // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
         //       shouldn't) do that.
         //     - Zach
@@ -476,7 +480,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        List<Entry> entryList = entryFetcher.fetchAllEntrys();
+        DateInterval interval = DateIntervalFactory.fromString("past", "now");
+        EntryList entryList = entryFetcher.fetchAllEntrys(interval);
         assertEquals(entryList.size(),4);
 
         Entry entry1 = entryList.get(2);
@@ -542,15 +547,15 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        String amount = ll.calculateTotalIncome("0/02/1999","23/03/2000");
+        DateInterval interval = DateIntervalFactory.fromString("1999-02-00", "2000-03-23");
+        String amount = ll.calculateTotalIncome(interval);
 
         System.out.println(amount);
         assertTrue(amount.equals("100.92"));
     }
 
     @Test
-    public void calculateTotalIncomeNoDateTest() {
+    public void calculateTotalIncomePastToNowTest() {
         // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
         //       shouldn't) do that.
         //     - Zach
@@ -580,8 +585,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        String amount = ll.calculateTotalIncome();
+        DateInterval interval = DateIntervalFactory.fromString("past", "now");
+        String amount = ll.calculateTotalIncome(interval);
 
         assertTrue(amount.equals("101.91"));
     }
@@ -617,14 +622,14 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        String amount = ll.calculateTotalPurchases("0/02/1999","23/03/2000");
+        DateInterval interval = DateIntervalFactory.fromString("1999-02-00", "2000-03-23");
+        String amount = ll.calculateTotalPurchases(interval);
 
         assertTrue(amount.equals("-30000.00"));
     }
 
     @Test
-    public void calculateTotalPurchaseNoDateTest() {
+    public void calculateTotalPurchasePastToNowTest() {
         // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
         //       shouldn't) do that.
         //     - Zach
@@ -654,8 +659,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        String amount = ll.calculateTotalPurchases();
+        DateInterval interval = DateIntervalFactory.fromString("past", "now");
+        String amount = ll.calculateTotalPurchases(interval);
 
         assertTrue(amount.equals("-30122.47"));
     }
@@ -691,14 +696,14 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        String amount = ll.calculateTotal("0/02/1999","23/03/2000");
+        DateInterval interval = DateIntervalFactory.fromString("1999-02-00", "2000-03-23");
+        String amount = ll.calculateTotal(interval);
 
         assertTrue(amount.equals("-29899.08"));
     }
 
     @Test
-    public void calculateTotalNoDateTest() {
+    public void calculateTotalPastToNowTest() {
         // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
         //       shouldn't) do that.
         //     - Zach
@@ -728,8 +733,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        String amount = ll.calculateTotal();
+        DateInterval interval = DateIntervalFactory.fromString("past", "now");
+        String amount = ll.calculateTotal(interval);
 
         assertTrue(amount.equals("-30020.56"));
     }
