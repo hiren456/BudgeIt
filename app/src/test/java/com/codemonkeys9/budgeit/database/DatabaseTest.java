@@ -1,9 +1,9 @@
 package com.codemonkeys9.budgeit.database;
 
-
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.EntryFactory;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
+import com.codemonkeys9.budgeit.dso.amount.Amount;
 
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public class DatabaseTest {
         Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry
-        int amount1 = 7249;
+        Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
         String details1 = "Some letters put next to eachother";
         Date date1 = new Date(2002,7,7);
@@ -60,7 +60,7 @@ public class DatabaseTest {
         assertEquals("Database returns a entry with the wrong entryID using selectByID"
                 ,81,retEntry1.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByID"
-                ,"Some letters put next to each other".equals(retEntry1.getDetails()));
+                ,"Some letters put next to eachother".equals(retEntry1.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID"
                 ,date1.equals(retEntry1.getDate()));
     }
@@ -72,28 +72,28 @@ public class DatabaseTest {
         Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry1
-        int amount1 = 7249;
+        Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
         String details1 = "Some letters put next to eachother";
         Date date1 = new Date(2001,7,7);
         Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
-        int amount2 = 520;
+        Amount amount2 = AmountFactory.fromInt(520);
         int entryID2 = 72;
         String details2 = "Some letters put next to eachother again";
         Date date2 = new Date(2001,11,7);
         Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
-        int amount3 = 604;
+        Amount amount3 = AmountFactory.fromInt(604);
         int entryID3 = -7;
         String details3 = "I am running out of ideas";
         Date date3 = new Date(2009,7,6);
         Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
-        int amount4 = -724;
+        Amount amount4 = AmountFactory.fromInt(-724);
         int entryID4 = 6;
         String details4 = "Ender's game is an interesting book";
         Date date4 = new Date(2009,7,7);
@@ -153,28 +153,28 @@ public class DatabaseTest {
         Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry1
-        int amount1 = 7249;
+        Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
         String details1 = "Some letters put next to eachother";
         Date date1 = new Date(2001,7,7);
         Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
-        int amount2 = 520;
+        Amount amount2 = AmountFactory.fromInt(520);
         int entryID2 = 72;
         String details2 = "Some letters put next to eachother again";
         Date date2 = new Date(2001,11,7);
         Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
-        int amount3 = 604;
+        Amount amount3 = AmountFactory.fromInt(604);
         int entryID3 = -7;
         String details3 = "I am running out of ideas";
         Date date3 = new Date(2009,7,6);
         Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
-        int amount4 = -724;
+        Amount amount4 = AmountFactory.fromInt(-724);
         int entryID4 = 6;
         String details4 = "Ender's game is an interesting book";
         Date date4 = new Date(2009,7,7);
@@ -236,7 +236,7 @@ public class DatabaseTest {
         Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry1
-        int amount1 = -100;
+        Amount amount1 = AmountFactory.fromInt(-100);
         int entryID1 = 81;
         String details1 = "PC game gta 6";
         Date date1 = new Date(2021,3,21);
@@ -262,28 +262,28 @@ public class DatabaseTest {
         Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry1
-        int amount1 = -5900;
+        Amount amount1 = AmountFactory.fromInt(-5900);
         int entryID1 = 81;
         String details1 = "New car";
         Date date1 = new Date(2001,7,7);
         Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
-        int amount2 = -120;
+        Amount amount2 = AmountFactory.fromInt(-120);
         int entryID2 = 72;
         String details2 = "New book";
         Date date2 = new Date(2001,11,7);
         Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
-        int amount3 = -4;
+        Amount amount3 = AmountFactory.fromInt(-4);
         int entryID3 = -7;
         String details3 = "Large cofee";
         Date date3 = new Date(2009,7,6);
         Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
-        int amount4 = 10000;
+        Amount amount4 = AmountFactory.fromInt(10000);
         int entryID4 = 6;
         String details4 = "Salary";
         Date date4 = new Date(2009,7,7);
@@ -326,28 +326,28 @@ public class DatabaseTest {
         Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry1
-        int amount1 = -5900;
+        Amount amount1 = AmountFactory.fromInt(-5900);
         int entryID1 = 81;
         String details1 = "New car";
         Date date1 = new Date(2001,7,7);
         Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
-        int amount2 = -120;
+        Amount amount2 = AmountFactory.fromInt(-120);
         int entryID2 = 72;
         String details2 = "New book";
         Date date2 = new Date(2001,11,7);
         Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
-        int amount3 = -4;
+        Amount amount3 = AmountFactory.fromInt(-4);
         int entryID3 = -7;
         String details3 = "Large cofee";
         Date date3 = new Date(2009,7,6);
         Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
-        int amount4 = 10000;
+        Amount amount4 = AmountFactory.fromInt(10000);
         int entryID4 = 6;
         String details4 = "Salary";
         Date date4 = new Date(2009,7,7);
@@ -427,7 +427,7 @@ public class DatabaseTest {
         Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry
-        int amount1 = 50;
+        Amount amount1 = AmountFactory.fromInt(50);
         int entryID1 = 42;
         String details1 = "Tutor";
         Date date1 = new Date(2016, 7, 7);
@@ -438,7 +438,7 @@ public class DatabaseTest {
         database.insertEntry(entry1);
 
         //update an entry
-        int updatedAmount = 60;
+        Amount updatedAmount = AmountFactory.fromInt(60);
         String updatedDetails = "Not a tutor";
         Date updatedDate = new Date(2017, 3, 4);
 
@@ -467,7 +467,7 @@ public class DatabaseTest {
         Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry
-        int amount1 = 50;
+        Amount amount1 = AmountFactory.fromInt(50);
         int entryID1 = 42;
         String details1 = "Tutor";
         Date date1 = new Date(2016, 7, 7);
@@ -491,7 +491,7 @@ public class DatabaseTest {
         Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry
-        int amount1 = 50;
+        Amount amount1 = AmountFactory.fromInt(50);
         int entryID1 = 42;
         String details1 = "Tutor";
         Date date1 = new Date(2016, 7, 7);
