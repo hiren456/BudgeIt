@@ -3,6 +3,8 @@ package com.codemonkeys9.budgeit.logiclayer;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
@@ -32,20 +34,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -77,20 +79,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -132,20 +134,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -156,6 +158,7 @@ public class LogicLayerTest {
         EntryList entryList = entryFetcher.fetchAllEntrys(interval);
         assertEquals(entryList.size(),3);
 
+        
         Entry entry1 = entryList.get(2);
         Entry entry2 = entryList.get(0);
         Entry entry4 = entryList.get(1);
@@ -191,20 +194,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -238,20 +241,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -294,20 +297,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -353,20 +356,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -408,20 +411,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -464,20 +467,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -532,20 +535,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -572,20 +575,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -611,20 +614,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -650,20 +653,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -689,20 +692,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
@@ -728,20 +731,20 @@ public class LogicLayerTest {
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
-        String date1 = "23/04/1999";
+        Date date1 = DateFactory.fromString("1999-04-23");
 
         Amount amount2 = AmountFactory.fromString("-122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
-        String date2 = "23/04/2000";
+        Date date2 = DateFactory.fromString("2000-04-23");
 
         Amount amount3 = AmountFactory.fromString(".99");
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
-        String date3 = "23/01/1999";
+        Date date3 = DateFactory.fromString("1999-01-23");
 
         Amount amount4 = AmountFactory.fromString("-30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
-        String date4 = "23/07/1999";
+        Date date4 = DateFactory.fromString("1999-07-23");
 
         entryCreator.createEntry(amount1, details1, date1);
         entryCreator.createEntry(amount2, details2, date2);
