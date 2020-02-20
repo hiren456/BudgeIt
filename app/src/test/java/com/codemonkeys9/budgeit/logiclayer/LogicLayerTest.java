@@ -9,6 +9,8 @@ import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculator;
+import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculatorFactory;
 
 import org.junit.Test;
 
@@ -524,6 +526,7 @@ public class LogicLayerTest {
         DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -548,7 +551,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount4, details4, date4);
 
         DateInterval interval = DateIntervalFactory.fromString("1999-02-00", "2000-03-23");
-        String amount = ll.calculateTotalIncome(interval);
+        EntryList entries = entryFetcher.fetchAllIncomeEntrys(interval);
+        String amount = entryCalculator.sumEntryList(entries).getDisplay();
 
         System.out.println(amount);
         assertTrue(amount.equals("100.92"));
@@ -562,6 +566,7 @@ public class LogicLayerTest {
         DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -586,7 +591,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount4, details4, date4);
 
         DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        String amount = ll.calculateTotalIncome(interval);
+        EntryList entries = entryFetcher.fetchAllIncomeEntrys(interval);
+        String amount = entryCalculator.sumEntryList(entries).getDisplay();
 
         assertTrue(amount.equals("101.91"));
     }
@@ -599,6 +605,7 @@ public class LogicLayerTest {
         DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -623,7 +630,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount4, details4, date4);
 
         DateInterval interval = DateIntervalFactory.fromString("1999-02-00", "2000-03-23");
-        String amount = ll.calculateTotalPurchases(interval);
+        EntryList entries = entryFetcher.fetchAllPurchasesEntrys(interval);
+        String amount = entryCalculator.sumEntryList(entries).getDisplay();
 
         assertTrue(amount.equals("-30000.00"));
     }
@@ -636,6 +644,7 @@ public class LogicLayerTest {
         DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -660,7 +669,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount4, details4, date4);
 
         DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        String amount = ll.calculateTotalPurchases(interval);
+        EntryList entries = entryFetcher.fetchAllPurchasesEntrys(interval);
+        String amount = entryCalculator.sumEntryList(entries).getDisplay();
 
         assertTrue(amount.equals("-30122.47"));
     }
@@ -673,6 +683,7 @@ public class LogicLayerTest {
         DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -697,7 +708,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount4, details4, date4);
 
         DateInterval interval = DateIntervalFactory.fromString("1999-02-00", "2000-03-23");
-        String amount = ll.calculateTotal(interval);
+        EntryList entries = entryFetcher.fetchAllEntrys(interval);
+        String amount = entryCalculator.sumEntryList(entries).getDisplay();
 
         assertTrue(amount.equals("-29899.08"));
     }
@@ -710,6 +722,7 @@ public class LogicLayerTest {
         DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -734,7 +747,8 @@ public class LogicLayerTest {
         entryCreator.createEntry(amount4, details4, date4);
 
         DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        String amount = ll.calculateTotal(interval);
+        EntryList entries = entryFetcher.fetchAllEntrys(interval);
+        String amount = entryCalculator.sumEntryList(entries).getDisplay();
 
         assertTrue(amount.equals("-30020.56"));
     }
