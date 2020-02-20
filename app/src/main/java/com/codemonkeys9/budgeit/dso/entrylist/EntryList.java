@@ -19,6 +19,11 @@ public interface EntryList{
     List<Entry> getReverseChrono();
     Iterator<Entry> getReverseChronoIter();
 
-    // in the future we may want to add order by largest amount
-    // and other stuff
+    // TODO: in the future we may want to add order by largest amount
+    //       and other stuff
+
+    /*
+    returns the size of the list
+     */
+    int size();
 }

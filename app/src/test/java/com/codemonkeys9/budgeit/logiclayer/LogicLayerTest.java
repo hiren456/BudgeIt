@@ -12,6 +12,7 @@ import java.util.List;
 public class LogicLayerTest {
     @Test
     public void fetchIncomeWithNowTest() {
+
         LogicLayer ll = LogicLayerFactory.createLogicLayer();
 
         String amount1 = "100.92";
