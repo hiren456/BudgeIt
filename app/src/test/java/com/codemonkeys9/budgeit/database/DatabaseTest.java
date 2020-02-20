@@ -1,12 +1,18 @@
 package com.codemonkeys9.budgeit.database;
 
-
+import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.EntryFactory;
+import com.codemonkeys9.budgeit.dso.amount.Amount;
+import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
+import com.codemonkeys9.budgeit.dso.details.Details;
+import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
 
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -15,18 +21,18 @@ public class DatabaseTest {
 
     @Test
     public void idCounterInitialValueTest() {
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         assertEquals("When a database is initialized, " +
-                "the intitial value for the id counter, passed as a parameter," +
-                "is not what is returned by getIDCounter.",database.getIDCounter(), 42);
+                "the initial value for the id counter, passed as a parameter," +
+                "is not what is returned by getIDCounter.", database.getIDCounter(),42);
     }
 
     @Test
     public void idCounterUpdateValueTest() {
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
         database.updateIDCounter(23);
 
         assertEquals("When updateIDCounter is called, " +
@@ -37,14 +43,14 @@ public class DatabaseTest {
     @Test
     public void insertThenSelectTest() {
         //Create Database
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry
-        int amount1 = 7249;
+        Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
-        String details1 = "Some letters put next to eachother";
-        Date date1 = new Date(2002,7,7);
+        Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
+        Date date1 = DateFactory.fromInts(2002,7,7);
         Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //insert it into the database
@@ -67,35 +73,35 @@ public class DatabaseTest {
     @Test
     public void insertManyThenSelectByIDTest() {
         //Create Database
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry1
-        int amount1 = 7249;
+        Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
-        String details1 = "Some letters put next to eachother";
-        Date date1 = new Date(2001,7,7);
+        Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
+        Date date1 = DateFactory.fromInts(2001,7,7);
         Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
-        int amount2 = 520;
+        Amount amount2 = AmountFactory.fromInt(520);
         int entryID2 = 72;
-        String details2 = "Some letters put next to eachother again";
-        Date date2 = new Date(2001,11,7);
+        Details details2 = DetailsFactory.fromString("Some letters put next to eachother again");
+        Date date2 = DateFactory.fromInts(2001,11,7);
         Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
-        int amount3 = 604;
+        Amount amount3 = AmountFactory.fromInt(604);
         int entryID3 = -7;
-        String details3 = "I am running out of ideas";
-        Date date3 = new Date(2009,7,6);
+        Details details3 = DetailsFactory.fromString("I am running out of ideas");
+        Date date3 = DateFactory.fromInts(2009,7,6);
         Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
-        int amount4 = -724;
+        Amount amount4 = AmountFactory.fromInt(-724);
         int entryID4 = 6;
-        String details4 = "Ender's game is an interesting book";
-        Date date4 = new Date(2009,7,7);
+        Details details4 = DetailsFactory.fromString("Ender's game is an interesting book");
+        Date date4 = DateFactory.fromInts(2009,7,7);
         Entry entry4 = EntryFactory.createEntry(amount4,entryID4,details4,date4);
 
         //insert them into the database
@@ -148,35 +154,35 @@ public class DatabaseTest {
     @Test
     public void insertManyThenSelectByDateTest() {
         //Create Database
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry1
-        int amount1 = 7249;
+        Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
-        String details1 = "Some letters put next to eachother";
-        Date date1 = new Date(2001,7,7);
+        Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
+        Date date1 = DateFactory.fromInts(2001,7,7);
         Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
-        int amount2 = 520;
+        Amount amount2 = AmountFactory.fromInt(520);
         int entryID2 = 72;
-        String details2 = "Some letters put next to eachother again";
-        Date date2 = new Date(2001,11,7);
+        Details details2 = DetailsFactory.fromString("Some letters put next to eachother again");
+        Date date2 = DateFactory.fromInts(2001,11,7);
         Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
-        int amount3 = 604;
+        Amount amount3 = AmountFactory.fromInt(604);
         int entryID3 = -7;
-        String details3 = "I am running out of ideas";
-        Date date3 = new Date(2009,7,6);
+        Details details3 = DetailsFactory.fromString("I am running out of ideas");
+        Date date3 = DateFactory.fromInts(2009,7,6);
         Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
-        int amount4 = -724;
+        Amount amount4 = AmountFactory.fromInt(-724);
         int entryID4 = 6;
-        String details4 = "Ender's game is an interesting book";
-        Date date4 = new Date(2009,7,7);
+        Details details4 = DetailsFactory.fromString("Ender's game is an interesting book");
+        Date date4 = DateFactory.fromInts(2009,7,7);
         Entry entry4 = EntryFactory.createEntry(amount4,entryID4,details4,date4);
 
         //insert them into the database
@@ -185,7 +191,11 @@ public class DatabaseTest {
         database.insertEntry(entry3);
         database.insertEntry(entry4);
 
-        List<Entry> retList = database.selectByDate(new Date(2001,10,7),new Date(2009,7,7));
+        DateInterval interval = DateIntervalFactory.fromDate(
+            DateFactory.fromInts(2001,10,7),
+            DateFactory.fromInts(2009,7,7)
+        );
+        List<Entry> retList = database.selectByDate(interval);
 
         // test that we got what was expected
         assertEquals("Expected select by date to return 3 entrys but it does not",retList.size(),3);
@@ -231,14 +241,14 @@ public class DatabaseTest {
     @Test
     public void deleteOneTest(){
         //Create Database
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry1
-        int amount1 = -100;
+        Amount amount1 = AmountFactory.fromInt(-100);
         int entryID1 = 81;
-        String details1 = "PC game gta 6";
-        Date date1 = new Date(2021,3,21);
+        Details details1 = DetailsFactory.fromString("PC game gta 6");
+        Date date1 = DateFactory.fromInts(2021,3,21);
         Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //insert the entry into the database
@@ -257,35 +267,35 @@ public class DatabaseTest {
     public void deleteManyTest(){
 
         //Create Database
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry1
-        int amount1 = -5900;
+        Amount amount1 = AmountFactory.fromInt(-5900);
         int entryID1 = 81;
-        String details1 = "New car";
-        Date date1 = new Date(2001,7,7);
+        Details details1 = DetailsFactory.fromString("New car");
+        Date date1 = DateFactory.fromInts(2001,7,7);
         Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
-        int amount2 = -120;
+        Amount amount2 = AmountFactory.fromInt(-120);
         int entryID2 = 72;
-        String details2 = "New book";
-        Date date2 = new Date(2001,11,7);
+        Details details2 = DetailsFactory.fromString("New book");
+        Date date2 = DateFactory.fromInts(2001,11,7);
         Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
-        int amount3 = -4;
+        Amount amount3 = AmountFactory.fromInt(-4);
         int entryID3 = -7;
-        String details3 = "Large cofee";
-        Date date3 = new Date(2009,7,6);
+        Details details3 = DetailsFactory.fromString("Large cofee");
+        Date date3 = DateFactory.fromInts(2009,7,6);
         Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
-        int amount4 = 10000;
+        Amount amount4 = AmountFactory.fromInt(10000);
         int entryID4 = 6;
-        String details4 = "Salary";
-        Date date4 = new Date(2009,7,7);
+        Details details4 = DetailsFactory.fromString("Salary");
+        Date date4 = DateFactory.fromInts(2009,7,7);
         Entry entry4 = EntryFactory.createEntry(amount4,entryID4,details4,date4);
 
         //insert entries into the database
@@ -321,35 +331,35 @@ public class DatabaseTest {
     public void deleteAllTest(){
 
         //Create Database
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry1
-        int amount1 = -5900;
+        Amount amount1 = AmountFactory.fromInt(-5900);
         int entryID1 = 81;
-        String details1 = "New car";
-        Date date1 = new Date(2001,7,7);
+        Details details1 = DetailsFactory.fromString("New car");
+        Date date1 = DateFactory.fromInts(2001,7,7);
         Entry entry1 = EntryFactory.createEntry(amount1,entryID1,details1,date1);
 
         //Create valid Entry2
-        int amount2 = -120;
+        Amount amount2 = AmountFactory.fromInt(-120);
         int entryID2 = 72;
-        String details2 = "New book";
-        Date date2 = new Date(2001,11,7);
+        Details details2 = DetailsFactory.fromString("New book");
+        Date date2 = DateFactory.fromInts(2001,11,7);
         Entry entry2 = EntryFactory.createEntry(amount2,entryID2,details2,date2);
 
         //Create valid Entry3
-        int amount3 = -4;
+        Amount amount3 = AmountFactory.fromInt(-4);
         int entryID3 = -7;
-        String details3 = "Large cofee";
-        Date date3 = new Date(2009,7,6);
+        Details details3 = DetailsFactory.fromString("Large cofee");
+        Date date3 = DateFactory.fromInts(2009,7,6);
         Entry entry3 = EntryFactory.createEntry(amount3,entryID3,details3,date3);
 
         //Create valid Entry4
-        int amount4 = 10000;
+        Amount amount4 = AmountFactory.fromInt(10000);
         int entryID4 = 6;
-        String details4 = "Salary";
-        Date date4 = new Date(2009,7,7);
+        Details details4 = DetailsFactory.fromString("Salary");
+        Date date4 = DateFactory.fromInts(2009,7,7);
         Entry entry4 = EntryFactory.createEntry(amount4,entryID4,details4,date4);
 
         //insert entries into the database
@@ -384,8 +394,8 @@ public class DatabaseTest {
     public void selectFromEmptyTest(){
 
         //Create Database
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //select an entry from the database
         Entry retEntry1 = database.selectByID(81);
@@ -397,8 +407,8 @@ public class DatabaseTest {
     public void deleteFromEmptyTest(){
 
         //Create Database
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //select an entry from the database
         boolean isDeleted1 = database.deleteEntry(6);
@@ -410,11 +420,15 @@ public class DatabaseTest {
     public void selectByDateFromEmptyTest(){
 
         //Create Database
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //select an entry List from the database
-        List<Entry> retList = database.selectByDate(new Date(2001,10,7),new Date(2009,7,7));
+        DateInterval interval = DateIntervalFactory.fromDate(
+                DateFactory.fromInts(2001,10,7),
+                DateFactory.fromInts(2009,7,7)
+        );
+        List<Entry> retList = database.selectByDate(interval);
 
         assertEquals("List is not empty", 0, retList.size());
     }
@@ -422,14 +436,14 @@ public class DatabaseTest {
     @Test
     public void updateThenSelectTest() {
         //Create Database
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry
-        int amount1 = 50;
+        Amount amount1 = AmountFactory.fromInt(50);
         int entryID1 = 42;
-        String details1 = "Tutor";
-        Date date1 = new Date(2016, 7, 7);
+        Details details1 = DetailsFactory.fromString("Tutor");
+        Date date1 = DateFactory.fromInts(2016, 7, 7);
 
         Entry entry1 = EntryFactory.createEntry(amount1, entryID1, details1, date1);
 
@@ -437,9 +451,9 @@ public class DatabaseTest {
         database.insertEntry(entry1);
 
         //update an entry
-        int updatedAmount = 60;
-        String updatedDetails = "Not a tutor";
-        Date updatedDate = new Date(2017, 3, 4);
+        Amount updatedAmount = AmountFactory.fromInt(60);
+        Details updatedDetails = DetailsFactory.fromString("Not a tutor");
+        Date updatedDate = DateFactory.fromInts(2017, 3, 4);
 
         entry1 = entry1.modifyEntry(updatedAmount, updatedDetails, updatedDate);
         boolean isUpdated = database.updateEntry(entry1);
@@ -462,14 +476,14 @@ public class DatabaseTest {
     @Test
     public void updateNotExistedTest() {
         //Create Database
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry
-        int amount1 = 50;
+        Amount amount1 = AmountFactory.fromInt(50);
         int entryID1 = 42;
-        String details1 = "Tutor";
-        Date date1 = new Date(2016, 7, 7);
+        Details details1 = DetailsFactory.fromString("Tutor");
+        Date date1 = DateFactory.fromInts(2016, 7, 7);
 
         Entry entry1 = EntryFactory.createEntry(amount1, entryID1, details1, date1);
 
@@ -486,14 +500,14 @@ public class DatabaseTest {
     @Test(expected = RuntimeException.class)
     public void insertTwoTimesSameTest() {
         //Create Database
-        int intitialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(intitialIDCounter);
+        int initialIDCounter = 42;
+        Database database = DatabaseFactory.createDatabase(initialIDCounter);
 
         //Create valid Entry
-        int amount1 = 50;
+        Amount amount1 = AmountFactory.fromInt(50);
         int entryID1 = 42;
-        String details1 = "Tutor";
-        Date date1 = new Date(2016, 7, 7);
+        Details details1 = DetailsFactory.fromString("Tutor");
+        Date date1 = DateFactory.fromInts(2016, 7, 7);
 
         //Two same entries
         Entry entry1 = EntryFactory.createEntry(amount1, entryID1, details1, date1);

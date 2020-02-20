@@ -46,4 +46,9 @@ class LinkedListEntryList implements EntryList {
 
         return copy.iterator();
     }
+
+    @Override
+    public int size() {
+        return this.chronoList.size();
+    }
 }
