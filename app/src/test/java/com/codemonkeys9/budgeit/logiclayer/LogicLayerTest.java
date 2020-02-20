@@ -1,6 +1,8 @@
 package com.codemonkeys9.budgeit.logiclayer;
 
 import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.amount.Amount;
+import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
@@ -26,19 +28,19 @@ public class LogicLayerTest {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -71,19 +73,19 @@ public class LogicLayerTest {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -126,19 +128,19 @@ public class LogicLayerTest {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -185,19 +187,19 @@ public class LogicLayerTest {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -232,19 +234,19 @@ public class LogicLayerTest {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -288,19 +290,19 @@ public class LogicLayerTest {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -347,19 +349,19 @@ public class LogicLayerTest {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -402,19 +404,19 @@ public class LogicLayerTest {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -458,19 +460,19 @@ public class LogicLayerTest {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -526,19 +528,19 @@ public class LogicLayerTest {
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -566,19 +568,19 @@ public class LogicLayerTest {
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -605,19 +607,19 @@ public class LogicLayerTest {
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -644,19 +646,19 @@ public class LogicLayerTest {
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -683,19 +685,19 @@ public class LogicLayerTest {
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
@@ -722,19 +724,19 @@ public class LogicLayerTest {
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
 
-        String amount1 = "100.92";
+        Amount amount1 = AmountFactory.fromString("100.92");
         String details1 = "Ender was bullied by his older brother Peter";
         String date1 = "23/04/1999";
 
-        String amount2 = "-122.47";
+        Amount amount2 = AmountFactory.fromString("-122.47");
         String details2 = "Ender and his siblings were all some of the smartest children in the world";
         String date2 = "23/04/2000";
 
-        String amount3 = ".99";
+        Amount amount3 = AmountFactory.fromString(".99");
         String details3 = "Ender was selected for a special military program";
         String date3 = "23/01/1999";
 
-        String amount4 = "-30000.00";
+        Amount amount4 = AmountFactory.fromString("-30000.00");
         String details4 = "They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
