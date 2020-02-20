@@ -1,7 +1,11 @@
 package com.codemonkeys9.budgeit.logiclayer;
 
-
 import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.database.DatabaseHolder;
+import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
+import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
+import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherFactory;
 
 import org.junit.Test;
 
@@ -12,8 +16,12 @@ import java.util.List;
 public class LogicLayerTest {
     @Test
     public void fetchIncomeWithNowTest() {
-
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -32,11 +40,10 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
-
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
         List<Entry> entryList = ll.fetchAllIncomeEntrys("24/01/1999","now");
         assertEquals(entryList.size(),1);
@@ -48,14 +55,17 @@ public class LogicLayerTest {
         assertTrue("Ender was bullied by his older brother Peter".equals(entry1.getDetails()));
         assertEquals(1999 - 1900,entry1.getDate().getYear());
         assertEquals(4 - 1,entry1.getDate().getMonth());
-        assertEquals(23,entry1.getDate().getDate());
-
-
+        assertEquals(23,entry1.getDate().getDay());
     }
 
     @Test
     public void fetchAllPurchasesWithNowTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -74,13 +84,13 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = ll.fetchAllPurchaseEntrys("24/01/1999","now");
+        List<Entry> entryList = entryFetcher.fetchAllPurchaseEntrys("24/01/1999","now");
         assertEquals(entryList.size(),2);
 
 
@@ -100,13 +110,18 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.").equals(entry4.getDetails()));
         assertEquals(1999 - 1900,entry4.getDate().getYear());
         assertEquals(07 - 1,entry4.getDate().getMonth());
-        assertEquals(23,entry4.getDate().getDate());
+        assertEquals(23,entry4.getDate().getDay());
 
     }
 
     @Test
     public void fetchAllEntrysWithNowTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -125,13 +140,13 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = ll.fetchAllEntrys("24/01/1999","now");
+        List<Entry> entryList = entryFetcher.fetchAllEntrys("24/01/1999","now");
         assertEquals(entryList.size(),3);
 
         Entry entry1 = entryList.get(2);
@@ -142,25 +157,30 @@ public class LogicLayerTest {
         assertTrue("Ender was bullied by his older brother Peter".equals(entry1.getDetails()));
         assertEquals(1999 - 1900,entry1.getDate().getYear());
         assertEquals(4 - 1,entry1.getDate().getMonth());
-        assertEquals(23,entry1.getDate().getDate());
+        assertEquals(23,entry1.getDate().getDay());
 
         assertEquals(-12247,entry2.getAmount());
         assertTrue("Ender and his siblings were all some of the smartest children in the world".equals(entry2.getDetails()));
         assertEquals(2000 - 1900,entry2.getDate().getYear());
         assertEquals(4 - 1,entry2.getDate().getMonth());
-        assertEquals(23,entry2.getDate().getDate());
+        assertEquals(23,entry2.getDate().getDay());
 
         assertEquals(-3000000,entry4.getAmount());
         assertTrue(("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.").equals(entry4.getDetails()));
         assertEquals(1999 - 1900,entry4.getDate().getYear());
         assertEquals(07 - 1,entry4.getDate().getMonth());
-        assertEquals(23,entry4.getDate().getDate());
+        assertEquals(23,entry4.getDate().getDay());
 
     }
     @Test
     public void fetchIncomeWithDateTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -179,13 +199,13 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = ll.fetchAllIncomeEntrys("24/01/1999","01/01/2019");
+        List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys("24/01/1999","01/01/2019");
         assertEquals(entryList.size(),1);
 
         Entry entry1 = entryList.get(0);
@@ -195,14 +215,19 @@ public class LogicLayerTest {
         assertTrue("Ender was bullied by his older brother Peter".equals(entry1.getDetails()));
         assertEquals(1999 - 1900,entry1.getDate().getYear());
         assertEquals(4 - 1,entry1.getDate().getMonth());
-        assertEquals(23,entry1.getDate().getDate());
+        assertEquals(23,entry1.getDate().getDay());
 
 
     }
 
     @Test
     public void fetchAllPurchasesWithDateTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -221,13 +246,13 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = ll.fetchAllPurchaseEntrys("24/01/1999","01/01/2019");
+        List<Entry> entryList = entryFetcher.fetchAllPurchaseEntrys("24/01/1999","01/01/2019");
         assertEquals(entryList.size(),2);
 
 
@@ -239,7 +264,7 @@ public class LogicLayerTest {
         assertTrue("Ender and his siblings were all some of the smartest children in the world".equals(entry2.getDetails()));
         assertEquals(2000 - 1900,entry2.getDate().getYear());
         assertEquals(4 - 1,entry2.getDate().getMonth());
-        assertEquals(23,entry2.getDate().getDate());
+        assertEquals(23,entry2.getDate().getDay());
 
 
         assertEquals(-3000000,entry4.getAmount());
@@ -247,13 +272,18 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.").equals(entry4.getDetails()));
         assertEquals(1999 - 1900,entry4.getDate().getYear());
         assertEquals(07 - 1,entry4.getDate().getMonth());
-        assertEquals(23,entry4.getDate().getDate());
+        assertEquals(23,entry4.getDate().getDay());
 
     }
 
     @Test
     public void fetchAllEntrysWithDateTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -272,13 +302,13 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = ll.fetchAllEntrys("24/01/1999","01/01/2019");
+        List<Entry> entryList = entryFetcher.fetchAllEntrys("24/01/1999","01/01/2019");
         assertEquals(entryList.size(),3);
 
         Entry entry1 = entryList.get(2);
@@ -289,25 +319,30 @@ public class LogicLayerTest {
         assertTrue("Ender was bullied by his older brother Peter".equals(entry1.getDetails()));
         assertEquals(1999 - 1900,entry1.getDate().getYear());
         assertEquals(4 - 1,entry1.getDate().getMonth());
-        assertEquals(23,entry1.getDate().getDate());
+        assertEquals(23,entry1.getDate().getDay());
 
         assertEquals(-12247,entry2.getAmount());
         assertTrue("Ender and his siblings were all some of the smartest children in the world".equals(entry2.getDetails()));
         assertEquals(2000 - 1900,entry2.getDate().getYear());
         assertEquals(4 - 1,entry2.getDate().getMonth());
-        assertEquals(23,entry2.getDate().getDate());
+        assertEquals(23,entry2.getDate().getDay());
 
         assertEquals(-3000000,entry4.getAmount());
         assertTrue(("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.").equals(entry4.getDetails()));
         assertEquals(1999 - 1900,entry4.getDate().getYear());
         assertEquals(07 - 1,entry4.getDate().getMonth());
-        assertEquals(23,entry4.getDate().getDate());
+        assertEquals(23,entry4.getDate().getDay());
 
     }
     @Test
     public void fetchAllIncomeNoDateTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -326,13 +361,13 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = ll.fetchAllIncomeEntrys();
+        List<Entry> entryList = entryFetcher.fetchAllIncomeEntrys();
         assertEquals(entryList.size(),2);
 
         Entry entry1 = entryList.get(0);
@@ -343,20 +378,25 @@ public class LogicLayerTest {
         assertTrue("Ender was bullied by his older brother Peter".equals(entry1.getDetails()));
         assertEquals(1999 - 1900,entry1.getDate().getYear());
         assertEquals(4 - 1,entry1.getDate().getMonth());
-        assertEquals(23,entry1.getDate().getDate());
+        assertEquals(23,entry1.getDate().getDay());
 
 
         assertEquals(99,entry3.getAmount());
         assertTrue("Ender was selected for a special military program".equals(entry3.getDetails()));
         assertEquals(1999 - 1900,entry3.getDate().getYear());
         assertEquals(1 - 1,entry3.getDate().getMonth());
-        assertEquals(23,entry3.getDate().getDate());
+        assertEquals(23,entry3.getDate().getDay());
 
     }
 
     @Test
     public void fetchAllPurchasesNoDateTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -375,13 +415,13 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
-        List<Entry> entryList = ll.fetchAllPurchaseEntrys();
+        List<Entry> entryList = entryFetcher.fetchAllPurchaseEntrys();
         assertEquals(entryList.size(),2);
 
 
@@ -401,13 +441,18 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.").equals(entry4.getDetails()));
         assertEquals(1999 - 1900,entry4.getDate().getYear());
         assertEquals(07 - 1,entry4.getDate().getMonth());
-        assertEquals(23,entry4.getDate().getDate());
+        assertEquals(23,entry4.getDate().getDay());
 
     }
 
     @Test
     public void fetchAllEntrysNoDateTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -426,13 +471,12 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
-
-        List<Entry> entryList = ll.fetchAllEntrys();
+        List<Entry> entryList = entryFetcher.fetchAllEntrys();
         assertEquals(entryList.size(),4);
 
         Entry entry1 = entryList.get(2);
@@ -444,32 +488,37 @@ public class LogicLayerTest {
         assertTrue("Ender was bullied by his older brother Peter".equals(entry1.getDetails()));
         assertEquals(1999 - 1900,entry1.getDate().getYear());
         assertEquals(4 - 1,entry1.getDate().getMonth());
-        assertEquals(23,entry1.getDate().getDate());
+        assertEquals(23,entry1.getDate().getDay());
 
         assertEquals(-12247,entry2.getAmount());
         assertTrue("Ender and his siblings were all some of the smartest children in the world".equals(entry2.getDetails()));
         assertEquals(2000 - 1900,entry2.getDate().getYear());
         assertEquals(4 - 1,entry2.getDate().getMonth());
-        assertEquals(23,entry2.getDate().getDate());
+        assertEquals(23,entry2.getDate().getDay());
 
         assertEquals(99,entry3.getAmount());
         assertTrue("Ender was selected for a special military program".equals(entry3.getDetails()));
         assertEquals(1999 - 1900,entry3.getDate().getYear());
         assertEquals(1 - 1,entry3.getDate().getMonth());
-        assertEquals(23,entry3.getDate().getDate());
+        assertEquals(23,entry3.getDate().getDay());
 
         assertEquals(-3000000,entry4.getAmount());
         assertTrue(("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.").equals(entry4.getDetails()));
         assertEquals(1999 - 1900,entry4.getDate().getYear());
         assertEquals(07 - 1,entry4.getDate().getMonth());
-        assertEquals(23,entry4.getDate().getDate());
+        assertEquals(23,entry4.getDate().getDay());
 
     }
 
     @Test
     public void calculateTotalIncomeWithDateTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -488,10 +537,10 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
         String amount = ll.calculateTotalIncome("0/02/1999","23/03/2000");
@@ -502,7 +551,12 @@ public class LogicLayerTest {
 
     @Test
     public void calculateTotalIncomeNoDateTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -521,10 +575,10 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
         String amount = ll.calculateTotalIncome();
@@ -534,7 +588,12 @@ public class LogicLayerTest {
 
     @Test
     public void calculateTotalPurchaseWithDateTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -553,10 +612,10 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
         String amount = ll.calculateTotalPurchases("0/02/1999","23/03/2000");
@@ -566,7 +625,12 @@ public class LogicLayerTest {
 
     @Test
     public void calculateTotalPurchaseNoDateTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -585,10 +649,10 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
         String amount = ll.calculateTotalPurchases();
@@ -598,7 +662,12 @@ public class LogicLayerTest {
 
     @Test
     public void calculateTotalWithDateTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -617,10 +686,10 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
         String amount = ll.calculateTotal("0/02/1999","23/03/2000");
@@ -630,7 +699,12 @@ public class LogicLayerTest {
 
     @Test
     public void calculateTotalNoDateTest() {
-        LogicLayer ll = LogicLayerFactory.createLogicLayer();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
         String amount1 = "100.92";
         String details1 = "Ender was bullied by his older brother Peter";
@@ -649,10 +723,10 @@ public class LogicLayerTest {
                 "in self defense, he was appalled by what he had done.";
         String date4 = "23/07/1999";
 
-        ll.createEntry(amount1, details1, date1);
-        ll.createEntry(amount2, details2, date2);
-        ll.createEntry(amount3, details3, date3);
-        ll.createEntry(amount4, details4, date4);
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createEntry(amount4, details4, date4);
 
 
         String amount = ll.calculateTotal();
