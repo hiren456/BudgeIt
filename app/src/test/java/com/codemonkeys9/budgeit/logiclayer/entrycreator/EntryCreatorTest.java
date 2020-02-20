@@ -1,14 +1,19 @@
 package com.codemonkeys9.budgeit.logiclayer.entrycreator;
 
 import com.codemonkeys9.budgeit.database.Database;
-import com.codemonkeys9.budgeit.database.DatabaseFactory;
+import com.codemonkeys9.budgeit.database.DatabaseHolder;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
-import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverter;
-import com.codemonkeys9.budgeit.logiclayer.parameterconverter.ParameterConverterFactory;
+import com.codemonkeys9.budgeit.dso.amount.Amount;
+import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
+import com.codemonkeys9.budgeit.dso.details.Details;
+import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -17,17 +22,21 @@ public class EntryCreatorTest {
 
     @Test
     public void createOneThenSelectAllTest() {
-        Database database = DatabaseFactory.createDatabase(0);
-        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
-        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        Database database = DatabaseHolder.getDatabase();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
 
-        String amount1 = "100.92";
-        String details1 = "Ender was bullied by his older brother Peter";
-        String date1 = "23/04/1999";
+        Amount amount1 = AmountFactory.fromString("100.92");
+        Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
+        Date date1 = DateFactory.fromString("1999-04-23");
 
-        entryCreator.createEntry(converter.parseDisplayAmount(amount1), details1, converter.parseDate(date1));
+        entryCreator.createEntry(amount1, details1, date1);
 
-        List<Entry> entryList = database.selectByDate(new Date(0),new Date());
+        DateInterval interval = DateIntervalFactory.fromString("past", "now");
+        List<Entry> entryList = database.selectByDate(interval);
         assertEquals(entryList.size(),1);
 
         Entry entry1 = entryList.get(0);
@@ -35,31 +44,35 @@ public class EntryCreatorTest {
         assertTrue("Ender was bullied by his older brother Peter".equals(entry1.getDetails()));
         assertEquals(1999 - 1900,entry1.getDate().getYear());
         assertEquals(4 - 1,entry1.getDate().getMonth());
-        assertEquals(23,entry1.getDate().getDate());
+        assertEquals(23,entry1.getDate().getDay());
     }
     @Test
     public void createManyThenSelectAllTest() {
-        Database database = DatabaseFactory.createDatabase(0);
-        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
-        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        Database database = DatabaseHolder.getDatabase();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
 
-        String amount1 = "100.92";
-        String details1 = "Ender was bullied by his older brother Peter";
-        String date1 = "23/04/1999";
+        Amount amount1 = AmountFactory.fromString("100.92");
+        Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
+        Date date1 = DateFactory.fromString("1999-04-23");
 
-        String amount2 = "-122.47";
-        String details2 = "Ender and his siblings were all some of the smartest children in the world";
-        String date2 = "23/04/2000";
+        Amount amount2 = AmountFactory.fromString("-122.47");
+        Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
+        Date date2 = DateFactory.fromString("2000-04-23");
 
-        String amount3 = ".99";
-        String details3 = "Ender was selected for a special military program";
-        String date3 = "23/01/1999";
+        Amount amount3 = AmountFactory.fromString(".99");
+        Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
+        Date date3 = DateFactory.fromString("1999-01-23");
 
-        entryCreator.createEntry(converter.parseDisplayAmount(amount1), details1, converter.parseDate(date1));
-        entryCreator.createEntry(converter.parseDisplayAmount(amount2), details2, converter.parseDate(date2));
-        entryCreator.createEntry(converter.parseDisplayAmount(amount3), details3, converter.parseDate(date3));
+        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createEntry(amount2, details2, date2);
+        entryCreator.createEntry(amount3, details3, date3);
 
-        List<Entry> entryList = database.selectByDate(new Date(0),new Date());
+        DateInterval interval = DateIntervalFactory.fromString("past", "now");
+        List<Entry> entryList = database.selectByDate(interval);
         assertEquals(entryList.size(),3);
 
         Entry entry1 = entryList.get(1);
@@ -70,59 +83,65 @@ public class EntryCreatorTest {
         assertTrue("Ender was bullied by his older brother Peter".equals(entry1.getDetails()));
         assertEquals(1999 - 1900,entry1.getDate().getYear());
         assertEquals(4 - 1,entry1.getDate().getMonth());
-        assertEquals(23,entry1.getDate().getDate());
+        assertEquals(23,entry1.getDate().getDay());
 
         assertEquals(-12247,entry2.getAmount());
         assertTrue("Ender and his siblings were all some of the smartest children in the world".equals(entry2.getDetails()));
         assertEquals(2000 - 1900,entry2.getDate().getYear());
         assertEquals(4 - 1,entry2.getDate().getMonth());
-        assertEquals(23,entry2.getDate().getDate());
+        assertEquals(23,entry2.getDate().getDay());
 
         assertEquals(99,entry3.getAmount());
         assertTrue("Ender was selected for a special military program".equals(entry3.getDetails()));
         assertEquals(1999 - 1900,entry3.getDate().getYear());
         assertEquals(1 - 1,entry3.getDate().getMonth());
-        assertEquals(23,entry3.getDate().getDate());
+        assertEquals(23,entry3.getDate().getDay());
     }
 
     // For all create Invalid test, wait for proper parameter validation
     // no use testing if there is no right answer yet
     @Test
     public void createInvalidAmountThenSelectAllTest() {
-        Database database = DatabaseFactory.createDatabase(0);
-        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
-        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
 
-        String amount1 = "100.92";
-        String details1 = "Ender was bullied by his older brother Peter";
-        String date1 = "23/04/1999";
+        Amount amount1 = AmountFactory.fromString("100.92");
+        Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
+        Date date1 = DateFactory.fromString("1999-04-23");
 
-        entryCreator.createEntry(converter.parseDisplayAmount(amount1), details1, converter.parseDate(date1));
+        entryCreator.createEntry(amount1, details1, date1);
     }
 
     @Test
     public void createInvalidDateThenSelectAllTest() {
-        Database database = DatabaseFactory.createDatabase(0);
-        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
-        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
 
-        String amount1 = "100.92";
-        String details1 = "Ender was bullied by his older brother Peter";
-        String date1 = "23/04/1999";
+        Amount amount1 = AmountFactory.fromString("100.92");
+        Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
+        Date date1 = DateFactory.fromString("1999-04-23");
 
-        entryCreator.createEntry(converter.parseDisplayAmount(amount1), details1, converter.parseDate(date1));
+        entryCreator.createEntry(amount1, details1, date1);
     }
 
     @Test
     public void createInvalidDetailsThenSelectAllTest() {
-        Database database = DatabaseFactory.createDatabase(0);
-        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator(database);
-        ParameterConverter converter = ParameterConverterFactory.createParameterConverter();
+        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
+        //       shouldn't) do that.
+        //     - Zach
+        DatabaseHolder.init();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
 
-        String amount1 = "100.92";
-        String details1 = "Ender was bullied by his older brother Peter";
-        String date1 = "23/04/1999";
+        Amount amount1 = AmountFactory.fromString("100.92");
+        Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
+        Date date1 = DateFactory.fromString("1999-04-23");
 
-        entryCreator.createEntry(converter.parseDisplayAmount(amount1), details1, converter.parseDate(date1));
+        entryCreator.createEntry(amount1, details1, date1);
     }
 }
