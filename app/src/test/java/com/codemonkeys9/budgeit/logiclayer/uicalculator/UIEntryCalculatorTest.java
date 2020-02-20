@@ -17,16 +17,25 @@ import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherFactory;
 
+import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Field;
+
 import static org.junit.Assert.*;
 
 public class UIEntryCalculatorTest {
+    @Before
+    public void resetDatabase() throws SecurityException,
+            NoSuchFieldException, IllegalArgumentException,
+            IllegalAccessException {
+        Field instance = DatabaseHolder.class.getDeclaredField("db");
+        instance.setAccessible(true);
+        instance.set(null, null);
+        DatabaseHolder.init();
+    }
     @Test
     public void calculateTotalIncomeWithDateTest() {
-        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
-        //       shouldn't) do that.
-        //     - Zach
-        DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
@@ -53,7 +62,7 @@ public class UIEntryCalculatorTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("1999-02-00", "2000-03-23");
+        DateInterval interval = DateIntervalFactory.fromString("1999-02-01", "2000-03-23");
         EntryList entries = entryFetcher.fetchAllIncomeEntrys(interval);
         String amount = entryCalculator.sumEntryList(entries).getDisplay();
 
@@ -63,10 +72,6 @@ public class UIEntryCalculatorTest {
 
     @Test
     public void calculateTotalIncomePastToNowTest() {
-        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
-        //       shouldn't) do that.
-        //     - Zach
-        DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
@@ -102,10 +107,6 @@ public class UIEntryCalculatorTest {
 
     @Test
     public void calculateTotalPurchaseWithDateTest() {
-        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
-        //       shouldn't) do that.
-        //     - Zach
-        DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
@@ -132,7 +133,7 @@ public class UIEntryCalculatorTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("1999-02-00", "2000-03-23");
+        DateInterval interval = DateIntervalFactory.fromString("1999-02-01", "2000-03-23");
         EntryList entries = entryFetcher.fetchAllPurchasesEntrys(interval);
         String amount = entryCalculator.sumEntryList(entries).getDisplay();
 
@@ -141,10 +142,6 @@ public class UIEntryCalculatorTest {
 
     @Test
     public void calculateTotalPurchasePastToNowTest() {
-        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
-        //       shouldn't) do that.
-        //     - Zach
-        DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
@@ -180,10 +177,6 @@ public class UIEntryCalculatorTest {
 
     @Test
     public void calculateTotalWithDateTest() {
-        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
-        //       shouldn't) do that.
-        //     - Zach
-        DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
@@ -210,7 +203,7 @@ public class UIEntryCalculatorTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("1999-02-00", "2000-03-23");
+        DateInterval interval = DateIntervalFactory.fromString("1999-02-01", "2000-03-23");
         EntryList entries = entryFetcher.fetchAllEntrys(interval);
         String amount = entryCalculator.sumEntryList(entries).getDisplay();
 
@@ -219,10 +212,6 @@ public class UIEntryCalculatorTest {
 
     @Test
     public void calculateTotalPastToNowTest() {
-        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
-        //       shouldn't) do that.
-        //     - Zach
-        DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();

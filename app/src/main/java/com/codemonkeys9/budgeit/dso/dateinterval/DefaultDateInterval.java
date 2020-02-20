@@ -40,4 +40,10 @@ class DefaultDateInterval implements DateInterval {
         boolean beforeEnd = (date.compareTo(end) <= 0);
         return afterStart && beforeEnd;
     }
+
+    @Override
+    public boolean equals(DateInterval other) {
+        return this.start.equals(other.getStart())
+                && this.end.equals(other.getEnd());
+    }
 }

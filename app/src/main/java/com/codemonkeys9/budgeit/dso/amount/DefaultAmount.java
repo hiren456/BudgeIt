@@ -59,4 +59,9 @@ class DefaultAmount implements Amount{
         out += string.substring(string.length() -2);
         return out;
     }
+
+    @Override
+    public boolean equals(Amount other){
+        return this.amount == other.getValue();
+    }
 }

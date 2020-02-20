@@ -25,4 +25,5 @@ public interface Date extends Comparable<Date> {
      */
     int getDay();
 
+    boolean equals(Date other);
 }

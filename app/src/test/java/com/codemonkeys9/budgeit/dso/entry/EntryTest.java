@@ -1,11 +1,13 @@
 package com.codemonkeys9.budgeit.dso.entry;
 
-import com.codemonkeys9.budgeit.dso.entry.Entry;
-import com.codemonkeys9.budgeit.dso.entry.EntryFactory;
+import com.codemonkeys9.budgeit.dso.amount.Amount;
+import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
+import com.codemonkeys9.budgeit.dso.details.Details;
+import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 
 import org.junit.Test;
-
-import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -14,63 +16,63 @@ public class EntryTest {
     public void ValidEntryGetAmountTest() {
 
         //Create valid Entry
-        int amount = 999;
+        Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
-        String details = "A very creative description";
-        Date date = new Date(1999,04,23);
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
         Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
-        assertEquals(entry.getAmount(), 999);
+        assertTrue(entry.getAmount().equals(amount));
     }
 
     @Test
     public void ValidEntryGetEntryIDTest() {
-        //Create valid com.codemonkeys9.budgeit.Entry
-        int amount = 999;
+        //Create valid Entry
+        Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
-        String details = "A very creative description";
-        Date date = new Date(1999,04,23);
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
 
-
+        //test getAmount
         Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
-        assertEquals(entry.getEntryID(),42);
+        assertEquals(entry.getEntryID() , 42);
     }
 
     @Test
     public void ValidEntryGetDetailsTest() {
-        //Create valid com.codemonkeys9.budgeit.Entry
-        int amount = 999;
+        //Create valid Entry
+        Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
-        String details = "A very creative description";
-        Date date = new Date(1999,04,23);
-        String details2 = "A very creative description";
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
 
+        //test getAmount
         Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
-        assertTrue(details2.equals(entry.getDetails()));
+        assertTrue(entry.getDetails().equals(details));
     }
 
     @Test
     public void ValidEntryGetDateTest() {
-        //Create valid com.codemonkeys9.budgeit.Entry
-        int amount = 999;
+        //Create valid Entry
+        Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
-        String details = "A very creative description";
-        Date date = new Date(1999,04,23);
-        Date date2 = new Date(1999,04,23);
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
 
-
+        //test getAmount
         Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
-        assertTrue(date2.equals(entry.getDate()));
+        assertTrue(entry.getDate().equals(date));
     }
 
 
     @Test
     public void entryIDZeroTest() {
-        int amount = 999;
+        //Create valid Entry
+        Amount amount = AmountFactory.fromInt(999);
         int entryID = 0;
-        String details = "A very creative description";
-        Date date = new Date(1999,04,23);
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
 
         try{
 
@@ -83,10 +85,11 @@ public class EntryTest {
 
     @Test
     public void entryIDNegativeTest() {
-        int amount = 999;
-        int entryID = -100;
-        String details = "A very creative description";
-        Date date = new Date(1999,04,23);
+        //Create valid Entry
+        Amount amount = AmountFactory.fromInt(999);
+        int entryID = -37;
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
 
         try{
 
@@ -99,10 +102,11 @@ public class EntryTest {
 
     @Test
     public void entryIDPositiveTest() {
-        int amount = 999;
+        //Create valid Entry
+        Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
-        String details = "A very creative description";
-        Date date = new Date(1999,04,23);
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
 
         try{
 
@@ -112,44 +116,43 @@ public class EntryTest {
             fail("Making an entry with positive entryID causes an exception");
         }
     }
-    
+
     @Test
     public void modifyEntryTest() {
-        int amount = 999;
-        int entryID = 52;
-        String details = "A creative description";
-        Date date = new Date(1999,04,23);
+        Amount amount = AmountFactory.fromInt(999);
+        int entryID = 42;
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
 
         Entry entry1 = EntryFactory.createEntry(amount, entryID, details, date);
 
-        int newAmount = 123;
-        String newDetails = "Another creative description";
-        Date newDate = new Date(2000,05,24);
+        Amount newAmount = AmountFactory.fromInt(123);
+        Details newDetails = DetailsFactory.fromString( "A very creative description");
+        Date newDate = DateFactory.fromInts(2000,05,24);
 
         Entry entry2 = entry1.modifyEntry(newAmount,newDetails,newDate);
 
 
+        assertTrue("When an entrys modifyEntry method has been called," +
+                "the original amount gets changed",entry1.getAmount().equals(amount));
         assertEquals("When an entrys modifyEntry method has been called," +
-                "the original amount gets changed",entry1.getAmount(), 999);
-        assertEquals("When an entrys modifyEntry method has been called," +
-                "the original ID gets changed",entry1.getEntryID(), 52);
+                "the original ID gets changed",entry1.getEntryID(), 42);
 
         assertEquals("When an entrys modifyEntry method get called," +
-                "the returned entrys amount is not what it should be",entry2.getAmount(), 123);
+                "the returned entrys amount is not what it should be",entry2.getAmount().equals(newAmount));
         assertEquals("When an entrys modifyEntry method get called," +
                 "the returned entrys id is not what it should be",entry2.getEntryID(), 52);
 
 
         assertTrue("When an entrys modifyEntry method has been called," +
-                "the original details string gets changed","A creative description".equals(entry1.getDetails()));
+                "the original details string gets changed",entry1.getDetails().equals(details));
         assertTrue("When an entrys modifyEntry method has been called," +
-                "the original date gets changed",date.equals(entry1.getDate()));
+                "the original date gets changed",entry1.getDate().equals(date));
 
 
         assertTrue("When an entrys modifyEntry method gets called," +
-                "the returned entrys details string gets changed","Another creative description".equals(entry2.getDetails()));
+                "the returned entrys details string gets changed",entry2.getDetails().equals(newDetails));
         assertTrue("When an entrys modifyEntry method gets called," +
-                "the returned entrys date gets changed",newDate.equals(entry2.getDate()));
+                "the returned entrys date gets changed",entry2.getDate().equals(newDate));
     }
-
 }

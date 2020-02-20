@@ -60,12 +60,12 @@ public class DatabaseTest {
 
         // test that it is the one we want
         assertNotNull("Database returns null when it should return an entry using selecBYID",retEntry1);
-        assertEquals("Database returns a entry with the wrong amount using selectByID"
-                ,7249,retEntry1.getAmount());
+        assertTrue("Database returns a entry with the wrong amount using selectByID"
+                ,retEntry1.getAmount().equals(amount1));
         assertEquals("Database returns a entry with the wrong entryID using selectByID"
                 ,81,retEntry1.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByID"
-                ,"Some letters put next to eachother".equals(retEntry1.getDetails()));
+                ,details1.equals(retEntry1.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID"
                 ,date1.equals(retEntry1.getDate()));
     }
@@ -120,34 +120,34 @@ public class DatabaseTest {
         assertNotNull("Database returns null when it should return an entry using selecByID with many inserts 4",retEntry4);
 
         // test that retEntry2 is the one we want
-        assertEquals("Database returns a entry with the wrong amount using selectByID with many inserts"
-                ,520,retEntry2.getAmount());
+        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+                ,amount2.equals(retEntry2.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
                 ,72,retEntry2.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
-                ,"Some letters put next to eachother again".equals(retEntry2.getDetails()));
+                ,details2.equals(retEntry2.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
                 ,date2.equals(retEntry2.getDate()));
 
 
         // test that retEntry3 is the one we want
-        assertEquals("Database returns a entry with the wrong amount using selectByID with many inserts"
-                ,604,retEntry3.getAmount());
+        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+                ,amount3.equals(retEntry3.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
                 ,-7,retEntry3.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
-                , "I am running out of ideas".equals(retEntry3.getDetails()));
+                , details3.equals(retEntry3.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
                 ,date3.equals(retEntry3.getDate()));
 
 
         // test that retEntry4 is the one we want
-        assertEquals("Database returns a entry with the wrong amount using selectByID with many inserts"
-                ,-724,retEntry4.getAmount());
+        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+                ,amount4.equals(retEntry4.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
                 ,6,retEntry4.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
-                ,"Ender's game is an interesting book".equals(retEntry4.getDetails()));
+                ,details4.equals(retEntry4.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
                 ,date4.equals(retEntry4.getDate()));
     }
@@ -195,6 +195,7 @@ public class DatabaseTest {
             DateFactory.fromInts(2001,10,7),
             DateFactory.fromInts(2009,7,7)
         );
+
         List<Entry> retList = database.selectByDate(interval);
 
         // test that we got what was expected
@@ -205,35 +206,35 @@ public class DatabaseTest {
         Entry retEntry4 = retList.get(2);
 
         // test that retEntry2 is the one we want
-        assertEquals("Database returns a entry with the wrong amount using selectByDate"
-                ,520,retEntry2.getAmount());
-        assertEquals("Database returns a entry with the wrong entryID using selectByDate"
+        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+                ,amount2.equals(retEntry2.getAmount()));
+        assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
                 ,72,retEntry2.getEntryID());
-        assertTrue("Database returns a entry with the wrong details string using selectByDate"
-                ,"Some letters put next to eachother again".equals(retEntry2.getDetails()));
-        assertTrue("Database returns a entry with the wrong date using selectByDate"
+        assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
+                ,details2.equals(retEntry2.getDetails()));
+        assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
                 ,date2.equals(retEntry2.getDate()));
 
 
         // test that retEntry3 is the one we want
-        assertEquals("Database returns a entry with the wrong amount using selectByDate"
-                ,604,retEntry3.getAmount());
-        assertEquals("Database returns a entry with the wrong entryID using selectByDate"
+        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+                ,amount3.equals(retEntry3.getAmount()));
+        assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
                 ,-7,retEntry3.getEntryID());
-        assertTrue("Database returns a entry with the wrong details string using selectByDate"
-                , "I am running out of ideas".equals(retEntry3.getDetails()));
-        assertTrue("Database returns a entry with the wrong date using selectByDate"
+        assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
+                , details3.equals(retEntry3.getDetails()));
+        assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
                 ,date3.equals(retEntry3.getDate()));
 
 
         // test that retEntry4 is the one we want
-        assertEquals("Database returns a entry with the wrong amount using selectByDate"
-                ,-724,retEntry4.getAmount());
-        assertEquals("Database returns a entry with the wrong entryID using selectByDate"
+        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+                ,amount4.equals(retEntry4.getAmount()));
+        assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
                 ,6,retEntry4.getEntryID());
-        assertTrue("Database returns a entry with the wrong details string using selectByDate"
-                ,"Ender's game is an interesting book".equals(retEntry4.getDetails()));
-        assertTrue("Database returns a entry with the wrong date using selectByDate"
+        assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
+                ,details4.equals(retEntry4.getDetails()));
+        assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
                 ,date4.equals(retEntry4.getDate()));
     }
 
@@ -462,14 +463,15 @@ public class DatabaseTest {
 
         // test that it is the one we want
         assertNotNull("Database returns null when it should return an entry using selecBYID",retEntry1);
-        assertEquals("Database returns a entry with the wrong amount using selectByID",
-                updatedAmount,retEntry1.getAmount());
-        assertEquals("Database returns a entry with the wrong entryID using selectByID",
-                entryID1,retEntry1.getEntryID());
-        assertTrue("Database returns a entry with the wrong details string using selectByID",
-                updatedDetails.equals(retEntry1.getDetails()));
-        assertTrue("Database returns a entry with the wrong date using selectByID",
-                updatedDate.equals(retEntry1.getDate()));
+
+        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+                ,updatedAmount.equals(retEntry1.getAmount()));
+        assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
+                ,entryID1,retEntry1.getEntryID());
+        assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
+                ,updatedDetails.equals(retEntry1.getDetails()));
+        assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
+                ,updatedDate.equals(retEntry1.getDate()));
         assertTrue(isUpdated);
     }
 

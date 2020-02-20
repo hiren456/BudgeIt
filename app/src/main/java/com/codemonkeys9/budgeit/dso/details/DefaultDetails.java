@@ -13,6 +13,11 @@ class DefaultDetails implements Details {
         return this.details;
     }
 
+    @Override
+    public boolean equals(Details other) {
+        return getValue().equals(other.getValue());
+    }
+
     private void validateDetails(String details){
         if(details == null){
 

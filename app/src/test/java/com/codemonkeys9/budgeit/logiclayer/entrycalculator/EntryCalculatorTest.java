@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.logiclayer.entrycalculator;
 
+import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.EntryFactory;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
@@ -11,18 +12,27 @@ import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class EntryCalculatorTest {
+    @Before
+    public void resetDatabase() throws SecurityException,
+            NoSuchFieldException, IllegalArgumentException,
+            IllegalAccessException {
+        Field instance = DatabaseHolder.class.getDeclaredField("db");
+        instance.setAccessible(true);
+        instance.set(null, null);
+        DatabaseHolder.init();
+    }
     @Test
     public void sumManyTest() {
-        //Create Database
-
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;

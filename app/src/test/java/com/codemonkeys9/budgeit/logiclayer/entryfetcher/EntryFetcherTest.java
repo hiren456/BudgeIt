@@ -14,19 +14,26 @@ import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class EntryFetcherTest {
+    @Before
+    public void resetDatabase() throws SecurityException,
+            NoSuchFieldException, IllegalArgumentException,
+            IllegalAccessException {
+        Field instance = DatabaseHolder.class.getDeclaredField("db");
+        instance.setAccessible(true);
+        instance.set(null, null);
+        DatabaseHolder.init();
+    }
     @Test
     public void mixedFetchIncomeTest() {
-        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
-        //       shouldn't) do that.
-        //     - Zach
-        DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
@@ -65,25 +72,17 @@ public class EntryFetcherTest {
         Entry entry1 = entries.get(1);
         Entry entry3 = entries.get(0);
 
-        assertEquals(10092,entry1.getAmount());
-        assertTrue("Ender was bullied by his older brother Peter".equals(entry1.getDetails()));
-        assertEquals(1999 - 1900,entry1.getDate().getYear());
-        assertEquals(4 - 1,entry1.getDate().getMonth());
-        assertEquals(23,entry1.getDate().getDay());
+        assertTrue(amount1.equals(entry1.getAmount()));
+        assertTrue(details1.equals(entry1.getDetails()));
+        assertTrue(date1.equals((entry1.getDate())));
 
-        assertEquals(99,entry3.getAmount());
-        assertTrue("Ender was selected for a special military program".equals(entry3.getDetails()));
-        assertEquals(1999 - 1900,entry3.getDate().getYear());
-        assertEquals(1 - 1,entry3.getDate().getMonth());
-        assertEquals(23,entry3.getDate().getDay());
+        assertTrue(amount3.equals(entry3.getAmount()));
+        assertTrue(details3.equals(entry3.getDetails()));
+        assertTrue(date3.equals((entry3.getDate())));
     }
 
     @Test
     public void mixedFetchPurchaseTest() {
-        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
-        //       shouldn't) do that.
-        //     - Zach
-        DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
@@ -121,26 +120,17 @@ public class EntryFetcherTest {
         Entry entry2 = entries.get(1);
         Entry entry4 = entries.get(0);
 
-        assertEquals(-12247,entry2.getAmount());
-        assertTrue("Ender and his siblings were all some of the smartest children in the world".equals(entry2.getDetails()));
-        assertEquals(2000 - 1900,entry2.getDate().getYear());
-        assertEquals(4 - 1,entry2.getDate().getMonth());
-        assertEquals(23,entry2.getDate().getDay());
+        assertTrue(amount2.equals(entry2.getAmount()));
+        assertTrue(details2.equals(entry2.getDetails()));
+        assertTrue(date2.equals((entry2.getDate())));
 
-        assertEquals(-3000000,entry4.getAmount());
-        assertTrue(("They selected him because, even though he killed a kid that was bullying him" +
-                "in self defense, he was appalled by what he had done.").equals(entry4.getDetails()));
-        assertEquals(1999 - 1900,entry4.getDate().getYear());
-        assertEquals(07 - 1,entry4.getDate().getMonth());
-        assertEquals(23,entry4.getDate().getDay());
+        assertTrue(amount4.equals(entry4.getAmount()));
+        assertTrue(details4.equals(entry4.getDetails()));
+        assertTrue(date4.equals((entry4.getDate())));
     }
 
     @Test
     public void mixedFetchAllTest() {
-        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
-        //       shouldn't) do that.
-        //     - Zach
-        DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
@@ -181,38 +171,25 @@ public class EntryFetcherTest {
         Entry entry4 = entries.get(2);
 
 
-        assertEquals(10092,entry1.getAmount());
-        assertTrue("Ender was bullied by his older brother Peter".equals(entry1.getDetails()));
-        assertEquals(1999 - 1900,entry1.getDate().getYear());
-        assertEquals(4 - 1,entry1.getDate().getMonth());
-        assertEquals(23,entry1.getDate().getDay());
+        assertTrue(amount1.equals(entry1.getAmount()));
+        assertTrue(details1.equals(entry1.getDetails()));
+        assertTrue(date1.equals((entry1.getDate())));
 
-        assertEquals(-12247,entry2.getAmount());
-        assertTrue("Ender and his siblings were all some of the smartest children in the world".equals(entry2.getDetails()));
-        assertEquals(2000 - 1900,entry2.getDate().getYear());
-        assertEquals(4 - 1,entry2.getDate().getMonth());
-        assertEquals(23,entry2.getDate().getDay());
+        assertTrue(amount2.equals(entry2.getAmount()));
+        assertTrue(details2.equals(entry2.getDetails()));
+        assertTrue(date2.equals((entry2.getDate())));
 
-        assertEquals(99,entry3.getAmount());
-        assertTrue("Ender was selected for a special military program".equals(entry3.getDetails()));
-        assertEquals(1999 - 1900,entry3.getDate().getYear());
-        assertEquals(1 - 1,entry3.getDate().getMonth());
-        assertEquals(23,entry3.getDate().getDay());
+        assertTrue(amount3.equals(entry3.getAmount()));
+        assertTrue(details3.equals(entry3.getDetails()));
+        assertTrue(date3.equals((entry3.getDate())));
 
-        assertEquals(-3000000,entry4.getAmount());
-        assertTrue(("They selected him because, even though he killed a kid that was bullying him" +
-                "in self defense, he was appalled by what he had done.").equals(entry4.getDetails()));
-        assertEquals(1999 - 1900,entry4.getDate().getYear());
-        assertEquals(07 - 1,entry4.getDate().getMonth());
-        assertEquals(23,entry4.getDate().getDay());
+        assertTrue(amount4.equals(entry4.getAmount()));
+        assertTrue(details4.equals(entry4.getDetails()));
+        assertTrue(date4.equals((entry4.getDate())));
     }
 
     @Test
     public void emptyFetchAllTest() {
-        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
-        //       shouldn't) do that.
-        //     - Zach
-        DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
@@ -223,10 +200,6 @@ public class EntryFetcherTest {
 
     @Test
     public void emptyFetchAllPurchaseTest() {
-        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
-        //       shouldn't) do that.
-        //     - Zach
-        DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 
@@ -237,10 +210,6 @@ public class EntryFetcherTest {
 
     @Test
     public void emptyFetchAllIncomeTest() {
-        // TODO: The database should be freshly created each test. DatabaseHolder.init doesn't (and
-        //       shouldn't) do that.
-        //     - Zach
-        DatabaseHolder.init();
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
         EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
 

@@ -36,7 +36,7 @@ public class DateWithLocalDate implements Date {
 
     @Override
     public String getDisplay() {
-        String formattedDate = this.date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+        String formattedDate = this.date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
         return formattedDate;
     }
 
@@ -53,6 +53,13 @@ public class DateWithLocalDate implements Date {
     @Override
     public int getDay() {
         return this.date.getDayOfMonth();
+    }
+
+    @Override
+    public boolean equals(Date other) {
+        return getDay() == other.getDay()
+                && getMonth() == other.getMonth()
+                && getYear() == other.getYear();
     }
 
     @Override

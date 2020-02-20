@@ -20,4 +20,5 @@ public interface DateInterval {
      */
     boolean in(Date date);
 
+    boolean equals(DateInterval other);
 }
