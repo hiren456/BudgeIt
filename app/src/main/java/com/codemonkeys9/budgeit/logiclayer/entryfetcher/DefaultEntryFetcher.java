@@ -21,6 +21,14 @@ class DefaultEntryFetcher implements EntryFetcher {
     }
 
     @Override
+    public Entry fetchByID(int id) {
+        // get all entrys within the specified date and remove any with negative amounts
+        Entry entry = database.selectByID(id);
+
+        return entry;
+    }
+
+    @Override
     public EntryList fetchAllIncomeEntrys(DateInterval dateInterval) {
         // get all entrys within the specified date and remove any with negative amounts
         List<Entry> list = database.selectByDate(dateInterval);

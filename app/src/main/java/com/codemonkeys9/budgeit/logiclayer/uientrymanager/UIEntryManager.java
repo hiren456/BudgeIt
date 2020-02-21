@@ -1,7 +1,10 @@
 package com.codemonkeys9.budgeit.logiclayer.uientrymanager;
 
+import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.exceptions.InvalidAmountException;
 import com.codemonkeys9.budgeit.exceptions.InvalidDateException;
+import com.codemonkeys9.budgeit.exceptions.PurchaseDoesNotExistException;
 
 public interface UIEntryManager {
     /*
@@ -29,8 +32,8 @@ public interface UIEntryManager {
     then an PurchaseDoesNotExistException
     will be thrown.
      */
-    //void flagPurchase(int id,boolean flag)
-    //        throws PurchaseDoesNotExistException;
-    //void flagPurchase(Entry entry, boolean flag)
-    //        throws PurchaseDoesNotExistException;
+    void flagPurchase(int id,boolean flag)
+            throws PurchaseDoesNotExistException;
+    void flagPurchase(Entry entry, boolean flag)
+            throws PurchaseDoesNotExistException;
 }
