@@ -2,11 +2,12 @@ package com.codemonkeys9.budgeit.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import segmented_control.widget.custom.android.com.segmentedcontrol.SegmentedControl;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ToggleButton;
 
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
@@ -14,7 +15,12 @@ import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
 public class NewEntryActivity extends AppCompatActivity {
+    // See res/values/strings.xml => "entry_types"
+    private final static int
+        INCOME = 0,
+        EXPENSE = 1;
 
+    SegmentedControl entryTypeControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,9 @@ public class NewEntryActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        this.entryTypeControl = findViewById(R.id.control_incomeOrExpense);
+        this.entryTypeControl.setSelectedSegment(0);
     }
 
     public void submitEntry(){
@@ -39,18 +48,14 @@ public class NewEntryActivity extends AppCompatActivity {
         String date = ((EditText)findViewById(R.id.editText_date)).getText().toString();
         String details = ((EditText)findViewById(R.id.editText_details)).getText().toString();
 
+        SegmentedControl entryTypeControl = findViewById(R.id.control_incomeOrExpense);
+        int selected = entryTypeControl.getLastSelectedAbsolutePosition();
+        if(selected == EXPENSE) {
+            amount = "-" + amount;
+        }
+
         try {
-
-            ToggleButton tb = findViewById(R.id.button_incomeOrExpense);
-
-            if ( tb.isChecked() ) {
-                entryManager.createEntry("-"+amount,details,date);
-            }
-
-            else {
-                entryManager.createEntry(amount,details,date);
-            }
-
+            entryManager.createEntry(amount, details, date);
         } catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
             // show this to the user
