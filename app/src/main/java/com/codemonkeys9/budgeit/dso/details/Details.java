@@ -8,6 +8,7 @@ public interface Details {
 
     /*
     gets a string representing the details
+    modifying this string should not modify the details in any way
      */
     String getValue();
 

@@ -11,14 +11,14 @@ public interface EntryListFilterer {
 
     /*
     Takes a list of entries and
-    returns it with only income entries
+    removes all negative amounts
     ie. only entries with a positive amount
      */
     void getIncome(List<Entry> list);
 
     /*
     Takes a list of entries and
-    returns it with only purchase entries
+    removes all positive amounts
     ie. only entries with a negative amount
      */
     void getPurchases(List<Entry> list);

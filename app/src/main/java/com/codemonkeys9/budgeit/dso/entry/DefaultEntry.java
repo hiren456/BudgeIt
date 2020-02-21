@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.dso.entry;
 import com.codemonkeys9.budgeit.dso.amount.Amount;
+import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
@@ -65,11 +66,11 @@ class DefaultEntry implements Entry {
     @Override
     public Entry modifyEntry(Amount amount, Details details, Date date) {
 
-        Amount newAmount = amount;
+        Amount newAmount = AmountFactory.fromInt(amount.getValue());
         int newEntryID = this.entryID;
         //int newCatID = catID;
-        Details newDetails = DetailsFactory.fromString(this.details.getValue());
-        Date newDate = DateFactory.fromInts(this.date.getYear(),this.date.getMonth(),this.date.getDay());
+        Details newDetails = DetailsFactory.fromString(details.getValue());
+        Date newDate = DateFactory.fromInts(date.getYear(),date.getMonth(),date.getDay());
 
         return new DefaultEntry(newAmount,newEntryID,newDetails,newDate);
     }

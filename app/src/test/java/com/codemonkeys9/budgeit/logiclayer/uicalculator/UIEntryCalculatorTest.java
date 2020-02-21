@@ -5,17 +5,10 @@ import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
-import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
-import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
-import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
-import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculator;
-import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,8 +30,7 @@ public class UIEntryCalculatorTest {
     @Test
     public void calculateTotalIncomeWithDateTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
-        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
+        UICalculator entryCalculator = UICalculatorFactory.createUICalculator();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -62,19 +54,15 @@ public class UIEntryCalculatorTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("1999-02-01", "2000-03-23");
-        EntryList entries = entryFetcher.fetchAllIncomeEntrys(interval);
-        String amount = entryCalculator.sumEntryList(entries).getDisplay();
+        Amount amount = entryCalculator.calculateTotalIncome("1999-02-01", "2000-03-23");
 
-        System.out.println(amount);
-        assertTrue(amount.equals("100.92"));
+        assertTrue(amount.getDisplay().equals("100.92"));
     }
 
     @Test
     public void calculateTotalIncomePastToNowTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
-        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
+        UICalculator entryCalculator = UICalculatorFactory.createUICalculator();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -98,18 +86,15 @@ public class UIEntryCalculatorTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        EntryList entries = entryFetcher.fetchAllIncomeEntrys(interval);
-        String amount = entryCalculator.sumEntryList(entries).getDisplay();
+        Amount amount = entryCalculator.calculateTotalIncome();
 
-        assertTrue(amount.equals("101.91"));
+        assertTrue(amount.getDisplay().equals("101.91"));
     }
 
     @Test
     public void calculateTotalPurchaseWithDateTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
-        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
+        UICalculator entryCalculator = UICalculatorFactory.createUICalculator();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -133,18 +118,15 @@ public class UIEntryCalculatorTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("1999-02-01", "2000-03-23");
-        EntryList entries = entryFetcher.fetchAllPurchasesEntrys(interval);
-        String amount = entryCalculator.sumEntryList(entries).getDisplay();
+        Amount amount = entryCalculator.calculateTotalPurchases("1999-02-01", "2000-03-23");
 
-        assertTrue(amount.equals("-30000.00"));
+        assertTrue(amount.getDisplay().equals("-30000.00"));
     }
 
     @Test
     public void calculateTotalPurchasePastToNowTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
-        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
+        UICalculator entryCalculator = UICalculatorFactory.createUICalculator();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -168,18 +150,15 @@ public class UIEntryCalculatorTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        EntryList entries = entryFetcher.fetchAllPurchasesEntrys(interval);
-        String amount = entryCalculator.sumEntryList(entries).getDisplay();
+        Amount amount = entryCalculator.calculateTotalPurchases();
 
-        assertTrue(amount.equals("-30122.47"));
+        assertTrue(amount.getDisplay().equals("-30122.47"));
     }
 
     @Test
     public void calculateTotalWithDateTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
-        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
+        UICalculator entryCalculator = UICalculatorFactory.createUICalculator();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -203,18 +182,15 @@ public class UIEntryCalculatorTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("1999-02-01", "2000-03-23");
-        EntryList entries = entryFetcher.fetchAllEntrys(interval);
-        String amount = entryCalculator.sumEntryList(entries).getDisplay();
+        Amount amount = entryCalculator.calculateTotal("1999-02-01", "2000-03-23");
 
-        assertTrue(amount.equals("-29899.08"));
+        assertTrue(amount.getDisplay().equals("-29899.08"));
     }
 
     @Test
     public void calculateTotalPastToNowTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
-        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
+        UICalculator entryCalculator = UICalculatorFactory.createUICalculator();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -238,10 +214,8 @@ public class UIEntryCalculatorTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        EntryList entries = entryFetcher.fetchAllEntrys(interval);
-        String amount = entryCalculator.sumEntryList(entries).getDisplay();
+        Amount amount = entryCalculator.calculateTotal();
 
-        assertTrue(amount.equals("-30020.56"));
+        assertTrue(amount.getDisplay().equals("-30020.56"));
     }
 }

@@ -51,4 +51,14 @@ public class AmountTest {
         assertTrue(amount.getDisplay().equals("9.99"));
     }
 
+    @Test
+    public void equalsWithNo10sPlaceest() {
+
+        //Create valid amount
+        String stringAmount = ".99";
+        Amount amount = AmountFactory.fromString(stringAmount);
+
+        assertTrue(amount.getDisplay().equals(".99"));
+    }
+
 }

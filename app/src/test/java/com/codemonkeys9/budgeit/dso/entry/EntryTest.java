@@ -137,22 +137,18 @@ public class EntryTest {
                 "the original amount gets changed",entry1.getAmount().equals(amount));
         assertEquals("When an entrys modifyEntry method has been called," +
                 "the original ID gets changed",entry1.getEntryID(), 42);
-
-        assertEquals("When an entrys modifyEntry method get called," +
-                "the returned entrys amount is not what it should be",entry2.getAmount().equals(newAmount));
-        assertEquals("When an entrys modifyEntry method get called," +
-                "the returned entrys id is not what it should be",entry2.getEntryID(), 52);
-
-
         assertTrue("When an entrys modifyEntry method has been called," +
                 "the original details string gets changed",entry1.getDetails().equals(details));
         assertTrue("When an entrys modifyEntry method has been called," +
                 "the original date gets changed",entry1.getDate().equals(date));
 
-
+        assertTrue("When an entrys modifyEntry method get called," +
+                "the returned entrys amount is not what it should be",entry2.getAmount().equals(newAmount));
+        assertEquals("When an entrys modifyEntry method get called," +
+                "the returned entrys id is not what it should be",entry2.getEntryID(), 42);
         assertTrue("When an entrys modifyEntry method gets called," +
-                "the returned entrys details string gets changed",entry2.getDetails().equals(newDetails));
+                "the returned entrys details is not what it should be",entry2.getDetails().equals(newDetails));
         assertTrue("When an entrys modifyEntry method gets called," +
-                "the returned entrys date gets changed",entry2.getDate().equals(newDate));
+                "the returned entrys date is not what it should be",entry2.getDate().equals(newDate));
     }
 }

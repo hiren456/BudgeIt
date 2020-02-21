@@ -58,11 +58,10 @@ public class EntryFetcherTest {
                 details1, date1);
         entryCreator.createEntry(amount2,
                 details2, date2);
-        entryCreator.createEntry(amount4,
+        entryCreator.createEntry(amount3,
                 details3, date3);
         entryCreator.createEntry(amount4,
                 details4, date4);
-
 
         DateInterval interval = DateIntervalFactory.fromString("past", "now");
         EntryList entryList = entryFetcher.fetchAllIncomeEntrys(interval);
@@ -107,7 +106,7 @@ public class EntryFetcherTest {
                 details1, date1);
         entryCreator.createEntry(amount2,
                 details2, date2);
-        entryCreator.createEntry(amount4,
+        entryCreator.createEntry(amount3,
                 details3, date3);
         entryCreator.createEntry(amount4,
                 details4, date4);
@@ -155,7 +154,7 @@ public class EntryFetcherTest {
                 details1, date1);
         entryCreator.createEntry(amount2,
                 details2, date2);
-        entryCreator.createEntry(amount4,
+        entryCreator.createEntry(amount3,
                 details3, date3);
         entryCreator.createEntry(amount4,
                 details4, date4);

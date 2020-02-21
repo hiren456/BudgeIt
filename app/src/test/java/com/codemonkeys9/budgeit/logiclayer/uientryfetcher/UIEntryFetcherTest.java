@@ -5,16 +5,12 @@ import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
-import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
-import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +34,7 @@ public class UIEntryFetcherTest {
     @Test
     public void fetchIncomeWithNowTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -62,11 +58,10 @@ public class UIEntryFetcherTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("1999-01-24", "now");
-        EntryList entryList = entryFetcher.fetchAllIncomeEntrys(interval);
+        EntryList entryList = entryFetcher.fetchAllIncomeEntrys("1999-01-24", "now");
         assertEquals(entryList.size(),1);
 
-        Entry entry1 = entryList.getChrono().get(0);
+        Entry entry1 = entryList.getReverseChrono().get(0);
 
         assertTrue(amount1.equals(entry1.getAmount()));
         assertTrue(details1.equals(entry1.getDetails()));
@@ -76,7 +71,7 @@ public class UIEntryFetcherTest {
     @Test
     public void fetchAllPurchasesWithNowTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -100,11 +95,10 @@ public class UIEntryFetcherTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("1999-01-24", "now");
-        EntryList entryList = entryFetcher.fetchAllPurchasesEntrys(interval);
+        EntryList entryList = entryFetcher.fetchAllPurchaseEntrys("1999-01-24", "now");
         assertEquals(entryList.size(),2);
 
-        List<Entry> entries = entryList.getChrono();
+        List<Entry> entries = entryList.getReverseChrono();
         Entry entry2 = entries.get(0);
         Entry entry4 = entries.get(1);
 
@@ -120,7 +114,7 @@ public class UIEntryFetcherTest {
     @Test
     public void fetchAllEntrysWithNowTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -144,11 +138,10 @@ public class UIEntryFetcherTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("1999-01-24", "now");
-        EntryList entryList = entryFetcher.fetchAllEntrys(interval);
+        EntryList entryList = entryFetcher.fetchAllEntrys("1999-01-24", "now");
         assertEquals(entryList.size(),3);
 
-        List<Entry> entries = entryList.getChrono();
+        List<Entry> entries = entryList.getReverseChrono();
         Entry entry1 = entries.get(2);
         Entry entry2 = entries.get(0);
         Entry entry4 = entries.get(1);
@@ -168,7 +161,7 @@ public class UIEntryFetcherTest {
     @Test
     public void fetchIncomeWithDateTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -192,11 +185,10 @@ public class UIEntryFetcherTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("1999-01-24", "2019-01-01");
-        EntryList entryList = entryFetcher.fetchAllIncomeEntrys(interval);
+        EntryList entryList = entryFetcher.fetchAllIncomeEntrys("1999-01-24", "2019-01-01");
         assertEquals(entryList.size(),1);
 
-        Entry entry1 = entryList.getChrono().get(0);
+        Entry entry1 = entryList.getReverseChrono().get(0);
 
         assertTrue(amount1.equals(entry1.getAmount()));
         assertTrue(details1.equals(entry1.getDetails()));
@@ -206,7 +198,7 @@ public class UIEntryFetcherTest {
     @Test
     public void fetchAllPurchasesWithDateTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -230,11 +222,10 @@ public class UIEntryFetcherTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("1999-01-24", "2019-01-01");
-        EntryList entryList = entryFetcher.fetchAllPurchasesEntrys(interval);
+        EntryList entryList = entryFetcher.fetchAllPurchaseEntrys("1999-01-24", "2019-01-01");
         assertEquals(entryList.size(),2);
 
-        List<Entry> entries = entryList.getChrono();
+        List<Entry> entries = entryList.getReverseChrono();
         Entry entry2 = entries.get(0);
         Entry entry4 = entries.get(1);
 
@@ -251,7 +242,7 @@ public class UIEntryFetcherTest {
     @Test
     public void fetchAllEntrysWithDateTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -275,11 +266,10 @@ public class UIEntryFetcherTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("1999-01-24", "2019-01-01");
-        EntryList entryList = entryFetcher.fetchAllEntrys(interval);
+        EntryList entryList = entryFetcher.fetchAllEntrys("1999-01-24", "2019-01-01");
         assertEquals(entryList.size(),3);
 
-        List<Entry> entries = entryList.getChrono();
+        List<Entry> entries = entryList.getReverseChrono();
         Entry entry1 = entries.get(2);
         Entry entry2 = entries.get(0);
         Entry entry4 = entries.get(1);
@@ -299,7 +289,7 @@ public class UIEntryFetcherTest {
     @Test
     public void fetchAllIncomePastToNowTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -323,12 +313,10 @@ public class UIEntryFetcherTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-
-        DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        EntryList entryList = entryFetcher.fetchAllIncomeEntrys(interval);
+        EntryList entryList = entryFetcher.fetchAllIncomeEntrys();
         assertEquals(entryList.size(),2);
 
-        List<Entry> entries = entryList.getChrono();
+        List<Entry> entries = entryList.getReverseChrono();
         Entry entry1 = entries.get(0);
         Entry entry3 = entries.get(1);
 
@@ -344,7 +332,7 @@ public class UIEntryFetcherTest {
     @Test
     public void fetchAllPurchasesPastToNowTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -368,11 +356,10 @@ public class UIEntryFetcherTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        EntryList entryList = entryFetcher.fetchAllPurchasesEntrys(interval);
+        EntryList entryList = entryFetcher.fetchAllPurchaseEntrys();
         assertEquals(entryList.size(),2);
 
-        List<Entry> entries = entryList.getChrono();
+        List<Entry> entries = entryList.getReverseChrono();
         Entry entry2 = entries.get(0);
         Entry entry4 = entries.get(1);
 
@@ -389,7 +376,7 @@ public class UIEntryFetcherTest {
     @Test
     public void fetchAllEntrysPastToNowTest() {
         EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
-        EntryFetcher entryFetcher = EntryFetcherFactory.createEntryFetcher();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
 
         Amount amount1 = AmountFactory.fromString("100.92");
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
@@ -413,11 +400,10 @@ public class UIEntryFetcherTest {
         entryCreator.createEntry(amount3, details3, date3);
         entryCreator.createEntry(amount4, details4, date4);
 
-        DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        EntryList entryList = entryFetcher.fetchAllEntrys(interval);
+        EntryList entryList = entryFetcher.fetchAllEntrys();
         assertEquals(entryList.size(),4);
 
-        List<Entry> entries = entryList.getChrono();
+        List<Entry> entries = entryList.getReverseChrono();
         Entry entry1 = entries.get(2);
         Entry entry2 = entries.get(0);
         Entry entry3 = entries.get(3);
