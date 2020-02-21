@@ -4,18 +4,26 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.List;
-import com.codemonkeys9.budgeit.entry.Entry;
-import com.codemonkeys9.budgeit.logiclayer.LogicLayer;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
+import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+
+import com.codemonkeys9.budgeit.database.DatabaseHolder;
 
 public class MainActivity extends AppCompatActivity {
     private EntryAdapter entryAdapter;
@@ -24,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem expensesToggle;
     private MenuItem dateFilterToggle;
 
-    private String startDate = "1/1/1970";
+    private String startDate = "past";
     private String endDate = "now";
     private boolean hasDateFilter = false;
 
@@ -33,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // This is necessary for LocalDate to work with
+        // API < 23
+        AndroidThreeTen.init(this);
+
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setLogo(R.drawable.budgeit_logo);
@@ -46,31 +59,53 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        LogicLayerHolder.init();
-        LogicLayer logic = LogicLayerHolder.getLogicLayer();
-        List<Entry> entries = logic.fetchAllEntrys();
+        DatabaseHolder.init();
+        UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
+
+        EntryList entryList = entryFetcher.fetchAllEntrys();
+        List<Entry> entries = entryList.getReverseChrono();
 
         // Add fake data if there's no data in the DB already
         if(entries.isEmpty()) {
-            logic.createEntry("-60", "Half-Life: Alyx Pre-order", "1/12/2019");
+            entryManager.createEntry("-60", "Half-Life: Alyx Pre-order", "2019-12-01");
             for(int year = 2018; year <= 2020; year++) {
                 for(int month = 1; month <= 12; month++) {
                     // Gas every week-ish
+
+                    // ensures that month has two digits
+                    String monthString;
+                    if(month < 10) {
+                        monthString = "0" + month;
+                    }else{
+                        monthString = "" + month;
+                    }
                     for(int j = 0; j < 4; j++) {
                         int day = j * 7 + 1;
-                        logic.createEntry("-50", "Gas", day + "/" + month + "/" + year);
+
+
+                        // ensures that day has two digits
+                        String dayString;
+                        if(day < 10) {
+                            dayString = "0" + day;
+                        }else{
+                            dayString = "" + day;
+                        }
+
+                        entryManager.createEntry("-50", "Gas", year + "-" + monthString + "-" + dayString);
                     }
                     // Paycheck every two weeks-ish
-                    logic.createEntry("1000", "Paycheck", "1/" + month + "/" + year);
-                    logic.createEntry("1000", "Paycheck", "15/" + month + "/" + year);
+                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01" );
+                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15");
                 }
-                logic.createEntry(
+                entryManager.createEntry(
                         "-120",
                         "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
-                        "13/2/" + year
+                        year + "-02-13"
                 );
             }
-            entries = logic.fetchAllEntrys();
+            entryList = entryFetcher.fetchAllEntrys();
+            entries = entryList.getReverseChrono();
         }
 
         this.entryAdapter = new EntryAdapter(entries);
@@ -80,19 +115,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshTimeline() {
-        LogicLayer logic = LogicLayerHolder.getLogicLayer();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
+        EntryList entryList = null;
         List<Entry> entries = null;
+
+        // if the user inputs -123456789 and then 123456789
+        // or any other invalid date range
+        // either a InvalidDateException
+        // or a InvalidDateInterval exception will be thrown
+        // you should probably catch them both by catching
+        // the UserInputException and printing out
+        // an error message to the user with UserInputException's
+        // getUserErrorMessage method
         switch(visibility) {
             case Income:
-                entries = logic.fetchAllIncomeEntrys(startDate, endDate);
+                entryList = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
                 break;
             case Expenses:
-                entries = logic.fetchAllPurchaseEntrys(startDate, endDate);
+                entryList = entryFetcher.fetchAllPurchaseEntrys(startDate,endDate);
                 break;
             case Both:
-                entries = logic.fetchAllEntrys(startDate, endDate);
+                entryList = entryFetcher.fetchAllEntrys(startDate,endDate);
                 break;
         }
+        entries =  entryList.getReverseChrono();
         entryAdapter.updateEntries(entries);
     }
 
@@ -186,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
         if(id == R.id.action_filter_by_date) {
             if(hasDateFilter) {
                 hasDateFilter = false;
-                startDate = "1/1/1970";
+                startDate = "past";
                 endDate = "now";
                 refreshTimeline();
                 invalidateOptionsMenu();
@@ -201,3 +247,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+

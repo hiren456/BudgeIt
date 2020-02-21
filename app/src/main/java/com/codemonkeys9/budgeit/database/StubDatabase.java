@@ -1,12 +1,12 @@
 package com.codemonkeys9.budgeit.database;
 
-import android.content.res.Resources;
-
-import com.codemonkeys9.budgeit.entry.Entry;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.entry.EntryDateComparator;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
+import java.util.Collections;;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,18 +62,15 @@ class StubDatabase implements Database {
         return this.entryMap.get(ID);
     }
 
-
-    //returns the list of entries from Date startDate till Date endDate
-    //returns empty list if the are no entries
     @Override
-    public List<Entry> selectByDate(Date startDate, Date endDate) {
+    public List<Entry> selectByDate(DateInterval dateInterval) {
         ArrayList<Entry> returnList = new ArrayList<Entry>();
 
         // find all entries within the specified range
         for ( Entry entry : this.entryMap.values()){
             Date date = entry.getDate();
 
-            if((date.getTime() <= endDate.getTime()) && (date.getTime() >= startDate.getTime())){
+            if(dateInterval.in(date)){
                 returnList.add(entry);
             }
         }
@@ -84,8 +81,6 @@ class StubDatabase implements Database {
         return returnList;
     }
 
-
-    //returns true if an entry deleted successfully, otherwise return false
     @Override
     public boolean deleteEntry(int ID) {
 

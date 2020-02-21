@@ -22,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/editText_amount"
-        android:hint="dd/mm/yyyy"
         android:ems="10"
+        android:hint="yyyy-mm-dd"
         android:inputType="date" />
     <EditText
         android:id="@+id/editText_details"

@@ -10,16 +10,17 @@
         android:id="@+id/editText_start_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="dd/mm/yyyy"
         android:ems="10"
+        android:hint="yyyy-mm-dd"
         android:inputType="date" />
+
     <EditText
         android:id="@+id/editText_end_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/editText_start_date"
-        android:hint="dd/mm/yyyy"
         android:ems="10"
+        android:hint="yyyy-mm-dd"
         android:inputType="date" />
     <Button
         android:id="@+id/button_submit"
