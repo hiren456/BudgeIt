@@ -40,16 +40,19 @@
         android:layout_height="wrap_content"
         android:text="Submit"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true" />
 
-    <ToggleButton
-        android:id="@+id/button_incomeOrExpense"
+    <segmented_control.widget.custom.android.com.segmentedcontrol.SegmentedControl
+        android:id="@+id/control_incomeOrExpense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/editText_details"
-        android:text="income or expense?"
-        android:textOff="income"
-        android:textOn="expense" />
-
+        android:layout_margin="8dp"
+        app:columnCount="2"
+        app:supportedSelectionsCount="1"
+        app:distributeEvenly="true"
+        app:textVerticalPadding="6dp"
+        app:radius="12dp"
+        app:segments="@array/entry_types" />
 
 </RelativeLayout>
