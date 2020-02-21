@@ -22,7 +22,7 @@ public class EntryTest {
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
+        Entry entry = IncomeFactory.createIncome(amount, entryID, details, date);
         assertTrue(entry.getAmount().equals(amount));
     }
 
@@ -35,7 +35,7 @@ public class EntryTest {
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
+        Entry entry = IncomeFactory.createIncome(amount, entryID, details, date);
         assertEquals(entry.getEntryID() , 42);
     }
 
@@ -48,7 +48,7 @@ public class EntryTest {
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
+        Entry entry = IncomeFactory.createIncome(amount, entryID, details, date);
         assertTrue(entry.getDetails().equals(details));
     }
 
@@ -61,7 +61,7 @@ public class EntryTest {
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
+        Entry entry = IncomeFactory.createIncome(amount, entryID, details, date);
         assertTrue(entry.getDate().equals(date));
     }
 
@@ -76,10 +76,10 @@ public class EntryTest {
 
         try{
 
-            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
+            Entry entry = IncomeFactory.createIncome(amount, entryID, details, date);
         }catch (Exception e){
 
-            fail("Making an entry with entry 0 causes an exception");
+            fail("Making an entry with entryID 0 causes an exception");
         }
     }
 
@@ -93,7 +93,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
+            Entry entry = IncomeFactory.createIncome(amount, entryID, details, date);
         }catch (Exception e){
 
             fail("Making an entry with negative entryID causes an exception");
@@ -110,7 +110,7 @@ public class EntryTest {
 
         try{
 
-            Entry entry = EntryFactory.createEntry(amount, entryID, details, date);
+            Entry entry = IncomeFactory.createIncome(amount, entryID, details, date);
         }catch (Exception e){
 
             fail("Making an entry with positive entryID causes an exception");
@@ -124,7 +124,7 @@ public class EntryTest {
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
-        Entry entry1 = EntryFactory.createEntry(amount, entryID, details, date);
+        Entry entry1 = IncomeFactory.createIncome(amount, entryID, details, date);
 
         Amount newAmount = AmountFactory.fromInt(123);
         Details newDetails = DetailsFactory.fromString( "A very creative description");

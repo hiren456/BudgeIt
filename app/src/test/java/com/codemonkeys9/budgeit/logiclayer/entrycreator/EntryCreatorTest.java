@@ -1,7 +1,6 @@
 package com.codemonkeys9.budgeit.logiclayer.entrycreator;
 
 import com.codemonkeys9.budgeit.database.Database;
-import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
@@ -40,7 +39,8 @@ public class EntryCreatorTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createIncome(amount1,
+                details1, date1);
 
         DateInterval interval = DateIntervalFactory.fromString("past", "now");
         List<Entry> entryList = database.selectByDate(interval);
@@ -61,7 +61,7 @@ public class EntryCreatorTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        Amount amount2 = AmountFactory.fromString("-122.47");
+        Amount amount2 = AmountFactory.fromString("122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
         Date date2 = DateFactory.fromString("2000-04-23");
 
@@ -69,9 +69,12 @@ public class EntryCreatorTest {
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
         Date date3 = DateFactory.fromString("1999-01-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
-        entryCreator.createEntry(amount2, details2, date2);
-        entryCreator.createEntry(amount3, details3, date3);
+        entryCreator.createIncome(amount1,
+                details1, date1);
+        entryCreator.createPurchase(amount2,
+                details2, date2);
+        entryCreator.createIncome(amount3,
+                details3, date3);
 
         DateInterval interval = DateIntervalFactory.fromString("past", "now");
         List<Entry> entryList = database.selectByDate(interval);
@@ -104,7 +107,8 @@ public class EntryCreatorTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createIncome(amount1,
+                details1, date1);
     }
 
     @Test
@@ -115,7 +119,8 @@ public class EntryCreatorTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createIncome(amount1,
+                details1, date1);
     }
 
     @Test
@@ -126,6 +131,7 @@ public class EntryCreatorTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
+        entryCreator.createIncome(amount1,
+                details1, date1);
     }
 }

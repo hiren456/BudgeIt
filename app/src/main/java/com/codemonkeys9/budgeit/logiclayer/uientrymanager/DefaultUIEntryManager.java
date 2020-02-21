@@ -17,11 +17,15 @@ class DefaultUIEntryManager implements UIEntryManager {
     }
 
     @Override
-    public void createEntry(String amount, String details, String date) {
+    public void createEntry(String amount, String details, String date,boolean purchase) {
         Amount parsedAmount = AmountFactory.fromString(amount);
         Details parsedDetails = DetailsFactory.fromString(details);
         Date parsedDate = DateFactory.fromString(date);
 
-        this.entryCreator.createEntry(parsedAmount,parsedDetails,parsedDate);
+        if(purchase){
+            this.entryCreator.createPurchase(parsedAmount,parsedDetails,parsedDate);
+        }else{
+            this.entryCreator.createIncome(parsedAmount,parsedDetails,parsedDate);
+        }
     }
 }

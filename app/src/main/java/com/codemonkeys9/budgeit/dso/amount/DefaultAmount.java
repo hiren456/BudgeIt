@@ -36,6 +36,11 @@ class DefaultAmount implements Amount{
             throw new InvalidAmountException("Amount "+amount+" is not valid");
         }
 
+        // amount cannot be negative
+        if( out <= 0){
+            throw new InvalidAmountException("Amount "+amount+" is not valid");
+        }
+
         return out;
     }
 

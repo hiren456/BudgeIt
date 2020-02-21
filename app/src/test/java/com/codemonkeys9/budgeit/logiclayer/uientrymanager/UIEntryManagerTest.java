@@ -20,7 +20,60 @@ public class UIEntryManagerTest {
         DatabaseHolder.init();
     }
     @Test
-    public void test(){
-        assertTrue(true);
+    public void createEntryWithoutflagTest(){
+        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
+
+        String amount = "-99.99";
+        String details = "Food";
+
+    }
+
+    @Test
+    public void createEntryWithflagTest(){
+        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
+
+
+    }
+
+    @Test
+    public void flagUnflaggedEntryTest(){
+        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
+
+
+    }
+
+    @Test
+    public void flagFlaggedEntryTest(){
+        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
+
+
+    }
+
+    @Test
+    public void unflagUnflaggedEntryTest(){
+        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
+
+
+    }
+
+    @Test
+    public void unflagFlaggedEntryTest(){
+        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
+
+
+    }
+
+    @Test
+    public void unflagNonexistentEntryTest(){
+        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
+
+
+    }
+
+    @Test
+    public void flagNonexistentEntryTest(){
+        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
+
+
     }
 }

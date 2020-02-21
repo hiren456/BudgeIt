@@ -2,6 +2,7 @@ package com.codemonkeys9.budgeit.dso.amount;
 
 /*
 This class represents a monetary amount
+all amounts are positive numbers
  */
 public interface Amount {
 

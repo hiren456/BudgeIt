@@ -2,6 +2,7 @@ package com.codemonkeys9.budgeit.ui;
 
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.dso.entry.Purchase;
 
 import java.util.List;
 
@@ -62,7 +63,7 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         // Decide which color to make the amount based on whether it is negative or positive
         // Colors are encoded in ARGB format, one byte (or two hex digits) per channel.
         int color;
-        if(entry.getAmount().getValue() < 0) {
+        if(entry instanceof Purchase) {
             // Red
             color = 0xFFFF0000;
         } else {

@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Add fake data if there's no data in the DB already
         if(entries.isEmpty()) {
-            entryManager.createEntry("-60", "Half-Life: Alyx Pre-order", "2019-12-01");
+            entryManager.createEntry("60", "Half-Life: Alyx Pre-order", "2019-12-01",true);
             for(int year = 2018; year <= 2020; year++) {
                 for(int month = 1; month <= 12; month++) {
                     // Gas every week-ish
@@ -92,16 +92,17 @@ public class MainActivity extends AppCompatActivity {
                             dayString = "" + day;
                         }
 
-                        entryManager.createEntry("-50", "Gas", year + "-" + monthString + "-" + dayString);
+                        entryManager.createEntry("50", "Gas", year + "-" + monthString + "-" + dayString,true);
                     }
                     // Paycheck every two weeks-ish
-                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01" );
-                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15");
+                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01",false );
+                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15",false);
                 }
                 entryManager.createEntry(
-                        "-120",
+                        "120",
                         "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
-                        year + "-02-13"
+                        year + "-02-13",
+                        true
                 );
             }
             entryList = entryFetcher.fetchAllEntrys();

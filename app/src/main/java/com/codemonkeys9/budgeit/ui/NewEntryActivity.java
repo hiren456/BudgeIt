@@ -50,12 +50,10 @@ public class NewEntryActivity extends AppCompatActivity {
 
         SegmentedControl entryTypeControl = findViewById(R.id.control_incomeOrExpense);
         int selected = entryTypeControl.getLastSelectedAbsolutePosition();
-        if(selected == EXPENSE) {
-            amount = "-" + amount;
-        }
+        boolean purchase = selected == EXPENSE;
 
         try {
-            entryManager.createEntry(amount, details, date);
+            entryManager.createEntry(amount, details, date,purchase);
         } catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
             // show this to the user

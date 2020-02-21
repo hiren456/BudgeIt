@@ -6,7 +6,7 @@ import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 
-class DefaultEntry implements Entry {
+abstract class DefaultEntry implements Entry {
     Amount amount;
     int entryID;
     //Iteration 2.5 int catID;
@@ -63,17 +63,6 @@ class DefaultEntry implements Entry {
         return this.date;
     }
 
-    @Override
-    public Entry modifyEntry(Amount amount, Details details, Date date) {
-
-        Amount newAmount = AmountFactory.fromInt(amount.getValue());
-        int newEntryID = this.entryID;
-        //int newCatID = catID;
-        Details newDetails = DetailsFactory.fromString(details.getValue());
-        Date newDate = DateFactory.fromInts(date.getYear(),date.getMonth(),date.getDay());
-
-        return new DefaultEntry(newAmount,newEntryID,newDetails,newDate);
-    }
 
     // NOTE: what it means for two entries to be equal doesn't change based on the specific
     // implementation. Actually, it's hard to imagine *anything* changing between implementations

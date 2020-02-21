@@ -40,7 +40,7 @@ public class UIEntryFetcherTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        Amount amount2 = AmountFactory.fromString("-122.47");
+        Amount amount2 = AmountFactory.fromString("122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
         Date date2 = DateFactory.fromString("2000-04-23");
 
@@ -48,15 +48,19 @@ public class UIEntryFetcherTest {
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
         Date date3 = DateFactory.fromString("1999-01-23");
 
-        Amount amount4 = AmountFactory.fromString("-30000.00");
+        Amount amount4 = AmountFactory.fromString("30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
         Date date4 = DateFactory.fromString("1999-07-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
-        entryCreator.createEntry(amount2, details2, date2);
-        entryCreator.createEntry(amount3, details3, date3);
-        entryCreator.createEntry(amount4, details4, date4);
+        entryCreator.createIncome(amount1,
+                details1, date1);
+        entryCreator.createPurchase(amount2,
+                details2, date2);
+        entryCreator.createIncome(amount3,
+                details3, date3);
+        entryCreator.createPurchase(amount4,
+                details4, date4);
 
         EntryList entryList = entryFetcher.fetchAllIncomeEntrys("1999-01-24", "now");
         assertEquals(entryList.size(),1);
@@ -77,7 +81,7 @@ public class UIEntryFetcherTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        Amount amount2 = AmountFactory.fromString("-122.47");
+        Amount amount2 = AmountFactory.fromString("122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
         Date date2 = DateFactory.fromString("2000-04-23");
 
@@ -85,15 +89,19 @@ public class UIEntryFetcherTest {
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
         Date date3 = DateFactory.fromString("1999-01-23");
 
-        Amount amount4 = AmountFactory.fromString("-30000.00");
+        Amount amount4 = AmountFactory.fromString("30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
         Date date4 = DateFactory.fromString("1999-07-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
-        entryCreator.createEntry(amount2, details2, date2);
-        entryCreator.createEntry(amount3, details3, date3);
-        entryCreator.createEntry(amount4, details4, date4);
+        entryCreator.createIncome(amount1,
+                details1, date1);
+        entryCreator.createPurchase(amount2,
+                details2, date2);
+        entryCreator.createIncome(amount3,
+                details3, date3);
+        entryCreator.createPurchase(amount4,
+                details4, date4);
 
         EntryList entryList = entryFetcher.fetchAllPurchaseEntrys("1999-01-24", "now");
         assertEquals(entryList.size(),2);
@@ -120,7 +128,7 @@ public class UIEntryFetcherTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        Amount amount2 = AmountFactory.fromString("-122.47");
+        Amount amount2 = AmountFactory.fromString("122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
         Date date2 = DateFactory.fromString("2000-04-23");
 
@@ -128,15 +136,19 @@ public class UIEntryFetcherTest {
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
         Date date3 = DateFactory.fromString("1999-01-23");
 
-        Amount amount4 = AmountFactory.fromString("-30000.00");
+        Amount amount4 = AmountFactory.fromString("30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
         Date date4 = DateFactory.fromString("1999-07-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
-        entryCreator.createEntry(amount2, details2, date2);
-        entryCreator.createEntry(amount3, details3, date3);
-        entryCreator.createEntry(amount4, details4, date4);
+        entryCreator.createIncome(amount1,
+                details1, date1);
+        entryCreator.createPurchase(amount2,
+                details2, date2);
+        entryCreator.createIncome(amount3,
+                details3, date3);
+        entryCreator.createPurchase(amount4,
+                details4, date4);
 
         EntryList entryList = entryFetcher.fetchAllEntrys("1999-01-24", "now");
         assertEquals(entryList.size(),3);
@@ -167,7 +179,7 @@ public class UIEntryFetcherTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        Amount amount2 = AmountFactory.fromString("-122.47");
+        Amount amount2 = AmountFactory.fromString("122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
         Date date2 = DateFactory.fromString("2000-04-23");
 
@@ -175,15 +187,19 @@ public class UIEntryFetcherTest {
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
         Date date3 = DateFactory.fromString("1999-01-23");
 
-        Amount amount4 = AmountFactory.fromString("-30000.00");
+        Amount amount4 = AmountFactory.fromString("30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
         Date date4 = DateFactory.fromString("1999-07-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
-        entryCreator.createEntry(amount2, details2, date2);
-        entryCreator.createEntry(amount3, details3, date3);
-        entryCreator.createEntry(amount4, details4, date4);
+        entryCreator.createIncome(amount1,
+                details1, date1);
+        entryCreator.createPurchase(amount2,
+                details2, date2);
+        entryCreator.createIncome(amount3,
+                details3, date3);
+        entryCreator.createPurchase(amount4,
+                details4, date4);
 
         EntryList entryList = entryFetcher.fetchAllIncomeEntrys("1999-01-24", "2019-01-01");
         assertEquals(entryList.size(),1);
@@ -204,7 +220,7 @@ public class UIEntryFetcherTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        Amount amount2 = AmountFactory.fromString("-122.47");
+        Amount amount2 = AmountFactory.fromString("122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
         Date date2 = DateFactory.fromString("2000-04-23");
 
@@ -212,15 +228,19 @@ public class UIEntryFetcherTest {
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
         Date date3 = DateFactory.fromString("1999-01-23");
 
-        Amount amount4 = AmountFactory.fromString("-30000.00");
+        Amount amount4 = AmountFactory.fromString("30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
         Date date4 = DateFactory.fromString("1999-07-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
-        entryCreator.createEntry(amount2, details2, date2);
-        entryCreator.createEntry(amount3, details3, date3);
-        entryCreator.createEntry(amount4, details4, date4);
+        entryCreator.createIncome(amount1,
+                details1, date1);
+        entryCreator.createPurchase(amount2,
+                details2, date2);
+        entryCreator.createIncome(amount3,
+                details3, date3);
+        entryCreator.createPurchase(amount4,
+                details4, date4);
 
         EntryList entryList = entryFetcher.fetchAllPurchaseEntrys("1999-01-24", "2019-01-01");
         assertEquals(entryList.size(),2);
@@ -248,7 +268,7 @@ public class UIEntryFetcherTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        Amount amount2 = AmountFactory.fromString("-122.47");
+        Amount amount2 = AmountFactory.fromString("122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
         Date date2 = DateFactory.fromString("2000-04-23");
 
@@ -256,15 +276,19 @@ public class UIEntryFetcherTest {
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
         Date date3 = DateFactory.fromString("1999-01-23");
 
-        Amount amount4 = AmountFactory.fromString("-30000.00");
+        Amount amount4 = AmountFactory.fromString("30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
         Date date4 = DateFactory.fromString("1999-07-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
-        entryCreator.createEntry(amount2, details2, date2);
-        entryCreator.createEntry(amount3, details3, date3);
-        entryCreator.createEntry(amount4, details4, date4);
+        entryCreator.createIncome(amount1,
+                details1, date1);
+        entryCreator.createPurchase(amount2,
+                details2, date2);
+        entryCreator.createIncome(amount3,
+                details3, date3);
+        entryCreator.createPurchase(amount4,
+                details4, date4);
 
         EntryList entryList = entryFetcher.fetchAllEntrys("1999-01-24", "2019-01-01");
         assertEquals(entryList.size(),3);
@@ -295,7 +319,7 @@ public class UIEntryFetcherTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        Amount amount2 = AmountFactory.fromString("-122.47");
+        Amount amount2 = AmountFactory.fromString("122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
         Date date2 = DateFactory.fromString("2000-04-23");
 
@@ -303,15 +327,19 @@ public class UIEntryFetcherTest {
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
         Date date3 = DateFactory.fromString("1999-01-23");
 
-        Amount amount4 = AmountFactory.fromString("-30000.00");
+        Amount amount4 = AmountFactory.fromString("30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
         Date date4 = DateFactory.fromString("1999-07-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
-        entryCreator.createEntry(amount2, details2, date2);
-        entryCreator.createEntry(amount3, details3, date3);
-        entryCreator.createEntry(amount4, details4, date4);
+        entryCreator.createIncome(amount1,
+                details1, date1);
+        entryCreator.createPurchase(amount2,
+                details2, date2);
+        entryCreator.createIncome(amount3,
+                details3, date3);
+        entryCreator.createPurchase(amount4,
+                details4, date4);
 
         EntryList entryList = entryFetcher.fetchAllIncomeEntrys();
         assertEquals(entryList.size(),2);
@@ -338,7 +366,7 @@ public class UIEntryFetcherTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        Amount amount2 = AmountFactory.fromString("-122.47");
+        Amount amount2 = AmountFactory.fromString("122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
         Date date2 = DateFactory.fromString("2000-04-23");
 
@@ -346,15 +374,19 @@ public class UIEntryFetcherTest {
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
         Date date3 = DateFactory.fromString("1999-01-23");
 
-        Amount amount4 = AmountFactory.fromString("-30000.00");
+        Amount amount4 = AmountFactory.fromString("30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
         Date date4 = DateFactory.fromString("1999-07-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
-        entryCreator.createEntry(amount2, details2, date2);
-        entryCreator.createEntry(amount3, details3, date3);
-        entryCreator.createEntry(amount4, details4, date4);
+        entryCreator.createIncome(amount1,
+                details1, date1);
+        entryCreator.createPurchase(amount2,
+                details2, date2);
+        entryCreator.createIncome(amount3,
+                details3, date3);
+        entryCreator.createPurchase(amount4,
+                details4, date4);
 
         EntryList entryList = entryFetcher.fetchAllPurchaseEntrys();
         assertEquals(entryList.size(),2);
@@ -382,7 +414,7 @@ public class UIEntryFetcherTest {
         Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
         Date date1 = DateFactory.fromString("1999-04-23");
 
-        Amount amount2 = AmountFactory.fromString("-122.47");
+        Amount amount2 = AmountFactory.fromString("122.47");
         Details details2 = DetailsFactory.fromString("Ender and his siblings were all some of the smartest children in the world");
         Date date2 = DateFactory.fromString("2000-04-23");
 
@@ -390,15 +422,19 @@ public class UIEntryFetcherTest {
         Details details3 = DetailsFactory.fromString("Ender was selected for a special military program");
         Date date3 = DateFactory.fromString("1999-01-23");
 
-        Amount amount4 = AmountFactory.fromString("-30000.00");
+        Amount amount4 = AmountFactory.fromString("30000.00");
         Details details4 = DetailsFactory.fromString("They selected him because, even though he killed a kid that was bullying him" +
                 "in self defense, he was appalled by what he had done.");
         Date date4 = DateFactory.fromString("1999-07-23");
 
-        entryCreator.createEntry(amount1, details1, date1);
-        entryCreator.createEntry(amount2, details2, date2);
-        entryCreator.createEntry(amount3, details3, date3);
-        entryCreator.createEntry(amount4, details4, date4);
+        entryCreator.createIncome(amount1,
+                details1, date1);
+        entryCreator.createPurchase(amount2,
+                details2, date2);
+        entryCreator.createIncome(amount3,
+                details3, date3);
+        entryCreator.createPurchase(amount4,
+                details4, date4);
 
         EntryList entryList = entryFetcher.fetchAllEntrys();
         assertEquals(entryList.size(),4);
