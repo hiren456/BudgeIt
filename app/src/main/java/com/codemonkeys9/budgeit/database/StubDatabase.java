@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.database;
 
+import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.date.Date;
@@ -16,13 +17,15 @@ class StubDatabase implements Database {
     // they are searched and inserted by their ID
     private HashMap<Integer,Entry> entryMap;
 
-    private int idCounter;
+    private HashMap<String,Integer> ids;
 
 
-    StubDatabase(int initialIDCounter){
+    StubDatabase(int initialEntryID,int initialCategoryID){
 
         this.entryMap = new HashMap<Integer,Entry>();
-        this.idCounter = initialIDCounter;
+        this.ids = new HashMap<String,Integer>();
+        this.ids.put("Entry",initialEntryID);
+        this.ids.put("Category",initialCategoryID);
     }
 
     @Override
@@ -95,13 +98,43 @@ class StubDatabase implements Database {
         return isRemoved;
     }
 
+
     @Override
-    public int getIDCounter() {
-        return this.idCounter;
+    public void insertCategory(Category category) {
+        // TODO:
     }
 
     @Override
-    public void updateIDCounter(int newCounter) {
-        this.idCounter = newCounter;
+    public boolean updateCategory(Category category) {
+        // TODO:
+        return false;
+    }
+
+    @Override
+    public Category selectCategoryByID(int ID) {
+        // TODO:
+        return null;
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        // TODO:
+        return null;
+    }
+
+    @Override
+    public boolean deleteCategory(int ID) {
+        // TODO:
+        return false;
+    }
+
+    @Override
+    public int getIDCounter(String idName) {
+        return this.ids.get(idName);
+    }
+
+    @Override
+    public void updateIDCounter(String idName, int newCounter) {
+        this.ids.put(idName,newCounter);
     }
 }
