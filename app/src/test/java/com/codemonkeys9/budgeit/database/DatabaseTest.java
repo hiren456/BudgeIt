@@ -25,36 +25,37 @@ public class DatabaseTest {
     @Test
     public void idCounterInitialValueTest() {
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         assertEquals("When a database is initialized, " +
                 "the initial value for the id counter, passed as a parameter," +
-                "is not what is returned by getIDCounter.", database.getIDCounter(),42);
+                "is not what is returned by getIDCounter.", database.getIDCounter("Entry"),42);
     }
 
     @Test
     public void idCounterUpdateValueTest() {
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
-        database.updateIDCounter(23);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
+        database.updateIDCounter("Entry",23);
 
         assertEquals("When updateIDCounter is called, " +
                 "the id counter returned by getIDCounter" +
-                "is not the same as what was passed to updateIDCounter.",database.getIDCounter(), 23);
+                "is not the same as what was passed to updateIDCounter.",database.getIDCounter("Entry"), 23);
     }
 
     @Test
     public void insertThenSelectTest() {
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
+        int catID1 = 23;
         Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2002,7,7);
-        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1);
+        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
         //insert it into the database
         database.insertEntry(entry1);
@@ -77,35 +78,39 @@ public class DatabaseTest {
     public void insertManyThenSelectByIDTest() {
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
+        int catID1 = 23;
         Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2001,7,7);
-        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1);
+        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
         //Create valid Entry2
         Amount amount2 = AmountFactory.fromInt(520);
         int entryID2 = 72;
+        int catID2 = 24;
         Details details2 = DetailsFactory.fromString("Some letters put next to eachother again");
         Date date2 = DateFactory.fromInts(2001,11,7);
-        Entry entry2 = IncomeFactory.createIncome(amount2,entryID2,details2,date2);
+        Entry entry2 = IncomeFactory.createIncome(amount2,entryID2,details2,date2,catID2);
 
         //Create valid Entry3
         Amount amount3 = AmountFactory.fromInt(604);
         int entryID3 = -7;
+        int catID3 = 25;
         Details details3 = DetailsFactory.fromString("I am running out of ideas");
         Date date3 = DateFactory.fromInts(2009,7,6);
-        Entry entry3 = IncomeFactory.createIncome(amount3,entryID3,details3,date3);
+        Entry entry3 = IncomeFactory.createIncome(amount3,entryID3,details3,date3,catID3);
 
         //Create valid Entry4
         Amount amount4 = AmountFactory.fromInt(724);
         int entryID4 = 6;
+        int catID4 = 26;
         Details details4 = DetailsFactory.fromString("Ender's game is an interesting book");
         Date date4 = DateFactory.fromInts(2009,7,7);
-        Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,false);
+        Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
         //insert them into the database
         database.insertEntry(entry1);
@@ -158,35 +163,39 @@ public class DatabaseTest {
     public void insertManyThenSelectByDateTest() {
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
+        int catID1 = 23;
         Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2001,7,7);
-        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1);
+        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
         //Create valid Entry2
         Amount amount2 = AmountFactory.fromInt(520);
         int entryID2 = 72;
+        int catID2 = 24;
         Details details2 = DetailsFactory.fromString("Some letters put next to eachother again");
         Date date2 = DateFactory.fromInts(2001,11,7);
-        Entry entry2 = IncomeFactory.createIncome(amount2,entryID2,details2,date2);
+        Entry entry2 = IncomeFactory.createIncome(amount2,entryID2,details2,date2,catID2);
 
         //Create valid Entry3
         Amount amount3 = AmountFactory.fromInt(604);
         int entryID3 = -7;
+        int catID3 = 25;
         Details details3 = DetailsFactory.fromString("I am running out of ideas");
         Date date3 = DateFactory.fromInts(2009,7,6);
-        Entry entry3 = IncomeFactory.createIncome(amount3,entryID3,details3,date3);
+        Entry entry3 = IncomeFactory.createIncome(amount3,entryID3,details3,date3,catID3);
 
         //Create valid Entry4
         Amount amount4 = AmountFactory.fromInt(724);
         int entryID4 = 6;
+        int catID4 = 26;
         Details details4 = DetailsFactory.fromString("Ender's game is an interesting book");
         Date date4 = DateFactory.fromInts(2009,7,7);
-        Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,false);
+        Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
         //insert them into the database
         database.insertEntry(entry1);
@@ -246,14 +255,14 @@ public class DatabaseTest {
     public void deleteOneTest(){
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
-        //Create valid Entry1
-        Amount amount1 = AmountFactory.fromInt(100);
+        Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
-        Details details1 = DetailsFactory.fromString("PC game gta 6");
-        Date date1 = DateFactory.fromInts(2021,3,21);
-        Entry entry1 = PurchaseFactory.createPurchase(amount1,entryID1,details1,date1,false);
+        int catID1 = 23;
+        Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
+        Date date1 = DateFactory.fromInts(2001,7,7);
+        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
         //insert the entry into the database
         database.insertEntry(entry1);
@@ -272,35 +281,39 @@ public class DatabaseTest {
 
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry1
-        Amount amount1 = AmountFactory.fromInt(5900);
+        Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
-        Details details1 = DetailsFactory.fromString("New car");
+        int catID1 = 23;
+        Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2001,7,7);
-        Entry entry1 = PurchaseFactory.createPurchase(amount1,entryID1,details1,date1);
+        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
         //Create valid Entry2
-        Amount amount2 = AmountFactory.fromInt(120);
+        Amount amount2 = AmountFactory.fromInt(520);
         int entryID2 = 72;
-        Details details2 = DetailsFactory.fromString("New book");
+        int catID2 = 24;
+        Details details2 = DetailsFactory.fromString("Some letters put next to eachother again");
         Date date2 = DateFactory.fromInts(2001,11,7);
-        Entry entry2 = PurchaseFactory.createPurchase(amount2,entryID2,details2,date2);
+        Entry entry2 = IncomeFactory.createIncome(amount2,entryID2,details2,date2,catID2);
 
         //Create valid Entry3
-        Amount amount3 = AmountFactory.fromInt(4);
+        Amount amount3 = AmountFactory.fromInt(604);
         int entryID3 = -7;
-        Details details3 = DetailsFactory.fromString("Large cofee");
+        int catID3 = 25;
+        Details details3 = DetailsFactory.fromString("I am running out of ideas");
         Date date3 = DateFactory.fromInts(2009,7,6);
-        Entry entry3 = PurchaseFactory.createPurchase(amount3,entryID3,details3,date3);
+        Entry entry3 = IncomeFactory.createIncome(amount3,entryID3,details3,date3,catID3);
 
         //Create valid Entry4
-        Amount amount4 = AmountFactory.fromInt(10000);
+        Amount amount4 = AmountFactory.fromInt(724);
         int entryID4 = 6;
-        Details details4 = DetailsFactory.fromString("Salary");
+        int catID4 = 26;
+        Details details4 = DetailsFactory.fromString("Ender's game is an interesting book");
         Date date4 = DateFactory.fromInts(2009,7,7);
-        Entry entry4 = IncomeFactory.createIncome(amount4,entryID4,details4,date4);
+        Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
         //insert entries into the database
         database.insertEntry(entry1);
@@ -336,35 +349,40 @@ public class DatabaseTest {
 
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
+
 
         //Create valid Entry1
-        Amount amount1 = AmountFactory.fromInt(5900);
+        Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
-        Details details1 = DetailsFactory.fromString("New car");
+        int catID1 = 23;
+        Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2001,7,7);
-        Entry entry1 = PurchaseFactory.createPurchase(amount1,entryID1,details1,date1);
+        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
         //Create valid Entry2
-        Amount amount2 = AmountFactory.fromInt(120);
+        Amount amount2 = AmountFactory.fromInt(520);
         int entryID2 = 72;
-        Details details2 = DetailsFactory.fromString("New book");
+        int catID2 = 24;
+        Details details2 = DetailsFactory.fromString("Some letters put next to eachother again");
         Date date2 = DateFactory.fromInts(2001,11,7);
-        Entry entry2 = PurchaseFactory.createPurchase(amount2,entryID2,details2,date2);
+        Entry entry2 = IncomeFactory.createIncome(amount2,entryID2,details2,date2,catID2);
 
         //Create valid Entry3
-        Amount amount3 = AmountFactory.fromInt(4);
+        Amount amount3 = AmountFactory.fromInt(604);
         int entryID3 = -7;
-        Details details3 = DetailsFactory.fromString("Large cofee");
+        int catID3 = 25;
+        Details details3 = DetailsFactory.fromString("I am running out of ideas");
         Date date3 = DateFactory.fromInts(2009,7,6);
-        Entry entry3 = PurchaseFactory.createPurchase(amount3,entryID3,details3,date3);
+        Entry entry3 = IncomeFactory.createIncome(amount3,entryID3,details3,date3,catID3);
 
         //Create valid Entry4
-        Amount amount4 = AmountFactory.fromInt(10000);
+        Amount amount4 = AmountFactory.fromInt(724);
         int entryID4 = 6;
-        Details details4 = DetailsFactory.fromString("Salary");
+        int catID4 = 26;
+        Details details4 = DetailsFactory.fromString("Ender's game is an interesting book");
         Date date4 = DateFactory.fromInts(2009,7,7);
-        Entry entry4 = IncomeFactory.createIncome(amount4,entryID4,details4,date4);
+        Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
         //insert entries into the database
         database.insertEntry(entry1);
@@ -399,7 +417,7 @@ public class DatabaseTest {
 
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //select an entry from the database
         Entry retEntry1 = database.selectByID(81);
@@ -412,7 +430,7 @@ public class DatabaseTest {
 
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //select an entry from the database
         boolean isDeleted1 = database.deleteEntry(6);
@@ -425,7 +443,7 @@ public class DatabaseTest {
 
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //select an entry List from the database
         DateInterval interval = DateIntervalFactory.fromDate(
@@ -441,15 +459,16 @@ public class DatabaseTest {
     public void updateThenSelectTest() {
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(50);
         int entryID1 = 42;
+        int catID1 = 20;
         Details details1 = DetailsFactory.fromString("Tutor");
         Date date1 = DateFactory.fromInts(2016, 7, 7);
 
-        Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1);
+        Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1,catID1);
 
         //insert it into the database
         database.insertEntry(entry1);
@@ -482,15 +501,16 @@ public class DatabaseTest {
     public void updateNotExistedTest() {
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(50);
         int entryID1 = 42;
+        int catID1 = 20;
         Details details1 = DetailsFactory.fromString("Tutor");
         Date date1 = DateFactory.fromInts(2016, 7, 7);
 
-        Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1);
+        Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1,catID1);
 
         //update an entry
         boolean isUpdated = database.updateEntry(entry1);
@@ -506,16 +526,16 @@ public class DatabaseTest {
     public void insertTwoTimesSameTest() {
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(50);
         int entryID1 = 42;
+        int catID1 = 20;
         Details details1 = DetailsFactory.fromString("Tutor");
         Date date1 = DateFactory.fromInts(2016, 7, 7);
 
-        //Two same entries
-        Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1);
+        Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1,catID1);
 
         //insert it into the database
         database.insertEntry(entry1);

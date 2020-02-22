@@ -7,7 +7,7 @@ import com.codemonkeys9.budgeit.dso.date.Date;
 
 
 public class IncomeFactory {
-    public static Income createIncome(Amount amount, int entryID, Details details, Date date){
-        return new DefaultIncome(amount, entryID, details, date);
+    public static Income createIncome(Amount amount, int entryID, Details details, Date date,int catID){
+        return new DefaultIncome(amount, entryID, details, date,catID);
     }
 }

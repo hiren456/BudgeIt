@@ -37,30 +37,34 @@ public class EntryCalculatorTest {
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
+        int catID1 = 23;
         Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2001,7,7);
-        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1);
+        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
         //Create valid Entry2
         Amount amount2 = AmountFactory.fromInt(520);
         int entryID2 = 72;
+        int catID2 = 24;
         Details details2 = DetailsFactory.fromString("Some letters put next to eachother again");
         Date date2 = DateFactory.fromInts(2001,11,7);
-        Entry entry2 = IncomeFactory.createIncome(amount2,entryID2,details2,date2);
+        Entry entry2 = IncomeFactory.createIncome(amount2,entryID2,details2,date2,catID2);
 
         //Create valid Entry3
         Amount amount3 = AmountFactory.fromInt(604);
         int entryID3 = -7;
+        int catID3 = 25;
         Details details3 = DetailsFactory.fromString("I am running out of ideas");
         Date date3 = DateFactory.fromInts(2009,7,6);
-        Entry entry3 = IncomeFactory.createIncome(amount3,entryID3,details3,date3);
+        Entry entry3 = IncomeFactory.createIncome(amount3,entryID3,details3,date3,catID3);
 
         //Create valid Entry4
         Amount amount4 = AmountFactory.fromInt(724);
         int entryID4 = 6;
+        int catID4 = 26;
         Details details4 = DetailsFactory.fromString("Ender's game is an interesting book");
         Date date4 = DateFactory.fromInts(2009,7,7);
-        Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,false);
+        Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
         // add them to a list
         List<Entry> entries = new ArrayList<Entry>(4);
@@ -85,9 +89,10 @@ public class EntryCalculatorTest {
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
+        int catID1 = 23;
         Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2001,7,7);
-        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1);
+        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
         // add them to a list
         List<Entry> entries = new ArrayList<Entry>(4);
