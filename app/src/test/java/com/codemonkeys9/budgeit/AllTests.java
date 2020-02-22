@@ -19,6 +19,10 @@ import com.codemonkeys9.budgeit.logiclayer.entryflagger.EntryFlaggerTest;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFiltererTest;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerTest;
 import com.codemonkeys9.budgeit.logiclayer.uicalculator.UIEntryCalculatorTest;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorTest;
+import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherTest;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherTest;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerTest;
 
@@ -46,7 +50,9 @@ import org.junit.runners.Suite;
         EntryFlaggerTest.class,
         IDManagerTest.class,
         SavingCategoryTest.class,
-        BudgetCategoryTest.class
+        BudgetCategoryTest.class,
+        UICategoryCreatorTest.class,
+        UICategoryFetcherTest.class
 })
 
 
