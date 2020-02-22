@@ -8,7 +8,7 @@ public class DateFactory {
     "yyyy-mm-dd" format.
     The strings, "now" and "past" are also valid
     and return the current date and 1970-01-01
-    respectivly
+    respectively
      */
     public static Date fromString(String date){
         return new DateWithLocalDate(date);

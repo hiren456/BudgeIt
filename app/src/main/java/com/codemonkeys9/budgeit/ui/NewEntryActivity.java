@@ -1,18 +1,20 @@
 package com.codemonkeys9.budgeit.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import segmented_control.widget.custom.android.com.segmentedcontrol.SegmentedControl;
-
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
+
+import segmented_control.widget.custom.android.com.segmentedcontrol.SegmentedControl;
 
 public class NewEntryActivity extends AppCompatActivity {
     // See res/values/strings.xml => "entry_types"
@@ -56,8 +58,15 @@ public class NewEntryActivity extends AppCompatActivity {
             entryManager.createEntry(amount, details, date,purchase);
         } catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
-            // show this to the user
+            Toast toast = new Toast(getApplicationContext());
+            toast.setGravity(Gravity.CENTER, 0, 0 );
+            toast.makeText(this, "Invalid entry: "+userErrorMessage, toast.LENGTH_LONG);
+
         }
 
+    }
+
+    private boolean validateEntry(String amount, String date, String details){
+        return false;
     }
 }
