@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class EntryTest {
+public class IncomeTest {
     @Test
     public void ValidEntryGetAmountTest() {
 
