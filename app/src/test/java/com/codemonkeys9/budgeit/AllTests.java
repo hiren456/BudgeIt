@@ -1,6 +1,10 @@
 package com.codemonkeys9.budgeit;
 
 import com.codemonkeys9.budgeit.database.DatabaseTest;
+import com.codemonkeys9.budgeit.dso.category.BudgetCategory;
+import com.codemonkeys9.budgeit.dso.category.BudgetCategoryTest;
+import com.codemonkeys9.budgeit.dso.category.SavingCategoryTest;
+import com.codemonkeys9.budgeit.dso.category.SavingsCategory;
 import com.codemonkeys9.budgeit.dso.date.DateTest;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalTest;
 import com.codemonkeys9.budgeit.dso.details.DetailsTest;
@@ -40,7 +44,9 @@ import org.junit.runners.Suite;
         UIEntryManagerTest.class,
         PurchaseTest.class,
         EntryFlaggerTest.class,
-        IDManagerTest.class
+        IDManagerTest.class,
+        SavingCategoryTest.class,
+        BudgetCategoryTest.class
 })
 
 
