@@ -22,7 +22,10 @@ class DefaultEntryCreator implements EntryCreator {
         int entryID = database.getIDCounter();
         database.updateIDCounter(entryID + 1);
 
-        database.insertEntry(PurchaseFactory.createPurchase(amount,entryID,details,date,false));
+        // replace with IDGENERATOR.getDefaultCatID
+        int catID = 0;
+
+        database.insertEntry(PurchaseFactory.createPurchase(amount,entryID,details,date,catID,false));
     }
 
     public void createPurchase(Amount amount, Details details, Date date,boolean flag){
@@ -30,7 +33,10 @@ class DefaultEntryCreator implements EntryCreator {
         int entryID = database.getIDCounter();
         database.updateIDCounter(entryID + 1);
 
-        database.insertEntry(PurchaseFactory.createPurchase(amount,entryID,details,date,flag));
+        // replace with IDGENERATOR.getDefaultCatID
+        int catID = 0;
+
+        database.insertEntry(PurchaseFactory.createPurchase(amount,entryID,details,date,catID,flag));
     }
 
     public void createIncome(Amount amount, Details details, Date date){
@@ -38,7 +44,12 @@ class DefaultEntryCreator implements EntryCreator {
         int entryID = database.getIDCounter();
         database.updateIDCounter(entryID + 1);
 
-        database.insertEntry(IncomeFactory.createIncome(amount,entryID,details,date));
+        // replace with IDGENERATOR.getDefaultCatID
+        int catID = 0;
+
+        database.insertEntry(IncomeFactory.createIncome(amount,entryID,details,date,catID));
     }
+
+    // TODO: create ability to specify catID from the get go
 }
 
