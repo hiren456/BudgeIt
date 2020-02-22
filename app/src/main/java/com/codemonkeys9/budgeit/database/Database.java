@@ -2,15 +2,11 @@ package com.codemonkeys9.budgeit.database;
 
 import java.util.List;
 
+import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 public interface Database {
-
-
-    // Iteration 2.5 store two ID one for cat and one for entry
-
-
     /*
     Inserts an entry into the database
      */
@@ -18,7 +14,7 @@ public interface Database {
 
     /*
     Update the entry
-    return true if the entry is found in the hashmap and then updated, otherwise return false
+    return true if the entry is found in the database and then updated, otherwise return false
      */
     boolean updateEntry(Entry entry);
 
@@ -41,6 +37,34 @@ public interface Database {
     boolean deleteEntry(int ID);
 
     /*
+    Inserts an Category into the database
+     */
+    void insertCategory(Category category);
+
+    /*
+    Update the Category
+    return true if the entry is found in the database and then updated, otherwise return false
+     */
+    boolean updateCategory(Category category);
+
+    /*
+    return an Category by ID
+    if not found returns null
+     */
+    Category selectCategoryByID(int ID);
+
+    /*
+    returns a list of all Categories in no particular order
+     */
+    List<Category> getAllCategories();
+
+    /*
+    delete a category and return true if the category was deleted successfully,
+    otherwise return false
+     */
+    boolean deleteCategory(int ID);
+
+    /*
      returns current entry id counter
      Possible idNames are "Entry" and "Category"
      */
@@ -50,7 +74,4 @@ public interface Database {
      updates entry id counter
      */
     void updateIDCounter(String idName, int newCounter);
-
-    // Iteration 2.5 Create all functionality for Category's
-    // Iteration 2.5except for select by date
 }

@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.database;
 
+import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.date.Date;
@@ -95,6 +96,36 @@ class StubDatabase implements Database {
             isRemoved = true;
         }
         return isRemoved;
+    }
+
+
+    @Override
+    public void insertCategory(Category category) {
+        // TODO:
+    }
+
+    @Override
+    public boolean updateCategory(Category category) {
+        // TODO:
+        return false;
+    }
+
+    @Override
+    public Category selectCategoryByID(int ID) {
+        // TODO:
+        return null;
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        // TODO:
+        return null;
+    }
+
+    @Override
+    public boolean deleteCategory(int ID) {
+        // TODO:
+        return false;
     }
 
     @Override
