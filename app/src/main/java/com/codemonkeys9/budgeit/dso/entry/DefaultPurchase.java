@@ -54,4 +54,22 @@ class DefaultPurchase extends DefaultEntry implements Purchase {
         return new DefaultPurchase(newAmount,newEntryID,newDetails,newDate,this.flag);
     }
 
+    @Override
+    public boolean equals(Entry other) {
+        boolean idSame = getEntryID() == other.getEntryID();
+        boolean amountSame = getAmount().equals(other.getAmount());
+        boolean detailsSame = getDetails().equals(other.getDetails());
+        boolean dateSame = getDate().equals(other.getDate());
+
+        boolean flaggedSame = false;
+        boolean typeSame = false;
+
+        if(other instanceof Purchase){
+            typeSame = true;
+            flaggedSame = flagged() == ((Purchase) other).flagged();
+        }
+
+        return idSame && amountSame && detailsSame
+                && dateSame && typeSame && flaggedSame;
+    }
 }

@@ -151,4 +151,17 @@ public class IncomeTest {
         assertTrue("When an entrys modifyEntry method gets called," +
                 "the returned entrys date is not what it should be",entry2.getDate().equals(newDate));
     }
+
+    @Test
+    public void incomeEqualsPurchaseTest(){
+        Amount amount = AmountFactory.fromInt(999);
+        int entryID = 42;
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
+
+        Entry income = IncomeFactory.createIncome(amount, entryID, details, date);
+        Entry purchase = PurchaseFactory.createPurchase(amount, entryID, details, date);
+
+        assertFalse(income.equals(purchase));
+    }
 }
