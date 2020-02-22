@@ -14,6 +14,7 @@ public interface Entry {
     Date getDate();
 
     Entry modifyEntry(Amount amount,Details details, Date date);
+    Entry changeCategory(int catID);
 
     boolean equals(Entry other);
 }

@@ -1,19 +1,16 @@
 package com.codemonkeys9.budgeit.dso.entry;
 import com.codemonkeys9.budgeit.dso.amount.Amount;
-import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
 import com.codemonkeys9.budgeit.dso.date.Date;
-import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
-import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 
 abstract class DefaultEntry implements Entry {
     Amount amount;
     int entryID;
-    //Iteration 2.5 int catID;
+    int catID;
     Details details;
     Date date;
 
-    DefaultEntry(Amount amount, int entryID, Details details, Date date) {
+    DefaultEntry(Amount amount, int entryID, Details details, Date date,int catID) {
 
         // check that parameters are valid
         if(date == null){
@@ -33,7 +30,7 @@ abstract class DefaultEntry implements Entry {
 
         this.amount = amount;
         this.entryID = entryID;
-        //this.catID = catID;
+        this.catID = catID;
         this.details = details;
         this.date = date;
     }
@@ -50,7 +47,7 @@ abstract class DefaultEntry implements Entry {
 
     @Override
     public int getCatID() {
-        return 0;
+        return this.catID;
     }
 
     @Override

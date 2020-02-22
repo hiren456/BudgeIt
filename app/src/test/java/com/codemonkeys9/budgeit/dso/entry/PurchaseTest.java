@@ -21,11 +21,12 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,true);
+        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID,true);
         assertTrue(entry.getAmount().equals(amount));
     }
 
@@ -34,11 +35,12 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,true);
+        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID,true);
         assertEquals(entry.getEntryID() , 42);
     }
 
@@ -47,11 +49,12 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,true);
+        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID,true);
         assertTrue(entry.getDetails().equals(details));
     }
 
@@ -60,11 +63,12 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,true);
+        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID,true);
         assertTrue(entry.getDate().equals(date));
     }
     @Test
@@ -72,11 +76,12 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Purchase entry = PurchaseFactory.createPurchase(amount, entryID, details, date,true);
+        Purchase entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID,true);
         assertTrue(entry.flagged());
     }
 
@@ -85,11 +90,12 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Purchase entry = PurchaseFactory.createPurchase(amount, entryID, details, date,false);
+        Purchase entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID,false);
         assertFalse(entry.flagged());
     }
 
@@ -97,11 +103,12 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Purchase entry = PurchaseFactory.createPurchase(amount, entryID, details, date);
+        Purchase entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID);
         assertFalse(entry.flagged());
     }
     @Test
@@ -110,11 +117,12 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date);
+        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID);
         assertTrue(entry.getAmount().equals(amount));
     }
 
@@ -123,11 +131,12 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date);
+        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID);
         assertEquals(entry.getEntryID() , 42);
     }
 
@@ -136,11 +145,12 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date);
+        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID);
         assertTrue(entry.getDetails().equals(details));
     }
 
@@ -149,11 +159,12 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         //test getAmount
-        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date);
+        Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID);
         assertTrue(entry.getDate().equals(date));
     }
 
@@ -163,12 +174,13 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 0;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         try{
 
-            Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date);
+            Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID);
         }catch (Exception e){
 
             fail("Making an entry with entryID 0 causes an exception");
@@ -180,12 +192,13 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = -37;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         try{
 
-            Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date);
+            Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID);
         }catch (Exception e){
 
             fail("Making an entry with negative entryID causes an exception");
@@ -197,12 +210,13 @@ public class PurchaseTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
         try{
 
-            Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date);
+            Entry entry = PurchaseFactory.createPurchase(amount, entryID, details, date,catID);
         }catch (Exception e){
 
             fail("Making an entry with positive entryID causes an exception");
@@ -213,10 +227,11 @@ public class PurchaseTest {
     public void modifyEntryTest() {
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
-        Entry entry1 = PurchaseFactory.createPurchase(amount, entryID, details, date);
+        Entry entry1 = PurchaseFactory.createPurchase(amount, entryID, details, date,catID,true);
 
         Amount newAmount = AmountFactory.fromInt(123);
         Details newDetails = DetailsFactory.fromString( "A very creative description");
@@ -248,11 +263,12 @@ public class PurchaseTest {
     public void flaggedEntryequalsUnflaggedEntryTest(){
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
-        Entry entry1 = PurchaseFactory.createPurchase(amount, entryID, details, date,true);
-        Entry entry2 = PurchaseFactory.createPurchase(amount, entryID, details, date,false);
+        Entry entry1 = PurchaseFactory.createPurchase(amount, entryID, details, date,catID,true);
+        Entry entry2 = PurchaseFactory.createPurchase(amount, entryID, details, date,catID,false);
 
         assertFalse(entry1.equals(entry2));
         assertFalse(entry2.equals(entry1));
@@ -262,11 +278,12 @@ public class PurchaseTest {
     public void incomeEqualsPurchaseTest(){
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
+        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
-        Entry income = IncomeFactory.createIncome(amount, entryID, details, date);
-        Entry purchase = PurchaseFactory.createPurchase(amount, entryID, details, date);
+        Entry income = IncomeFactory.createIncome(amount, entryID, details, date,catID);
+        Entry purchase = PurchaseFactory.createPurchase(amount, entryID, details, date,catID);
 
         assertFalse(purchase.equals(income));
     }
