@@ -288,5 +288,53 @@ public class PurchaseTest {
         assertFalse(purchase.equals(income));
     }
 
+    @Test
+    public void getCatIDTest(){
+        Amount amount = AmountFactory.fromInt(999);
+        int entryID = 42;
+        int catID = 20;
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
 
+        Entry purchase = PurchaseFactory.createPurchase(amount, entryID, details, date,catID);
+
+        assertEquals(20,purchase.getCatID());
+    }
+
+    @Test
+    public void getCatIDWithFlagTest(){
+        Amount amount = AmountFactory.fromInt(999);
+        int entryID = 42;
+        int catID = 20;
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
+
+        Entry purchase = PurchaseFactory.createPurchase(amount, entryID, details, date,catID,true);
+
+        assertEquals(20,purchase.getCatID());
+    }
+
+    @Test
+    public void changeCatTest(){
+        Amount amount = AmountFactory.fromInt(999);
+        int entryID = 42;
+        int catID = 20;
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
+
+        Entry purchase = PurchaseFactory.createPurchase(amount, entryID, details, date,catID,true);
+        Entry newPurchase = purchase.changeCategory(21);
+
+        assertTrue(amount.equals(newPurchase.getAmount()));
+        assertTrue(details.equals(newPurchase.getDetails()));
+        assertTrue(date.equals(newPurchase.getDate()));
+        assertEquals(42, newPurchase.getEntryID());
+        assertEquals(21, newPurchase.getCatID());
+
+        assertTrue(amount.equals(purchase.getAmount()));
+        assertTrue(details.equals(purchase.getDetails()));
+        assertTrue(date.equals(purchase.getDate()));
+        assertEquals(42, purchase.getEntryID());
+        assertEquals(20, purchase.getCatID());
+    }
 }

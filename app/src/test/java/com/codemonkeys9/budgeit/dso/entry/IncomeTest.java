@@ -173,4 +173,41 @@ public class IncomeTest {
 
         assertFalse(income.equals(purchase));
     }
+
+    @Test
+    public void getCatIDTest(){
+        Amount amount = AmountFactory.fromInt(999);
+        int entryID = 42;
+        int catID = 20;
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
+
+        Entry income = IncomeFactory.createIncome(amount, entryID, details, date,catID);
+
+        assertEquals(20,income.getCatID());
+    }
+
+    @Test
+    public void changeCatTest(){
+        Amount amount = AmountFactory.fromInt(999);
+        int entryID = 42;
+        int catID = 20;
+        Details details = DetailsFactory.fromString( "A very creative description");
+        Date date = DateFactory.fromInts(1999,04,23);
+
+        Entry income = IncomeFactory.createIncome(amount, entryID, details, date,catID);
+        Entry newIncome = income.changeCategory(21);
+
+        assertTrue(amount.equals(newIncome.getAmount()));
+        assertTrue(details.equals(newIncome.getDetails()));
+        assertTrue(date.equals(newIncome.getDate()));
+        assertEquals(42, newIncome.getEntryID());
+        assertEquals(21, newIncome.getCatID());
+
+        assertTrue(amount.equals(income.getAmount()));
+        assertTrue(details.equals(income.getDetails()));
+        assertTrue(date.equals(income.getDate()));
+        assertEquals(42, income.getEntryID());
+        assertEquals(20, income.getCatID());
+    }
 }
