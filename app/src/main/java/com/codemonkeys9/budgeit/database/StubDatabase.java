@@ -16,13 +16,15 @@ class StubDatabase implements Database {
     // they are searched and inserted by their ID
     private HashMap<Integer,Entry> entryMap;
 
-    private int idCounter;
+    private HashMap<String,Integer> ids;
 
 
-    StubDatabase(int initialIDCounter){
+    StubDatabase(int initialEntryID,int initialCategoryID){
 
         this.entryMap = new HashMap<Integer,Entry>();
-        this.idCounter = initialIDCounter;
+        this.ids = new HashMap<String,Integer>();
+        this.ids.put("Entry",initialEntryID);
+        this.ids.put("Category",initialCategoryID);
     }
 
     @Override
@@ -96,12 +98,12 @@ class StubDatabase implements Database {
     }
 
     @Override
-    public int getIDCounter() {
-        return this.idCounter;
+    public int getIDCounter(String idName) {
+        return this.ids.get(idName);
     }
 
     @Override
-    public void updateIDCounter(int newCounter) {
-        this.idCounter = newCounter;
+    public void updateIDCounter(String idName, int newCounter) {
+        this.ids.put(idName,newCounter);
     }
 }

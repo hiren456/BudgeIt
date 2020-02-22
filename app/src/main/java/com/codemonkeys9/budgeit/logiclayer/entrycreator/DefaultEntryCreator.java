@@ -19,8 +19,8 @@ class DefaultEntryCreator implements EntryCreator {
 
     public void createPurchase(Amount amount, Details details, Date date){
         // should be in its own class
-        int entryID = database.getIDCounter();
-        database.updateIDCounter(entryID + 1);
+        int entryID = database.getIDCounter("Entry");
+        database.updateIDCounter("Entry",entryID + 1);
 
         // replace with IDGENERATOR.getDefaultCatID
         int catID = 0;
@@ -30,8 +30,8 @@ class DefaultEntryCreator implements EntryCreator {
 
     public void createPurchase(Amount amount, Details details, Date date,boolean flag){
         // should be in its own class
-        int entryID = database.getIDCounter();
-        database.updateIDCounter(entryID + 1);
+        int entryID = database.getIDCounter("Entry");
+        database.updateIDCounter("Entry",entryID + 1);
 
         // replace with IDGENERATOR.getDefaultCatID
         int catID = 0;
@@ -41,8 +41,8 @@ class DefaultEntryCreator implements EntryCreator {
 
     public void createIncome(Amount amount, Details details, Date date){
         // should be in its own class
-        int entryID = database.getIDCounter();
-        database.updateIDCounter(entryID + 1);
+        int entryID = database.getIDCounter("Entry");
+        database.updateIDCounter("Entry",entryID + 1);
 
         // replace with IDGENERATOR.getDefaultCatID
         int catID = 0;

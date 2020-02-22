@@ -42,13 +42,14 @@ public interface Database {
 
     /*
      returns current entry id counter
+     Possible idNames are "Entry" and "Category"
      */
-    int getIDCounter();
+    int getIDCounter(String idName);
 
     /*
      updates entry id counter
      */
-    void updateIDCounter(int newCounter);
+    void updateIDCounter(String idName, int newCounter);
 
     // Iteration 2.5 Create all functionality for Category's
     // Iteration 2.5except for select by date

@@ -25,29 +25,29 @@ public class DatabaseTest {
     @Test
     public void idCounterInitialValueTest() {
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         assertEquals("When a database is initialized, " +
                 "the initial value for the id counter, passed as a parameter," +
-                "is not what is returned by getIDCounter.", database.getIDCounter(),42);
+                "is not what is returned by getIDCounter.", database.getIDCounter("Entry"),42);
     }
 
     @Test
     public void idCounterUpdateValueTest() {
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
-        database.updateIDCounter(23);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
+        database.updateIDCounter("Entry",23);
 
         assertEquals("When updateIDCounter is called, " +
                 "the id counter returned by getIDCounter" +
-                "is not the same as what was passed to updateIDCounter.",database.getIDCounter(), 23);
+                "is not the same as what was passed to updateIDCounter.",database.getIDCounter("Entry"), 23);
     }
 
     @Test
     public void insertThenSelectTest() {
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(7249);
@@ -78,7 +78,7 @@ public class DatabaseTest {
     public void insertManyThenSelectByIDTest() {
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
@@ -163,7 +163,7 @@ public class DatabaseTest {
     public void insertManyThenSelectByDateTest() {
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
@@ -255,7 +255,7 @@ public class DatabaseTest {
     public void deleteOneTest(){
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
@@ -281,7 +281,7 @@ public class DatabaseTest {
 
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
@@ -349,7 +349,7 @@ public class DatabaseTest {
 
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
 
         //Create valid Entry1
@@ -417,7 +417,7 @@ public class DatabaseTest {
 
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //select an entry from the database
         Entry retEntry1 = database.selectByID(81);
@@ -430,7 +430,7 @@ public class DatabaseTest {
 
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //select an entry from the database
         boolean isDeleted1 = database.deleteEntry(6);
@@ -443,7 +443,7 @@ public class DatabaseTest {
 
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //select an entry List from the database
         DateInterval interval = DateIntervalFactory.fromDate(
@@ -459,7 +459,7 @@ public class DatabaseTest {
     public void updateThenSelectTest() {
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(50);
@@ -501,7 +501,7 @@ public class DatabaseTest {
     public void updateNotExistedTest() {
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(50);
@@ -526,7 +526,7 @@ public class DatabaseTest {
     public void insertTwoTimesSameTest() {
         //Create Database
         int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter);
+        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(50);

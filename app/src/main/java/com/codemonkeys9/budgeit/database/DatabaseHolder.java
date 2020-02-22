@@ -8,7 +8,7 @@ public class DatabaseHolder {
 
     public static void init() {
         if(db == null) {
-            db = DatabaseFactory.createDatabase(0);
+            db = DatabaseFactory.createDatabase(1,1);
         }
     }
 }
