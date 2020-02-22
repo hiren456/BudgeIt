@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
-import com.codemonkeys9.budgeit.exceptions.InvalidDateException;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
+import com.codemonkeys9.budgeit.exceptions.UserInputException;
 
 public class DateRangeActivity extends AppCompatActivity {
     @Override
@@ -39,11 +41,12 @@ public class DateRangeActivity extends AppCompatActivity {
                 try{
                     start = DateFactory.fromString(startDate.getText().toString());
                     end = DateFactory.fromString(endDate.getText().toString());
+                    DateInterval di = DateIntervalFactory.fromDate(start, end);
                 }
-                catch (InvalidDateException ide){
-                    Toast.makeText(getApplicationContext(), "Error: "+ide.getUserErrorMessage(), Toast.LENGTH_LONG).show();
+                catch (UserInputException ie){
+                    Toast.makeText(getApplicationContext(), "Error: "+ie.getUserErrorMessage(), Toast.LENGTH_LONG).show();
                     setResult(RESULT_CANCELED, data);
-                    System.out.println(ide.getUserErrorMessage());
+                    System.out.println(ie.getUserErrorMessage());
                     finish();
                 }
 
