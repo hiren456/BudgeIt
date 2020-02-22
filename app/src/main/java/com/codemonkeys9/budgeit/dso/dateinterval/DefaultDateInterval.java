@@ -15,11 +15,14 @@ class DefaultDateInterval implements DateInterval {
         // if start is later then end throw an exception
         if(this.start.compareTo(this.end) > 0){
 
-            throw new InvalidDateIntervalException(start+"-"+end+"is not a valid interval");
+            throw new InvalidDateIntervalException(start+"-"+end+" is not a valid interval");
         }
     }
 
     public DefaultDateInterval(Date start, Date end) {
+        if(start.compareTo(end) > 0){
+            throw new InvalidDateIntervalException(start+"-"+end+" is not a valid interval");
+        }
         this.start = start;
         this.end = end;
     }
