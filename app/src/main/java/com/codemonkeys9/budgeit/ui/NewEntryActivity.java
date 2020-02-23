@@ -55,12 +55,12 @@ public class NewEntryActivity extends AppCompatActivity {
         boolean purchase = selected == EXPENSE;
 
         try {
-            entryManager.createEntry(amount, details, date,purchase);
+            entryManager.createEntry(amount, details, date, purchase);
         } catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast toast = new Toast(getApplicationContext());
             toast.setGravity(Gravity.CENTER, 0, 0 );
-            toast.makeText(this, "Invalid entry: "+userErrorMessage, toast.LENGTH_LONG);
+            toast.makeText(this, "Invalid entry: "+userErrorMessage, toast.LENGTH_LONG).show();
 
         }
 
