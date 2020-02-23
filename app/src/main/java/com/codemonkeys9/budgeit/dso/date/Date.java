@@ -26,4 +26,9 @@ public interface Date extends Comparable<Date> {
     int getDay();
 
     boolean equals(Date other);
+
+    /*
+    Returns true if the date is in the future, false o.w.
+     */
+    boolean inFuture();
 }
