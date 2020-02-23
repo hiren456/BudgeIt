@@ -1,0 +1,101 @@
+package com.codemonkeys9.budgeit.logiclayer.uicategorycreator;
+
+import com.codemonkeys9.budgeit.database.Database;
+import com.codemonkeys9.budgeit.database.DatabaseHolder;
+import com.codemonkeys9.budgeit.dso.category.BudgetCategory;
+import com.codemonkeys9.budgeit.dso.category.Category;
+import com.codemonkeys9.budgeit.dso.category.SavingsCategory;
+import com.codemonkeys9.budgeit.exceptions.InvalidAmountException;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.lang.reflect.Field;
+import java.util.List;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+public class UICategoryCreatorTest {
+    @Before
+    public void resetDatabase() throws SecurityException,
+            NoSuchFieldException, IllegalArgumentException,
+            IllegalAccessException {
+        Field instance = DatabaseHolder.class.getDeclaredField("db");
+        instance.setAccessible(true);
+        instance.set(null, null);
+        DatabaseHolder.init();
+    }
+
+    @Test
+    public void createSavingsCategoryTest(){
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        Database db = DatabaseHolder.getDatabase();
+
+        String goal = "900.00";
+        String name = "New Phone";
+
+        uiCategoryCreator.createSavingsCategory(goal,name);
+
+        List<Category> cats = db.getAllCategories();
+        Category cat = cats.get(0);
+
+        assertTrue(cat.getName().getValue().equals(name));
+        assertTrue(cat.getGoal().getDisplay().equals(goal));
+        assertTrue(cat instanceof SavingsCategory);
+    }
+
+    @Test
+    public void createBudgetCategoryTest(){
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        Database db = DatabaseHolder.getDatabase();
+
+        String goal = "200.00";
+        String name = "Food";
+
+        uiCategoryCreator.createBudgetCategory(goal,name);
+
+        List<Category> cats = db.getAllCategories();
+        Category cat = cats.get(0);
+
+        assertTrue(cat.getName().getValue().equals(name));
+        assertTrue(cat.getGoal().getDisplay().equals(goal));
+        assertTrue(cat instanceof BudgetCategory);
+    }
+
+    @Test
+    public void createBudgetCategoryInvalidAmountTest(){
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        Database db = DatabaseHolder.getDatabase();
+
+        String goal = "Hello?";
+        String name = "Food";
+        try{
+
+            uiCategoryCreator.createBudgetCategory(goal,name);
+            fail();
+        }catch (InvalidAmountException e){
+
+        }catch (Exception e){
+            fail();
+        }
+    }
+
+    @Test
+    public void createSavingsCategoryInvalidAmountTest(){
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        Database db = DatabaseHolder.getDatabase();
+
+        String goal = "Hello?";
+        String name = "Food";
+        try{
+
+            uiCategoryCreator.createSavingsCategory(goal,name);
+            fail();
+        }catch (InvalidAmountException e){
+
+        }catch (Exception e){
+            fail();
+        }
+    }
+}

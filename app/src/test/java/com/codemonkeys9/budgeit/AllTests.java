@@ -13,12 +13,18 @@ import com.codemonkeys9.budgeit.dso.amount.AmountTest;
 import com.codemonkeys9.budgeit.dso.entry.PurchaseTest;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryListTest;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculatorTest;
+import com.codemonkeys9.budgeit.logiclayer.entrycategorizer.UIEntryCategorizer;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorTest;
 import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherTest;
 import com.codemonkeys9.budgeit.logiclayer.entryflagger.EntryFlaggerTest;
 import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFiltererTest;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerTest;
 import com.codemonkeys9.budgeit.logiclayer.uicalculator.UIEntryCalculatorTest;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorTest;
+import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherTest;
+import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizerTest;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherTest;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerTest;
 
@@ -46,7 +52,10 @@ import org.junit.runners.Suite;
         EntryFlaggerTest.class,
         IDManagerTest.class,
         SavingCategoryTest.class,
-        BudgetCategoryTest.class
+        BudgetCategoryTest.class,
+        UICategoryCreatorTest.class,
+        UICategoryFetcherTest.class,
+        UIEntryCategorizerTest.class
 })
 
 
