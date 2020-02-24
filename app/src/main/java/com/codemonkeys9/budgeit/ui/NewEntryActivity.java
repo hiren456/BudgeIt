@@ -60,13 +60,10 @@ public class NewEntryActivity extends AppCompatActivity {
             String userErrorMessage = e.getUserErrorMessage();
             Toast toast = new Toast(getApplicationContext());
             toast.setGravity(Gravity.CENTER, 0, 0 );
-            toast.makeText(this, "Invalid entry: "+userErrorMessage, toast.LENGTH_LONG);
+            toast.makeText(this, "Invalid entry: "+userErrorMessage, toast.LENGTH_LONG).show();
 
         }
 
     }
 
-    private boolean validateEntry(String amount, String date, String details){
-        return false;
-    }
 }

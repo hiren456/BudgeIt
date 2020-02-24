@@ -41,6 +41,7 @@ public class DateRangeActivity extends AppCompatActivity {
                 try{
                     start = DateFactory.fromString(startDate.getText().toString());
                     end = DateFactory.fromString(endDate.getText().toString());
+
                     DateInterval di = DateIntervalFactory.fromDate(start, end);
                 }
                 catch (UserInputException ie){
