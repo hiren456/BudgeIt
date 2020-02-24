@@ -25,10 +25,22 @@ public interface Database {
     Entry selectByID(int ID);
 
     /*
+    return a list of all entries
+    or an empty list if db is empty
+     */
+    List<Entry> getAllEntries();
+
+    /*
     returns the list of entries from that fall within the dateInterval
     returns empty list if the are no entries
      */
     List<Entry> selectByDate(DateInterval dateInterval);
+
+    /*
+    return a list of entries sorted by the date with the same category ID
+    or an empty list if there are no such entries
+     */
+    List<Entry> getEntriesByCategoryID(int ID);
 
     /*
     delete an entry and return true if the entry deleted successfully,
