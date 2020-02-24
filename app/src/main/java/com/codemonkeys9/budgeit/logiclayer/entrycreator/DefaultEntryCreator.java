@@ -23,7 +23,7 @@ class DefaultEntryCreator implements EntryCreator {
     }
 
     public void createPurchase(Amount amount, Details details, Date date){
-        if(inFuture(date)) { throw new FutureDateException("future date"); }
+        checkFuture(date);
         int entryID = idManager.getNewID("Entry");
         int catID = idManager.getDefaultID("Category");
 
@@ -31,7 +31,7 @@ class DefaultEntryCreator implements EntryCreator {
     }
 
     public void createPurchase(Amount amount, Details details, Date date, boolean flag){
-        if(inFuture(date)) { throw new FutureDateException("future date"); }
+        checkFuture(date);
         int entryID = idManager.getNewID("Entry");
         int catID = idManager.getDefaultID("Category");
 
@@ -39,16 +39,16 @@ class DefaultEntryCreator implements EntryCreator {
     }
 
     public void createIncome(Amount amount, Details details, Date date){
-        if(inFuture(date)) { throw new FutureDateException("future date"); }
+        checkFuture(date);
         int entryID = idManager.getNewID("Entry");
         int catID = idManager.getDefaultID("Category");
 
         database.insertEntry(IncomeFactory.createIncome(amount,entryID,details,date,catID));
     }
 
-    private boolean inFuture(Date date){
-        Date now = DateFactory.fromString("now");
-        return date.compareTo(now) > 0;
+    private void checkFuture(Date date){
+        if(date.inFuture()) { throw new FutureDateException("future date"); }
+
     }
 
     // TODO: create ability to specify catID from the get go
