@@ -2,10 +2,19 @@ package com.codemonkeys9.budgeit.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
-import java.util.List;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.database.DatabaseHolder;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
@@ -13,17 +22,7 @@ import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
-
-import com.codemonkeys9.budgeit.database.DatabaseHolder;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private EntryAdapter entryAdapter;
@@ -74,36 +73,39 @@ public class MainActivity extends AppCompatActivity {
                     // Gas every week-ish
 
                     // ensures that month has two digits
-                    String monthString;
-                    if(month < 10) {
-                        monthString = "0" + month;
-                    }else{
-                        monthString = "" + month;
-                    }
-                    for(int j = 0; j < 4; j++) {
-                        int day = j * 7 + 1;
-
-
-                        // ensures that day has two digits
-                        String dayString;
-                        if(day < 10) {
-                            dayString = "0" + day;
-                        }else{
-                            dayString = "" + day;
+                    if ( !(year == 2020 && month > 2)) {
+                        String monthString;
+                        if (month < 10) {
+                            monthString = "0" + month;
+                        } else {
+                            monthString = "" + month;
                         }
+                        for (int j = 0; j < 4; j++) {
+                            int day = j * 7 + 1;
 
-                        entryManager.createEntry("50", "Gas", year + "-" + monthString + "-" + dayString,true);
+
+                            // ensures that day has two digits
+                            String dayString;
+                            if (day < 10) {
+                                dayString = "0" + day;
+                            } else {
+                                dayString = "" + day;
+                            }
+
+                            entryManager.createEntry("50", "Gas", year + "-" + monthString + "-" + dayString, true);
+                        }
+                        // Paycheck every two weeks-ish
+                        entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01", false);
+                        entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15", false);
+
+                        entryManager.createEntry(
+                                "120",
+                                "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
+                                year + "-02-13",
+                                true
+                        );
                     }
-                    // Paycheck every two weeks-ish
-                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01",false );
-                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15",false);
                 }
-                entryManager.createEntry(
-                        "120",
-                        "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
-                        year + "-02-13",
-                        true
-                );
             }
             entryList = entryFetcher.fetchAllEntrys();
             entries = entryList.getReverseChrono();

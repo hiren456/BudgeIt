@@ -15,7 +15,7 @@ public interface Date extends Comparable<Date> {
 
     /*
     Gets the month as an int
-    ie. the month janurary would be returned as 1
+    ie. the month january would be returned as 1
      */
     int getMonth();
 
