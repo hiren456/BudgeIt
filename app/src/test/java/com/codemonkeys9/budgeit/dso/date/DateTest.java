@@ -54,10 +54,46 @@ public class DateTest {
         Date date  = DateFactory.fromString(stringDate);
         Date dateAfter  = DateFactory.fromString(stringDateAfter);
 
-        assertTrue(date.compareTo(dateAfter) <= 0);
-        assertTrue(dateAfter.compareTo(date) >= 0);
+        assertTrue(date.compareTo(dateAfter) < 0);
+        assertTrue(dateAfter.compareTo(date) > 0);
     }
 
+    @Test
+    public void compareToNowTest() {
+        String stringDate = "1999-04-23";
+        String stringDateAfter = "now";
+        Date date  = DateFactory.fromString(stringDate);
+        Date dateAfter  = DateFactory.fromString(stringDateAfter);
+
+        assertTrue(date.compareTo(dateAfter) < 0);
+        assertTrue(dateAfter.compareTo(date) > 0);
+    }
+
+    @Test
+    public void compareToNowAfterTest() {
+        String stringDate = "now";
+        Date date  = DateFactory.fromString(stringDate);
+        Date dateAfter  = DateFactory.fromInts(date.getYear() + 1,date.getMonth(),date.getDay());
+
+        assertTrue(date.compareTo(dateAfter) < 0);
+        assertTrue(dateAfter.compareTo(date) > 0);
+    }
+
+    @Test
+    public void notInFutureTest() {
+        String stringDate = "1999-04-23";
+        Date date  = DateFactory.fromString(stringDate);
+
+        assertFalse(date.inFuture());
+    }
+
+    @Test
+    public void inFutureTest() {
+        String stringDate = "3000-04-23";
+        Date date  = DateFactory.fromString(stringDate);
+
+        assertTrue(date.inFuture());
+    }
     @Test
     public void compareToSameTest() {
         String stringDate = "1999-04-23";

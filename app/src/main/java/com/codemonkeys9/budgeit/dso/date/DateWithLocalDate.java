@@ -63,6 +63,12 @@ public class DateWithLocalDate implements Date {
     }
 
     @Override
+    public boolean inFuture() {
+        LocalDate now = LocalDate.now();
+        return this.date.isAfter(now);
+    }
+
+    @Override
     public int compareTo(Date o) {
         LocalDate comp = LocalDate.of(o.getYear(),o.getMonth(),o.getDay());
         return this.date.compareTo(comp);

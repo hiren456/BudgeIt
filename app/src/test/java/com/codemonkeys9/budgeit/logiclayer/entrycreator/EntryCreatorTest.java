@@ -11,6 +11,7 @@ import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
+import com.codemonkeys9.budgeit.exceptions.FutureDateException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +30,25 @@ public class EntryCreatorTest {
         instance.setAccessible(true);
         instance.set(null, null);
         DatabaseHolder.init();
+    }
+    @Test
+    public void createEntryInFutureTest() {
+        Database database = DatabaseHolder.getDatabase();
+        EntryCreator entryCreator = EntryCreatorFactory.createEntryCreator();
+
+        Amount amount1 = AmountFactory.fromString("100.92");
+        Details details1 = DetailsFactory.fromString("Ender was bullied by his older brother Peter");
+        Date date1 = DateFactory.fromString("3000-04-23");
+
+        try{
+            entryCreator.createIncome(amount1,
+                    details1, date1);
+            fail();
+        }catch (FutureDateException e){
+
+        }catch(Exception e){
+            fail();
+        }
     }
     @Test
     public void createOneThenSelectAllTest() {

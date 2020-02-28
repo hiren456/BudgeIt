@@ -25,7 +25,7 @@ class EntryCategorizer implements UIEntryCategorizer {
         Entry entry = fetchEntry(entryID);
 
         Entry newEntry = entry.changeCategory(categoryID);
-        db.updateEntry(entry);
+        db.updateEntry(newEntry);
     }
 
     private Entry fetchEntry(int id){

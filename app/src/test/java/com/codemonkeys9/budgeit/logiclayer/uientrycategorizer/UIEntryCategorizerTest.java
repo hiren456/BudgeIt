@@ -13,6 +13,7 @@ import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
+import com.codemonkeys9.budgeit.exceptions.CategoryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 import com.codemonkeys9.budgeit.logiclayer.entrycategorizer.UIEntryCategorizer;
 import com.codemonkeys9.budgeit.logiclayer.entrycategorizer.UIEntryCategorizerFactory;
@@ -68,7 +69,7 @@ public class UIEntryCategorizerTest {
 
 
         categorizer.categorizeEntry(81,24);
-        Entry newEntry = db.selectByID(28);
+        Entry newEntry = db.selectByID(81);
         assertEquals(24,newEntry.getCatID());
     }
 
@@ -127,7 +128,7 @@ public class UIEntryCategorizerTest {
         try{
             categorizer.categorizeEntry(81,Integer.MAX_VALUE);
             fail();
-        }catch (EntryDoesNotExistException e) {
+        }catch (CategoryDoesNotExistException e) {
         }catch (Exception e){
             fail();
         }

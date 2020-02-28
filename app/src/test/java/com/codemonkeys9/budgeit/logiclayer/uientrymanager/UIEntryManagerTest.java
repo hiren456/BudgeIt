@@ -3,6 +3,7 @@ package com.codemonkeys9.budgeit.logiclayer.uientrymanager;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
+import com.codemonkeys9.budgeit.exceptions.FutureDateException;
 import com.codemonkeys9.budgeit.exceptions.PurchaseDoesNotExistException;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
@@ -23,6 +24,25 @@ public class UIEntryManagerTest {
         instance.setAccessible(true);
         instance.set(null, null);
         DatabaseHolder.init();
+    }
+    @Test
+    public void inFutureTest() {
+        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
+
+        String amount = "99.99";
+        String details = "Food";
+        String date = "3000-04-23";
+        boolean purchase = true;
+
+        try{
+
+            manager.createEntry(amount,details,date,purchase);
+            fail();
+        }catch (FutureDateException e){
+
+        }catch (Exception e){
+            fail();
+        }
     }
     @Test
     public void createPurchaseTest(){

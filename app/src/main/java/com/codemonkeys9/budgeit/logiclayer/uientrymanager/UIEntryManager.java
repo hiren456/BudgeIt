@@ -1,7 +1,7 @@
 package com.codemonkeys9.budgeit.logiclayer.uientrymanager;
 
 import com.codemonkeys9.budgeit.dso.entry.Entry;
-import com.codemonkeys9.budgeit.dso.entry.Purchase;
+import com.codemonkeys9.budgeit.exceptions.FutureDateException;
 import com.codemonkeys9.budgeit.exceptions.InvalidAmountException;
 import com.codemonkeys9.budgeit.exceptions.InvalidDateException;
 import com.codemonkeys9.budgeit.exceptions.PurchaseDoesNotExistException;
@@ -24,7 +24,7 @@ public interface UIEntryManager {
     have two digits.
      */
     void createEntry(String amount, String details,String date,boolean purchase)
-        throws InvalidDateException, InvalidAmountException;
+        throws InvalidDateException, InvalidAmountException, FutureDateException;
     /*
     Takes either the id of an entry or the entry itself
     and updates its flag value with the value of flag.

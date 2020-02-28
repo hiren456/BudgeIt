@@ -66,7 +66,4 @@ public class NewEntryActivity extends AppCompatActivity {
 
     }
 
-    private boolean validateEntry(String amount, String date, String details){
-        return false;
-    }
 }

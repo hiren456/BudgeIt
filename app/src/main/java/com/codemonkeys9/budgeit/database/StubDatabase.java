@@ -16,16 +16,20 @@ class StubDatabase implements Database {
     // This is where all the entries are stored
     // they are searched and inserted by their ID
     private HashMap<Integer,Entry> entryMap;
-    private HashMap<String,Integer> ids;
+
+    // This is where all the categories are stored
+    // they are searched and inserted by their ID
     private HashMap<Integer,Category> categoryMap;
 
+    private HashMap<String,Integer> ids;
 
 
     StubDatabase(int initialEntryID,int initialCategoryID){
 
-        this.entryMap = new HashMap<>();
-        this.ids = new HashMap<>();
-        this.categoryMap = new HashMap<>();
+        this.entryMap = new HashMap<Integer,Entry>();
+        this.categoryMap = new HashMap<Integer, Category>();
+
+        this.ids = new HashMap<String,Integer>();
         this.ids.put("Entry",initialEntryID);
         this.ids.put("Category",initialCategoryID);
     }
@@ -50,7 +54,6 @@ class StubDatabase implements Database {
         boolean isUpdated = true;
 
         // Checks if an entry with the same key is already in the database
-        //Checks if an entry with the same key is already in the database
         if(entryMap.containsKey(entry.getEntryID())){
             this.entryMap.put(entry.getEntryID(),entry);
         }else{
@@ -58,6 +61,28 @@ class StubDatabase implements Database {
         }
 
         return isUpdated;
+    }
+
+    @Override
+    public List<Entry> getAllEntries() {
+        return new ArrayList<>(entryMap.values());
+    }
+
+    @Override
+    public List<Entry> getEntriesByCategoryID(int ID){
+        ArrayList<Entry> returnList = new ArrayList<Entry>();
+
+        // find all entries with the same category ID
+        for ( Entry entry : this.entryMap.values()){
+            if (entry.getCatID() == ID){
+                returnList.add(entry);
+            }
+        }
+
+        // sort the entries by date
+        Collections.sort(returnList,new EntryDateComparator());
+
+        return returnList;
     }
 
     //return an entry by ID
@@ -69,7 +94,7 @@ class StubDatabase implements Database {
 
     @Override
     public List<Entry> selectByDate(DateInterval dateInterval) {
-        ArrayList<Entry> returnList = new ArrayList<>();
+        ArrayList<Entry> returnList = new ArrayList<Entry>();
 
         // find all entries within the specified range
         for ( Entry entry : this.entryMap.values()){
@@ -89,86 +114,57 @@ class StubDatabase implements Database {
     @Override
     public boolean deleteEntry(int ID) {
 
-        boolean isRemoved;
         Entry removed = this.entryMap.remove(ID);
-        if(removed == null){
-
-            isRemoved = false;
-        }else{
-            isRemoved = true;
-        }
-        return isRemoved;
+        return removed != null;
     }
 
-    //insert a new category into the categoryHashMap. A category is passed in..
-    //as a parameter and inserted into the HashMap if it doesn't exist
+
     @Override
     public void insertCategory(Category category) {
-        // TODO:
+
+        //Checks if a category with the same key is already in the database
         if(categoryMap.containsKey(category.getID())){
-            throw new RuntimeException("Category already exists");
+            throw new RuntimeException("The category you try to insert is already inserted");
         }else{
             this.categoryMap.put(category.getID(),category);
         }
     }
 
-    //Accepts a category passed in as a parameter and updates it with its..
-    //current match by comparing its id. Returns true if updated successfully
     @Override
     public boolean updateCategory(Category category) {
-        // TODO:
-        if(this.categoryMap.containsKey(category.getID()))
-        {
+
+        boolean isUpdated = true;
+
+        // Checks if a category with the same key is already in the database
+        if(categoryMap.containsKey(category.getID())){
             this.categoryMap.put(category.getID(),category);
-            return true;
+        }else{
+            isUpdated = false;
         }
-        else{
-            return false;
-        }
+
+        return isUpdated;
     }
 
-    //returns category by ID or null if it doesn't exist
     @Override
-    public Category selectCategoryByID(int ID)
-    {
-        // TODO:
+    public Category selectCategoryByID(int ID) {
         return this.categoryMap.get(ID);
     }
 
-    //returns a arraylist of all categories or null if not found
     @Override
     public List<Category> getAllCategories() {
-        // TODO:
-        ArrayList<Category> list = new ArrayList<>();
-        for(Category category : this.categoryMap.values())
-        {
-            if(category!=null)
-            {
-            list.add(category);
-            }
-        }
-        return list;
+        return new ArrayList<>(categoryMap.values());
     }
 
-    //removes category by ID from category HashMap
     @Override
     public boolean deleteCategory(int ID) {
-        // TODO:
-        if(this.categoryMap.containsKey(ID))
-        {
-            this.categoryMap.remove(ID);
-            return true;
-        }
-        else
-            {
-                return false;
-            }
+
+        Category removed = this.categoryMap.remove(ID);
+        return removed != null;
     }
 
     @Override
     public int getIDCounter(String idName) {
         return this.ids.get(idName);
-
     }
 
     @Override

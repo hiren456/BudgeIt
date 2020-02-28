@@ -14,6 +14,7 @@ import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
+import com.codemonkeys9.budgeit.exceptions.FutureDateException;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
 
 public class DateRangeActivity extends AppCompatActivity {
@@ -39,8 +40,11 @@ public class DateRangeActivity extends AppCompatActivity {
                 Date start = null;
                 Date end = null;
                 try{
+                    Date now = DateFactory.fromString("now");
                     start = DateFactory.fromString(startDate.getText().toString());
+                    if(start.compareTo(now) > 0) throw new FutureDateException("Can't filter by future date.");
                     end = DateFactory.fromString(endDate.getText().toString());
+
                     DateInterval di = DateIntervalFactory.fromDate(start, end);
                 }
                 catch (UserInputException ie){
