@@ -3,9 +3,11 @@ package com.codemonkeys9.budgeit.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
     private MenuItem dateFilterToggle;
+    private MenuItem categoryViewToggle;
+    private MenuItem allViewToggle;
 
     private String startDate = "past";
     private String endDate = "now";
@@ -249,5 +253,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
 
