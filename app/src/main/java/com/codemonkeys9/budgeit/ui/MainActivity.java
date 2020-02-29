@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -36,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private String endDate = "now";
     private boolean hasDateFilter = false;
 
+    UIEntryManager entryManager;
+    UIEntryFetcher entryFetcher;
+    List<Entry> entries;
+
     private static final int DATE_RANGE_REQUEST = 0;
 
     @Override
@@ -44,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         // This is necessary for LocalDate to work with
         // API < 23
         AndroidThreeTen.init(this);
-
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -60,11 +64,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         DatabaseHolder.init();
-        UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
-        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
+        this.entryManager = UIEntryManagerFactory.createUIEntryManager();
+        this.entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
 
         EntryList entryList = entryFetcher.fetchAllEntrys();
-        List<Entry> entries = entryList.getReverseChrono();
+        this.entries = entryList.getReverseChrono();
 
         // Add fake data if there's no data in the DB already
         if(entries.isEmpty()) {
@@ -116,10 +120,30 @@ public class MainActivity extends AppCompatActivity {
         recycler.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // Get index *within the currently-displayed list of entries*
+        int entryIndex = item.getGroupId();
+        // Get actual, global entry ID
+        int entryId = entries.get(entryIndex).getEntryID();
+        int buttonId = item.getItemId();
+        switch(buttonId) {
+            case R.id.action_delete:
+                Toast.makeText(this, "Deletion not yet implemented", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_flag:
+                // TODO: This will throw an exception if the selected entry is not a purchase.
+                //       The best way to avoid this would be to not show the flag button on income
+                //       items.
+                entryManager.flagPurchase(entryId, true);
+                refreshTimeline();
+                break;
+        }
+        return true;
+    }
+
     private void refreshTimeline() {
-        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
         EntryList entryList = null;
-        List<Entry> entries = null;
 
         // if the user inputs -123456789 and then 123456789
         // or any other invalid date range
@@ -140,8 +164,8 @@ public class MainActivity extends AppCompatActivity {
                 entryList = entryFetcher.fetchAllEntrys(startDate,endDate);
                 break;
         }
-        entries =  entryList.getReverseChrono();
-        entryAdapter.updateEntries(entries);
+        this.entries = entryList.getReverseChrono();
+        entryAdapter.updateEntries(this.entries);
     }
 
     private void openNewEntryActivity(){
