@@ -6,6 +6,7 @@ import com.codemonkeys9.budgeit.dso.entry.Purchase;
 
 import java.util.List;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 
 final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
-    final static class ViewHolder extends RecyclerView.ViewHolder {
+    final static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         TextView description;
         TextView amount;
         TextView date;
@@ -26,6 +27,13 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
             description = entryView.findViewById(R.id.description);
             amount = entryView.findViewById(R.id.amount);
             date = entryView.findViewById(R.id.date);
+            entryView.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(0, v.getId(), 0, "Delete");
+            menu.add(0, v.getId(), 0, "Flag");
         }
     }
 
