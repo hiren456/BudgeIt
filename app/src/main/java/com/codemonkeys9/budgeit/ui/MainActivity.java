@@ -113,18 +113,6 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recycler = findViewById(R.id.recycler);
         recycler.setAdapter(this.entryAdapter);
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerViewItemClickListener itemClickListener = new RecyclerViewItemClickListener(this, recycler, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                System.out.println("on click");
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-                System.out.println("on long click");
-            }
-        });
-        recycler.addOnItemTouchListener(itemClickListener);
     }
 
     private void refreshTimeline() {
