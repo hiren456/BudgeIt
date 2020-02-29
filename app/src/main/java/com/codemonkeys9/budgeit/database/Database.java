@@ -7,8 +7,10 @@ import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 public interface Database {
+
     /*
-    Inserts an entry into the database
+    Inserts an Entry into the database.
+    If the Entry with the same ID is in the db throws runtime exception
      */
     void insertEntry(Entry entry);
 
@@ -25,7 +27,7 @@ public interface Database {
     Entry selectByID(int ID);
 
     /*
-    return a list of all entries
+    return a list of all entries sorted by date
     or an empty list if db is empty
      */
     List<Entry> getAllEntries();
@@ -49,24 +51,26 @@ public interface Database {
     boolean deleteEntry(int ID);
 
     /*
-    Inserts an Category into the database
+    Inserts a Category into the database.
+    If the category with the same ID is in the db throws runtime exception
      */
     void insertCategory(Category category);
 
     /*
     Update the Category
-    return true if the entry is found in the database and then updated, otherwise return false
+    return true if the category is found in the database and then updated, otherwise return false
      */
     boolean updateCategory(Category category);
 
     /*
-    return an Category by ID
+    return a category by ID
     if not found returns null
      */
     Category selectCategoryByID(int ID);
 
     /*
-    returns a list of all Categories in no particular order
+    returns a list of all Categories sorted by date
+    or an empty list if db is empty
      */
     List<Category> getAllCategories();
 
