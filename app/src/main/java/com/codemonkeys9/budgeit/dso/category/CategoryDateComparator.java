@@ -10,7 +10,6 @@ import java.util.Comparator;
  */
 public class CategoryDateComparator implements Comparator<Category> {
     public int compare(Category a, Category b) {
-        //return a.getDate().compareTo(b.getDate());
-        return 0;
+        return a.getDateLastModified().compareTo(b.getDateLastModified());
     }
 }
