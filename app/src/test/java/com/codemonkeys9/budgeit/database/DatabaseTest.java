@@ -53,7 +53,7 @@ public class DatabaseTest {
         Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
         int catID1 = 23;
-        Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
+        Details details1 = DetailsFactory.fromString("Some letters put next to each other");
         Date date1 = DateFactory.fromInts(2002,7,7);
         Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
