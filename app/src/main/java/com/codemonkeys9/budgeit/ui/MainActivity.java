@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         switch(buttonId) {
             case R.id.action_delete:
                 entryManager.deleteEntry(entryId);
+                refreshTimeline();
                 break;
             case R.id.action_flag:
                 // TODO: This will throw an exception if the selected entry is not a purchase.
