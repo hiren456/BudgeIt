@@ -1,7 +1,8 @@
-package com.codemonkeys9.budgeit.logiclayer.entrycategorizer;
+package com.codemonkeys9.budgeit.logiclayer.uientrycategorizer;
 
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.dso.category.Category;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.exceptions.CategoryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
@@ -24,8 +25,11 @@ class EntryCategorizer implements UIEntryCategorizer {
         Category cat = fetchCategory(categoryID);
         Entry entry = fetchEntry(entryID);
 
+        Category newCat = cat.modifyCategory(cat.getName(),cat.getGoal()
+                , DateFactory.fromString("now"));
         Entry newEntry = entry.changeCategory(categoryID);
         db.updateEntry(newEntry);
+        db.updateCategory(newCat);
     }
 
     private Entry fetchEntry(int id){
