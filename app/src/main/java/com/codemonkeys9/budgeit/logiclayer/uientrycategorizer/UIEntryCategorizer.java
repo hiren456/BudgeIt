@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.logiclayer.entrycategorizer;
+package com.codemonkeys9.budgeit.logiclayer.uientrycategorizer;
 
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.entry.Entry;

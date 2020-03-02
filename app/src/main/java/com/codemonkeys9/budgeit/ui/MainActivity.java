@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         int buttonId = item.getItemId();
         switch(buttonId) {
             case R.id.action_delete:
-                Toast.makeText(this, "Deletion not yet implemented", Toast.LENGTH_SHORT).show();
+                entryManager.deleteEntry(entryId);
                 break;
             case R.id.action_flag:
                 // TODO: This will throw an exception if the selected entry is not a purchase.
