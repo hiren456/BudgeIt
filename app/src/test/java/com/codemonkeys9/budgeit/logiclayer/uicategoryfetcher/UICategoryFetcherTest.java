@@ -37,7 +37,7 @@ public class UICategoryFetcherTest {
         creator.createBudgetCategory(goal,name);
 
         CategoryList list = fetcher.getAllCategories();
-        Category cat = list.getList().get(0);
+        Category cat = list.getChrono().get(0);
 
 
         assertTrue(cat.getName().getValue().equals(name));
