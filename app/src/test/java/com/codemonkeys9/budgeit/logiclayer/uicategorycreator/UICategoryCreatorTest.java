@@ -30,7 +30,7 @@ public class UICategoryCreatorTest {
 
     @Test
     public void createSavingsCategoryTest(){
-        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
         Database db = DatabaseHolder.getDatabase();
 
         String goal = "900.00";
@@ -49,7 +49,7 @@ public class UICategoryCreatorTest {
 
     @Test
     public void createBudgetCategoryTest(){
-        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
         Database db = DatabaseHolder.getDatabase();
 
         String goal = "200.00";
@@ -68,7 +68,7 @@ public class UICategoryCreatorTest {
 
     @Test
     public void createTwoBudgetCategoryTest(){
-        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
         Database db = DatabaseHolder.getDatabase();
 
         String goal = "200.00";
@@ -94,7 +94,7 @@ public class UICategoryCreatorTest {
 
     @Test
     public void createTwoSavingsCategoryTest(){
-        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
         Database db = DatabaseHolder.getDatabase();
 
         String goal = "200.00";
@@ -119,7 +119,7 @@ public class UICategoryCreatorTest {
     }
     @Test
     public void createBudgetCategoryInvalidAmountTest(){
-        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
         Database db = DatabaseHolder.getDatabase();
 
         String goal = "Hello?";
@@ -137,7 +137,7 @@ public class UICategoryCreatorTest {
 
     @Test
     public void createSavingsCategoryInvalidAmountTest(){
-        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
         Database db = DatabaseHolder.getDatabase();
 
         String goal = "Hello?";
