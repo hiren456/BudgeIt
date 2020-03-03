@@ -29,7 +29,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.junit.Assert.*;
 
-@RunWith(AndroidJUnit4.class)
+//@RunWith(AndroidJUnit4.class)
 public class DatabaseTest {
     private Database db;
     private int initialEntryID = 1;
@@ -63,10 +63,17 @@ public class DatabaseTest {
     @Test
     public void idCounterUpdateValueTest() {
         db.updateIDCounter("Entry",23);
+        db.updateIDCounter("Category",14);
 
         assertEquals("When updateIDCounter is called, " +
                 "the id counter returned by getIDCounter" +
                 "is not the same as what was passed to updateIDCounter.",db.getIDCounter("Entry"), 23);
+
+        assertEquals("When updateIDCounter is called, " +
+                "the id counter returned by getIDCounter" +
+                "is not the same as what was passed to updateIDCounter.",db.getIDCounter("Category"), 14);
+
+        db.clean();
     }
 
     @Test

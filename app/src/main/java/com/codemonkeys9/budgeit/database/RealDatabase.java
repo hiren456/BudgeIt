@@ -69,6 +69,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     /*
     Called when constructor is called and creates a db
      */
+    //TODO on delete default or null
     @Override
     public void onCreate(SQLiteDatabase db) {
         String catCreateSQL =
@@ -82,7 +83,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         String entCreateSQL =
                 "CREATE TABLE " + ENTRY_TABLE + " ( " +
                 ENTRY_ID + " INTEGER PRIMARY KEY, " + //primary key
-                CAT_ID + " INTEGER REFERENCES " + CATEGORY_TABLE + ", " + //foreign key TODO on delete default
+                CAT_ID + " INTEGER REFERENCES " + CATEGORY_TABLE + ", " + //foreign key
                 ENTRY_AMOUNT + " INTEGER, " +
                 ENTRY_DETAILS + " TEXT, " +
                 ENTRY_DATE + " TEXT," +
