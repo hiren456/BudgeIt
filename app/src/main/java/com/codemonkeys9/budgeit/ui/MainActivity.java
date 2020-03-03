@@ -85,18 +85,18 @@ public class MainActivity extends AppCompatActivity {
         EntryList entryList = entryFetcher.fetchAllEntrys();
         this.entries = entryList.getReverseChrono();
 
-        int games = categoryCreator.createBudgetCategory("80", "Games");
-        int transportation = categoryCreator.createBudgetCategory("100", "Transportation");
-        int misc = categoryCreator.createBudgetCategory("200", "Miscellaneous");
-        int income = categoryCreator.createSavingsCategory("2000", "Income");
         // Add fake data if there's no data in the DB already
         if(entries.isEmpty()) {
+            int games = categoryCreator.createBudgetCategory("80", "Games");
+            int misc = categoryCreator.createBudgetCategory("200", "Miscellaneous");
+            int income = categoryCreator.createSavingsCategory("2000", "Income");
+            int transportation = categoryCreator.createBudgetCategory("100", "Transportation");
             int alyx = entryManager.createEntry("60", "Half-Life: Alyx Pre-order", "2019-12-01",true);
             entryCategorizer.categorizeEntry(alyx, games);
             ADD_FAKE_DATA:
             for(int year = 2018; year <= 2020; year++) {
                 for(int month = 1; month <= 12; month++) {
-                    if(year == 2020 && month > 3) break;
+                    if(year == 2020 && month > 2) break ADD_FAKE_DATA;
                     // ensures that month has two digits
                     String monthString;
                     if (month < 10) {

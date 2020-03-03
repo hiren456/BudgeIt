@@ -57,7 +57,7 @@ class CategoryCreator implements UICategoryCreator {
     }
 
     private int getID(){
-        return idManager.getDefaultID("Category");
+        return idManager.getNewID("Category");
     }
 
     private void storeCat(Category cat){
