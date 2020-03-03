@@ -35,7 +35,7 @@ public interface UIEntryManager {
     "2000-2-20" would be an invalid date because the month does not
     have two digits.
      */
-    void createEntry(String amount, String details,String date,boolean purchase)
+    int createEntry(String amount, String details, String date, boolean purchase)
         throws InvalidDateException, InvalidAmountException, FutureDateException;
     /*
     Takes either the id of an entry or the entry itself

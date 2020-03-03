@@ -3,16 +3,24 @@ package com.codemonkeys9.budgeit.ui;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.dso.category.Category;
+import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
+import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
+
+import java.util.List;
 
 import segmented_control.widget.custom.android.com.segmentedcontrol.SegmentedControl;
 
@@ -22,10 +30,13 @@ public class NewEntryActivity extends AppCompatActivity {
         INCOME = 0,
         EXPENSE = 1;
 
+    UICategoryFetcher categoryFetcher;
+
     SegmentedControl entryTypeControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        categoryFetcher = UICategoryFetcherFactory.createUICategoryFetcher();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entry);
 
@@ -38,6 +49,21 @@ public class NewEntryActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        CategoryList categoryList = categoryFetcher.fetchAllCategories();
+        List<Category> listOfCategories = categoryList.getReverseChrono();
+        //get the spinner from the xml.
+        Spinner dropdown = findViewById(R.id.spinner_category);
+        //create a list of items for the spinner.
+        String[] items = new String[categoryList.size()];
+        for(int i = 0; i < categoryList.size(); i++){
+            items[i] = listOfCategories.get(i).getName().getValue();
+        }
+        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
+        //There are multiple variations of this, but this is the basic variant.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        //set the spinners adapter to the previously created one.
+        dropdown.setAdapter(adapter);
 
         this.entryTypeControl = findViewById(R.id.control_incomeOrExpense);
         this.entryTypeControl.setSelectedSegment(0);

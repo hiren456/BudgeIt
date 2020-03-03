@@ -1,20 +1,20 @@
 package com.codemonkeys9.budgeit.ui;
 
-import com.codemonkeys9.budgeit.dso.entry.Entry;
-import com.codemonkeys9.budgeit.R;
-import com.codemonkeys9.budgeit.dso.entry.Purchase;
-
-import java.util.List;
-
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Purchase;
+
+import java.util.List;
 
 final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
     final static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {

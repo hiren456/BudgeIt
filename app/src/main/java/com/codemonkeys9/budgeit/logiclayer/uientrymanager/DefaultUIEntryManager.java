@@ -40,25 +40,26 @@ class DefaultUIEntryManager implements UIEntryManager {
     }
 
     @Override
-    public void createEntry(String amount, String details, String date,boolean purchase) {
+    public int createEntry(String amount, String details, String date, boolean purchase) {
         Amount parsedAmount = AmountFactory.fromString(amount);
         Details parsedDetails = DetailsFactory.fromString(details);
         Date parsedDate = DateFactory.fromString(date);
 
         if(purchase){
-            this.entryCreator.createPurchase(parsedAmount,parsedDetails,parsedDate);
+            return entryCreator.createPurchase(parsedAmount,parsedDetails,parsedDate);
         }else{
-            this.entryCreator.createIncome(parsedAmount,parsedDetails,parsedDate);
+            return entryCreator.createIncome(parsedAmount,parsedDetails,parsedDate);
         }
+
     }
 
     @Override
     public void flagPurchase(int id, boolean flag) throws PurchaseDoesNotExistException {
-        this.flagger.flagPurchase(id,flag);
+        flagger.flagPurchase(id,flag);
     }
 
     @Override
     public void flagPurchase(Entry entry, boolean flag) throws PurchaseDoesNotExistException {
-        this.flagger.flagPurchase(entry.getEntryID(),flag);
+        flagger.flagPurchase(entry.getEntryID(),flag);
     }
 }

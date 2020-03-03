@@ -2,7 +2,6 @@ package com.codemonkeys9.budgeit.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
+import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
+import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizer;
+import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizerFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
@@ -28,10 +34,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private EntryAdapter entryAdapter;
-    private EntryTypeVisibility visibility = EntryTypeVisibility.Both;
+    private VisibilityType visibility = VisibilityType.Both; //defaults to all view
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
     private MenuItem dateFilterToggle;
+    private MenuItem categoryViewToggle;
+    private MenuItem allViewToggle;
 
     private String startDate = "past";
     private String endDate = "now";
@@ -40,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
     UIEntryManager entryManager;
     UIEntryFetcher entryFetcher;
     List<Entry> entries;
+
+    UICategoryFetcher categoryFetcher;
+    UICategoryCreator categoryCreator;
+    UIEntryCategorizer entryCategorizer;
 
     private static final int DATE_RANGE_REQUEST = 0;
 
@@ -66,13 +78,21 @@ public class MainActivity extends AppCompatActivity {
         DatabaseHolder.init();
         this.entryManager = UIEntryManagerFactory.createUIEntryManager();
         this.entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
+        this.categoryFetcher = UICategoryFetcherFactory.createUICategoryFetcher();
+        categoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
+        entryCategorizer = UIEntryCategorizerFactory.createUIEntryCategorizer();
 
         EntryList entryList = entryFetcher.fetchAllEntrys();
         this.entries = entryList.getReverseChrono();
 
         // Add fake data if there's no data in the DB already
         if(entries.isEmpty()) {
-            entryManager.createEntry("60", "Half-Life: Alyx Pre-order", "2019-12-01",true);
+            int games = categoryCreator.createBudgetCategory("80", "Games");
+            int misc = categoryCreator.createBudgetCategory("200", "Miscellaneous");
+            int income = categoryCreator.createSavingsCategory("2000", "Income");
+            int transportation = categoryCreator.createBudgetCategory("100", "Transportation");
+            int alyx = entryManager.createEntry("60", "Half-Life: Alyx Pre-order", "2019-12-01",true);
+            entryCategorizer.categorizeEntry(alyx, games);
             ADD_FAKE_DATA:
             for(int year = 2018; year <= 2020; year++) {
                 for(int month = 1; month <= 12; month++) {
@@ -96,18 +116,22 @@ public class MainActivity extends AppCompatActivity {
                             dayString = "" + day;
                         }
 
-                        entryManager.createEntry("50", "Gas", year + "-" + monthString + "-" + dayString, true);
+                        int entry = entryManager.createEntry("50", "Gas", year + "-" + monthString + "-" + dayString, true);
+                        entryCategorizer.categorizeEntry(entry, transportation);
                     }
                     // Paycheck every two weeks-ish
-                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01", false);
-                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15", false);
+                    int pay1 = entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01", false);
+                    int pay2 = entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15", false);
+                    entryCategorizer.categorizeEntry(pay1, income);
+                    entryCategorizer.categorizeEntry(pay2, income);
 
-                    entryManager.createEntry(
+                    int what = entryManager.createEntry(
                             "120",
                             "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
                             year + "-" + monthString + "-13",
                             true
                     );
+                    entryCategorizer.categorizeEntry(what, misc);
                 }
             }
             entryList = entryFetcher.fetchAllEntrys();
@@ -145,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void refreshTimeline() {
         EntryList entryList = null;
+        CategoryList categoryList = null;
 
         // if the user inputs -123456789 and then 123456789
         // or any other invalid date range
@@ -157,19 +182,25 @@ public class MainActivity extends AppCompatActivity {
         switch(visibility) {
             case Income:
                 entryList = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
+                categoryList = null;
                 break;
             case Expenses:
                 entryList = entryFetcher.fetchAllPurchaseEntrys(startDate,endDate);
+                categoryList = null;
                 break;
             case Both:
                 entryList = entryFetcher.fetchAllEntrys(startDate,endDate);
+                categoryList = null;
                 break;
+            case Categories:
+                entryList = null;
+                categoryList = categoryFetcher.fetchAllCategories();
         }
         this.entries = entryList.getReverseChrono();
         entryAdapter.updateEntries(this.entries);
     }
 
-    private void openNewEntryActivity(){
+    private void openNewEntryActivity() {
         Intent i = new Intent(this, NewEntryActivity.class);
         startActivity(i);
     }
@@ -182,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK && requestCode == DATE_RANGE_REQUEST) {
             if(data.hasExtra("start_date") && data.hasExtra("end_date")) {
                 Bundle extras = data.getExtras();
@@ -200,6 +232,8 @@ public class MainActivity extends AppCompatActivity {
         incomeToggle = menu.findItem(R.id.action_toggle_income);
         expensesToggle = menu.findItem(R.id.action_toggle_expenses);
         dateFilterToggle = menu.findItem(R.id.action_filter_by_date);
+        categoryViewToggle = menu.findItem(R.id.action_set_category_view);
+        allViewToggle = menu.findItem(R.id.action_set_all_view);
         return true;
     }
 
@@ -207,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         incomeToggle.setVisible(true);
         expensesToggle.setVisible(true);
+        categoryViewToggle.setVisible(true);
 
         if(visibility.isIncomeVisible()) {
             incomeToggle.setTitle(getString(R.string.action_hide_income));
@@ -244,6 +279,17 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if(id == R.id.action_set_category_view){
+            Toast.makeText(this, "Toggled category view. ", Toast.LENGTH_SHORT).show();
+            categoryViewToggle.setVisible(false);
+            allViewToggle.setVisible(true);
+
+        } else if (id == R.id.action_set_all_view){
+            Toast.makeText(this, "Toggled all view. ", Toast.LENGTH_SHORT).show();
+            categoryViewToggle.setVisible(true);
+            allViewToggle.setVisible(false);
+        }
+
         if (id == R.id.action_toggle_income) {
             visibility = visibility.toggleIncome();
         } else if (id == R.id.action_toggle_expenses) {
@@ -273,5 +319,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
 

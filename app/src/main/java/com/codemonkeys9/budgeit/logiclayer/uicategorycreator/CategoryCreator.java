@@ -25,37 +25,39 @@ class CategoryCreator implements UICategoryCreator {
     }
 
     @Override
-    public void createSavingsCategory(Amount goal, Details name) {
+    public int createSavingsCategory(Amount goal, Details name) {
         int catID = getID();
         Date today = DateFactory.fromString("now");
         SavingsCategory cat = SavingsCategoryFactory.createSavingsCategory(name, goal,today,catID);
         storeCat(cat);
+        return catID;
     }
 
     @Override
-    public void createSavingsCategory(String goal, String name) throws InvalidAmountException {
+    public int createSavingsCategory(String goal, String name) throws InvalidAmountException {
         Amount parsedGoal = AmountFactory.fromString(goal);
         Details parsedName = DetailsFactory.fromString(name);
-        createSavingsCategory(parsedGoal,parsedName);
+        return createSavingsCategory(parsedGoal,parsedName);
     }
 
     @Override
-    public void createBudgetCategory(Amount goal, Details name) {
+    public int createBudgetCategory(Amount goal, Details name) {
         int catID = getID();
         Date today = DateFactory.fromString("now");
         BudgetCategory cat = BudgetCategoryFactory.createBudgetCategory(name, goal,today,catID);
         storeCat(cat);
+        return catID;
     }
 
     @Override
-    public void createBudgetCategory(String goal, String name) throws InvalidAmountException {
+    public int createBudgetCategory(String goal, String name) throws InvalidAmountException {
         Amount parsedGoal = AmountFactory.fromString(goal);
         Details parsedName = DetailsFactory.fromString(name);
-        createBudgetCategory(parsedGoal,parsedName);
+        return createBudgetCategory(parsedGoal,parsedName);
     }
 
     private int getID(){
-        return idManager.getDefaultID("Category");
+        return idManager.getNewID("Category");
     }
 
     private void storeCat(Category cat){

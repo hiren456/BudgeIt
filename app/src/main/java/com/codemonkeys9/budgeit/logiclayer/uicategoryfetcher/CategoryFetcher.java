@@ -16,7 +16,7 @@ class CategoryFetcher implements UICategoryFetcher {
     }
 
     @Override
-    public CategoryList getAllCategories() {
+    public CategoryList fetchAllCategories() {
         List<Category> list = db.getAllCategories();
         CategoryList ret = CategoryListFactory.fromChrono(list);
         return ret;

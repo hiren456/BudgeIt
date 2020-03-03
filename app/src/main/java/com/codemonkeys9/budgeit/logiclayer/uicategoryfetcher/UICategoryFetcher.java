@@ -6,5 +6,5 @@ public interface UICategoryFetcher {
     /*
     ... gets all the categories that have been created
      */
-    CategoryList getAllCategories();
+    CategoryList fetchAllCategories();
 }
