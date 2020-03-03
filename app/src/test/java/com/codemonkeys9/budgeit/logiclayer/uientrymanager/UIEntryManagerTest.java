@@ -13,11 +13,14 @@ import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
+import com.codemonkeys9.budgeit.exceptions.CategoryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.FutureDateException;
 import com.codemonkeys9.budgeit.exceptions.PurchaseDoesNotExistException;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 
@@ -125,6 +128,55 @@ public class UIEntryManagerTest {
         assertTrue("April 23, 1999".equals(entry.getDate().getDisplay()));
     }
 
+    @Test
+    public void createPurchaseWithCatTest(){
+        UIEntryFetcher fetcher = UIEntryFetcherFactory.createUIEntryFetcher();
+        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
+        UICategoryCreator categoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
+
+        String goal = "200";
+        String name = "food";
+        int catID = categoryCreator.createBudgetCategory(goal,name);
+
+        String amount = "99.99";
+        String details = "Food";
+        String date = "1999-04-23";
+        boolean purchase = true;
+
+        manager.createEntry(amount,details,date,purchase,catID);
+
+        Entry entry = fetcher.fetchAllEntrys().getChrono().get(0);
+
+        assertTrue(amount.equals(entry.getAmount().getDisplay()));
+        assertTrue(details.equals(entry.getDetails().getValue()));
+        assertTrue("April 23, 1999".equals(entry.getDate().getDisplay()));
+        assertEquals(catID,entry.getCatID());
+    }
+
+    @Test
+    public void createPurchaseWithCatInvalidCatIDTest(){
+        UIEntryFetcher fetcher = UIEntryFetcherFactory.createUIEntryFetcher();
+        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
+        UICategoryCreator categoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
+
+        String goal = "200";
+        String name = "food";
+        int catID = categoryCreator.createBudgetCategory(goal,name);
+
+        String amount = "99.99";
+        String details = "Food";
+        String date = "1999-04-23";
+        boolean purchase = true;
+
+        try{
+            manager.createEntry(amount,details,date,purchase,Integer.MIN_VALUE);
+            fail();
+        }catch (CategoryDoesNotExistException e){
+
+        }catch (Exception e ){
+            fail();
+        }
+    }
     @Test
     public void flagUnflaggedEntryTest(){
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();

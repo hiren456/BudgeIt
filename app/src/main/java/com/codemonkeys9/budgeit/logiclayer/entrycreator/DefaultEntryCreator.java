@@ -51,7 +51,5 @@ class DefaultEntryCreator implements EntryCreator {
     private void checkFuture(Date date){
         if(date.inFuture()) { throw new FutureDateException("future date"); }
     }
-
-    // TODO: create ability to specify catID from the get go
 }
 
