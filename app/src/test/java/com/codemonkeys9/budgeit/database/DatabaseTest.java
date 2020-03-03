@@ -32,12 +32,14 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class DatabaseTest {
     private Database db;
+    private int initialEntryID = 1;
+    private int initialCategoryID = 3;
 
     @Before
     public void createDb() {
         Context context = ApplicationProvider.getApplicationContext();
-        //db = new RealDatabase(context);
-        db = new StubDatabase(1, 1);
+        db = new RealDatabase(context, initialEntryID, initialCategoryID);
+        //db = new StubDatabase(initialEntryID, initialCategoryID);
     }
 
     @After
@@ -45,26 +47,27 @@ public class DatabaseTest {
         db.close();
     }
 
-//    @Test
-//    public void idCounterInitialValueTest() {
-//        int initialIDCounter = 42;
-//        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
-//
-//        assertEquals("When a database is initialized, " +
-//                "the initial value for the id counter, passed as a parameter," +
-//                "is not what is returned by getIDCounter.", database.getIDCounter("Entry"),42);
-//    }
-//
-//    @Test
-//    public void idCounterUpdateValueTest() {
-//        int initialIDCounter = 42;
-//        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
-//        database.updateIDCounter("Entry",23);
-//
-//        assertEquals("When updateIDCounter is called, " +
-//                "the id counter returned by getIDCounter" +
-//                "is not the same as what was passed to updateIDCounter.",database.getIDCounter("Entry"), 23);
-//    }
+    @Test
+    public void idCounterInitialValueTest() {
+
+        assertEquals("When a database is initialized, " +
+                "the initial value for the id counter, passed as a parameter," +
+                "is not what is returned by getIDCounter.", initialEntryID, db.getIDCounter("Entry"));
+
+        assertEquals("When a database is initialized, " +
+                "the initial value for the id counter, passed as a parameter," +
+                "is not what is returned by getIDCounter.", initialCategoryID, db.getIDCounter("Category"));
+        db.clean();
+    }
+
+    @Test
+    public void idCounterUpdateValueTest() {
+        db.updateIDCounter("Entry",23);
+
+        assertEquals("When updateIDCounter is called, " +
+                "the id counter returned by getIDCounter" +
+                "is not the same as what was passed to updateIDCounter.",db.getIDCounter("Entry"), 23);
+    }
 
     @Test
     public void insertThenSelectTest() {

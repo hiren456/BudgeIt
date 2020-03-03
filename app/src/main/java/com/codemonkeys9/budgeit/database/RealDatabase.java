@@ -34,6 +34,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     //db tables
     private static final String CATEGORY_TABLE = "categories";
     private static final String ENTRY_TABLE = "entries";
+    private static final String IDS_TABLE = "ids";
 
     //categories table attributes
     private static final String CAT_ID = "catID"; //also in entry table
@@ -42,7 +43,6 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     private static final String CAT_DATE = "catDate";
     private static final String CAT_TYPE = "catType"; // // 0 - budget, 1 - saving
 
-
     //entries table attributes
     private static final String ENTRY_ID = "entID";
     private static final String ENTRY_AMOUNT = "entAmount";
@@ -50,10 +50,20 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     private static final String ENTRY_DETAILS = "entDetails";
     private static final String ENTRY_TYPE = "entType"; // 0 - purchase, 1 - income
 
+    //IDs table attributes
+    private static final String ID_NAME = "idName";
+    private static final String ID_NUM = "idNum";
+
+    private int initialEntryID;
+    private int initialCategoryID;
 
 
-    public RealDatabase(Context context) {
+    public RealDatabase(Context context, int initialEntryID,int initialCategoryID) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.initialEntryID = initialEntryID;
+        this.initialCategoryID = initialCategoryID;
+        //fill ids table
+        fillIDSWhenFirstCreated(initialEntryID, initialCategoryID);
     }
 
     /*
@@ -72,15 +82,23 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         String entCreateSQL =
                 "CREATE TABLE " + ENTRY_TABLE + " ( " +
                 ENTRY_ID + " INTEGER PRIMARY KEY, " + //primary key
-                CAT_ID + " INTEGER REFERENCES " + CATEGORY_TABLE + ", " + //foreign key
+                CAT_ID + " INTEGER REFERENCES " + CATEGORY_TABLE + ", " + //foreign key TODO on delete default
                 ENTRY_AMOUNT + " INTEGER, " +
                 ENTRY_DETAILS + " TEXT, " +
                 ENTRY_DATE + " TEXT," +
                 ENTRY_TYPE + " INTEGER" + " )";
 
+        String idCreateSQL =
+                "CREATE TABLE " + IDS_TABLE + " ( " +
+                        ID_NAME + " TEXT PRIMARY KEY," + //primary key
+                        ID_NUM + " INTEGER" + " )";
+
         db.execSQL(catCreateSQL);
         db.execSQL(entCreateSQL);
+        db.execSQL(idCreateSQL);
+
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
@@ -470,27 +488,143 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     }
 
     /*
-    returns a list of all Categories sorted by date
-    or an empty list if db is empty
+    returns a list of all Categories ordered by date
+    or an empty list if a category table is empty
      */
-    public List<Category> getAllCategories(){return null;}
+    public List<Category> getAllCategories(){
+        Category category = null;
+        List<Category> catList = new ArrayList<Category>();
+
+        String sql = "SELECT * FROM " + CATEGORY_TABLE + " ORDER BY " + CAT_DATE; //prepare query
+
+        SQLiteDatabase db = this.getReadableDatabase(); //connect to db
+
+        Cursor cursor = db.rawQuery(sql, null); //execute query
+
+        // getting all rows from cursor and filling the list
+        if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+            do {
+                //get all data from cursor to make a category object
+                int catID = cursor.getInt(cursor.getColumnIndex(CAT_ID));
+                Amount goal = AmountFactory.fromInt(cursor.getInt(cursor.getColumnIndex(CAT_GOAL)));
+                Details name = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(CAT_NAME)));
+                Date date = DateFactory.fromString(cursor.getString(cursor.getColumnIndex(CAT_DATE)));
+                int type = cursor.getInt(cursor.getColumnIndex(CAT_TYPE));
+
+                //check for purchase or income
+                if(type == 0){
+                    category = BudgetCategoryFactory.createBudgetCategory(name, goal, date, catID);
+                }else{
+                    category = SavingsCategoryFactory.createSavingsCategory(name, goal, date, catID);
+                }
+
+                //add category to the list
+                catList.add(category);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return catList;
+    }
+
 
     /*
     delete a category and return true if the category was deleted successfully,
     otherwise return false
      */
-    public boolean deleteCategory(int ID){return true;}
+    public boolean deleteCategory(int ID){
+        //get the db
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // delete a category with ID from the db
+        int num = db.delete(CATEGORY_TABLE,CAT_ID + "=" + ID, null);
+        db.close();
+
+        return num > 0;
+    }
+
+
+    /*
+    fills IDS_TABLE when the db is created
+    */
+    private void fillIDSWhenFirstCreated(int initialEntryID,int initialCategoryID){
+        //get the db
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String sql = "SELECT * FROM " + IDS_TABLE; //prepare query
+
+        Cursor cursor = db.rawQuery(sql, null); //execute query
+
+        //IDS table should be empty
+        if (cursor != null && cursor.getCount() == 0) {
+
+            //add some important info to db
+            //fill ids table
+            String idNameCat = "Category";
+            String idNameEntry = "Entry";
+
+            ContentValues values = new ContentValues();
+            values.put(ID_NAME, idNameCat);
+            values.put(ID_NUM, initialCategoryID);
+            db.insert(IDS_TABLE, null, values);
+
+            values = new ContentValues();
+            values.put(ID_NAME, idNameEntry);
+            values.put(ID_NUM, initialEntryID);
+            db.insert(IDS_TABLE, null, values);
+
+            cursor.close();
+        }
+
+        db.close();
+    }
+
 
     /*
      returns current entry id counter
      Possible idNames are "Entry" and "Category"
+     returns -1 if something is wrong
      */
-    public int getIDCounter(String idName){return 0;}
+    public int getIDCounter(String idName){
+        int idCounter = -1;
+        SQLiteDatabase db = this.getReadableDatabase(); //connect to db
+
+        String sql = "SELECT * FROM " + IDS_TABLE + " WHERE " + ID_NAME + "=" + "'" + idName +"'"; //prepare query
+
+        Cursor cursor = db.rawQuery(sql, null); //execute query
+
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            //get all data from cursor
+            idCounter = cursor.getInt(cursor.getColumnIndex(ID_NUM));
+            cursor.close();
+        }
+
+        db.close();
+
+        return idCounter;
+    }
+
 
     /*
      updates entry id counter
      */
-    public void updateIDCounter(String idName, int newCounter){}
+    public void updateIDCounter(String idName, int newCounter){
+        //get the db
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        //create a row of a new counter
+        values.put(ID_NAME, idName);
+        values.put(ID_NUM, newCounter);
+
+        // update this category in the db
+        db.update(IDS_TABLE, values, ID_NAME + "=?",
+                new String[]{String.valueOf(idName) });
+        db.close();
+    }
+
 
     /*
     deletes everything from tables in the db
@@ -502,7 +636,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         // delete the entry with ID from the db
         db.delete(ENTRY_TABLE,null, null);
         db.delete(CATEGORY_TABLE,null, null);
-        //db.delete(ID_TABLE,null, null);
+
         db.close();
     }
 }
