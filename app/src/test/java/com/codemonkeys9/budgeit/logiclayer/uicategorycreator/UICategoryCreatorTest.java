@@ -5,6 +5,7 @@ import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.category.BudgetCategory;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.category.SavingsCategory;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.exceptions.InvalidAmountException;
 
 import org.junit.Before;
@@ -42,6 +43,7 @@ public class UICategoryCreatorTest {
 
         assertTrue(cat.getName().getValue().equals(name));
         assertTrue(cat.getGoal().getDisplay().equals(goal));
+        assertTrue(cat.getDateLastModified().equals(DateFactory.fromString("now")));
         assertTrue(cat instanceof SavingsCategory);
     }
 
@@ -60,6 +62,7 @@ public class UICategoryCreatorTest {
 
         assertTrue(cat.getName().getValue().equals(name));
         assertTrue(cat.getGoal().getDisplay().equals(goal));
+        assertTrue(cat.getDateLastModified().equals(DateFactory.fromString("now")));
         assertTrue(cat instanceof BudgetCategory);
     }
 

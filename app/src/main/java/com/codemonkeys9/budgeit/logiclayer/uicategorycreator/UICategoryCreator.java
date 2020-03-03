@@ -8,14 +8,14 @@ public interface UICategoryCreator {
     /*
     Create's and stores a SavingsCategory object from DSOs or Strings
      */
-    void createSavingsCategory(Amount goal, Details name);
-    void createSavingsCategory(String goal, String name)
+    int createSavingsCategory(Amount goal, Details name);
+    int createSavingsCategory(String goal, String name)
             throws InvalidAmountException;
 
     /*
     Create's and stores a BudgetCategory object from DSOs or Strings
      */
-    void createBudgetCategory(Amount goal, Details name);
-    void createBudgetCategory(String goal, String name)
+    int createBudgetCategory(Amount goal, Details name);
+    int createBudgetCategory(String goal, String name)
             throws InvalidAmountException;
 }

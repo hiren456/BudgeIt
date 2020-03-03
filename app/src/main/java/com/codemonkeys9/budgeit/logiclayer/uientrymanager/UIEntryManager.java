@@ -1,12 +1,24 @@
 package com.codemonkeys9.budgeit.logiclayer.uientrymanager;
 
 import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.FutureDateException;
 import com.codemonkeys9.budgeit.exceptions.InvalidAmountException;
 import com.codemonkeys9.budgeit.exceptions.InvalidDateException;
 import com.codemonkeys9.budgeit.exceptions.PurchaseDoesNotExistException;
 
 public interface UIEntryManager {
+
+    /*
+    Deletes an entry from the app(database).
+    If the entry was not found in the database a
+    EntryDoesNotExistException will be thrown
+     */
+    void deleteEntry(Entry entry)
+            throws EntryDoesNotExistException;
+    void deleteEntry(int entryID)
+            throws EntryDoesNotExistException;
+
     /*
     Creates and stores an Entry object.
     The amount string should be in fixed point decimal.
@@ -23,7 +35,7 @@ public interface UIEntryManager {
     "2000-2-20" would be an invalid date because the month does not
     have two digits.
      */
-    void createEntry(String amount, String details,String date,boolean purchase)
+    int createEntry(String amount, String details, String date, boolean purchase)
         throws InvalidDateException, InvalidAmountException, FutureDateException;
     /*
     Takes either the id of an entry or the entry itself

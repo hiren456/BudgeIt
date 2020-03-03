@@ -1,6 +1,7 @@
 package com.codemonkeys9.budgeit.database;
 
 import com.codemonkeys9.budgeit.dso.category.Category;
+import com.codemonkeys9.budgeit.dso.category.CategoryDateComparator;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.date.Date;
@@ -34,6 +35,11 @@ class StubDatabase implements Database {
         this.ids.put("Category",initialCategoryID);
     }
 
+
+    /*
+    Inserts an Entry into the database.
+    If the Entry with the same ID is in the db throws runtime exception
+     */
     @Override
     public void insertEntry(Entry entry) {
 
@@ -46,8 +52,10 @@ class StubDatabase implements Database {
 
     }
 
-    //Update the entry
-    //return true if the entry is found in the hashmap and then updated, otherwise return false
+    /*
+    Update the entry
+    return true if the entry is found in the database and then updated, otherwise return false
+     */
     @Override
     public boolean updateEntry(Entry entry) {
 
@@ -63,11 +71,23 @@ class StubDatabase implements Database {
         return isUpdated;
     }
 
+    /*
+    return a list of all entries sorted by date
+    or an empty list if db is empty
+     */
     @Override
     public List<Entry> getAllEntries() {
-        return new ArrayList<>(entryMap.values());
+        List<Entry> entList = new ArrayList<>(entryMap.values());
+        // sort the entries by date
+        Collections.sort(entList,new EntryDateComparator());
+        return entList;
     }
 
+
+    /*
+    return a list of entries sorted by the date with the same category ID
+    or an empty list if there are no such entries
+     */
     @Override
     public List<Entry> getEntriesByCategoryID(int ID){
         ArrayList<Entry> returnList = new ArrayList<Entry>();
@@ -85,13 +105,21 @@ class StubDatabase implements Database {
         return returnList;
     }
 
-    //return an entry by ID
-    //if not found returns null
+
+    /*
+    return an entry by ID
+    if not found returns null
+     */
     @Override
     public Entry selectByID(int ID) {
         return this.entryMap.get(ID);
     }
 
+
+    /*
+    returns the list of entries from that fall within the dateInterval
+    returns empty list if the are no entries
+     */
     @Override
     public List<Entry> selectByDate(DateInterval dateInterval) {
         ArrayList<Entry> returnList = new ArrayList<Entry>();
@@ -111,6 +139,11 @@ class StubDatabase implements Database {
         return returnList;
     }
 
+
+    /*
+    delete an entry and return true if the entry deleted successfully,
+    otherwise return false
+     */
     @Override
     public boolean deleteEntry(int ID) {
 
@@ -119,6 +152,10 @@ class StubDatabase implements Database {
     }
 
 
+    /*
+    Inserts an Category into the database.
+    If the category with the same ID is in the db throws runtime exception
+     */
     @Override
     public void insertCategory(Category category) {
 
@@ -130,6 +167,11 @@ class StubDatabase implements Database {
         }
     }
 
+
+    /*
+    Update the Category
+    return true if the category is found in the database and then updated, otherwise return false
+     */
     @Override
     public boolean updateCategory(Category category) {
 
@@ -145,28 +187,53 @@ class StubDatabase implements Database {
         return isUpdated;
     }
 
+
+    /*
+    return a category by ID
+    if not found returns null
+     */
     @Override
     public Category selectCategoryByID(int ID) {
         return this.categoryMap.get(ID);
     }
 
+
+    /*
+    returns a list of all Categories sorted by date
+    or an empty list if db is empty
+     */
     @Override
     public List<Category> getAllCategories() {
-        return new ArrayList<>(categoryMap.values());
+        List<Category> catList = new ArrayList<>(categoryMap.values());
+        Collections.sort(catList,new CategoryDateComparator()); // sort the categories by date
+        return catList;
     }
 
+
+    /*
+    delete a category and return true if the category was deleted successfully,
+    otherwise return false
+     */
     @Override
     public boolean deleteCategory(int ID) {
-
         Category removed = this.categoryMap.remove(ID);
         return removed != null;
     }
 
+
+    /*
+      returns current entry id counter
+      Possible idNames are "Entry" and "Category"
+      */
     @Override
     public int getIDCounter(String idName) {
         return this.ids.get(idName);
     }
 
+
+    /*
+     updates entry id counter
+     */
     @Override
     public void updateIDCounter(String idName, int newCounter) {
         this.ids.put(idName,newCounter);

@@ -2,6 +2,8 @@ package com.codemonkeys9.budgeit.dso.categorylist;
 
 import com.codemonkeys9.budgeit.dso.category.Category;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,9 +15,30 @@ class LinkedCategoryList implements CategoryList {
     }
 
     @Override
-    public List<Category> getList() {
-        List<Category> cpy = new LinkedList<Category>(this.ll);
-        return cpy;
+    public List<Category> getChrono() {
+        List<Category> copy = new LinkedList<Category>(this.ll);
+
+        return copy;
+    }
+
+    @Override
+    public Iterator<Category> getChronoIter() {
+        return this.getChrono().iterator();
+    }
+
+    @Override
+    public List<Category> getReverseChrono() {
+        List<Category> copy = new LinkedList<Category>(this.ll);
+
+        Collections.reverse(copy);
+
+        return copy;
+    }
+
+    @Override
+    public Iterator<Category> getReverseChronoIter() {
+
+        return this.getReverseChrono().iterator();
     }
 
     @Override

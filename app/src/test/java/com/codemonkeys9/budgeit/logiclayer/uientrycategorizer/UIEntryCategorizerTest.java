@@ -4,7 +4,6 @@ import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
-import com.codemonkeys9.budgeit.dso.category.BudgetCategory;
 import com.codemonkeys9.budgeit.dso.category.BudgetCategoryFactory;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.date.Date;
@@ -15,23 +14,15 @@ import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.exceptions.CategoryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
-import com.codemonkeys9.budgeit.logiclayer.entrycategorizer.UIEntryCategorizer;
-import com.codemonkeys9.budgeit.logiclayer.entrycategorizer.UIEntryCategorizerFactory;
-import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
-import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
-import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
-import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
-import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
-import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Categories;
 
 import java.lang.reflect.Field;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -54,8 +45,9 @@ public class UIEntryCategorizerTest {
 
         Amount goal = AmountFactory.fromString( "200.00");
         Details name =DetailsFactory.fromString( "Food");
+        Date date = DateFactory.fromInts(1999,04,23);
         int catID = 24;
-        Category cat = BudgetCategoryFactory.createBudgetCategory(name,goal,catID);
+        Category cat = BudgetCategoryFactory.createBudgetCategory(name,goal,date,catID);
         db.insertCategory(cat);
 
         //Create valid Entry1
@@ -81,8 +73,9 @@ public class UIEntryCategorizerTest {
 
         Amount goal = AmountFactory.fromString( "200.00");
         Details name =DetailsFactory.fromString( "Food");
+        Date date = DateFactory.fromInts(1999,04,23);
         int catID = 24;
-        Category cat = BudgetCategoryFactory.createBudgetCategory(name,goal,catID);
+        Category cat = BudgetCategoryFactory.createBudgetCategory(name,goal,date,catID);
         db.insertCategory(cat);
 
         //Create valid Entry1
@@ -112,8 +105,9 @@ public class UIEntryCategorizerTest {
 
         Amount goal = AmountFactory.fromString( "200.00");
         Details name =DetailsFactory.fromString( "Food");
+        Date date = DateFactory.fromInts(1999,04,23);
         int catID = 24;
-        Category cat = BudgetCategoryFactory.createBudgetCategory(name,goal,catID);
+        Category cat = BudgetCategoryFactory.createBudgetCategory(name,goal,date,catID);
         db.insertCategory(cat);
 
         //Create valid Entry1
@@ -132,5 +126,32 @@ public class UIEntryCategorizerTest {
         }catch (Exception e){
             fail();
         }
+    }
+    @Test
+    public void CategorizeEntryThenCheckThatDateOfCategoryIsTodayTest(){
+        UICategoryCreator creator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UIEntryCategorizer categorizer = UIEntryCategorizerFactory.createUIEntryCategorizer();
+        Database db = DatabaseHolder.getDatabase();
+
+        Amount goal = AmountFactory.fromString( "200.00");
+        Details name =DetailsFactory.fromString( "Food");
+        Date date = DateFactory.fromInts(1999,04,23);
+        int catID = 24;
+        Category cat = BudgetCategoryFactory.createBudgetCategory(name,goal,date,catID);
+        db.insertCategory(cat);
+
+        //Create valid Entry1
+        Amount amount1 = AmountFactory.fromInt(7249);
+        int entryID1 = 81;
+        int catID1 = 23;
+        Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
+        Date date1 = DateFactory.fromInts(2001,7,7);
+        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
+        db.insertEntry(entry1);
+
+
+        categorizer.categorizeEntry(81,24);
+        Category newCat = db.selectCategoryByID(24);
+        assertTrue(newCat.getDateLastModified().equals(DateFactory.fromString("now")));
     }
 }
