@@ -45,7 +45,7 @@ class StubDatabase implements Database {
 
         //Checks if an entry with the same key is already in the database
         if(entryMap.containsKey(entry.getEntryID())){
-            throw new RuntimeException("The entry you try to insert is already inserted");
+            throw new RuntimeException("The entry you try to insert already exists in the database!");
         }else{
             this.entryMap.put(entry.getEntryID(),entry);
         }
@@ -237,5 +237,23 @@ class StubDatabase implements Database {
     @Override
     public void updateIDCounter(String idName, int newCounter) {
         this.ids.put(idName,newCounter);
+    }
+
+
+    /*
+    closes the db
+     */
+    @Override
+    public void close() {
+        //I am here just to be here
+    }
+
+    /*
+    deletes everything from tables in the db
+     */
+    public void clean(){
+        entryMap.clear();
+        categoryMap.clear();
+        ids.clear();
     }
 }

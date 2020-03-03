@@ -66,8 +66,8 @@ public class RDTestSample {
         Details catName = DetailsFactory.fromString("Tutor");
         Date catDate = DateFactory.fromInts(2014, 7, 7);
 
-        Category cat1 = BudgetCategoryFactory.createBudgetCategory(catName, goal, catID1);
-        db.insertCategory(cat1);
+        //Category cat1 = BudgetCategoryFactory.createBudgetCategory(catName, goal, catID1);
+        //db.insertCategory(cat1);
         db.insertEntry(entry1);
 
         Entry retEntry1 = db.selectByID(entryID1);

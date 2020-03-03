@@ -90,4 +90,14 @@ public interface Database {
      updates entry id counter
      */
     void updateIDCounter(String idName, int newCounter);
+
+    /*
+    closes the db
+     */
+    void close();
+
+    /*
+    deletes everything from tables in the db
+     */
+    void clean();
 }

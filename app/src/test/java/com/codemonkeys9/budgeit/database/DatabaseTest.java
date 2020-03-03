@@ -1,5 +1,7 @@
 package com.codemonkeys9.budgeit.database;
 
+import android.content.Context;
+
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
@@ -14,40 +16,58 @@ import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import java.io.IOException;
 import java.util.List;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.junit.Assert.*;
 
+@RunWith(AndroidJUnit4.class)
 public class DatabaseTest {
+    private Database db;
 
-    @Test
-    public void idCounterInitialValueTest() {
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
-
-        assertEquals("When a database is initialized, " +
-                "the initial value for the id counter, passed as a parameter," +
-                "is not what is returned by getIDCounter.", database.getIDCounter("Entry"),42);
+    @Before
+    public void createDb() {
+        Context context = ApplicationProvider.getApplicationContext();
+        //db = new RealDatabase(context);
+        db = new StubDatabase(1, 1);
     }
 
-    @Test
-    public void idCounterUpdateValueTest() {
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
-        database.updateIDCounter("Entry",23);
-
-        assertEquals("When updateIDCounter is called, " +
-                "the id counter returned by getIDCounter" +
-                "is not the same as what was passed to updateIDCounter.",database.getIDCounter("Entry"), 23);
+    @After
+    public void closeDb() throws IOException {
+        db.close();
     }
+
+//    @Test
+//    public void idCounterInitialValueTest() {
+//        int initialIDCounter = 42;
+//        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
+//
+//        assertEquals("When a database is initialized, " +
+//                "the initial value for the id counter, passed as a parameter," +
+//                "is not what is returned by getIDCounter.", database.getIDCounter("Entry"),42);
+//    }
+//
+//    @Test
+//    public void idCounterUpdateValueTest() {
+//        int initialIDCounter = 42;
+//        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
+//        database.updateIDCounter("Entry",23);
+//
+//        assertEquals("When updateIDCounter is called, " +
+//                "the id counter returned by getIDCounter" +
+//                "is not the same as what was passed to updateIDCounter.",database.getIDCounter("Entry"), 23);
+//    }
 
     @Test
     public void insertThenSelectTest() {
-        //Create Database
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(7249);
@@ -58,9 +78,9 @@ public class DatabaseTest {
         Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
         //insert it into the database
-        database.insertEntry(entry1);
+        db.insertEntry(entry1);
 
-        Entry retEntry1 = database.selectByID(81);
+        Entry retEntry1 = db.selectByID(81);
 
         // test that it is the one we want
         assertNotNull("Database returns null when it should return an entry using selecBYID",retEntry1);
@@ -72,13 +92,13 @@ public class DatabaseTest {
                 ,details1.equals(retEntry1.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID"
                 ,date1.equals(retEntry1.getDate()));
+
+        //delete all info from the db
+        db.clean();
     }
 
     @Test
     public void insertManyThenSelectByIDTest() {
-        //Create Database
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
@@ -113,15 +133,15 @@ public class DatabaseTest {
         Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
         //insert them into the database
-        database.insertEntry(entry1);
-        database.insertEntry(entry2);
-        database.insertEntry(entry3);
-        database.insertEntry(entry4);
+        db.insertEntry(entry1);
+        db.insertEntry(entry2);
+        db.insertEntry(entry3);
+        db.insertEntry(entry4);
 
 
-        Entry retEntry2 = database.selectByID(72);
-        Entry retEntry3 = database.selectByID(-7);
-        Entry retEntry4 = database.selectByID(6);
+        Entry retEntry2 = db.selectByID(72);
+        Entry retEntry3 = db.selectByID(-7);
+        Entry retEntry4 = db.selectByID(6);
 
         assertNotNull("Database returns null when it should return an entry using selecByID with many inserts 2",retEntry2);
         assertNotNull("Database returns null when it should return an entry using selecByID with many inserts 3",retEntry3);
@@ -158,12 +178,13 @@ public class DatabaseTest {
                 ,details4.equals(retEntry4.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
                 ,date4.equals(retEntry4.getDate()));
+
+        //delete all info from the db
+        db.clean();
     }
+
     @Test
     public void insertManyThenSelectByDateTest() {
-        //Create Database
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
@@ -198,20 +219,20 @@ public class DatabaseTest {
         Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
         //insert them into the database
-        database.insertEntry(entry1);
-        database.insertEntry(entry2);
-        database.insertEntry(entry3);
-        database.insertEntry(entry4);
+        db.insertEntry(entry1);
+        db.insertEntry(entry2);
+        db.insertEntry(entry3);
+        db.insertEntry(entry4);
 
         DateInterval interval = DateIntervalFactory.fromDate(
             DateFactory.fromInts(2001,10,7),
             DateFactory.fromInts(2009,7,7)
         );
 
-        List<Entry> retList = database.selectByDate(interval);
+        List<Entry> retList = db.selectByDate(interval);
 
         // test that we got what was expected
-        assertEquals("Expected select by date to return 3 entrys but it does not",retList.size(),3);
+        assertEquals("Expected select by date to return 3 entrys but it does not",3, retList.size());
 
         Entry retEntry2 = retList.get(0);
         Entry retEntry3 = retList.get(1);
@@ -248,14 +269,14 @@ public class DatabaseTest {
                 ,details4.equals(retEntry4.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
                 ,date4.equals(retEntry4.getDate()));
+
+        //delete all info from the db
+        db.clean();
     }
 
 
     @Test
     public void deleteOneTest(){
-        //Create Database
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
@@ -265,23 +286,21 @@ public class DatabaseTest {
         Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
         //insert the entry into the database
-        database.insertEntry(entry1);
+        db.insertEntry(entry1);
 
         //delete the entry from database
-        boolean isDeleted = database.deleteEntry(81);
-        Entry retEntry = database.selectByID(81);
+        boolean isDeleted = db.deleteEntry(81);
+        Entry retEntry = db.selectByID(81);
 
         assertTrue("Database returns wrong result of deletion", isDeleted);
         assertNull("Database did not delete the entry", retEntry);
 
+        //delete all info from the db
+        db.clean();
     }
 
     @Test
     public void deleteManyTest(){
-
-        //Create Database
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
@@ -316,20 +335,20 @@ public class DatabaseTest {
         Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
         //insert entries into the database
-        database.insertEntry(entry1);
-        database.insertEntry(entry2);
-        database.insertEntry(entry3);
-        database.insertEntry(entry4);
+        db.insertEntry(entry1);
+        db.insertEntry(entry2);
+        db.insertEntry(entry3);
+        db.insertEntry(entry4);
 
         //delete the entry from database
-        boolean isDeleted2 = database.deleteEntry(72);
-        boolean isDeleted3 = database.deleteEntry(-7);
+        boolean isDeleted2 = db.deleteEntry(72);
+        boolean isDeleted3 = db.deleteEntry(-7);
 
         //select entries from the database
-        Entry retEntry1 = database.selectByID(81);
-        Entry retEntry2 = database.selectByID(72);
-        Entry retEntry3 = database.selectByID(-7);
-        Entry retEntry4 = database.selectByID(6);
+        Entry retEntry1 = db.selectByID(81);
+        Entry retEntry2 = db.selectByID(72);
+        Entry retEntry3 = db.selectByID(-7);
+        Entry retEntry4 = db.selectByID(6);
 
         assertEquals("Database returns wrong entry ID", 81, retEntry1.getEntryID()); //1 entry
 
@@ -340,17 +359,12 @@ public class DatabaseTest {
 
         assertEquals("Database returns wrong entry ID", 6, retEntry4.getEntryID()); //4 entry
 
-
-
+        //delete all info from the db
+        db.clean();
     }
 
     @Test
     public void deleteAllTest(){
-
-        //Create Database
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
-
 
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
@@ -385,22 +399,22 @@ public class DatabaseTest {
         Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
         //insert entries into the database
-        database.insertEntry(entry1);
-        database.insertEntry(entry2);
-        database.insertEntry(entry3);
-        database.insertEntry(entry4);
+        db.insertEntry(entry1);
+        db.insertEntry(entry2);
+        db.insertEntry(entry3);
+        db.insertEntry(entry4);
 
         //delete the entry from database
-        boolean isDeleted1 = database.deleteEntry(81);
-        boolean isDeleted2 = database.deleteEntry(72);
-        boolean isDeleted3 = database.deleteEntry(-7);
-        boolean isDeleted4 = database.deleteEntry(6);
+        boolean isDeleted1 = db.deleteEntry(81);
+        boolean isDeleted2 = db.deleteEntry(72);
+        boolean isDeleted3 = db.deleteEntry(-7);
+        boolean isDeleted4 = db.deleteEntry(6);
 
         //select entries from the database
-        Entry retEntry1 = database.selectByID(81);
-        Entry retEntry2 = database.selectByID(72);
-        Entry retEntry3 = database.selectByID(-7);
-        Entry retEntry4 = database.selectByID(6);
+        Entry retEntry1 = db.selectByID(81);
+        Entry retEntry2 = db.selectByID(72);
+        Entry retEntry3 = db.selectByID(-7);
+        Entry retEntry4 = db.selectByID(6);
 
         assertTrue("Database returns wrong result of deletion", isDeleted1);
         assertNull("Database did not delete the entry", retEntry1);
@@ -410,17 +424,16 @@ public class DatabaseTest {
         assertNull("Database did not delete the entry", retEntry3);
         assertTrue("Database returns wrong result of deletion", isDeleted4);
         assertNull("Database did not delete the entry", retEntry4);
+
+        //delete all info from the db
+        db.clean();
     }
 
     @Test
     public void selectFromEmptyTest(){
 
-        //Create Database
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
-
         //select an entry from the database
-        Entry retEntry1 = database.selectByID(81);
+        Entry retEntry1 = db.selectByID(81);
 
         assertNull(retEntry1);
     }
@@ -428,12 +441,8 @@ public class DatabaseTest {
     @Test
     public void deleteFromEmptyTest(){
 
-        //Create Database
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
-
-        //select an entry from the database
-        boolean isDeleted1 = database.deleteEntry(6);
+        //select an entry from the db
+        boolean isDeleted1 = db.deleteEntry(6);
 
         assertFalse(isDeleted1);
     }
@@ -441,25 +450,18 @@ public class DatabaseTest {
     @Test
     public void selectByDateFromEmptyTest(){
 
-        //Create Database
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
-
         //select an entry List from the database
         DateInterval interval = DateIntervalFactory.fromDate(
                 DateFactory.fromInts(2001,10,7),
                 DateFactory.fromInts(2009,7,7)
         );
-        List<Entry> retList = database.selectByDate(interval);
+        List<Entry> retList = db.selectByDate(interval);
 
         assertEquals("List is not empty", 0, retList.size());
     }
 
     @Test
     public void updateThenSelectTest() {
-        //Create Database
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(50);
@@ -471,7 +473,7 @@ public class DatabaseTest {
         Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1,catID1);
 
         //insert it into the database
-        database.insertEntry(entry1);
+        db.insertEntry(entry1);
 
         //update an entry
         Amount updatedAmount = AmountFactory.fromInt(60);
@@ -479,9 +481,9 @@ public class DatabaseTest {
         Date updatedDate = DateFactory.fromInts(2017, 3, 4);
 
         entry1 = entry1.modifyEntry(updatedAmount, updatedDetails, updatedDate);
-        boolean isUpdated = database.updateEntry(entry1);
+        boolean isUpdated = db.updateEntry(entry1);
 
-        Entry retEntry1 = database.selectByID(entryID1);
+        Entry retEntry1 = db.selectByID(entryID1);
 
         // test that it is the one we want
         assertNotNull("Database returns null when it should return an entry using selecBYID",retEntry1);
@@ -495,13 +497,13 @@ public class DatabaseTest {
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
                 ,updatedDate.equals(retEntry1.getDate()));
         assertTrue(isUpdated);
+
+        //delete all info from the db
+        db.clean();
     }
 
     @Test
     public void updateNotExistedTest() {
-        //Create Database
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(50);
@@ -513,20 +515,20 @@ public class DatabaseTest {
         Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1,catID1);
 
         //update an entry
-        boolean isUpdated = database.updateEntry(entry1);
-        Entry retEntry1 = database.selectByID(entryID1);
+        boolean isUpdated = db.updateEntry(entry1);
+        Entry retEntry1 = db.selectByID(entryID1);
 
         assertNull("Database should not contain the entry, but it does", retEntry1);
         assertFalse("Database is updated, but should not", isUpdated);
+
+        //delete all info from the db
+        db.clean();
 
     }
 
 
     @Test(expected = RuntimeException.class)
     public void insertTwoTimesSameTest() {
-        //Create Database
-        int initialIDCounter = 42;
-        Database database = DatabaseFactory.createDatabase(initialIDCounter,initialIDCounter);
 
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(50);
@@ -538,8 +540,10 @@ public class DatabaseTest {
         Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1,catID1);
 
         //insert it into the database
-        database.insertEntry(entry1);
-        database.insertEntry(entry1);
+        db.insertEntry(entry1);
+        db.insertEntry(entry1);
 
+        //delete all info from the db
+        db.clean();
     }
 }

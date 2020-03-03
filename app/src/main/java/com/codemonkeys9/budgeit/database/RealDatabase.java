@@ -8,13 +8,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
+import com.codemonkeys9.budgeit.dso.category.BudgetCategoryFactory;
 import com.codemonkeys9.budgeit.dso.category.Category;
+import com.codemonkeys9.budgeit.dso.category.SavingsCategory;
+import com.codemonkeys9.budgeit.dso.category.SavingsCategoryFactory;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Income;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
 
@@ -36,12 +40,15 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     private static final String CAT_NAME = "catName";
     private static final String CAT_GOAL = "catGoal";
     private static final String CAT_DATE = "catDate";
+    private static final String CAT_TYPE = "catType"; // // 0 - budget, 1 - saving
+
 
     //entries table attributes
     private static final String ENTRY_ID = "entID";
     private static final String ENTRY_AMOUNT = "entAmount";
     private static final String ENTRY_DATE = "entDate";
     private static final String ENTRY_DETAILS = "entDetails";
+    private static final String ENTRY_TYPE = "entType"; // 0 - purchase, 1 - income
 
 
 
@@ -49,6 +56,9 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /*
+    Called when constructor is called and creates a db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String catCreateSQL =
@@ -56,7 +66,8 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
                 CAT_ID + " INTEGER PRIMARY KEY," + //primary key
                 CAT_NAME + " TEXT, " +
                 CAT_GOAL + " INTEGER, " +
-                CAT_DATE + " TEXT" + " )";
+                CAT_DATE + " TEXT," +
+                CAT_TYPE + " INTEGER" + " )";
 
         String entCreateSQL =
                 "CREATE TABLE " + ENTRY_TABLE + " ( " +
@@ -64,7 +75,8 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
                 CAT_ID + " INTEGER REFERENCES " + CATEGORY_TABLE + ", " + //foreign key
                 ENTRY_AMOUNT + " INTEGER, " +
                 ENTRY_DETAILS + " TEXT, " +
-                ENTRY_DATE + " TEXT" + " )";
+                ENTRY_DATE + " TEXT," +
+                ENTRY_TYPE + " INTEGER" + " )";
 
         db.execSQL(catCreateSQL);
         db.execSQL(entCreateSQL);
@@ -90,20 +102,36 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
+        int type = 0; //type of the db by default is purchase
+
+        //check if an entry is income
+        if (entry instanceof Income){
+            type = 1;
+        }
+
         //create a row of a new category
         values.put(ENTRY_ID, entry.getEntryID());
         values.put(CAT_ID, entry.getCatID());
         values.put(ENTRY_AMOUNT, entry.getAmount().getValue());
         values.put(ENTRY_DETAILS, entry.getDetails().getValue());
+        values.put(ENTRY_TYPE, type);
 
         //the date is in "yyyy-mm-dd" format
         String date = makeDate(entry.getDate().getYear(), entry.getDate().getMonth(), entry.getDate().getDay());
         values.put(ENTRY_DATE, date);
 
         // insert to db
-        db.insert(ENTRY_TABLE,null, values);
-        db.close();
+        long row = db.insert(ENTRY_TABLE,null, values);
+
+        //check if exist
+        if(row == -1){
+            db.close();
+            throw new RuntimeException("The entry you try to insert already exists in the database!");
+        }else {
+            db.close();
+        }
     }
+
 
     //helper method to make supported date
     private String makeDate(int year, int month, int day){
@@ -122,6 +150,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         date = date + mm + "-" + dd;
         return date;
     }
+
 
     /*
     Update the entry
@@ -149,6 +178,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         return num > 0;
     }
 
+
     /*
     return an entry by ID
     if not found returns null
@@ -166,17 +196,18 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
 //        System.out.println(cursor.getCount());
 //        System.out.println("********");
 
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
 
             //get all data from cursor to make an entry object
             Amount amount = AmountFactory.fromInt(cursor.getInt(cursor.getColumnIndex(ENTRY_AMOUNT)));
             int catID = cursor.getInt(cursor.getColumnIndex(CAT_ID));
-            Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_AMOUNT)));
+            Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DETAILS)));
             Date date = DateFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DATE)));
+            int type = cursor.getInt(cursor.getColumnIndex(ENTRY_TYPE));
 
             //check for purchase or income
-            if(amount.getValue() < 0){
+            if(type == 0){
                 entry = PurchaseFactory.createPurchase(amount, ID, details, date, catID);
             }else{
                 entry = IncomeFactory.createIncome(amount, ID, details, date, catID);
@@ -190,33 +221,34 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         return entry;
     }
 
+
     /*
-    return a list of all entries sorted by date
+    return a list of all entries ordered by date
     or an empty list if db is empty
      */
-    //TODO sort by date нужно ли?
     public List<Entry> getAllEntries(){
         Entry entry = null;
         ArrayList<Entry> entryList = new ArrayList<Entry>();
 
-        String sql = "SELECT * FROM " + ENTRY_TABLE; //prepare query
+        String sql = "SELECT * FROM " + ENTRY_TABLE + " ORDER BY " + ENTRY_DATE; //prepare query
 
-        SQLiteDatabase db = this.getWritableDatabase(); //connect to db
+        SQLiteDatabase db = this.getReadableDatabase(); //connect to db
 
         Cursor cursor = db.rawQuery(sql, null); //execute query
 
         // getting all rows from cursor and filling the list
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.getCount()> 0 && cursor.moveToFirst()) {
             do {
                 //get all data from cursor to make an entry object
                 int entID = cursor.getInt(cursor.getColumnIndex(ENTRY_ID));
                 Amount amount = AmountFactory.fromInt(cursor.getInt(cursor.getColumnIndex(ENTRY_AMOUNT)));
                 int catID = cursor.getInt(cursor.getColumnIndex(CAT_ID));
-                Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_AMOUNT)));
+                Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DETAILS)));
                 Date date = DateFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DATE)));
+                int type = cursor.getInt(cursor.getColumnIndex(ENTRY_TYPE));
 
                 //check for purchase or income
-                if(amount.getValue() < 0){
+                if(type == 0){
                     entry = PurchaseFactory.createPurchase(amount, entID, details, date, catID);
                 }else{
                     entry = IncomeFactory.createIncome(amount, entID, details, date, catID);
@@ -225,39 +257,51 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
                 //add entry to the list
                 entryList.add(entry);
             } while (cursor.moveToNext());
+            cursor.close();
         }
-        cursor.close();
 
         return entryList;
     }
 
+
     /*
     returns the list of entries from that fall within the dateInterval
-    returns empty list if the are no entries
+    returns empty list if the are no entries ordered by date
      */
-    //TODO sort by date нужно ли?
     public List<Entry> selectByDate(DateInterval dateInterval){
         Entry entry = null;
         ArrayList<Entry> entryList = new ArrayList<Entry>();
 
-        String sql = "SELECT * FROM " + ENTRY_TABLE; //prepare query
+        Date startDate = dateInterval.getStart();
+        Date endDate = dateInterval.getEnd();
+        String startDateString = makeDate(startDate.getYear(), startDate.getMonth(), startDate.getDay());
+        String endDateString = makeDate(endDate.getYear(), endDate.getMonth(), endDate.getDay());
+        System.out.println("***********");
+        System.out.println(startDateString + "; " + endDateString);
 
-        SQLiteDatabase db = this.getWritableDatabase(); //connect to db
+
+        String sql =
+                "SELECT * FROM " + ENTRY_TABLE +
+                " WHERE " + ENTRY_DATE + ">='" + startDateString + "' AND " + ENTRY_DATE + "<='" + endDateString +
+                "' ORDER BY " + ENTRY_DATE ; //prepare query
+
+        SQLiteDatabase db = this.getReadableDatabase(); //connect to db
 
         Cursor cursor = db.rawQuery(sql, null); //execute query
 
         // getting all rows from cursor and filling the list
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.getCount()> 0 && cursor.moveToFirst()) {
             do {
                 //get all data from cursor to make an entry object
                 int entID = cursor.getInt(cursor.getColumnIndex(ENTRY_ID));
                 Amount amount = AmountFactory.fromInt(cursor.getInt(cursor.getColumnIndex(ENTRY_AMOUNT)));
                 int catID = cursor.getInt(cursor.getColumnIndex(CAT_ID));
-                Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_AMOUNT)));
+                Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DETAILS)));
                 Date date = DateFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DATE)));
+                int type = cursor.getInt(cursor.getColumnIndex(ENTRY_TYPE));
 
                 //check for purchase or income
-                if(amount.getValue() < 0){
+                if(type == 0){
                     entry = PurchaseFactory.createPurchase(amount, entID, details, date, catID);
                 }else{
                     entry = IncomeFactory.createIncome(amount, entID, details, date, catID);
@@ -266,39 +310,39 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
                 //add entry to the list
                 entryList.add(entry);
             } while (cursor.moveToNext());
+            cursor.close();
         }
-        //TODO two ways to sort and get interval
-        cursor.close();
 
         return entryList;
     }
 
     /*
-    return a list of entries sorted by the date with the same category ID
+    return a list of entries ordered by the date with the same category ID
     or an empty list if there are no such entries
      */
     public List<Entry> getEntriesByCategoryID(int ID){
         Entry entry = null;
         ArrayList<Entry> entryList = new ArrayList<Entry>();
 
-        String sql = "SELECT * FROM " + ENTRY_TABLE + " WHERE " + CAT_ID + "=" + ID; //prepare query
+        String sql = "SELECT * FROM " + ENTRY_TABLE + " WHERE " + CAT_ID + "=" + ID + " ORDER BY " + ENTRY_DATE; //prepare query
 
-        SQLiteDatabase db = this.getWritableDatabase(); //connect to db
+        SQLiteDatabase db = this.getReadableDatabase(); //connect to db
 
         Cursor cursor = db.rawQuery(sql, null); //execute query
 
         // getting all rows from cursor and filling the list
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.getCount()> 0 && cursor.moveToFirst()) {
             do {
                 //get all data from cursor to make an entry object
                 int entID = cursor.getInt(cursor.getColumnIndex(ENTRY_ID));
                 Amount amount = AmountFactory.fromInt(cursor.getInt(cursor.getColumnIndex(ENTRY_AMOUNT)));
                 int catID = cursor.getInt(cursor.getColumnIndex(CAT_ID));
-                Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_AMOUNT)));
+                Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DETAILS)));
                 Date date = DateFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DATE)));
+                int type = cursor.getInt(cursor.getColumnIndex(ENTRY_TYPE));
 
                 //check for purchase or income
-                if(amount.getValue() < 0){
+                if(type == 0){
                     entry = PurchaseFactory.createPurchase(amount, entID, details, date, catID);
                 }else{
                     entry = IncomeFactory.createIncome(amount, entID, details, date, catID);
@@ -324,7 +368,8 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         int num = db.delete(ENTRY_TABLE,ENTRY_ID + "=" + ID, null);
         db.close();
 
-        return num > 0;}
+        return num > 0;
+    }
 
     /*
     Inserts a Category into the database.
@@ -335,11 +380,22 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
+        int type = 0; //type of the db by default is purchase
+
+        //check if a category is saving
+        if (category instanceof SavingsCategory){
+            type = 1;
+        }
+
         //create a row of a new category
         values.put(CAT_ID, category.getID());
         values.put(CAT_NAME, category.getName().getValue());
         values.put(CAT_GOAL, category.getGoal().getValue());
-        values.put(CAT_DATE, "12081997");
+        values.put(CAT_TYPE, type);
+
+        //the date is in "yyyy-mm-dd" format
+        String date = makeDate(category.getDateLastModified().getYear(), category.getDateLastModified().getMonth(), category.getDateLastModified().getDay());
+        values.put(CAT_DATE, date);
 
         // insert to db
         db.insert(CATEGORY_TABLE,null, values);
@@ -350,13 +406,68 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     Update the Category
     return true if the category is found in the database and then updated, otherwise return false
      */
-    public boolean updateCategory(Category category){return true;}
+    public boolean updateCategory(Category category){
+        //get the db
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        //create a row of a new category
+        values.put(CAT_ID, category.getID());
+        values.put(CAT_NAME, category.getName().getValue());
+        values.put(CAT_GOAL, category.getGoal().getValue());
+
+        //the date is in "yyyy-mm-dd" format
+        String date = makeDate(category.getDateLastModified().getYear(), category.getDateLastModified().getMonth(), category.getDateLastModified().getDay());
+        values.put(CAT_DATE, date);
+
+        // update this category in the db
+        int num = db.update(CATEGORY_TABLE, values, CAT_ID + "=?",
+                new String[]{String.valueOf(category.getID()) });
+        db.close();
+
+        return num > 0;
+    }
 
     /*
     return a category by ID
     if not found returns null
      */
-    public Category selectCategoryByID(int ID){return null;}
+    public Category selectCategoryByID(int ID){
+        Category category = null;
+        SQLiteDatabase db = this.getReadableDatabase(); //connect to db
+
+        String sql = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + CAT_ID + "=" + ID; //prepare query
+
+        Cursor cursor = db.rawQuery(sql, null); //execute query
+
+//        cursor.moveToFirst();
+//        System.out.println("********");
+//        System.out.println(cursor.getCount());
+//        System.out.println("********");
+
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            //get all data from cursor to make a category object
+            Amount goal = AmountFactory.fromInt(cursor.getInt(cursor.getColumnIndex(CAT_GOAL)));
+            Details name = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(CAT_NAME)));
+            Date date = DateFactory.fromString(cursor.getString(cursor.getColumnIndex(CAT_DATE)));
+            int type = cursor.getInt(cursor.getColumnIndex(CAT_TYPE));
+
+            //check for purchase or income
+            if(type == 0){
+                category = BudgetCategoryFactory.createBudgetCategory(name, goal, date, ID);
+            }else{
+                category = SavingsCategoryFactory.createSavingsCategory(name, goal, date, ID);
+            }
+
+            cursor.close();
+        }
+
+        db.close();
+
+        return category;
+    }
 
     /*
     returns a list of all Categories sorted by date
@@ -380,4 +491,18 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
      updates entry id counter
      */
     public void updateIDCounter(String idName, int newCounter){}
+
+    /*
+    deletes everything from tables in the db
+     */
+    public void clean(){
+        //get the db
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // delete the entry with ID from the db
+        db.delete(ENTRY_TABLE,null, null);
+        db.delete(CATEGORY_TABLE,null, null);
+        //db.delete(ID_TABLE,null, null);
+        db.close();
+    }
 }
