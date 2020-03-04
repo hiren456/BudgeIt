@@ -23,7 +23,10 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         TextView amount;
         TextView date;
 
+        /// Whether the entry is possible to flag; aka whether it is a purchase
         boolean flaggable;
+        /// Whether the entry is currently flagged (also implies it's a purchase)
+        boolean flagged;
 
         ViewHolder(View entryView) {
             super(entryView);
@@ -75,10 +78,12 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Entry entry = getItem(position);
+
         boolean purchase = entry instanceof Purchase;
         boolean flagged = purchase && ((Purchase)entry).flagged();
 
         viewHolder.flaggable = purchase;
+        viewHolder.flagged = flagged;
 
         viewHolder.date.setText(entry.getDate().getDisplay());
 
