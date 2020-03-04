@@ -10,6 +10,7 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,8 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         TextView amount;
         TextView date;
 
+        boolean flaggable;
+
         ViewHolder(View entryView) {
             super(entryView);
             description = entryView.findViewById(R.id.description);
@@ -33,7 +36,9 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(this.getAdapterPosition(), R.id.action_delete, 0, "Delete");
-            menu.add(this.getAdapterPosition(), R.id.action_flag, 0, "Flag");
+            if(flaggable) {
+                menu.add(this.getAdapterPosition(), R.id.action_flag, 0, "Flag");
+            }
         }
     }
 
@@ -68,7 +73,7 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         viewHolder.description.setText(entry.getDetails().getValue());
         viewHolder.date.setText(entry.getDate().getDisplay());
 
-        // Decide which color to make the amount based on whether it is negative or positive
+        // Decide which color to make the amount based on whether it's a purchase or income
         // Colors are encoded in ARGB format, one byte (or two hex digits) per channel.
         int color;
         if(entry instanceof Purchase) {
@@ -80,6 +85,7 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         }
         viewHolder.amount.setTextColor(color);
         viewHolder.amount.setText(entry.getAmount().getDisplay());
+        viewHolder.flaggable = entry instanceof Purchase;
     }
 
     public void updateEntries(List<Entry> newEntries) {
