@@ -38,7 +38,9 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(this.getAdapterPosition(), R.id.action_delete, 0, "Delete");
-            if(flaggable) {
+            if(flagged) {
+                menu.add(this.getAdapterPosition(), R.id.action_unflag, 0, "Unflag");
+            } else if(flaggable) {
                 menu.add(this.getAdapterPosition(), R.id.action_flag, 0, "Flag");
             }
         }
