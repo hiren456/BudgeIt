@@ -67,25 +67,26 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         return new ViewHolder(entryView);
     }
 
+    // Colors are encoded in ARGB format, one byte (or two hex digits) per channel.
+    private static final int RED   = 0xFFFF0000;
+    private static final int GREEN = 0xFF00AA00;
+    private static final int BLACK = 0xFF000000;
+
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Entry entry = getItem(position);
-        viewHolder.description.setText(entry.getDetails().getValue());
+        boolean purchase = entry instanceof Purchase;
+        boolean flagged = purchase && ((Purchase)entry).flagged();
+
+        viewHolder.flaggable = purchase;
+
         viewHolder.date.setText(entry.getDate().getDisplay());
 
-        // Decide which color to make the amount based on whether it's a purchase or income
-        // Colors are encoded in ARGB format, one byte (or two hex digits) per channel.
-        int color;
-        if(entry instanceof Purchase) {
-            // Red
-            color = 0xFFFF0000;
-        } else {
-            // Green
-            color = 0xFF00AA00;
-        }
-        viewHolder.amount.setTextColor(color);
+        viewHolder.description.setTextColor(flagged ? RED : BLACK);
+        viewHolder.description.setText(entry.getDetails().getValue());
+
+        viewHolder.amount.setTextColor(purchase ? RED : GREEN);
         viewHolder.amount.setText(entry.getAmount().getDisplay());
-        viewHolder.flaggable = entry instanceof Purchase;
     }
 
     public void updateEntries(List<Entry> newEntries) {
