@@ -10,7 +10,6 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +22,10 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         TextView amount;
         TextView date;
 
+        /// Whether the entry is possible to flag; aka whether it is a purchase
         boolean flaggable;
+        /// Whether the entry is currently flagged (also implies it's a purchase)
+        boolean flagged;
 
         ViewHolder(View entryView) {
             super(entryView);
@@ -36,7 +38,9 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(this.getAdapterPosition(), R.id.action_delete, 0, "Delete");
-            if(flaggable) {
+            if(flagged) {
+                menu.add(this.getAdapterPosition(), R.id.action_unflag, 0, "Unflag");
+            } else if(flaggable) {
                 menu.add(this.getAdapterPosition(), R.id.action_flag, 0, "Flag");
             }
         }
@@ -75,10 +79,12 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Entry entry = getItem(position);
+
         boolean purchase = entry instanceof Purchase;
         boolean flagged = purchase && ((Purchase)entry).flagged();
 
         viewHolder.flaggable = purchase;
+        viewHolder.flagged = flagged;
 
         viewHolder.date.setText(entry.getDate().getDisplay());
 
