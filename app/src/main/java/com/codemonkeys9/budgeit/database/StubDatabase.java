@@ -6,9 +6,11 @@ import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.entry.EntryDateComparator;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
 import java.util.ArrayList;
-import java.util.Collections;;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -180,6 +182,16 @@ class StubDatabase implements Database {
         // Checks if a category with the same key is already in the database
         if(categoryMap.containsKey(category.getID())){
             this.categoryMap.put(category.getID(),category);
+
+            //update category also update entry
+            for ( Entry entry : this.entryMap.values()){
+                int catID = entry.getCatID();
+
+                if(catID == category.getID()){
+                    entry = entry.changeCategory(category.getID());
+                    this.entryMap.put(entry.getEntryID(), entry);
+                }
+            }
         }else{
             isUpdated = false;
         }
@@ -217,6 +229,22 @@ class StubDatabase implements Database {
     @Override
     public boolean deleteCategory(int ID) {
         Category removed = this.categoryMap.remove(ID);
+
+        //get the default id of category
+        IDManager manager = IDManagerFactory.createIDManager();
+        int defaultCatID = manager.getDefaultID("Category");
+
+        if (removed != null) {
+            //update category also update entry
+            for (Entry entry : this.entryMap.values()) {
+                int catID = entry.getCatID();
+
+                if (catID == ID) {
+                    entry = entry.changeCategory(defaultCatID);
+                    this.entryMap.put(entry.getEntryID(), entry);
+                }
+            }
+        }
         return removed != null;
     }
 
@@ -254,6 +282,5 @@ class StubDatabase implements Database {
     public void clean(){
         entryMap.clear();
         categoryMap.clear();
-        ids.clear();
     }
 }

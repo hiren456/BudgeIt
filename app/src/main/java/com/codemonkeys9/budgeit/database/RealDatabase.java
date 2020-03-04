@@ -21,6 +21,8 @@ import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.Income;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +55,8 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     //IDs table attributes
     private static final String ID_NAME = "idName";
     private static final String ID_NUM = "idNum";
+    private static final String ID_NAME_CAT = "Category";
+    private static final String ID_NAME_ENTRY = "Entry";
 
     private int initialEntryID;
     private int initialCategoryID;
@@ -69,7 +73,6 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     /*
     Called when constructor is called and creates a db
      */
-    //TODO on delete default or null
     @Override
     public void onCreate(SQLiteDatabase db) {
         String catCreateSQL =
@@ -83,7 +86,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         String entCreateSQL =
                 "CREATE TABLE " + ENTRY_TABLE + " ( " +
                 ENTRY_ID + " INTEGER PRIMARY KEY, " + //primary key
-                CAT_ID + " INTEGER REFERENCES " + CATEGORY_TABLE + ", " + //foreign key
+                CAT_ID + " INTEGER REFERENCES " + CATEGORY_TABLE + " ON DELETE SET NULL ON UPDATE CASCADE, " + //foreign key
                 ENTRY_AMOUNT + " INTEGER, " +
                 ENTRY_DETAILS + " TEXT, " +
                 ENTRY_DATE + " TEXT," +
@@ -111,7 +114,14 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         }
     }
 
-    //TODO insert category at first if entry without category
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        // Enable Foreign Key constraints.
+        db.setForeignKeyConstraintsEnabled(true);
+        super.onConfigure(db);
+    }
+
+
     /*
     Inserts an Entry into the database.
     If the Entry with the same ID is in the db throws runtime exception
@@ -128,9 +138,20 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
             type = 1;
         }
 
+        //get the default id of category
+        IDManager manager = IDManagerFactory.createIDManager();
+        int defaultCatID = manager.getDefaultID(ID_NAME_CAT);
+
+        //what category an entry belong to
+        int catID = entry.getCatID();
+
         //create a row of a new category
+        if(catID == defaultCatID){ //checks if entry belong to default category => set null
+            values.putNull(CAT_ID);
+        }else {
+            values.put(CAT_ID, catID);
+        }
         values.put(ENTRY_ID, entry.getEntryID());
-        values.put(CAT_ID, entry.getCatID());
         values.put(ENTRY_AMOUNT, entry.getAmount().getValue());
         values.put(ENTRY_DETAILS, entry.getDetails().getValue());
         values.put(ENTRY_TYPE, type);
@@ -142,10 +163,24 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         // insert to db
         long row = db.insert(ENTRY_TABLE,null, values);
 
-        //check if exist
+        String sql = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + CAT_ID + "=" + catID; //prepare query
+        Cursor cursor = db.rawQuery(sql, null);
+        int count = -1;
+
+        if (cursor != null){
+            count = cursor.getCount();
+            cursor.close();
+        }
+
+        //check for an error
         if(row == -1){
-            db.close();
-            throw new RuntimeException("The entry you try to insert already exists in the database!");
+            if(count == 0 && catID != defaultCatID){
+                db.close();
+                throw new RuntimeException("There is no category with this catID to insert the entry");
+            }else {
+                db.close();
+                throw new RuntimeException("The entry you try to insert already exists in the database!");
+            }
         }else {
             db.close();
         }
@@ -180,8 +215,15 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
+        //get the default id of category
+        IDManager manager = IDManagerFactory.createIDManager();
+        int defaultCatID = manager.getDefaultID(ID_NAME_CAT);
+
         //create a row of a new category
-        values.put(CAT_ID, entry.getCatID());
+        if (entry.getCatID() != defaultCatID) { //check for null catID
+            values.put(CAT_ID, entry.getCatID());
+        }
+
         values.put(ENTRY_AMOUNT, entry.getAmount().getValue());
         values.put(ENTRY_DETAILS, entry.getDetails().getValue());
 
@@ -210,17 +252,23 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
 
         Cursor cursor = db.rawQuery(sql, null); //exxute query
 
-//        cursor.moveToFirst();
-//        System.out.println("********");
-//        System.out.println(cursor.getCount());
-//        System.out.println("********");
+        //get the default id of category
+        IDManager manager = IDManagerFactory.createIDManager();
+        int defaultCatID = manager.getDefaultID(ID_NAME_CAT);
+
+        //what category an entry belong to
+        int catID = defaultCatID;
+
 
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
 
             //get all data from cursor to make an entry object
+            if  (!cursor.isNull(cursor.getColumnIndex(CAT_ID))) {
+                catID = cursor.getInt(cursor.getColumnIndex(CAT_ID));
+            }
+
             Amount amount = AmountFactory.fromInt(cursor.getInt(cursor.getColumnIndex(ENTRY_AMOUNT)));
-            int catID = cursor.getInt(cursor.getColumnIndex(CAT_ID));
             Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DETAILS)));
             Date date = DateFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DATE)));
             int type = cursor.getInt(cursor.getColumnIndex(ENTRY_TYPE));
@@ -255,13 +303,23 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
 
         Cursor cursor = db.rawQuery(sql, null); //execute query
 
+        //get the default id of category
+        IDManager manager = IDManagerFactory.createIDManager();
+        int defaultCatID = manager.getDefaultID(ID_NAME_CAT);
+
+        //what category an entry belong to
+        int catID = defaultCatID;
+
         // getting all rows from cursor and filling the list
         if (cursor != null && cursor.getCount()> 0 && cursor.moveToFirst()) {
             do {
                 //get all data from cursor to make an entry object
+                if  (!cursor.isNull(cursor.getColumnIndex(CAT_ID))) {
+                    catID = cursor.getInt(cursor.getColumnIndex(CAT_ID));
+                }
+
                 int entID = cursor.getInt(cursor.getColumnIndex(ENTRY_ID));
                 Amount amount = AmountFactory.fromInt(cursor.getInt(cursor.getColumnIndex(ENTRY_AMOUNT)));
-                int catID = cursor.getInt(cursor.getColumnIndex(CAT_ID));
                 Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DETAILS)));
                 Date date = DateFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DATE)));
                 int type = cursor.getInt(cursor.getColumnIndex(ENTRY_TYPE));
@@ -295,8 +353,6 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         Date endDate = dateInterval.getEnd();
         String startDateString = makeDate(startDate.getYear(), startDate.getMonth(), startDate.getDay());
         String endDateString = makeDate(endDate.getYear(), endDate.getMonth(), endDate.getDay());
-        System.out.println("***********");
-        System.out.println(startDateString + "; " + endDateString);
 
 
         String sql =
@@ -308,13 +364,24 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
 
         Cursor cursor = db.rawQuery(sql, null); //execute query
 
+        //get the default id of category
+        IDManager manager = IDManagerFactory.createIDManager();
+        int defaultCatID = manager.getDefaultID(ID_NAME_CAT);
+
+        //what category an entry belong to
+        int catID = defaultCatID;
+
         // getting all rows from cursor and filling the list
         if (cursor != null && cursor.getCount()> 0 && cursor.moveToFirst()) {
             do {
                 //get all data from cursor to make an entry object
+                if  (!cursor.isNull(cursor.getColumnIndex(CAT_ID))) {
+                    catID = cursor.getInt(cursor.getColumnIndex(CAT_ID));
+
+                }
+
                 int entID = cursor.getInt(cursor.getColumnIndex(ENTRY_ID));
                 Amount amount = AmountFactory.fromInt(cursor.getInt(cursor.getColumnIndex(ENTRY_AMOUNT)));
-                int catID = cursor.getInt(cursor.getColumnIndex(CAT_ID));
                 Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DETAILS)));
                 Date date = DateFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DATE)));
                 int type = cursor.getInt(cursor.getColumnIndex(ENTRY_TYPE));
@@ -343,7 +410,16 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         Entry entry = null;
         ArrayList<Entry> entryList = new ArrayList<Entry>();
 
+        //get the default id of category
+        IDManager manager = IDManagerFactory.createIDManager();
+        int defaultCatID = manager.getDefaultID(ID_NAME_CAT);
+
         String sql = "SELECT * FROM " + ENTRY_TABLE + " WHERE " + CAT_ID + "=" + ID + " ORDER BY " + ENTRY_DATE; //prepare query
+
+        //if id is null there is no such category
+        if(ID == defaultCatID){
+            sql = "SELECT * FROM " + ENTRY_TABLE + " WHERE " + CAT_ID + " IS NULL" + " ORDER BY " + ENTRY_DATE; //prepare query
+        }
 
         SQLiteDatabase db = this.getReadableDatabase(); //connect to db
 
@@ -352,28 +428,28 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         // getting all rows from cursor and filling the list
         if (cursor != null && cursor.getCount()> 0 && cursor.moveToFirst()) {
             do {
-                //get all data from cursor to make an entry object
+
                 int entID = cursor.getInt(cursor.getColumnIndex(ENTRY_ID));
                 Amount amount = AmountFactory.fromInt(cursor.getInt(cursor.getColumnIndex(ENTRY_AMOUNT)));
-                int catID = cursor.getInt(cursor.getColumnIndex(CAT_ID));
                 Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DETAILS)));
                 Date date = DateFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DATE)));
                 int type = cursor.getInt(cursor.getColumnIndex(ENTRY_TYPE));
 
                 //check for purchase or income
                 if(type == 0){
-                    entry = PurchaseFactory.createPurchase(amount, entID, details, date, catID);
+                    entry = PurchaseFactory.createPurchase(amount, entID, details, date, ID);
                 }else{
-                    entry = IncomeFactory.createIncome(amount, entID, details, date, catID);
+                    entry = IncomeFactory.createIncome(amount, entID, details, date, ID);
                 }
 
                 //add entry to the list
                 entryList.add(entry);
             } while (cursor.moveToNext());
+            cursor.close();
         }
-        cursor.close();
 
-        return entryList;}
+        return entryList;
+    }
 
     /*
     delete an entry and return true if the entry deleted successfully,
@@ -417,8 +493,15 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         values.put(CAT_DATE, date);
 
         // insert to db
-        db.insert(CATEGORY_TABLE,null, values);
-        db.close();
+        long row = db.insert(CATEGORY_TABLE,null, values);
+
+        //check for an error
+        if(row == -1){
+            db.close();
+            throw new RuntimeException("The category you try to insert already exists in the database!");
+        }else {
+            db.close();
+        }
     }
 
     /*
@@ -458,11 +541,6 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         String sql = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + CAT_ID + "=" + ID; //prepare query
 
         Cursor cursor = db.rawQuery(sql, null); //execute query
-
-//        cursor.moveToFirst();
-//        System.out.println("********");
-//        System.out.println(cursor.getCount());
-//        System.out.println("********");
 
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -561,16 +639,13 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
 
             //add some important info to db
             //fill ids table
-            String idNameCat = "Category";
-            String idNameEntry = "Entry";
-
             ContentValues values = new ContentValues();
-            values.put(ID_NAME, idNameCat);
+            values.put(ID_NAME, ID_NAME_CAT);
             values.put(ID_NUM, initialCategoryID);
             db.insert(IDS_TABLE, null, values);
 
             values = new ContentValues();
-            values.put(ID_NAME, idNameEntry);
+            values.put(ID_NAME, ID_NAME_ENTRY);
             values.put(ID_NUM, initialEntryID);
             db.insert(IDS_TABLE, null, values);
 
