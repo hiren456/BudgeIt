@@ -6,7 +6,7 @@ import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.exceptions.CategoryDoesNotExistException;
 
-public class CategoryModifier implements UICategoryModifier {
+class CategoryModifier implements UICategoryModifier {
     Database db;
 
     CategoryModifier (Database db)
