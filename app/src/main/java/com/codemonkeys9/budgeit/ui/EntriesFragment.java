@@ -14,10 +14,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.codemonkeys9.budgeit.R;
-import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
@@ -35,7 +33,7 @@ import java.util.List;
 
 public class EntriesFragment extends Fragment {
     private EntryAdapter entryAdapter;
-    VisibilityType visibility = VisibilityType.Both; //defaults to all view
+    private EntryVisibility visibility = EntryVisibility.Both; // defaults to all entries
 
     // TODO: MAKE THESE PRIVATE
     //       MainActivity relies on them right now
@@ -55,10 +53,6 @@ public class EntriesFragment extends Fragment {
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
     private MenuItem dateFilterToggle;
-    private MenuItem categoryViewToggle;
-    private MenuItem allViewToggle;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,8 +73,6 @@ public class EntriesFragment extends Fragment {
         incomeToggle = menu.findItem(R.id.action_toggle_income);
         expensesToggle = menu.findItem(R.id.action_toggle_expenses);
         dateFilterToggle = menu.findItem(R.id.action_filter_by_date);
-        categoryViewToggle = menu.findItem(R.id.action_set_category_view);
-        allViewToggle = menu.findItem(R.id.action_set_all_view);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -88,7 +80,6 @@ public class EntriesFragment extends Fragment {
     public void onPrepareOptionsMenu(Menu menu) {
         incomeToggle.setVisible(true);
         expensesToggle.setVisible(true);
-        categoryViewToggle.setVisible(true);
 
         if(visibility.isIncomeVisible()) {
             incomeToggle.setTitle(getString(R.string.action_hide_income));
@@ -125,17 +116,6 @@ public class EntriesFragment extends Fragment {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        if(id == R.id.action_set_category_view){
-            Toast.makeText(getActivity(), "Toggled category view. ", Toast.LENGTH_SHORT).show();
-            categoryViewToggle.setVisible(false);
-            allViewToggle.setVisible(true);
-
-        } else if (id == R.id.action_set_all_view){
-            Toast.makeText(getActivity(), "Toggled all view. ", Toast.LENGTH_SHORT).show();
-            categoryViewToggle.setVisible(true);
-            allViewToggle.setVisible(false);
-        }
 
         if (id == R.id.action_toggle_income) {
             visibility = visibility.toggleIncome();
@@ -284,7 +264,6 @@ public class EntriesFragment extends Fragment {
 
     private void refreshTimeline() {
         EntryList entryList = null;
-        CategoryList categoryList = null;
 
         // if the user inputs -123456789 and then 123456789
         // or any other invalid date range
@@ -297,19 +276,13 @@ public class EntriesFragment extends Fragment {
         switch(visibility) {
             case Income:
                 entryList = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
-                categoryList = null;
                 break;
             case Expenses:
                 entryList = entryFetcher.fetchAllPurchaseEntrys(startDate,endDate);
-                categoryList = null;
                 break;
             case Both:
                 entryList = entryFetcher.fetchAllEntrys(startDate,endDate);
-                categoryList = null;
                 break;
-            case Categories:
-                entryList = null;
-                categoryList = categoryFetcher.fetchAllCategories();
         }
         this.entries = entryList.getReverseChrono();
         entryAdapter.updateEntries(this.entries);

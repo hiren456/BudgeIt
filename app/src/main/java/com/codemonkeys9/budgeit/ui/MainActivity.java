@@ -2,8 +2,11 @@ package com.codemonkeys9.budgeit.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,6 +18,10 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 public class MainActivity extends AppCompatActivity implements EntriesFragment.OnFragmentInteractionListener {
     static final int DATE_RANGE_REQUEST = 0;
     EntriesFragment entriesFrag;
+
+    private boolean showCategories = false;
+    private MenuItem categoryViewToggle;
+    private MenuItem allViewToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,49 @@ public class MainActivity extends AppCompatActivity implements EntriesFragment.O
                 entriesFrag.endDate = extras.getString("end_date");
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        categoryViewToggle = menu.findItem(R.id.action_set_category_view);
+        allViewToggle = menu.findItem(R.id.action_set_all_view);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(showCategories) {
+            categoryViewToggle.setVisible(false);
+            allViewToggle.setVisible(true);
+        } else {
+            categoryViewToggle.setVisible(true);
+            allViewToggle.setVisible(false);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id == R.id.action_set_category_view){
+            Toast.makeText(this, "Toggled category view. ", Toast.LENGTH_SHORT).show();
+            categoryViewToggle.setVisible(false);
+            allViewToggle.setVisible(true);
+            return true;
+        } else if (id == R.id.action_set_all_view){
+            Toast.makeText(this, "Toggled all view. ", Toast.LENGTH_SHORT).show();
+            categoryViewToggle.setVisible(true);
+            allViewToggle.setVisible(false);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
 
