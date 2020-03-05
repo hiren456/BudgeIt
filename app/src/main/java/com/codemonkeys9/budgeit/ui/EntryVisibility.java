@@ -1,13 +1,12 @@
 package com.codemonkeys9.budgeit.ui;
 
-enum VisibilityType {
+enum EntryVisibility {
     Income,
     Expenses,
-    Categories,
     Both;
 
     // Shows or hides income
-    public VisibilityType toggleIncome() {
+    public EntryVisibility toggleIncome() {
         switch(this) {
             case Income:
                 throw new IllegalStateException("Can't hide everything!");
@@ -22,7 +21,7 @@ enum VisibilityType {
     }
 
     // Shows or hides expenses
-    public VisibilityType toggleExpenses() {
+    public EntryVisibility toggleExpenses() {
         switch(this) {
             case Expenses:
                 throw new IllegalStateException("Can't hide everything!");
@@ -36,18 +35,6 @@ enum VisibilityType {
         return null;
     }
 
-    public VisibilityType toggleCategories(){
-        switch (this){
-            case Income:
-            case Expenses:
-            case Both:
-                return Categories;
-            case Categories:
-                throw new IllegalStateException("Already on Categories");
-        }
-        return null;
-    }
-
     public boolean isIncomeVisible() {
         return this == Income || this == Both;
     }
@@ -55,10 +42,4 @@ enum VisibilityType {
     public boolean areExpensesVisible() {
         return this == Expenses || this == Both;
     }
-
-    public boolean areCategoriesVisible() {
-        return this == Categories;
-    }
-
-
 }
