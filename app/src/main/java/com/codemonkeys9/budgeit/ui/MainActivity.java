@@ -15,7 +15,7 @@ import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
-public class MainActivity extends AppCompatActivity implements EntriesFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
     static final int DATE_RANGE_REQUEST = 0;
     ViewPager mainPager;
     EntriesFragment entriesFrag;

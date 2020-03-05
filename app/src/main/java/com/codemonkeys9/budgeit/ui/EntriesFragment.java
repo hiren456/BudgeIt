@@ -1,6 +1,5 @@
 package com.codemonkeys9.budgeit.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -48,7 +47,6 @@ public class EntriesFragment extends Fragment {
     private UICategoryFetcher categoryFetcher;
     private UICategoryCreator categoryCreator;
     private UIEntryCategorizer entryCategorizer;
-    private OnFragmentInteractionListener listener;
 
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
@@ -217,23 +215,6 @@ public class EntriesFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            listener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        listener = null;
-    }
-
-    @Override
     public void onResume() {
         refreshTimeline();
         super.onResume();
@@ -286,9 +267,5 @@ public class EntriesFragment extends Fragment {
         }
         this.entries = entryList.getReverseChrono();
         entryAdapter.updateEntries(this.entries);
-    }
-
-    public interface OnFragmentInteractionListener {
-
     }
 }
