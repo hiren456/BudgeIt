@@ -8,11 +8,11 @@
     tools:context=".ui.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:scrollbars="vertical" />
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.codemonkeys9.budgeit.ui.EntriesFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize" />
 
 </FrameLayout>

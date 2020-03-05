@@ -32,7 +32,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EntriesFragment.OnFragmentInteractionListener {
     private EntryAdapter entryAdapter;
     private VisibilityType visibility = VisibilityType.Both; //defaults to all view
     private MenuItem incomeToggle;
