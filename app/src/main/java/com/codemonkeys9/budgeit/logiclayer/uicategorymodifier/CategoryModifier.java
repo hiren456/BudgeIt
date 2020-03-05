@@ -14,34 +14,30 @@ public class CategoryModifier implements UICategoryModifier {
     }
 
 
-    public boolean deleteCategory(int ID)
+    public void deleteCategory(int ID)
     {
-        return db.deleteCategory(ID);
+        db.deleteCategory(ID);
     }
 
 
-    public  boolean changeGoal(int ID, Amount amount)
+    public void changeGoal(int ID, Amount amount)
     {
         Category newCategory=db.selectCategoryByID(ID);
         if(newCategory!=null)
         {
-            newCategory.modifyCategory(newCategory.getName(),amount);
+            newCategory.modifyCategory(newCategory.getName(),amount,newCategory.getDateLastModified());
             db.updateCategory(newCategory);
-            return true;
         }
-        return false;
     }
 
 
-    public boolean changeName(int ID, Details detail)
+    public void changeName(int ID, Details detail)
     {
         Category newCategory=db.selectCategoryByID(ID);
         if(newCategory!=null)
         {
-            newCategory.modifyCategory(detail,newCategory.getGoal());
+            newCategory.modifyCategory(detail,newCategory.getGoal(),newCategory.getDateLastModified());
             db.updateCategory(newCategory);
-            return true;
         }
-        return false;
     }
 }

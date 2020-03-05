@@ -43,7 +43,7 @@ public class UIEntryCategorizerTest {
         Database db = DatabaseHolder.getDatabase();
 
         Amount goal = AmountFactory.fromString( "200.00");
-        Details name =DetailsFactory.fromString( "Food");
+        Details name = DetailsFactory.fromString( "Food");
         Date date = DateFactory.fromInts(1999,04,23);
         int catID = 24;
         Category cat = BudgetCategoryFactory.createBudgetCategory(name,goal,date,catID);

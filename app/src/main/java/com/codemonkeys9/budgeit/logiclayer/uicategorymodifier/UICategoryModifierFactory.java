@@ -5,7 +5,9 @@ import com.codemonkeys9.budgeit.database.DatabaseHolder;
 
 public class UICategoryModifierFactory
 {
-    public static UICategoryModifier createUICategoryModifier(){
-    Database db = DatabaseHolder.getDatabase();
-        return new CategoryModifier(db);}
+    public static UICategoryModifier createUICategoryModifier()
+    {
+        Database db = DatabaseHolder.getDatabase();
+        return new CategoryModifier(db);
+    }
 }
