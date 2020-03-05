@@ -29,7 +29,7 @@ public class UICategoryCreatorTest {
 
     @Test
     public void createSavingsCategoryTest(){
-        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
         Database db = DatabaseHolder.getDatabase();
 
         String goal = "900.00";
@@ -48,7 +48,7 @@ public class UICategoryCreatorTest {
 
     @Test
     public void createBudgetCategoryTest(){
-        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
         Database db = DatabaseHolder.getDatabase();
 
         String goal = "200.00";
@@ -66,8 +66,59 @@ public class UICategoryCreatorTest {
     }
 
     @Test
+    public void createTwoBudgetCategoryTest(){
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
+        Database db = DatabaseHolder.getDatabase();
+
+        String goal = "200.00";
+        String name = "Food";
+
+        uiCategoryCreator.createBudgetCategory(goal,name);
+        uiCategoryCreator.createBudgetCategory(goal,name);
+
+        List<Category> cats = db.getAllCategories();
+        Category cat = cats.get(0);
+        Category cat2 = cats.get(1);
+
+        assertTrue(cat.getName().getValue().equals(name));
+        assertTrue(cat.getGoal().getDisplay().equals(goal));
+        assertTrue(cat.getDateLastModified().equals(DateFactory.fromString("now")));
+        assertTrue(cat instanceof BudgetCategory);
+
+        assertTrue(cat2.getName().getValue().equals(name));
+        assertTrue(cat2.getGoal().getDisplay().equals(goal));
+        assertTrue(cat2.getDateLastModified().equals(DateFactory.fromString("now")));
+        assertTrue(cat2 instanceof BudgetCategory);
+    }
+
+    @Test
+    public void createTwoSavingsCategoryTest(){
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
+        Database db = DatabaseHolder.getDatabase();
+
+        String goal = "200.00";
+        String name = "Food";
+
+        uiCategoryCreator.createSavingsCategory(goal,name);
+        uiCategoryCreator.createSavingsCategory(goal,name);
+
+        List<Category> cats = db.getAllCategories();
+        Category cat = cats.get(0);
+        Category cat2 = cats.get(1);
+
+        assertTrue(cat.getName().getValue().equals(name));
+        assertTrue(cat.getGoal().getDisplay().equals(goal));
+        assertTrue(cat.getDateLastModified().equals(DateFactory.fromString("now")));
+        assertTrue(cat instanceof SavingsCategory);
+
+        assertTrue(cat2.getName().getValue().equals(name));
+        assertTrue(cat2.getGoal().getDisplay().equals(goal));
+        assertTrue(cat2.getDateLastModified().equals(DateFactory.fromString("now")));
+        assertTrue(cat2 instanceof SavingsCategory);
+    }
+    @Test
     public void createBudgetCategoryInvalidAmountTest(){
-        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
         Database db = DatabaseHolder.getDatabase();
 
         String goal = "Hello?";
@@ -85,7 +136,7 @@ public class UICategoryCreatorTest {
 
     @Test
     public void createSavingsCategoryInvalidAmountTest(){
-        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator uiCategoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
         Database db = DatabaseHolder.getDatabase();
 
         String goal = "Hello?";

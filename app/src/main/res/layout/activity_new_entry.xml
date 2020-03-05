@@ -46,7 +46,7 @@
         android:id="@+id/control_incomeOrExpense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editText_details"
+        android:layout_below="@id/spinner_category"
         android:layout_margin="8dp"
         app:columnCount="2"
         app:supportedSelectionsCount="1"
@@ -54,5 +54,12 @@
         app:textVerticalPadding="6dp"
         app:radius="12dp"
         app:segments="@array/entry_types" />
+    <Spinner
+        android:id="@+id/spinner_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_details"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"/>
 
 </RelativeLayout>

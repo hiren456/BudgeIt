@@ -38,7 +38,7 @@ public class UIEntryCategorizerTest {
 
     @Test
     public void categorizeEntryTest(){
-        UICategoryCreator creator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator creator = UICategoryCreatorFactory.createUICategoryCreator();
         UIEntryCategorizer categorizer = UIEntryCategorizerFactory.createUIEntryCategorizer();
         Database db = DatabaseHolder.getDatabase();
 
@@ -66,7 +66,7 @@ public class UIEntryCategorizerTest {
 
     @Test
     public void categorizeEntryBadEntryTest(){
-        UICategoryCreator creator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator creator = UICategoryCreatorFactory.createUICategoryCreator();
         UIEntryCategorizer categorizer = UIEntryCategorizerFactory.createUIEntryCategorizer();
         Database db = DatabaseHolder.getDatabase();
 
@@ -98,7 +98,7 @@ public class UIEntryCategorizerTest {
     @Test
     public void categorizeEntryBadCategoryTest(){
 
-        UICategoryCreator creator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator creator = UICategoryCreatorFactory.createUICategoryCreator();
         UIEntryCategorizer categorizer = UIEntryCategorizerFactory.createUIEntryCategorizer();
         Database db = DatabaseHolder.getDatabase();
 
@@ -128,7 +128,7 @@ public class UIEntryCategorizerTest {
     }
     @Test
     public void CategorizeEntryThenCheckThatDateOfCategoryIsTodayTest(){
-        UICategoryCreator creator = UICategoryCreatorFactory.creatorUICategoryCreator();
+        UICategoryCreator creator = UICategoryCreatorFactory.createUICategoryCreator();
         UIEntryCategorizer categorizer = UIEntryCategorizerFactory.createUIEntryCategorizer();
         Database db = DatabaseHolder.getDatabase();
 
