@@ -7,6 +7,8 @@
     <string name="action_show_income">Show income</string>
     <string name="action_filter_by_date">Filter by date</string>
     <string name="action_remove_date_filter">Remove date filter</string>
+    <string name="tab_entries">Entries</string>
+    <string name="tab_categories">Categories</string>
     <string name="view">view</string>
     <string name="categories">Categories</string>
     <string name="all">All</string>
