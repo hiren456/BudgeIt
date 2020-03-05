@@ -33,7 +33,6 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        DatabaseTest.class,
         StubDatabaseTest.class,
         AmountTest.class,
         DateTest.class,
@@ -57,10 +56,9 @@ import org.junit.runners.Suite;
         UICategoryFetcherTest.class,
         UIEntryCategorizerTest.class,
         UICategoryModifierTest.class,
-        IntegrationTests.class
 })
 
-
-public class AllTests {
+// All the tests that only use the Stub and thus are speedy
+public class SpeedyTests {
 
 }
