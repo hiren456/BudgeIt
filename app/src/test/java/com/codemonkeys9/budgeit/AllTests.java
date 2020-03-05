@@ -19,6 +19,8 @@ import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerTest;
 import com.codemonkeys9.budgeit.logiclayer.uicalculator.UIEntryCalculatorTest;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorTest;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherTest;
+import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifier;
+import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifierTest;
 import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizerTest;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherTest;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerTest;
@@ -50,7 +52,8 @@ import org.junit.runners.Suite;
         BudgetCategoryTest.class,
         UICategoryCreatorTest.class,
         UICategoryFetcherTest.class,
-        UIEntryCategorizerTest.class
+        UIEntryCategorizerTest.class,
+        UICategoryModifierTest.class
 })
 
 
