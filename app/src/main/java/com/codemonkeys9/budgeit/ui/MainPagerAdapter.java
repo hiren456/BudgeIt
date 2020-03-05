@@ -11,7 +11,7 @@ public final class MainPagerAdapter extends FragmentPagerAdapter {
         super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         fragments = new Fragment[] {
             new EntriesFragment(),
-            new EntriesFragment(),
+            new CategoriesFragment(),
         };
         titles = new CharSequence[] {
             "Entries",
