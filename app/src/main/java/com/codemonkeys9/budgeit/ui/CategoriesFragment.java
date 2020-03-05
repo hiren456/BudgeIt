@@ -19,6 +19,8 @@ import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
+import com.codemonkeys9.budgeit.logiclayer.uicalculator.UICalculator;
+import com.codemonkeys9.budgeit.logiclayer.uicalculator.UICalculatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
@@ -33,7 +35,7 @@ import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 import java.util.List;
 
 public class CategoriesFragment extends Fragment {
-    private CategoryAdapter CategoryAdapter;
+    private CategoryAdapter categoryAdapter;
 
     private UICategoryFetcher categoryFetcher;
     private List<Category> categories;
@@ -44,9 +46,8 @@ public class CategoriesFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_categories, container, false);
         RecyclerView recycler = v.findViewById(R.id.recycler);
-        recycler.setAdapter(this.entryAdapter);
+        recycler.setAdapter(this.categoryAdapter);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        setHasOptionsMenu(true);
 
         return v;
     }
