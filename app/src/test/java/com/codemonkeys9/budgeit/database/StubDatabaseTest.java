@@ -1,60 +1,41 @@
 package com.codemonkeys9.budgeit.database;
 
-import android.content.Context;
-
+import com.codemonkeys9.budgeit.dso.amount.Amount;
+import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
 import com.codemonkeys9.budgeit.dso.category.BudgetCategoryFactory;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.category.SavingsCategoryFactory;
-import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
-import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
-import com.codemonkeys9.budgeit.dso.amount.Amount;
-import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
-import com.codemonkeys9.budgeit.dso.details.Details;
-import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
-import com.codemonkeys9.budgeit.dso.entry.Income;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
+import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
+import com.codemonkeys9.budgeit.dso.details.Details;
+import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
-import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import java.io.IOException;
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.*;
-
-@RunWith(AndroidJUnit4.class)
-public class DatabaseTest {
-    private Database db;
-//    private int initialEntryID = 1;
-//    private int initialCategoryID = 3;
-
+public class StubDatabaseTest {
+    Database db;
     @Before
     public void createDb() {
-        Context context = ApplicationProvider.getApplicationContext();
         IDManager idManager = IDManagerFactory.createIDManager();
-        DatabaseHolder.initTestable(DatabaseFactory.createTestableDatabase(
-                context,idManager.getInitialID("Entry"),idManager.getInitialID("Category")));
-        db = DatabaseHolder.getDatabase();
+        DatabaseHolder.initTestable(DatabaseFactory.createStubDatabase(idManager.getInitialID("Entry"),idManager.getInitialID("Category")));
+        this.db = DatabaseHolder.getDatabase();
     }
-
-    @After
-    public void closeDb() throws IOException {
-        db.clean();
-        db.close();
-    }
-
     @Test
     public void idCounterInitialValueTest() {
 
@@ -540,7 +521,6 @@ public class DatabaseTest {
         assertNull("Database should not contain the entry, but it does", retEntry1);
         assertFalse("Database is updated, but should not", isUpdated);
 
-
     }
 
 
@@ -888,6 +868,7 @@ public class DatabaseTest {
         assertEquals("Database returns a category with the wrong catID", catID, retCat.getID());
         assertTrue("Database returns a category with the wrong name string", name.equals(retCat.getName()));
         assertTrue("Database returns a category with the wrong date", date.equals(retCat.getDateLastModified()));
+
     }
 
     @Test(expected = RuntimeException.class)

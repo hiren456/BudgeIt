@@ -1,9 +1,12 @@
 package com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher;
 
+import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.category.BudgetCategory;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
 
@@ -17,13 +20,9 @@ import static org.junit.Assert.assertTrue;
 
 public class UICategoryFetcherTest {
     @Before
-    public void resetDatabase() throws SecurityException,
-            NoSuchFieldException, IllegalArgumentException,
-            IllegalAccessException {
-        Field instance = DatabaseHolder.class.getDeclaredField("db");
-        instance.setAccessible(true);
-        instance.set(null, null);
-        DatabaseHolder.init();
+    public void createDb() {
+        IDManager idManager = IDManagerFactory.createIDManager();
+        DatabaseHolder.initTestable(DatabaseFactory.createStubDatabase(idManager.getInitialID("Entry"),idManager.getInitialID("Category")));
     }
 
     @Test

@@ -1,7 +1,5 @@
 package com.codemonkeys9.budgeit.database;
 
-import android.content.Context;
-
 public class DatabaseHolder {
     private static Database db;
 
@@ -16,10 +14,8 @@ public class DatabaseHolder {
     }
 
     //only for tests
-    public static synchronized void initTestable(Context context) {
-        if(db == null) {
-            db = DatabaseFactory.createTestableDatabase(context,1,1);
-        }
+    public static synchronized void initTestable(Database database) {
+        db = database;
     }
 
 }

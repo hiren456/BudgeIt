@@ -3,6 +3,7 @@ package com.codemonkeys9.budgeit.logiclayer.uientrymanager;
 import android.provider.ContactsContract;
 
 import com.codemonkeys9.budgeit.database.Database;
+import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
@@ -18,6 +19,8 @@ import com.codemonkeys9.budgeit.exceptions.FutureDateException;
 import com.codemonkeys9.budgeit.exceptions.PurchaseDoesNotExistException;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 
@@ -30,13 +33,9 @@ import static org.junit.Assert.*;
 
 public class UIEntryManagerTest {
     @Before
-    public void resetDatabase() throws SecurityException,
-            NoSuchFieldException, IllegalArgumentException,
-            IllegalAccessException {
-        Field instance = DatabaseHolder.class.getDeclaredField("db");
-        instance.setAccessible(true);
-        instance.set(null, null);
-        DatabaseHolder.init();
+    public void createDb() {
+        IDManager idManager = IDManagerFactory.createIDManager();
+        DatabaseHolder.initTestable(DatabaseFactory.createStubDatabase(idManager.getInitialID("Entry"),idManager.getInitialID("Category")));
     }
 
     @Test

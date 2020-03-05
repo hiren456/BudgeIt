@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.logiclayer.uientryfetcher;
 
+import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
@@ -11,6 +12,8 @@ import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,13 +26,9 @@ import static org.junit.Assert.assertTrue;
 
 public class UIEntryFetcherTest {
     @Before
-    public void resetDatabase() throws SecurityException,
-            NoSuchFieldException, IllegalArgumentException,
-            IllegalAccessException {
-        Field instance = DatabaseHolder.class.getDeclaredField("db");
-        instance.setAccessible(true);
-        instance.set(null, null);
-        DatabaseHolder.init();
+    public void createDb() {
+        IDManager idManager = IDManagerFactory.createIDManager();
+        DatabaseHolder.initTestable(DatabaseFactory.createStubDatabase(idManager.getInitialID("Entry"),idManager.getInitialID("Category")));
     }
     @Test
     public void fetchIncomeWithNowTest() {
