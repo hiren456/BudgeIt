@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_main">
 
     <fragment
-        android:id="@+id/fragment"
+        android:id="@+id/fragment_entries"
         android:name="com.codemonkeys9.budgeit.ui.EntriesFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
