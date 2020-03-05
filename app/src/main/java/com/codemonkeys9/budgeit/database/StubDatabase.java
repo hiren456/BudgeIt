@@ -1,10 +1,13 @@
 package com.codemonkeys9.budgeit.database;
 
 import com.codemonkeys9.budgeit.dso.category.Category;
+import com.codemonkeys9.budgeit.dso.category.CategoryDateComparator;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.entry.EntryDateComparator;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,20 +37,27 @@ class StubDatabase implements Database {
         this.ids.put("Category",initialCategoryID);
     }
 
+
+    /*
+    Inserts an Entry into the database.
+    If the Entry with the same ID is in the db throws runtime exception
+     */
     @Override
     public void insertEntry(Entry entry) {
 
         //Checks if an entry with the same key is already in the database
         if(entryMap.containsKey(entry.getEntryID())){
-            throw new RuntimeException("The entry you try to insert is already inserted");
+            throw new RuntimeException("The entry you try to insert already exists in the database!");
         }else{
             this.entryMap.put(entry.getEntryID(),entry);
         }
 
     }
 
-    //Update the entry
-    //return true if the entry is found in the hashmap and then updated, otherwise return false
+    /*
+    Update the entry
+    return true if the entry is found in the database and then updated, otherwise return false
+     */
     @Override
     public boolean updateEntry(Entry entry) {
 
@@ -63,11 +73,23 @@ class StubDatabase implements Database {
         return isUpdated;
     }
 
+    /*
+    return a list of all entries sorted by date
+    or an empty list if db is empty
+     */
     @Override
     public List<Entry> getAllEntries() {
-        return new ArrayList<>(entryMap.values());
+        List<Entry> entList = new ArrayList<>(entryMap.values());
+        // sort the entries by date
+        Collections.sort(entList,new EntryDateComparator());
+        return entList;
     }
 
+
+    /*
+    return a list of entries sorted by the date with the same category ID
+    or an empty list if there are no such entries
+     */
     @Override
     public List<Entry> getEntriesByCategoryID(int ID){
         ArrayList<Entry> returnList = new ArrayList<Entry>();
@@ -85,13 +107,21 @@ class StubDatabase implements Database {
         return returnList;
     }
 
-    //return an entry by ID
-    //if not found returns null
+
+    /*
+    return an entry by ID
+    if not found returns null
+     */
     @Override
     public Entry selectByID(int ID) {
         return this.entryMap.get(ID);
     }
 
+
+    /*
+    returns the list of entries from that fall within the dateInterval
+    returns empty list if the are no entries
+     */
     @Override
     public List<Entry> selectByDate(DateInterval dateInterval) {
         ArrayList<Entry> returnList = new ArrayList<Entry>();
@@ -111,6 +141,11 @@ class StubDatabase implements Database {
         return returnList;
     }
 
+
+    /*
+    delete an entry and return true if the entry deleted successfully,
+    otherwise return false
+     */
     @Override
     public boolean deleteEntry(int ID) {
 
@@ -119,6 +154,10 @@ class StubDatabase implements Database {
     }
 
 
+    /*
+    Inserts an Category into the database.
+    If the category with the same ID is in the db throws runtime exception
+     */
     @Override
     public void insertCategory(Category category) {
 
@@ -130,6 +169,11 @@ class StubDatabase implements Database {
         }
     }
 
+
+    /*
+    Update the Category
+    return true if the category is found in the database and then updated, otherwise return false
+     */
     @Override
     public boolean updateCategory(Category category) {
 
@@ -138,6 +182,16 @@ class StubDatabase implements Database {
         // Checks if a category with the same id is already in the database
         if(categoryMap.containsKey(category.getID())){
             this.categoryMap.put(category.getID(),category);
+
+            //update category also update entry
+            for ( Entry entry : this.entryMap.values()){
+                int catID = entry.getCatID();
+
+                if(catID == category.getID()){
+                    entry = entry.changeCategory(category.getID());
+                    this.entryMap.put(entry.getEntryID(), entry);
+                }
+            }
         }else{
             isUpdated = false;
         }
@@ -145,30 +199,88 @@ class StubDatabase implements Database {
         return isUpdated;
     }
 
+
+    /*
+    return a category by ID
+    if not found returns null
+     */
     @Override
     public Category selectCategoryByID(int ID) {
         return this.categoryMap.get(ID);
     }
 
+
+    /*
+    returns a list of all Categories sorted by date
+    or an empty list if db is empty
+     */
     @Override
     public List<Category> getAllCategories() {
-        return new ArrayList<>(categoryMap.values());
+        List<Category> catList = new ArrayList<>(categoryMap.values());
+        Collections.sort(catList,new CategoryDateComparator()); // sort the categories by date
+        return catList;
     }
 
+
+    /*
+    delete a category and return true if the category was deleted successfully,
+    otherwise return false
+     */
     @Override
     public boolean deleteCategory(int ID) {
-
         Category removed = this.categoryMap.remove(ID);
+
+        //get the default id of category
+        IDManager manager = IDManagerFactory.createIDManager();
+        int defaultCatID = manager.getDefaultID("Category");
+
+        if (removed != null) {
+            //update category also update entry
+            for (Entry entry : this.entryMap.values()) {
+                int catID = entry.getCatID();
+
+                if (catID == ID) {
+                    entry = entry.changeCategory(defaultCatID);
+                    this.entryMap.put(entry.getEntryID(), entry);
+                }
+            }
+        }
         return removed != null;
     }
 
+
+    /*
+      returns current entry id counter
+      Possible idNames are "Entry" and "Category"
+      */
     @Override
     public int getIDCounter(String idName) {
         return this.ids.get(idName);
     }
 
+
+    /*
+     updates entry id counter
+     */
     @Override
     public void updateIDCounter(String idName, int newCounter) {
         this.ids.put(idName,newCounter);
+    }
+
+
+    /*
+    closes the db
+     */
+    @Override
+    public void close() {
+        //I am here just to be here
+    }
+
+    /*
+    deletes everything from tables in the db
+     */
+    public void clean(){
+        entryMap.clear();
+        categoryMap.clear();
     }
 }

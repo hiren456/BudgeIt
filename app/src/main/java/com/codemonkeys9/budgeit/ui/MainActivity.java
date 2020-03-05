@@ -2,10 +2,12 @@ package com.codemonkeys9.budgeit.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -35,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private String endDate = "now";
     private boolean hasDateFilter = false;
 
+    UIEntryManager entryManager;
+    UIEntryFetcher entryFetcher;
+    List<Entry> entries;
+
     private static final int DATE_RANGE_REQUEST = 0;
 
     @Override
@@ -43,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         // This is necessary for LocalDate to work with
         // API < 23
         AndroidThreeTen.init(this);
-
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -59,52 +64,50 @@ public class MainActivity extends AppCompatActivity {
         });
 
         DatabaseHolder.init();
-        UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
-        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
+        this.entryManager = UIEntryManagerFactory.createUIEntryManager();
+        this.entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
 
         EntryList entryList = entryFetcher.fetchAllEntrys();
-        List<Entry> entries = entryList.getReverseChrono();
+        this.entries = entryList.getReverseChrono();
 
         // Add fake data if there's no data in the DB already
         if(entries.isEmpty()) {
             entryManager.createEntry("60", "Half-Life: Alyx Pre-order", "2019-12-01",true);
+            ADD_FAKE_DATA:
             for(int year = 2018; year <= 2020; year++) {
                 for(int month = 1; month <= 12; month++) {
-                    // Gas every week-ish
-
+                    if(year == 2020 && month > 2) break ADD_FAKE_DATA;
                     // ensures that month has two digits
-                    if ( !(year == 2020 && month > 2)) {
-                        String monthString;
-                        if (month < 10) {
-                            monthString = "0" + month;
-                        } else {
-                            monthString = "" + month;
-                        }
-                        for (int j = 0; j < 4; j++) {
-                            int day = j * 7 + 1;
-
-
-                            // ensures that day has two digits
-                            String dayString;
-                            if (day < 10) {
-                                dayString = "0" + day;
-                            } else {
-                                dayString = "" + day;
-                            }
-
-                            entryManager.createEntry("50", "Gas", year + "-" + monthString + "-" + dayString, true);
-                        }
-                        // Paycheck every two weeks-ish
-                        entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01", false);
-                        entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15", false);
-
-                        entryManager.createEntry(
-                                "120",
-                                "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
-                                year + "-02-13",
-                                true
-                        );
+                    String monthString;
+                    if (month < 10) {
+                        monthString = "0" + month;
+                    } else {
+                        monthString = "" + month;
                     }
+
+                    // Gas every week-ish
+                    for (int j = 0; j < 4; j++) {
+                        int day = j * 7 + 1;
+                        // ensures that a day has two digits
+                        String dayString;
+                        if (day < 10) {
+                            dayString = "0" + day;
+                        } else {
+                            dayString = "" + day;
+                        }
+
+                        entryManager.createEntry("50", "Gas", year + "-" + monthString + "-" + dayString, true);
+                    }
+                    // Paycheck every two weeks-ish
+                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01", false);
+                    entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15", false);
+
+                    entryManager.createEntry(
+                            "120",
+                            "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
+                            year + "-" + monthString + "-13",
+                            true
+                    );
                 }
             }
             entryList = entryFetcher.fetchAllEntrys();
@@ -117,10 +120,30 @@ public class MainActivity extends AppCompatActivity {
         recycler.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // Get index *within the currently-displayed list of entries*
+        int entryIndex = item.getGroupId();
+        // Get actual, global entry ID
+        int entryId = entries.get(entryIndex).getEntryID();
+        int buttonId = item.getItemId();
+        switch(buttonId) {
+            case R.id.action_delete:
+                entryManager.deleteEntry(entryId);
+                break;
+            case R.id.action_flag:
+                entryManager.flagPurchase(entryId, true);
+                break;
+            case R.id.action_unflag:
+                entryManager.flagPurchase(entryId, false);
+                break;
+        }
+        refreshTimeline();
+        return true;
+    }
+
     private void refreshTimeline() {
-        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
         EntryList entryList = null;
-        List<Entry> entries = null;
 
         // if the user inputs -123456789 and then 123456789
         // or any other invalid date range
@@ -141,8 +164,8 @@ public class MainActivity extends AppCompatActivity {
                 entryList = entryFetcher.fetchAllEntrys(startDate,endDate);
                 break;
         }
-        entries =  entryList.getReverseChrono();
-        entryAdapter.updateEntries(entries);
+        this.entries = entryList.getReverseChrono();
+        entryAdapter.updateEntries(this.entries);
     }
 
     private void openNewEntryActivity(){

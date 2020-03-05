@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.logiclayer.entrycategorizer;
+package com.codemonkeys9.budgeit.logiclayer.uientrycategorizer;
 
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;

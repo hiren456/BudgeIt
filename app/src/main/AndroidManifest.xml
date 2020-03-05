@@ -3,6 +3,7 @@
     package="com.codemonkeys9.budgeit">
 
     <application
+        android:name=".application.BudApplication"
         android:allowBackup="true"
         android:icon="@mipmap/budgeit_icon"
         android:label="@string/app_name"
