@@ -99,7 +99,10 @@ public class NewEntryActivity extends AppCompatActivity {
         boolean purchase = selected == EXPENSE;
 
         try {
-            entryManager.createEntry(amount, details, date, purchase);
+            int id = entryManager.createEntry(amount, details, date, purchase);
+            if(purchase) {
+                entryManager.flagPurchase(id, this.badSwitch.isChecked());
+            }
         } catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast toast = new Toast(getApplicationContext());
