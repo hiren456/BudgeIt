@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,8 @@ import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 import java.util.List;
 
 import segmented_control.widget.custom.android.com.segmentedcontrol.SegmentedControl;
+import segmented_control.widget.custom.android.com.segmentedcontrol.item_row_column.SegmentViewHolder;
+import segmented_control.widget.custom.android.com.segmentedcontrol.listeners.OnSegmentSelectedListener;
 
 public class NewEntryActivity extends AppCompatActivity {
     // See res/values/strings.xml => "entry_types"
@@ -32,6 +35,7 @@ public class NewEntryActivity extends AppCompatActivity {
     UICategoryFetcher categoryFetcher;
 
     SegmentedControl entryTypeControl;
+    Switch badSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,20 @@ public class NewEntryActivity extends AppCompatActivity {
 
         this.entryTypeControl = findViewById(R.id.control_incomeOrExpense);
         this.entryTypeControl.setSelectedSegment(0);
+        this.entryTypeControl.addOnSegmentSelectListener(new OnSegmentSelectedListener() {
+            @Override
+            public void onSegmentSelected(SegmentViewHolder segmentViewHolder, boolean isSelected, boolean isReselected) {
+                if(!isSelected) return;
+                showBadSwitch(segmentViewHolder.getAbsolutePosition() == EXPENSE);
+            }
+        });
+
+        this.badSwitch = findViewById(R.id.switch_bad);
+        showBadSwitch(false);
+    }
+
+    void showBadSwitch(boolean show) {
+        this.badSwitch.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
 
     public void submitEntry(){
@@ -77,7 +95,10 @@ public class NewEntryActivity extends AppCompatActivity {
         boolean purchase = selected == EXPENSE;
 
         try {
-            entryManager.createEntry(amount, details, date, purchase);
+            int id = entryManager.createEntry(amount, details, date, purchase);
+            if(purchase) {
+                entryManager.flagPurchase(id, this.badSwitch.isChecked());
+            }
         } catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();

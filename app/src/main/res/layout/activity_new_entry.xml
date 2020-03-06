@@ -34,26 +34,32 @@
         android:ems="10"
         android:inputType="text" />
 
-    <Button
-        android:id="@+id/button_submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" />
-
     <segmented_control.widget.custom.android.com.segmentedcontrol.SegmentedControl
         android:id="@+id/control_incomeOrExpense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/spinner_category"
-        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         app:columnCount="2"
-        app:supportedSelectionsCount="1"
         app:distributeEvenly="true"
-        app:textVerticalPadding="6dp"
         app:radius="12dp"
-        app:segments="@array/entry_types" />
+        app:segments="@array/entry_types"
+        app:supportedSelectionsCount="1"
+        app:textVerticalPadding="6dp" />
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="Submit" />
+
     <Spinner
         android:id="@+id/spinner_category"
         android:layout_width="match_parent"
@@ -61,5 +67,14 @@
         android:layout_below="@+id/editText_details"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"/>
+
+    <Switch
+        android:id="@+id/switch_bad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/control_incomeOrExpense"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/bad" />
 
 </RelativeLayout>
