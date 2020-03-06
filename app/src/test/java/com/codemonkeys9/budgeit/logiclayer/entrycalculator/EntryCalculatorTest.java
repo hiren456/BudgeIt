@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.logiclayer.entrycalculator;
 
+import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
@@ -12,6 +13,8 @@ import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
+import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,13 +27,9 @@ import static org.junit.Assert.*;
 
 public class EntryCalculatorTest {
     @Before
-    public void resetDatabase() throws SecurityException,
-            NoSuchFieldException, IllegalArgumentException,
-            IllegalAccessException {
-        Field instance = DatabaseHolder.class.getDeclaredField("db");
-        instance.setAccessible(true);
-        instance.set(null, null);
-        DatabaseHolder.init();
+    public void createDb() {
+        IDManager idManager = IDManagerFactory.createIDManager();
+        DatabaseHolder.initTestable(DatabaseFactory.createStubDatabase(idManager.getInitialID("Entry"),idManager.getInitialID("Category")));
     }
     @Test
     public void sumManyTest() {

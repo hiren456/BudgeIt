@@ -1,10 +1,10 @@
 package com.codemonkeys9.budgeit.database;
 
-import java.util.List;
-
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
+
+import java.util.List;
 
 public interface Database {
 

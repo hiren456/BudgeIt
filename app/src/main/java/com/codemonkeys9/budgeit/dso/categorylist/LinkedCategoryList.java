@@ -1,9 +1,6 @@
 package com.codemonkeys9.budgeit.dso.categorylist;
 
-import android.graphics.Matrix;
-
 import com.codemonkeys9.budgeit.dso.category.Category;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 import java.util.Collections;
 import java.util.Iterator;

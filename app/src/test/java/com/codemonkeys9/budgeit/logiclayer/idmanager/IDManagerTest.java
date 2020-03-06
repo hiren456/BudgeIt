@@ -1,24 +1,19 @@
 package com.codemonkeys9.budgeit.logiclayer.idmanager;
 
+import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.exceptions.InvalidIDTypeException;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-
 import static org.junit.Assert.*;
 
 public class IDManagerTest {
     @Before
-    public void resetDatabase() throws SecurityException,
-            NoSuchFieldException, IllegalArgumentException,
-            IllegalAccessException {
-        Field instance = DatabaseHolder.class.getDeclaredField("db");
-        instance.setAccessible(true);
-        instance.set(null, null);
-        DatabaseHolder.init();
+    public void createDb() {
+        IDManager idManager = IDManagerFactory.createIDManager();
+        DatabaseHolder.initTestable(DatabaseFactory.createStubDatabase(idManager.getInitialID("Entry"),idManager.getInitialID("Category")));
     }
 
     @Test

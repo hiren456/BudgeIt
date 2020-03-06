@@ -1,7 +1,6 @@
 package com.codemonkeys9.budgeit.dso.categorylist;
 
 import com.codemonkeys9.budgeit.dso.category.Category;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
 
 import java.util.Iterator;
 import java.util.List;
@@ -14,7 +13,7 @@ public interface CategoryList {
     Iterator<Category> getChronoIter();
 
     /*
-    returns the list of categories in chronological order
+    returns the list of categories in reverse chronological order
      */
     List<Category> getReverseChrono();
     Iterator<Category> getReverseChronoIter();

@@ -16,9 +16,28 @@ class CategoryFetcher implements UICategoryFetcher {
     }
 
     @Override
-    public CategoryList getAllCategories() {
-        List<Category> list = db.getAllCategories();
+    public CategoryList fetchAllCategories() {
+        CategoryList ret = CategoryListFactory.fromChrono(getAll());
+        return ret;
+    }
+
+    @Override
+    public CategoryList fetchAllBudgetCategories() {
+        List<Category> list = getAll();
+        Filterer.getBudget(list);
         CategoryList ret = CategoryListFactory.fromChrono(list);
         return ret;
+    }
+
+    @Override
+    public CategoryList fetchAllSavingsCategories() {
+        List<Category> list = getAll();
+        Filterer.getSavings(list);
+        CategoryList ret = CategoryListFactory.fromChrono(list);
+        return ret;
+    }
+
+    private List<Category> getAll(){
+        return db.getAllCategories();
     }
 }

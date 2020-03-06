@@ -135,7 +135,7 @@ class StubDatabase implements Database {
             }
         }
 
-        // sort the entries by date
+        // sort entries by date
         Collections.sort(returnList,new EntryDateComparator());
 
         return returnList;
@@ -179,7 +179,7 @@ class StubDatabase implements Database {
 
         boolean isUpdated = true;
 
-        // Checks if a category with the same key is already in the database
+        // Checks if a category with the same id is already in the database
         if(categoryMap.containsKey(category.getID())){
             this.categoryMap.put(category.getID(),category);
 
