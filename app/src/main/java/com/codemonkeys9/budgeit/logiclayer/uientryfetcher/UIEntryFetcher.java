@@ -1,6 +1,9 @@
 package com.codemonkeys9.budgeit.logiclayer.uientryfetcher;
 
+import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
+import com.codemonkeys9.budgeit.exceptions.CategoryDoesNotExistException;
+import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.InvalidDateException;
 import com.codemonkeys9.budgeit.exceptions.InvalidDateIntervalException;
 
@@ -71,4 +74,22 @@ public interface UIEntryFetcher {
     The entries are returned as an EntryList object
      */
     EntryList fetchAllEntrys();
+
+    /*
+    Fetches all entrys that are in  the category
+    with id catID.
+    Throws CategoryDoesNotExist if that catID is invalid
+     */
+    EntryList fetchEntrysInCategory(int catID)
+            throws CategoryDoesNotExistException;
+
+    /*
+    Fetches the  entry
+    with id entryID.
+    Throws EntryDoesNotExist if that entyrID is invalid
+     */
+    Entry fetchEntrysByID(int entryID)
+            throws EntryDoesNotExistException;
+
+
 }

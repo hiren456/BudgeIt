@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.logiclayer.entrylistfilterer;
+package com.codemonkeys9.budgeit.logiclayer.uientryfetcher;
 
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.Income;
@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-class DefaultEntryListFilterer implements EntryListFilterer {
+class EntryListFilterer {
 
-    @Override
-    public void getIncome(List<Entry> list) {
+    public static void getIncome(List<Entry> list) {
         ArrayList<Entry> entriesToRemove = new ArrayList<Entry>();
 
         Iterator<Entry> iter = list.iterator();
@@ -30,8 +29,7 @@ class DefaultEntryListFilterer implements EntryListFilterer {
         }
     }
 
-    @Override
-    public void getPurchases(List<Entry> list) {
+    public static void getPurchases(List<Entry> list) {
         ArrayList<Entry> entriesToRemove = new ArrayList<Entry>();
 
         Iterator<Entry> iter = list.iterator();

@@ -1,5 +1,7 @@
 package com.codemonkeys9.budgeit.database;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
 import com.codemonkeys9.budgeit.dso.category.BudgetCategoryFactory;
@@ -12,14 +14,18 @@ import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Income;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -36,6 +42,7 @@ public class StubDatabaseTest {
         DatabaseHolder.initTestable(DatabaseFactory.createStubDatabase(idManager.getInitialID("Entry"),idManager.getInitialID("Category")));
         this.db = DatabaseHolder.getDatabase();
     }
+
     @Test
     public void idCounterInitialValueTest() {
 
@@ -94,6 +101,8 @@ public class StubDatabaseTest {
                 , details1.equals(retEntry1.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID"
                 , date1.equals(retEntry1.getDate()));
+        assertTrue("Database returns a wrong entry type"
+                , retEntry1 instanceof Income);
 
     }
 
@@ -103,6 +112,13 @@ public class StubDatabaseTest {
         //get the default id of category
         IDManager manager = IDManagerFactory.createIDManager();
         int catID = manager.getDefaultID("Category");
+
+        //Create valid category
+        Amount goal = AmountFactory.fromInt(2000);
+        int catID1 = 23;
+        Details name = DetailsFactory.fromString("Purchase may 2016");
+        Date date = DateFactory.fromInts(2016, 4, 20);
+        Category category = BudgetCategoryFactory.createBudgetCategory(name, goal, date, catID1);
 
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
@@ -116,7 +132,7 @@ public class StubDatabaseTest {
         int entryID2 = 72;
         Details details2 = DetailsFactory.fromString("Some letters put next to eachother again");
         Date date2 = DateFactory.fromInts(2001, 11, 7);
-        Entry entry2 = IncomeFactory.createIncome(amount2, entryID2, details2, date2, catID);
+        Entry entry2 = IncomeFactory.createIncome(amount2, entryID2, details2, date2, catID1);
 
         //Create valid Entry3
         Amount amount3 = AmountFactory.fromInt(604);
@@ -133,6 +149,7 @@ public class StubDatabaseTest {
         Entry entry4 = PurchaseFactory.createPurchase(amount4, entryID4, details4, date4, catID);
 
         //insert them into the database
+        db.insertCategory(category);
         db.insertEntry(entry1);
         db.insertEntry(entry2);
         db.insertEntry(entry3);
@@ -157,7 +174,7 @@ public class StubDatabaseTest {
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
                 , date2.equals(retEntry2.getDate()));
         assertEquals("Database returns a entry with the wrong catID using selectByID"
-                , catID, retEntry2.getCatID());
+                , catID1, retEntry2.getCatID());
 
 
         // test that retEntry3 is the one we want
@@ -194,6 +211,13 @@ public class StubDatabaseTest {
         IDManager manager = IDManagerFactory.createIDManager();
         int catID = manager.getDefaultID("Category");
 
+        //Create valid category
+        Amount goal = AmountFactory.fromInt(2000);
+        int catID1 = 23;
+        Details name = DetailsFactory.fromString("Purchase may 2016");
+        Date date = DateFactory.fromInts(2016, 4, 20);
+        Category category = BudgetCategoryFactory.createBudgetCategory(name, goal, date, catID1);
+
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
@@ -206,7 +230,7 @@ public class StubDatabaseTest {
         int entryID2 = 72;
         Details details2 = DetailsFactory.fromString("Some letters put next to eachother again");
         Date date2 = DateFactory.fromInts(2001, 11, 7);
-        Entry entry2 = IncomeFactory.createIncome(amount2, entryID2, details2, date2, catID);
+        Entry entry2 = IncomeFactory.createIncome(amount2, entryID2, details2, date2, catID1);
 
         //Create valid Entry3
         Amount amount3 = AmountFactory.fromInt(604);
@@ -223,6 +247,7 @@ public class StubDatabaseTest {
         Entry entry4 = PurchaseFactory.createPurchase(amount4, entryID4, details4, date4, catID);
 
         //insert them into the database
+        db.insertCategory(category);
         db.insertEntry(entry1);
         db.insertEntry(entry2);
         db.insertEntry(entry3);
@@ -521,20 +546,30 @@ public class StubDatabaseTest {
         assertNull("Database should not contain the entry, but it does", retEntry1);
         assertFalse("Database is updated, but should not", isUpdated);
 
+
     }
 
 
     @Test(expected = RuntimeException.class)
     public void insertTwoTimesSameEntryTest() {
 
+        //Create valid category
+        Amount goal = AmountFactory.fromInt(2000);
+        int catID = 23;
+        Details name = DetailsFactory.fromString("Purchase may 2016");
+        Date date = DateFactory.fromInts(2016, 4, 20);
+        Category category = BudgetCategoryFactory.createBudgetCategory(name, goal, date, catID);
+
+        //insert it into the database
+        db.insertCategory(category);
+
         //Create valid Entry
         Amount amount1 = AmountFactory.fromInt(50);
         int entryID1 = 42;
-        int catID1 = 20;
         Details details1 = DetailsFactory.fromString("Tutor");
         Date date1 = DateFactory.fromInts(2016, 7, 7);
 
-        Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1, catID1);
+        Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1, catID);
 
         //insert it into the database
         db.insertEntry(entry1);
@@ -868,7 +903,6 @@ public class StubDatabaseTest {
         assertEquals("Database returns a category with the wrong catID", catID, retCat.getID());
         assertTrue("Database returns a category with the wrong name string", name.equals(retCat.getName()));
         assertTrue("Database returns a category with the wrong date", date.equals(retCat.getDateLastModified()));
-
     }
 
     @Test(expected = RuntimeException.class)
@@ -884,5 +918,25 @@ public class StubDatabaseTest {
         //insert it into the database
         db.insertCategory(category);
         db.insertCategory(category);
+    }
+
+
+    @Test(expected = RuntimeException.class)
+    public void insertEntryWithNotExistedCategory(){
+        //Create valid Entry1
+        int catID = 12;
+        Amount amount1 = AmountFactory.fromInt(7249);
+        int entryID1 = 81;
+        Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
+        Date date1 = DateFactory.fromInts(2001, 7, 7);
+        Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1, catID);
+
+        db.insertEntry(entry1); //should throw an exception
+    }
+
+    @Test
+    public void idCounterWroundIDNameTest() {
+        int id = db.getIDCounter("Wrong");
+        assertEquals("Returns wrong error counter", -1, id);
     }
 }
