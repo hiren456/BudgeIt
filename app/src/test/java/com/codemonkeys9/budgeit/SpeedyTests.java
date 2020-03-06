@@ -14,9 +14,7 @@ import com.codemonkeys9.budgeit.dso.entrylist.EntryListTest;
 import com.codemonkeys9.budgeit.integrationtests.IntegrationTests;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculatorTest;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorTest;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherTest;
 import com.codemonkeys9.budgeit.logiclayer.entryflagger.EntryFlaggerTest;
-import com.codemonkeys9.budgeit.logiclayer.entrylistfilterer.EntryListFiltererTest;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerTest;
 import com.codemonkeys9.budgeit.logiclayer.uicalculator.UIEntryCalculatorTest;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorTest;
@@ -42,8 +40,6 @@ import org.junit.runners.Suite;
         EntryListTest.class,
         EntryCalculatorTest.class,
         EntryCreatorTest.class,
-        EntryFetcherTest.class,
-        EntryListFiltererTest.class,
         UIEntryFetcherTest.class,
         UIEntryCalculatorTest.class,
         UIEntryManagerTest.class,

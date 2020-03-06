@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.bouncycastle.jce.provider.JCERSAPrivateCrtKey;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,12 +28,15 @@ import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
+import com.codemonkeys9.budgeit.logiclayer.uicalculator.UIEntryCalculatorTest;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifier;
 import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifierFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizer;
+import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizerFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
@@ -296,6 +300,44 @@ public class IntegrationTests {
     }
 
     // create cats and entrys then categorize the entrys then fetch by category
+    @Test
+    public void categorizeEntrysThenFetchEntrysByCategory(){
+        UIEntryManager man = UIEntryManagerFactory.createUIEntryManager();
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
+        UICategoryCreator creator = UICategoryCreatorFactory.createUICategoryCreator();
+        UIEntryCategorizer categorizer = UIEntryCategorizerFactory.createUIEntryCategorizer();
+
+        Amount amount1 = AmountFactory.fromString("500.00");
+        Details details1 = DetailsFactory.fromString("Food");
+
+        Amount amount2 = AmountFactory.fromString("150.00");
+        Details details2 = DetailsFactory.fromString("Gas");
+
+        Amount amount3 = AmountFactory.fromString("700.00");
+        Details details3 = DetailsFactory.fromString("Phone");
+
+        Amount amount4 = AmountFactory.fromString("20000.00");
+        Details details4 = DetailsFactory.fromString("Mortgage Down Payment");
+
+        int catID1  = creator.createBudgetCategory(amount1,details1);
+        int catID2 = creator.createBudgetCategory(amount2,details2);
+        int catID3 = creator.createSavingsCategory(amount3,details3);
+        int catID4 = creator.createSavingsCategory(amount4,details4);
+
+        man.createEntry("450","Scholarship","2019-01-23",false);
+        man.createEntry("900","RTX 2070","2019-01-24",true);
+        man.createEntry("300","M2-SSD","2019-04-23",true);
+        man.createEntry("1777","Tax Refund","2019-04-24",false);
+
+
+        EntryList all = entryFetcher.fetchAllEntrys();
+        List<Entry> list = all.getChrono();
+
+        categorizer.categorizeEntry(list.get(0).getEntryID(),catID1);
+        categorizer.categorizeEntry(list.get(1).getEntryID(),catID1);
+        categorizer.categorizeEntry(list.get(2).getEntryID(),catID3);
+
+    }
     // create cats then assign some entrys to them, then modify the cat and ensure that the entrys are still there
     // create cats then assign some entrys to them, then delete the cat and ensure that you can no longer fetch by its id
     //         but that the entrys assigned to it are still fetchable without by themselves
