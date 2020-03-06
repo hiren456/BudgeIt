@@ -2,17 +2,17 @@ package com.codemonkeys9.budgeit.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
@@ -55,6 +55,7 @@ public class EntriesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_entries, container, false);
         RecyclerView recycler = v.findViewById(R.id.recycler);
@@ -62,7 +63,20 @@ public class EntriesFragment extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         setHasOptionsMenu(true);
 
+        Button newEntryButton = v.findViewById(R.id.newEntryButton);
+        newEntryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openNewEntryActivity();
+            }
+        });
+
+
         return v;
+    }
+    private void openNewEntryActivity() {
+        Intent i = new Intent(getContext(), NewEntryActivity.class);
+        startActivity(i);
     }
 
     @Override

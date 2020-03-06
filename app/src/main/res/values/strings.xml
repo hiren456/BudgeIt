@@ -18,4 +18,8 @@
         <item>Income</item>
         <item>Expense</item>
     </string-array>
+    <string-array name="category_types">
+        <item>Savings</item>
+        <item>Budget</item>
+    </string-array>
 </resources>

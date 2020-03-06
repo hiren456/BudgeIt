@@ -1,14 +1,12 @@
 package com.codemonkeys9.budgeit.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,20 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
-import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
-import com.codemonkeys9.budgeit.logiclayer.uicalculator.UICalculator;
-import com.codemonkeys9.budgeit.logiclayer.uicalculator.UICalculatorFactory;
-import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
-import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
-import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizer;
-import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizerFactory;
-import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
-import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
-import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
-import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
 import java.util.List;
 
@@ -49,8 +35,22 @@ public class CategoriesFragment extends Fragment {
         recycler.setAdapter(this.categoryAdapter);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        Button newCategoryButton = v.findViewById(R.id.newCategoryButton);
+        newCategoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openNewCategoryActivity();
+            }
+        });
+
         return v;
     }
+    private void openNewCategoryActivity() {
+        Intent i = new Intent(getContext(), NewCategoryActivity.class);
+        startActivity(i);
+    }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

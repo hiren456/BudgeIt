@@ -37,4 +37,7 @@ public final class MainPagerAdapter extends FragmentPagerAdapter {
     public EntriesFragment getEntriesFragment() {
         return (EntriesFragment) fragments[0];
     }
+    public CategoriesFragment getCategoriesFragment() {
+        return (CategoriesFragment) fragments[1];
+    }
 }

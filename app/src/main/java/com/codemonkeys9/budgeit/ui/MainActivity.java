@@ -2,8 +2,6 @@ package com.codemonkeys9.budgeit.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     static final int DATE_RANGE_REQUEST = 0;
     ViewPager mainPager;
     EntriesFragment entriesFrag;
+    CategoriesFragment categoriesFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,24 +30,14 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setLogo(R.drawable.budgeit_logo);
         setSupportActionBar(toolbar);
 
-        Button newEntryButton = findViewById(R.id.newEntryButton);
-        newEntryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openNewEntryActivity();
-            }
-        });
-
-        this.mainPager = findViewById(R.id.main_pager);
+        mainPager = findViewById(R.id.main_pager);
         MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager());
-        this.entriesFrag = adapter.getEntriesFragment();
+        entriesFrag = adapter.getEntriesFragment();
+        categoriesFrag = adapter.getCategoriesFragment();
         mainPager.setAdapter(adapter);
 
     }
-    private void openNewEntryActivity() {
-        Intent i = new Intent(this, NewEntryActivity.class);
-        startActivity(i);
-    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
