@@ -1,7 +1,6 @@
 package com.codemonkeys9.budgeit.ui;
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -52,18 +51,15 @@ public class NewEntryActivity extends AppCompatActivity {
 
         CategoryList categoryList = categoryFetcher.fetchAllCategories();
         List<Category> listOfCategories = categoryList.getReverseChrono();
-        //get the spinner from the xml.
         Spinner dropdown = findViewById(R.id.spinner_category);
-        //create a list of items for the spinner.
+
         String[] items = new String[categoryList.size()];
         for(int i = 0; i < categoryList.size(); i++){
             items[i] = listOfCategories.get(i).getName().getValue();
         }
-        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
-        //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        //set the spinners adapter to the previously created one.
         dropdown.setAdapter(adapter);
+
 
         this.entryTypeControl = findViewById(R.id.control_incomeOrExpense);
         this.entryTypeControl.setSelectedSegment(0);
@@ -84,9 +80,7 @@ public class NewEntryActivity extends AppCompatActivity {
             entryManager.createEntry(amount, details, date, purchase);
         } catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
-            Toast toast = new Toast(getApplicationContext());
-            toast.setGravity(Gravity.CENTER, 0, 0 );
-            toast.makeText(this, "Invalid entry: "+userErrorMessage, toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();
 
         }
 

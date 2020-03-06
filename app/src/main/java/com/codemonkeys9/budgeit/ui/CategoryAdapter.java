@@ -1,6 +1,5 @@
 package com.codemonkeys9.budgeit.ui;
 
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.category.BudgetCategory;
 import com.codemonkeys9.budgeit.dso.category.Category;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
-import com.codemonkeys9.budgeit.dso.entry.Purchase;
 
 import java.util.List;
 
 final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHolder> {
+
     final static class ViewHolder extends RecyclerView.ViewHolder {
         TextView description;
         TextView amount;
@@ -45,9 +43,9 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
                 }
             };
 
-    public CategoryAdapter(List<Category> entries) {
+    public CategoryAdapter(List<Category> cats) {
         super(DIFF_CALLBACK);
-        submitList(entries);
+        submitList(cats);
     }
 
     @Override

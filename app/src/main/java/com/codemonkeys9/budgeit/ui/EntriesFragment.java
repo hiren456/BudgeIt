@@ -171,60 +171,6 @@ public class EntriesFragment extends Fragment {
 
         EntryList entryList = entryFetcher.fetchAllEntrys();
         this.entries = entryList.getReverseChrono();
-
-        // Add fake data if there's no data in the DB already
-        if(entries.isEmpty()) {
-            int games = categoryCreator.createBudgetCategory("80", "Games");
-            int misc = categoryCreator.createBudgetCategory("200", "Miscellaneous");
-            int income = categoryCreator.createSavingsCategory("2000", "Income");
-            int transportation = categoryCreator.createBudgetCategory("100", "Transportation");
-            int alyx = entryManager.createEntry("60", "Half-Life: Alyx Pre-order", "2019-12-01",true);
-            entryCategorizer.categorizeEntry(alyx, games);
-            ADD_FAKE_DATA:
-            for(int year = 2018; year <= 2020; year++) {
-                for(int month = 1; month <= 12; month++) {
-                    if(year == 2020 && month > 2) break ADD_FAKE_DATA;
-                    // ensures that month has two digits
-                    String monthString;
-                    if (month < 10) {
-                        monthString = "0" + month;
-                    } else {
-                        monthString = "" + month;
-                    }
-
-                    // Gas every week-ish
-                    for (int j = 0; j < 4; j++) {
-                        int day = j * 7 + 1;
-                        // ensures that a day has two digits
-                        String dayString;
-                        if (day < 10) {
-                            dayString = "0" + day;
-                        } else {
-                            dayString = "" + day;
-                        }
-
-                        int entry = entryManager.createEntry("50", "Gas", year + "-" + monthString + "-" + dayString, true);
-                        entryCategorizer.categorizeEntry(entry, transportation);
-                    }
-                    // Paycheck every two weeks-ish
-                    int pay1 = entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01", false);
-                    int pay2 = entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15", false);
-                    entryCategorizer.categorizeEntry(pay1, income);
-                    entryCategorizer.categorizeEntry(pay2, income);
-
-                    int what = entryManager.createEntry(
-                            "120",
-                            "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
-                            year + "-" + monthString + "-13",
-                            true
-                    );
-                    entryCategorizer.categorizeEntry(what, misc);
-                }
-            }
-            entryList = entryFetcher.fetchAllEntrys();
-            entries = entryList.getReverseChrono();
-        }
-
         this.entryAdapter = new EntryAdapter(entries);
     }
 
