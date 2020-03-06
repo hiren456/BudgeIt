@@ -10,15 +10,15 @@ There are two main domain specific objects: Entry and Category.
 
 The Entry class stores data that makes up an entry: Amount, Details and
 Date which are all DSOs as well. The Entry has been divided into 2
-types: DefaultIncome and DefaultPurchase. All these classes implement
+types: Income and Purchase. All these classes implement
 the Entry interface directly or indirectly. Each Entry type has its own
 factory class that takes care of different ways by which entries can be
 created. The EntryList DSO helps return a list of all entries in
 different orders and its size.
 
 The Category class stores data that makes up a category: Amount, Details
-and DateModified which are all DSO's as well. The Category has been
-divided into 2 types: DefaultSavingsCategory and DefaultBudgetCategory.
+and Date which are all DSO's as well. The Category has been
+divided into 2 types: SavingsCategory and BudgetCategory.
 All these classes implement the Category interface directly or
 indirectly. Each Category type has its own factory that takes care of
 different ways by which categories can be created. The CategoryList DSO
@@ -34,7 +34,7 @@ The IDManager manages all id's for all entries and categories created.
 
 The UICalculator handles all calculations to be performed for example:
 Total income entered over a certain period, Total purchases made over a
-certain period, Total money turnover till date.
+certain period.
 
 The UICategoryCreator creates new categories and stores them in the
 database.
