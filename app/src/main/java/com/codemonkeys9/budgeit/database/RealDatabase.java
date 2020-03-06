@@ -20,6 +20,7 @@ import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.Income;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
+import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
@@ -51,6 +52,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     private static final String ENTRY_DATE = "entDate";
     private static final String ENTRY_DETAILS = "entDetails";
     private static final String ENTRY_TYPE = "entType"; // 0 - purchase, 1 - income
+    private static final String ENTRY_FLAG = "flag"; // 0 - not falgged, 1 - flagged
 
     //IDs table attributes
     private static final String ID_NAME = "idName";
@@ -89,8 +91,9 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
                 CAT_ID + " INTEGER REFERENCES " + CATEGORY_TABLE + " ON DELETE SET NULL, " + //foreign key
                 ENTRY_AMOUNT + " INTEGER, " +
                 ENTRY_DETAILS + " TEXT, " +
-                ENTRY_DATE + " TEXT," +
-                ENTRY_TYPE + " INTEGER" + " )";
+                ENTRY_DATE + " TEXT, " +
+                ENTRY_TYPE + " INTEGER, " +
+                ENTRY_FLAG + " INTEGER" + " )";
 
         String idCreateSQL =
                 "CREATE TABLE " + IDS_TABLE + " ( " +
@@ -136,6 +139,13 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         //check if an entry is income
         if (entry instanceof Income){
             type = 1;
+            values.putNull(ENTRY_FLAG);
+        }else {
+            if (((Purchase) entry).flagged()){
+                values.put(ENTRY_FLAG, 1);
+            }else {
+                values.put(ENTRY_FLAG, 0);
+            }
         }
 
         //get the default id of category
@@ -226,6 +236,17 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
             values.put(CAT_ID, entry.getCatID());
         }
 
+        //check if an entry is purchase
+        if (entry instanceof Purchase){
+            if (((Purchase) entry).flagged()){
+                values.put(ENTRY_FLAG, 1);
+            }else {
+                values.put(ENTRY_FLAG, 0);
+            }
+        }
+
+
+
         values.put(ENTRY_AMOUNT, entry.getAmount().getValue());
         values.put(ENTRY_DETAILS, entry.getDetails().getValue());
 
@@ -279,7 +300,8 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
 
             //check for purchase or income
             if(type == 0){
-                entry = PurchaseFactory.createPurchase(amount, ID, details, date, catID);
+                boolean flagged = 1 == cursor.getInt(cursor.getColumnIndex(ENTRY_FLAG));
+                entry = PurchaseFactory.createPurchase(amount, ID, details, date, catID, flagged);
             }else{
                 entry = IncomeFactory.createIncome(amount, ID, details, date, catID);
             }
@@ -332,7 +354,8 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
 
                 //check for purchase or income
                 if(type == 0){
-                    entry = PurchaseFactory.createPurchase(amount, entID, details, date, catID);
+                    boolean flagged = 1 == cursor.getInt(cursor.getColumnIndex(ENTRY_FLAG));
+                    entry = PurchaseFactory.createPurchase(amount, entID, details, date, catID, flagged);
                 }else{
                     entry = IncomeFactory.createIncome(amount, entID, details, date, catID);
                 }
@@ -396,7 +419,8 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
 
                 //check for purchase or income
                 if(type == 0){
-                    entry = PurchaseFactory.createPurchase(amount, entID, details, date, catID);
+                    boolean flagged = 1 == cursor.getInt(cursor.getColumnIndex(ENTRY_FLAG));
+                    entry = PurchaseFactory.createPurchase(amount, entID, details, date, catID, flagged);
                 }else{
                     entry = IncomeFactory.createIncome(amount, entID, details, date, catID);
                 }
@@ -445,7 +469,8 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
 
                 //check for purchase or income
                 if(type == 0){
-                    entry = PurchaseFactory.createPurchase(amount, entID, details, date, ID);
+                    boolean flagged = 1 == cursor.getInt(cursor.getColumnIndex(ENTRY_FLAG));
+                    entry = PurchaseFactory.createPurchase(amount, entID, details, date, ID, flagged);
                 }else{
                     entry = IncomeFactory.createIncome(amount, entID, details, date, ID);
                 }
