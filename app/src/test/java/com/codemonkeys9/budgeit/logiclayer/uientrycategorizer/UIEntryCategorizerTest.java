@@ -34,6 +34,14 @@ public class UIEntryCategorizerTest {
     public void createDb() {
         IDManager idManager = IDManagerFactory.createIDManager();
         DatabaseHolder.initTestable(DatabaseFactory.createStubDatabase(idManager.getInitialID("Entry"),idManager.getInitialID("Category")));
+
+        //Create valid category
+        Amount startGoal = AmountFactory.fromInt(2000);
+        int catID1 = 23;
+        Details startName = DetailsFactory.fromString("Purchase may 2016");
+        Date catDate = DateFactory.fromInts(2016, 4, 20);
+        Category category = BudgetCategoryFactory.createBudgetCategory(startName, startGoal, catDate, catID1);
+        DatabaseHolder.getDatabase().insertCategory(category);
     }
 
     @Test
@@ -49,13 +57,13 @@ public class UIEntryCategorizerTest {
         Category cat = BudgetCategoryFactory.createBudgetCategory(name,goal,date,catID);
         db.insertCategory(cat);
 
+
         //Create valid Entry1
         Amount amount1 = AmountFactory.fromInt(7249);
         int entryID1 = 81;
-        int catID1 = 23;
         Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2001,7,7);
-        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
+        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,23);
         db.insertEntry(entry1);
 
 

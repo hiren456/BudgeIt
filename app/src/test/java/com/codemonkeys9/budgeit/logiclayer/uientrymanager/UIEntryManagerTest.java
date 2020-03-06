@@ -7,6 +7,9 @@ import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
+import com.codemonkeys9.budgeit.dso.category.BudgetCategory;
+import com.codemonkeys9.budgeit.dso.category.BudgetCategoryFactory;
+import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
@@ -44,13 +47,20 @@ public class UIEntryManagerTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
-        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
-        Entry entry = IncomeFactory.createIncome(amount, entryID, details, date,catID);
+        //Create valid category
+        Amount goal = AmountFactory.fromInt(2000);
+        int catID1 = 23;
+        Details name = DetailsFactory.fromString("Purchase may 2016");
+        Date catDate = DateFactory.fromInts(2016, 4, 20);
+        Category category = BudgetCategoryFactory.createBudgetCategory(name, goal, catDate, catID1);
+
+        Entry entry = IncomeFactory.createIncome(amount, entryID, details, date,catID1);
 
         Database db = DatabaseHolder.getDatabase();
+        db.insertCategory(category);
         db.insertEntry(entry);
 
 
@@ -64,13 +74,20 @@ public class UIEntryManagerTest {
         //Create valid Entry
         Amount amount = AmountFactory.fromInt(999);
         int entryID = 42;
-        int catID = 20;
         Details details = DetailsFactory.fromString( "A very creative description");
         Date date = DateFactory.fromInts(1999,04,23);
 
-        Entry entry = IncomeFactory.createIncome(amount, entryID, details, date,catID);
+        //Create valid category
+        Amount goal = AmountFactory.fromInt(2000);
+        int catID1 = 23;
+        Details name = DetailsFactory.fromString("Purchase may 2016");
+        Date catDate = DateFactory.fromInts(2016, 4, 20);
+        Category category = BudgetCategoryFactory.createBudgetCategory(name, goal, catDate, catID1);
+
+        Entry entry = IncomeFactory.createIncome(amount, entryID, details, date,catID1);
 
         Database db = DatabaseHolder.getDatabase();
+        db.insertCategory(category);
         db.insertEntry(entry);
 
 
