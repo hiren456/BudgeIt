@@ -44,10 +44,14 @@ class StubDatabase implements Database {
      */
     @Override
     public void insertEntry(Entry entry) {
+        IDManager manager = IDManagerFactory.createIDManager();
+        int defaultCatID = manager.getDefaultID("Category");
 
         //Checks if an entry with the same key is already in the database
         if(entryMap.containsKey(entry.getEntryID())){
             throw new RuntimeException("The entry you try to insert already exists in the database!");
+        }else if (entry.getCatID() != defaultCatID && !categoryMap.containsKey(entry.getCatID())){
+            throw new RuntimeException("There is no category with this catID to insert the entry");
         }else{
             this.entryMap.put(entry.getEntryID(),entry);
         }
@@ -60,11 +64,14 @@ class StubDatabase implements Database {
      */
     @Override
     public boolean updateEntry(Entry entry) {
+        IDManager manager = IDManagerFactory.createIDManager();
+        int defaultCatID = manager.getDefaultID("Category");
 
         boolean isUpdated = true;
+        boolean isCatID = categoryMap.containsKey(entry.getCatID()) || entry.getCatID() == defaultCatID;
 
         // Checks if an entry with the same key is already in the database
-        if(entryMap.containsKey(entry.getEntryID())){
+        if( entryMap.containsKey(entry.getEntryID()) && isCatID){
             this.entryMap.put(entry.getEntryID(),entry);
         }else{
             isUpdated = false;
@@ -182,16 +189,6 @@ class StubDatabase implements Database {
         // Checks if a category with the same id is already in the database
         if(categoryMap.containsKey(category.getID())){
             this.categoryMap.put(category.getID(),category);
-
-            //update category also update entry
-            for ( Entry entry : this.entryMap.values()){
-                int catID = entry.getCatID();
-
-                if(catID == category.getID()){
-                    entry = entry.changeCategory(category.getID());
-                    this.entryMap.put(entry.getEntryID(), entry);
-                }
-            }
         }else{
             isUpdated = false;
         }
@@ -250,12 +247,17 @@ class StubDatabase implements Database {
 
 
     /*
-      returns current entry id counter
-      Possible idNames are "Entry" and "Category"
-      */
+     returns current entry id counter
+     Possible idNames are "Entry" and "Category"
+     returns -1 if no such id counter
+     */
     @Override
     public int getIDCounter(String idName) {
-        return this.ids.get(idName);
+        int result = -1;
+        if(ids.containsKey(idName)){
+            result = ids.get(idName);
+        }
+        return result;
     }
 
 
