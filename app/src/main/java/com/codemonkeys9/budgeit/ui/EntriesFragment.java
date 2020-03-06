@@ -34,8 +34,6 @@ public class EntriesFragment extends Fragment {
     private EntryAdapter entryAdapter;
     private EntryVisibility visibility = EntryVisibility.Both; // defaults to all entries
 
-    // TODO: MAKE THESE PRIVATE
-    //       MainActivity relies on them right now
     String startDate = "past";
     String endDate = "now";
     boolean hasDateFilter = false;
@@ -190,16 +188,15 @@ public class EntriesFragment extends Fragment {
         switch(buttonId) {
             case R.id.action_delete:
                 entryManager.deleteEntry(entryId);
-                refreshTimeline();
                 break;
             case R.id.action_flag:
-                // TODO: This will throw an exception if the selected entry is not a purchase.
-                //       The best way to avoid this would be to not show the flag button on income
-                //       items.
                 entryManager.flagPurchase(entryId, true);
-                refreshTimeline();
+                break;
+            case R.id.action_unflag:
+                entryManager.flagPurchase(entryId, false);
                 break;
         }
+        refreshTimeline();
         return true;
     }
 

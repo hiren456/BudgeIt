@@ -7,8 +7,6 @@ import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.exceptions.PurchaseDoesNotExistException;
 
 class DefaultEntryFlagger implements EntryFlagger {
-
-
     @Override
     public void flagPurchase(int id, boolean flag)
             throws PurchaseDoesNotExistException {

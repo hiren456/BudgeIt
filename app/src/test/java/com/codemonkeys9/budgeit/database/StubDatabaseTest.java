@@ -1,7 +1,5 @@
 package com.codemonkeys9.budgeit.database;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
 import com.codemonkeys9.budgeit.dso.category.BudgetCategoryFactory;
@@ -20,12 +18,9 @@ import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;

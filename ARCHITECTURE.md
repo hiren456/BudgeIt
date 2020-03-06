@@ -1,55 +1,95 @@
-# BudgeIt Architecture
-BudgeIt is segmented into one domain-specific object: Entry; and three
-"layers": the UI Layer, the Logic Layer, and the Database Layer.
+**BudgeIt Archictecture**
 
-![BudgeIt architecture diagram](budgeit_architecture.png)
+BudgeIt is implemented using the 3-tier architecture pattern: UI layer,
+Logic layer, Database layer and domain specific objects. We have also
+added various custom exceptions.
 
-## Entry DSO
-The Entry class stores the data that makes up an entry: an amount in
-cents, a description string, and a date.
+**Domain Specific Objects**
 
-## UI Layer
-The UI layer has three main classes: MainActivity, NewEntryActivity and
-DateRangeActivity.
+There are two main domain specific objects: Entry and Category.
 
-MainActivity is the activity that gets started when the app is launched,
-and it displays the main interface. It initializes a singleton LogicLayer
-object, and uses that to request lists of entries.
+The Entry class stores data that makes up an entry: Amount, Details and
+Date which are all DSOs as well. The Entry has been divided into 2
+types: Income and Purchase. All these classes implement
+the Entry interface directly or indirectly. Each Entry type has its own
+factory class that takes care of different ways by which entries can be
+created. The EntryList DSO helps return a list of all entries in
+different orders and its size.
 
-NewEntryActivity gets started when the user taps the button to create a
-new entry. It displays a form for the user to enter all of the information
-that makes up an entry, and a button to submit the information. If the
-user submits, it will make a request to the LogicLayer to create the entry
-and finish the activity.
+The Category class stores data that makes up a category: Amount, Details
+and Date which are all DSO's as well. The Category has been
+divided into 2 types: SavingsCategory and BudgetCategory.
+All these classes implement the Category interface directly or
+indirectly. Each Category type has its own factory that takes care of
+different ways by which categories can be created. The CategoryList DSO
+helps return a list of all entries in different orders and its size.
 
-DateRangeActivity gets started when the user taps on a button to filter
-entries by date. It displays a form with two fields: a start date and and
-end date, and a button to submit them. If the user submits, it will pass
-back the date range to the parent, (MainActivity) which will then use it to
-fetch entries from the logic layer within that date range.
+**The Logic Layer**
 
-## Logic Layer
-The Logic Layer has three main interfaces, the EntryFetcher, the
-EntryCalculator, and the EntryCreator.
+We have added eight new interfaces to the logic layer in iteration 2.
+The EntryFlagger takes either the id of an entry or the entry itself and
+updates its flag value with the value of passed to it.
 
-The EntryFetcher takes requests from the UI, given as strings, to fetch
-list of specific entries. It parses the strings given to it into a
-format that can be understood by the Database, then makes a query into
-the Database. It processes the results of that query into the final
-fetch results.
+The IDManager manages all id's for all entries and categories created.
 
-The EntryCalculator takes requests from the UI, given as strings, to get
-meta data, such as the sum of the amounts of each entry, about groups of
-entryies. It uses the EntryFetcher to first obtain these group, then it
-makes some calculation with them.
+The UICalculator handles all calculations to be performed for example:
+Total income entered over a certain period, Total purchases made over a
+certain period.
 
-The EntryCreator takes requests from the UI, given as strings, to create
-a new entry. It first parses those strings into a form that Entry's
-constructor requires and generates an id. It then creates a new entry
-and stores it in the database.
+The UICategoryCreator creates new categories and stores them in the
+database.
 
-## Database Layer
-The Database Layer has one main interface: Database. Database stores and
-updates a counter that is used by the Logic Layer to generate unique IDs
-for the entries. It also stores the entries themselves. Queries can be
-made by date range or id.
+The UICategoryFetcher fetches all categories from the database. They can
+be of a specific type or all of them.
+
+The UICategoryModifier helps modify the category i.e: delete the
+category, change its name or the goal(amount \$)
+
+The UIEntryCategorizer takes an entry and adds it to the category that
+has been specified.
+
+The UIEntryManager deals with creating, modifying or deleting an entry
+from the database.
+
+**The UI Layer**
+
+We have added 5 new classes in the UI layer for Iteration 2. The UI
+layer works together with the logic layer and database to present
+
+The MainActivity has two fragments: CategoriesFragment and
+EntriesFragment. These are two different views in the main activity.
+
+The CategoriesFragment fetches all the categories from the database with
+the help of UICategoryFetcher in the logic layer and the CategoryAdapter
+presents the categories in a list. NewCategoryActivity in the
+CategoriesFragment allows the user to create new categories.
+
+The EntriesFragment fetches all the entries from the database with the
+help of UIEntryFetcher in the logic layer and the EntryAdpater presents
+the entries in a list. NewEntryActivity in the EntriesFragment allows
+the user to create new entries.
+
+The EntryVisibility helps us present income or expenses or both on our
+app.
+
+**The Database Layer**
+
+In this iteration, we have implemented a real database: SQLite. The Real
+database implements the database interface which covers all queries made
+from the UI layer or Logic layer or in the Database layer itself. The
+database has three main tables: Entries, Categories and IDs. Each table
+has its matching attributes with their implementation in logic layer or
+as DSOs. Some of the database queries include: insertEntry, deleteEntry,
+updateEntry, selectById, getIDCounter, updateIDCounter.
+
+The DatabaseFactory class enables us to either implement the database as
+a stub database or a real database. The DatabaseHolder makes sure the
+only one database object has been initialized and is being passed around
+the UI layer or Logic layer (The Singleton object).
+
+**Exceptions**
+
+We have implemented 12 different custom exceptions to provide the user
+with the finest error message. The exceptions help detect errors across
+all three layers of our application: UI layer, Logic layer and Database
+layer.
