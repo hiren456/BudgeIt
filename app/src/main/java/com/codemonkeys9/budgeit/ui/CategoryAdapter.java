@@ -1,6 +1,5 @@
 package com.codemonkeys9.budgeit.ui;
 
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.category.BudgetCategory;
 import com.codemonkeys9.budgeit.dso.category.Category;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
-import com.codemonkeys9.budgeit.dso.entry.Purchase;
 
 import java.util.List;
 

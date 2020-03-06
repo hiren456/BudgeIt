@@ -1,7 +1,5 @@
 package com.codemonkeys9.budgeit.dso.category;
 
-import com.codemonkeys9.budgeit.dso.entry.Entry;
-
 import java.util.Comparator;
 
 /*

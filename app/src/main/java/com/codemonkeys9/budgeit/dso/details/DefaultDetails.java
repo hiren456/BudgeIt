@@ -23,8 +23,6 @@ class DefaultDetails implements Details {
 
             throw new NullPointerException();
         }
-
-        // could check for too long string or too short string
     }
 
 }
