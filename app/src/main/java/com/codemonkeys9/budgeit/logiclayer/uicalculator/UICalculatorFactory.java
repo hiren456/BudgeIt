@@ -2,13 +2,13 @@ package com.codemonkeys9.budgeit.logiclayer.uicalculator;
 
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculator;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculatorFactory;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcher;
-import com.codemonkeys9.budgeit.logiclayer.entryfetcher.EntryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 
 public class UICalculatorFactory {
     public static UICalculator createUICalculator(){
         EntryCalculator calculator = EntryCalculatorFactory.createEntryCalculator();
-        EntryFetcher fetcher = EntryFetcherFactory.createEntryFetcher();
+        UIEntryFetcher fetcher = UIEntryFetcherFactory.createUIEntryFetcher();
         return new DefaultUICalculator(fetcher, calculator);
     }
 }
