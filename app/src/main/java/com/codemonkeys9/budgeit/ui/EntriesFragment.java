@@ -228,13 +228,15 @@ public class EntriesFragment extends Fragment {
         switch(buttonId) {
             case R.id.action_delete:
                 entryManager.deleteEntry(entryId);
-                refreshTimeline();
                 break;
             case R.id.action_flag:
                 entryManager.flagPurchase(entryId, true);
-                refreshTimeline();
+                break;
+            case R.id.action_unflag:
+                entryManager.flagPurchase(entryId, false);
                 break;
         }
+        refreshTimeline();
         return true;
     }
 
