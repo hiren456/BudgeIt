@@ -17,6 +17,8 @@ import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifier;
+import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifierFactory;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class CategoriesFragment extends Fragment {
     private CategoryAdapter categoryAdapter;
 
     private UICategoryFetcher categoryFetcher;
+    private UICategoryModifier categoryModifier;
     private List<Category> categories;
 
     @Override
@@ -57,6 +60,7 @@ public class CategoriesFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         this.categoryFetcher = UICategoryFetcherFactory.createUICategoryFetcher();
+        this.categoryModifier = UICategoryModifierFactory.createUICategoryModifier();
 
         CategoryList categoryList = categoryFetcher.fetchAllCategories();
         this.categories = categoryList.getReverseChrono();
@@ -76,9 +80,13 @@ public class CategoriesFragment extends Fragment {
         // Get actual, global entry ID
         int categoryId = categories.get(categoryIndex).getID();
         int buttonId = item.getItemId();
-        switch(buttonId) {
 
+        switch(buttonId) {
+            case R.id.action_delete:
+                categoryModifier.deleteCategory(categoryId);
+                break;
         }
+        refreshList();
         return true;
     }
 
