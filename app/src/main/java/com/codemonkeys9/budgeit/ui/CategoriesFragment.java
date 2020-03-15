@@ -17,6 +17,8 @@ import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifier;
+import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifierFactory;
 
 import java.util.List;
 
@@ -24,7 +26,10 @@ public class CategoriesFragment extends Fragment {
     private CategoryAdapter categoryAdapter;
 
     private UICategoryFetcher categoryFetcher;
+    private UICategoryModifier categoryModifier;
     private List<Category> categories;
+
+    private boolean active = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +62,7 @@ public class CategoriesFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         this.categoryFetcher = UICategoryFetcherFactory.createUICategoryFetcher();
+        this.categoryModifier = UICategoryModifierFactory.createUICategoryModifier();
 
         CategoryList categoryList = categoryFetcher.fetchAllCategories();
         this.categories = categoryList.getReverseChrono();
@@ -65,20 +71,35 @@ public class CategoriesFragment extends Fragment {
 
     @Override
     public void onResume() {
+        this.active = true;
         refreshList();
         super.onResume();
     }
 
     @Override
+    public void onPause() {
+        this.active = false;
+        super.onPause();
+    }
+
+    @Override
     public boolean onContextItemSelected(MenuItem item) {
+        // We will get context item events for all fragments in MainPager. We have to return false
+        // in order for other fragments to have a chance to handle them.
+        if(!this.active) return false;
+
         // Get index *within the currently-displayed list of categories*
         int categoryIndex = item.getGroupId();
         // Get actual, global entry ID
         int categoryId = categories.get(categoryIndex).getID();
         int buttonId = item.getItemId();
-        switch(buttonId) {
 
+        switch(buttonId) {
+            case R.id.action_delete:
+                categoryModifier.deleteCategory(categoryId);
+                break;
         }
+        refreshList();
         return true;
     }
 
