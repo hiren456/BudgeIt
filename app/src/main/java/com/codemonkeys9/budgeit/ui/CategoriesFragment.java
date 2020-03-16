@@ -29,6 +29,8 @@ public class CategoriesFragment extends Fragment {
     private UICategoryModifier categoryModifier;
     private List<Category> categories;
 
+    private boolean active = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,12 +71,23 @@ public class CategoriesFragment extends Fragment {
 
     @Override
     public void onResume() {
+        this.active = true;
         refreshList();
         super.onResume();
     }
 
     @Override
+    public void onPause() {
+        this.active = false;
+        super.onPause();
+    }
+
+    @Override
     public boolean onContextItemSelected(MenuItem item) {
+        // We will get context item events for all fragments in MainPager. We have to return false
+        // in order for other fragments to have a chance to handle them.
+        if(!this.active) return false;
+
         // Get index *within the currently-displayed list of categories*
         int categoryIndex = item.getGroupId();
         // Get actual, global entry ID
