@@ -333,12 +333,12 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         IDManager manager = IDManagerFactory.createIDManager();
         int defaultCatID = manager.getDefaultID(ID_NAME_CAT);
 
-        //what category an entry belong to
-        int catID = defaultCatID;
-
         // getting all rows from cursor and filling the list
         if (cursor != null && cursor.getCount()> 0 && cursor.moveToFirst()) {
             do {
+                //what category an entry belongs to
+                int catID = defaultCatID;
+
                 //get all data from cursor to make an entry object
 
                 //check if catID is not null =>set to existed id, otherwise it is default
