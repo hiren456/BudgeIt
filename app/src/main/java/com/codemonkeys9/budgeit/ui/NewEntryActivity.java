@@ -2,6 +2,7 @@ package com.codemonkeys9.budgeit.ui;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +32,8 @@ public class NewEntryActivity extends AppCompatActivity {
     private final static int
         INCOME = 0,
         EXPENSE = 1;
+    Spinner dropdown;
+    Category category;
 
     UICategoryFetcher categoryFetcher;
 
@@ -55,14 +58,22 @@ public class NewEntryActivity extends AppCompatActivity {
 
         CategoryList categoryList = categoryFetcher.fetchAllCategories();
         List<Category> listOfCategories = categoryList.getReverseChrono();
-        Spinner dropdown = findViewById(R.id.spinner_category);
+        dropdown = findViewById(R.id.spinner_category);
+        ArrayAdapter<Category> categoryAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_item, listOfCategories);
+        dropdown.setAdapter(categoryAdapter);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        String[] items = new String[categoryList.size()];
-        for(int i = 0; i < categoryList.size(); i++){
-            items[i] = listOfCategories.get(i).getName().getValue();
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category = (Category)dropdown.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
         this.entryTypeControl = findViewById(R.id.control_incomeOrExpense);
@@ -95,7 +106,7 @@ public class NewEntryActivity extends AppCompatActivity {
         boolean purchase = selected == EXPENSE;
 
         try {
-            int id = entryManager.createEntry(amount, details, date, purchase);
+            int id = entryManager.createEntry(amount, details, date, purchase, category.getID());
             if(purchase) {
                 entryManager.flagPurchase(id, this.badSwitch.isChecked());
             }

@@ -30,6 +30,8 @@ abstract class DefaultCategory implements Category{
         this.id = id;
     }
 
+    public String toString(){ return name.getValue(); }
+
     @Override
     public int getID() {
         return this.id;

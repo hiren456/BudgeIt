@@ -45,4 +45,8 @@ class LinkedCategoryList implements CategoryList {
     public int size() {
         return this.ll.size();
     }
+
+    public Category get(int i){
+        return ll.get(i);
+    }
 }

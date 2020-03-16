@@ -52,10 +52,12 @@ public class NewCategoryActivity extends AppCompatActivity {
         SegmentedControl entryTypeControl = findViewById(R.id.control_incomeOrExpense);
         int selected = entryTypeControl.getLastSelectedAbsolutePosition();
         boolean budget = selected == BUDGET;
+        int id = 0;
 
         try {
-            if(budget) categoryCreator.createBudgetCategory(amount, details);
-            else categoryCreator.createSavingsCategory(amount, details);
+            if(budget) id = categoryCreator.createBudgetCategory(amount, details);
+            else id = categoryCreator.createSavingsCategory(amount, details);
+            Toast.makeText(this, "Created category with ID: "+id+"\n", Toast.LENGTH_LONG).show();
         } catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast.makeText(this, "Invalid category: "+userErrorMessage, Toast.LENGTH_LONG).show();

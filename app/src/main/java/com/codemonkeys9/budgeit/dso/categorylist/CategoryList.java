@@ -23,4 +23,6 @@ public interface CategoryList {
     returns the size of the list
      */
     int size();
+
+    Category get(int i);
 }

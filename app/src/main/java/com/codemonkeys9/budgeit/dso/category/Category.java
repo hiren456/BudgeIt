@@ -11,4 +11,5 @@ public interface Category {
     boolean equals(Category other);
     Date getDateLastModified();
     Category modifyCategory(Details name, Amount goal, Date newDate);
+    String toString();
 }

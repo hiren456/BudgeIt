@@ -16,7 +16,8 @@ import com.codemonkeys9.budgeit.dso.category.Category;
 
 import java.util.List;
 
-final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHolder> {
+final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHolder>{
+
 
     final static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         TextView description;
