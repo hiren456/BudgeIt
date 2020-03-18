@@ -18,13 +18,11 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.codemonkeys9.budgeit.ui.BudgitUITestUtils.childAtPosition;
 import static com.codemonkeys9.budgeit.ui.BudgitUITestUtils.textViewTextColorMatcher;
 import static com.codemonkeys9.budgeit.ui.BudgitUITestUtils.withRecyclerView;
-import static org.hamcrest.Matchers.allOf;
 
 
 /*
@@ -32,13 +30,13 @@ This test tests user story #66,68,69
  */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class CreateValidSavingsCategoryTest {
+public class CreateValidBudgetCategoryTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void createValidSavingsCategoryTest() {
+    public void createValidBudgetCategoryTest() {
         // move to category tab
         onView(withText("Categories")).perform(click());
 
@@ -46,8 +44,17 @@ public class CreateValidSavingsCategoryTest {
         onView(withText("New category")).perform(click());
 
         // fill fields
-        onView(withId(R.id.editText_amount)).perform(typeText("6000"));
-        onView(withId(R.id.editText_details)).perform(typeText("Car"),closeSoftKeyboard());
+        onView(withId(R.id.editText_amount)).perform(typeText("300"));
+        onView(withId(R.id.editText_details)).perform(typeText("Food"),closeSoftKeyboard());
+
+        // select savings
+        onView(childAtPosition(
+                childAtPosition(
+                        childAtPosition(
+                                withId(R.id.control_incomeOrExpense),
+                                0),
+                        0),
+                1)).perform(click());
 
         // click submit
         onView(withText("Submit")).perform(click());
@@ -55,11 +62,11 @@ public class CreateValidSavingsCategoryTest {
         // check to make sure that the category appears on the screen with
         // the proper fields
         onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),1)).
-                check(matches(withText("6000.00")));
+                check(matches(withText("300.00")));
         onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),1)).
-                check(matches(textViewTextColorMatcher(0xFF00AA00)));
+                check(matches(textViewTextColorMatcher(0xFFFF0000)));
         onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),0)).
-                check(matches(withText("Car")));
+                check(matches(withText("Food")));
 
         // delete the category we made
         onView(withId(R.id.category_recycler)).
