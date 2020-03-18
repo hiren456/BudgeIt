@@ -44,7 +44,7 @@ public class SavingsCategoryTest {
     @After
     public void waitForToastToDisapear(){
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
