@@ -37,8 +37,8 @@ public class IncomeTimelineTest {
         onView(withText("Hide expenses")).perform(click());
 
         // Check that the top three entries are green(income).
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(0),1)).check(matches(textViewTextColorMatcher(0xFF00AA00)));
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(1),1)).check(matches(textViewTextColorMatcher(0xFF00AA00)));
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(2),1)).check(matches(textViewTextColorMatcher(0xFF00AA00)));
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(0),1)).check(matches(textViewTextColorMatcher(0xFF00AA00)));
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),1)).check(matches(textViewTextColorMatcher(0xFF00AA00)));
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(2),1)).check(matches(textViewTextColorMatcher(0xFF00AA00)));
     }
 }

@@ -64,19 +64,19 @@ public class CreateValidPurchaseTest {
 
         // check to make sure that the entry appears on the screen with
         // the proper fields
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(1),1)).
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),1)).
                 check(matches(textViewTextColorMatcher(0xFFFF0000)));
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(1),1)).
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),1)).
                 check(matches(withText("200.00")));
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(1),0)).
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),0)).
                 check(matches(textViewTextColorMatcher(0xFFFF0000)));
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(1),0)).
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),0)).
                 check(matches(withText("Taxi")));
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(1),2)).
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),2)).
                 check(matches(withText("February 21, 2020")));
 
         // delete the entry we made
-        onView(allOf(isDisplayed(),withId(R.id.recycler))).
+        onView(withId(R.id.entry_recycler)).
                 perform(RecyclerViewActions.actionOnItemAtPosition(1,longClick()));
         onView(withText("Delete")).perform(click());
     }

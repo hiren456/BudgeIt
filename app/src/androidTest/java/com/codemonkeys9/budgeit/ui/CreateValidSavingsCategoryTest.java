@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -31,38 +32,38 @@ This test tests user story #13,#14,#15 and #30
  */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class CreateValidIncomeTest {
+public class CreateValidSavingsCategoryTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void createValidIncomeTest() {
-        // move to new entry screen
-        onView(withText("New entry")).perform(click());
+    public void createValidSavingsCategoryTest() {
+        // move to category tab
+        onView(withText("Categories")).perform(click());
+
+        // move to new category screen
+        onView(withText("New category")).perform(click());
 
         // fill fields
-        onView(withId(R.id.editText_amount)).perform(typeText("200"));
-        onView(withId(R.id.editText_date)).perform(typeText("2020-02-21"));
-        onView(withId(R.id.editText_details)).perform(typeText("Textbook"));
+        onView(withId(R.id.editText_amount)).perform(typeText("6000"));
+        onView(withId(R.id.editText_details)).perform(typeText("Car"),closeSoftKeyboard());
 
         // click submit
         onView(withText("Submit")).perform(click());
 
-        // check to make sure that the entry appears on the screen with
+        // check to make sure that the category appears on the screen with
         // the proper fields
-        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),1)).
+        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),1)).
+                check(matches(withText("6000.00")));
+        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),1)).
                 check(matches(textViewTextColorMatcher(0xFF00AA00)));
-        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),1)).
-                check(matches(withText("200.00")));
-        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),0)).
-                check(matches(withText("Textbook")));
-        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),2)).
-                check(matches(withText("February 21, 2020")));
+        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),0)).
+                check(matches(withText("Car")));
 
-        // delete the entry we made
-        onView(withId(R.id.entry_recycler)).
-                perform(RecyclerViewActions.actionOnItemAtPosition(1,longClick()));
+        // delete the category we made
+        onView(withId(R.id.category_recycler)).
+                perform(RecyclerViewActions.actionOnItemAtPosition(0,longClick()));
         onView(withText("Delete")).perform(click());
     }
 }

@@ -53,13 +53,13 @@ public class FlagEntryTest {
         onView(withId(R.id.button_submit)).perform(click());
 
         // scroll up so that the new entry is at the top
-        onView( allOf(isDisplayed(), withId(R.id.recycler))).perform(scrollToPosition(0));
+        onView( withId(R.id.entry_recycler)).perform(scrollToPosition(0));
     }
 
     @After
     public void deleteEntryToFlag(){
         // delete the entry that we ran the test on
-        onView(allOf(isDisplayed(),withId(R.id.recycler))).perform(RecyclerViewActions.actionOnItemAtPosition(0,longClick()));
+        onView(allOf(isDisplayed(),withId(R.id.entry_recycler))).perform(RecyclerViewActions.actionOnItemAtPosition(0,longClick()));
         onView(withText("Delete")).perform(click());
     }
 
@@ -67,18 +67,18 @@ public class FlagEntryTest {
     public void flagEntryTest() {
 
         // Flag the entry. Note that, if the Flag option does not exist, this test will fail
-        onView(allOf(isDisplayed(),withId(R.id.recycler))).perform(RecyclerViewActions.actionOnItemAtPosition(0,longClick()));
+        onView(allOf(isDisplayed(),withId(R.id.entry_recycler))).perform(RecyclerViewActions.actionOnItemAtPosition(0,longClick()));
         onView(withText("Flag")).perform(click());
 
         // checks that the text is now red
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(0),0)).check(matches(textViewTextColorMatcher(0xFFFF0000)));
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(0),0)).check(matches(textViewTextColorMatcher(0xFFFF0000)));
 
         // Unflag the entry. Note that, if the Unflag option does not exist, this test will fail
-        onView(allOf(isDisplayed(),withId(R.id.recycler))).perform(RecyclerViewActions.actionOnItemAtPosition(0,longClick()));
+        onView(allOf(isDisplayed(),withId(R.id.entry_recycler))).perform(RecyclerViewActions.actionOnItemAtPosition(0,longClick()));
         onView(withText("Unflag")).perform(click());
 
         // checks that the text is now red
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(0),0)).check(matches(textViewTextColorMatcher(0xFF000000)));
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(0),0)).check(matches(textViewTextColorMatcher(0xFF000000)));
     }
 }
 

@@ -35,8 +35,8 @@ public class PurchaseTimelineTest {
         onView(withText("Hide income")).perform(click());
 
         // Check that the top three entries are red(expenses).
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(0),1)).check(matches(textViewTextColorMatcher(0xFFFF0000)));
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(1),1)).check(matches(textViewTextColorMatcher(0xFFFF0000)));
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(2),1)).check(matches(textViewTextColorMatcher(0xFFFF0000)));
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(0),1)).check(matches(textViewTextColorMatcher(0xFFFF0000)));
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),1)).check(matches(textViewTextColorMatcher(0xFFFF0000)));
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(2),1)).check(matches(textViewTextColorMatcher(0xFFFF0000)));
     }
 }

@@ -45,17 +45,17 @@ public class DeleteEntryTest {
         onView(withId(R.id.button_submit)).perform(click());
 
         // scroll up so that the new entry is at the top
-        onView( allOf(isDisplayed(), withId(R.id.recycler))).perform(scrollToPosition(0));
+        onView(withId(R.id.entry_recycler)).perform(scrollToPosition(0));
     }
 
     @Test
     public void deleteEntryTest() {
         // delete the entry that was made
-        onView(allOf(isDisplayed(),withId(R.id.recycler))).perform(RecyclerViewActions.actionOnItemAtPosition(0,longClick()));
+        onView(withId(R.id.entry_recycler)).perform(RecyclerViewActions.actionOnItemAtPosition(0,longClick()));
         onView(withText("Delete")).perform(click());
 
         // check that the entry made is no longer at the top
-        onView(childAtPosition(withRecyclerView(R.id.recycler).atPosition(0),0)).
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(0),0)).
                 check(matches(withText("Gas")));
     }
 }
