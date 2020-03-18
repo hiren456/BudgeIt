@@ -22,8 +22,8 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static com.codemonkeys9.budgeit.ui.BudgitUITestUtils.childAtPosition;
-import static com.codemonkeys9.budgeit.ui.BudgitUITestUtils.withRecyclerView;
+import static com.codemonkeys9.budgeit.ui.testutils.BudgitUITestUtils.childAtPosition;
+import static com.codemonkeys9.budgeit.ui.testutils.BudgitUITestUtils.withRecyclerView;
 
 /*
 This test tests user story #64,67

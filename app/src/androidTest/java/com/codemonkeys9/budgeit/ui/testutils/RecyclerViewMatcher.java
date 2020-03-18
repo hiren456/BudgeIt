@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.ui;
+package com.codemonkeys9.budgeit.ui.testutils;
 
 import android.content.res.Resources;
 import android.view.View;

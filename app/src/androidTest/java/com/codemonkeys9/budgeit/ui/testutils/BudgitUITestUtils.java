@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.ui;
+package com.codemonkeys9.budgeit.ui.testutils;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,5 +48,7 @@ public class BudgitUITestUtils {
             }
         };
     }
+
+
 }
 
