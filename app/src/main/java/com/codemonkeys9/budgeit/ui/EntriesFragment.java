@@ -52,7 +52,7 @@ public class EntriesFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_entries, container, false);
-        RecyclerView recycler = v.findViewById(R.id.recycler);
+        RecyclerView recycler = v.findViewById(R.id.entry_recycler);
         recycler.setAdapter(this.entryAdapter);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         setHasOptionsMenu(true);
