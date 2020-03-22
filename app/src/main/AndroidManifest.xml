@@ -10,15 +10,16 @@
         android:roundIcon="@mipmap/budgeit_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.NewCategoryActivity"></activity>
+        <activity android:name=".ui.CategoryViewActivity"></activity>
+        <activity android:name=".ui.NewCategoryActivity" />
         <activity
             android:name=".ui.DateRangeActivity"
-            android:parentActivityName=".ui.MainActivity"></activity>
+            android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.NewEntryActivity"
             android:fitsSystemWindows="true"
             android:parentActivityName=".ui.MainActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"

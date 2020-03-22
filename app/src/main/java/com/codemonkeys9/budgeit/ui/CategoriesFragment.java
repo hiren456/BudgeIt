@@ -22,7 +22,7 @@ import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifier
 
 import java.util.List;
 
-public class CategoriesFragment extends Fragment {
+public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCategoryListener {
     private CategoryAdapter categoryAdapter;
 
     private UICategoryFetcher categoryFetcher;
@@ -55,8 +55,6 @@ public class CategoriesFragment extends Fragment {
         startActivity(i);
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +64,7 @@ public class CategoriesFragment extends Fragment {
 
         CategoryList categoryList = categoryFetcher.fetchAllCategories();
         this.categories = categoryList.getReverseChrono();
-        this.categoryAdapter = new CategoryAdapter(categories);
+        this.categoryAdapter = new CategoryAdapter(categories, this);
     }
 
     @Override
@@ -81,6 +79,8 @@ public class CategoriesFragment extends Fragment {
         this.active = false;
         super.onPause();
     }
+
+
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
@@ -107,5 +107,17 @@ public class CategoriesFragment extends Fragment {
         CategoryList categoryList = this.categoryFetcher.fetchAllCategories();
         this.categories = categoryList.getReverseChrono();
         categoryAdapter.updateCategories(this.categories);
+    }
+
+    @Override
+    public void onCategoryClick(int position) {
+        Category c = categories.get(position);
+        openCategory(c.getID());
+    }
+
+    private void openCategory(int catID){
+        Intent i = new Intent(getContext(), CategoryViewActivity.class);
+        i.putExtra("catID", catID);
+        startActivity(i);
     }
 }
