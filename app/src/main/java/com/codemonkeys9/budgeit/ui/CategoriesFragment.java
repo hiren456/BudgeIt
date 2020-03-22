@@ -102,23 +102,23 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
         budgetToggle.setVisible(true);
 
         if(visibility.isIncomeVisible()) {
-            savingsToggle.setTitle(getString(R.string.action_hide_income));
+            savingsToggle.setTitle(getString(R.string.action_hide_savings));
             // Don't allow the user to hide both types of entries
             if(!visibility.areExpensesVisible()) {
                 savingsToggle.setVisible(false);
             }
         } else {
-            savingsToggle.setTitle(getString(R.string.action_show_income));
+            savingsToggle.setTitle(getString(R.string.action_show_savings));
         }
 
         if(visibility.areExpensesVisible()) {
-            budgetToggle.setTitle(getString(R.string.action_hide_expenses));
+            budgetToggle.setTitle(getString(R.string.action_hide_budget));
             // Don't allow the user to hide both types of entries
             if(!visibility.isIncomeVisible()) {
                 budgetToggle.setVisible(false);
             }
         } else {
-            budgetToggle.setTitle(getString(R.string.action_show_expenses));
+            budgetToggle.setTitle(getString(R.string.action_show_budget));
         }
 
 

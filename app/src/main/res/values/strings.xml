@@ -17,6 +17,8 @@
     <string name="bad">Bad</string>
     <string name="action_hide_savings">Hide savings</string>
     <string name="action_hide_budget">Hide budget</string>
+    <string name="action_show_savings">Show savings</string>
+    <string name="action_show_budget">Show budget</string>
     <string-array name="entry_types">
         <item>Income</item>
         <item>Expense</item>
