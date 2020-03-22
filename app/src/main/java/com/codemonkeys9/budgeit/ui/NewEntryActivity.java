@@ -110,10 +110,16 @@ public class NewEntryActivity extends AppCompatActivity {
             if(purchase) {
                 entryManager.flagPurchase(id, this.badSwitch.isChecked());
             }
-        } catch(UserInputException e){
+        }
+        catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();
-
+        }
+        catch(NullPointerException npe){
+            int id = entryManager.createEntry(amount, details, date, purchase);
+            if(purchase) {
+                entryManager.flagPurchase(id, this.badSwitch.isChecked());
+            }
         }
 
     }

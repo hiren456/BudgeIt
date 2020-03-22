@@ -57,7 +57,6 @@ public class NewCategoryActivity extends AppCompatActivity {
         try {
             if(budget) id = categoryCreator.createBudgetCategory(amount, details);
             else id = categoryCreator.createSavingsCategory(amount, details);
-            Toast.makeText(this, "Created category with ID: "+id+"\n", Toast.LENGTH_LONG).show();
         } catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast.makeText(this, "Invalid category: "+userErrorMessage, Toast.LENGTH_LONG).show();

@@ -162,6 +162,7 @@ public class EntriesFragment extends Fragment {
         EntryList entryList = entryFetcher.fetchAllEntrys();
         this.entries = entryList.getReverseChrono();
 
+
         if(entries.isEmpty()) {
             UICategoryCreator categoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
             UIEntryCategorizer entryCategorizer = UIEntryCategorizerFactory.createUIEntryCategorizer();
@@ -170,13 +171,13 @@ public class EntriesFragment extends Fragment {
             int misc = categoryCreator.createBudgetCategory("200", "Miscellaneous");
             int income = categoryCreator.createSavingsCategory("2000", "Income");
             int transportation = categoryCreator.createBudgetCategory("100", "Transportation");
-            int alyx = entryManager.createEntry("60", "Half-Life: Alyx Pre-order", "2019-12-01",true);
+            int alyx = entryManager.createEntry("60", "Half-Life: Alyx Pre-order", "2019-12-01", true);
             entryCategorizer.categorizeEntry(alyx, games);
             ADD_FAKE_DATA:
-            for(int year = 2018; year <= 2020; year++) {
-                for(int month = 1; month <= 12; month++) {
-                    if(year == 2020 && month > 3) break;
-                    if(year == 2020 && month > 2) break ADD_FAKE_DATA;
+            for (int year = 2018; year <= 2020; year++) {
+                for (int month = 1; month <= 12; month++) {
+                    if (year == 2020 && month > 3) break;
+                    if (year == 2020 && month > 2) break ADD_FAKE_DATA;
                     // ensures that month has two digits
                     String monthString;
                     if (month < 10) {
@@ -237,7 +238,7 @@ public class EntriesFragment extends Fragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         if(!this.active) return false;
-        
+
         entryAdapter.onContextItemSelected(item, entries);
 
         refreshTimeline();
