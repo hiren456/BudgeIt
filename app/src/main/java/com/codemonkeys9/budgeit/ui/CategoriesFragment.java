@@ -36,7 +36,6 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_categories, container, false);
-        //final RecyclerView recycler = v.findViewById(R.id.recycler);
         RecyclerView recycler = v.findViewById(R.id.category_recycler);
         recycler.setAdapter(this.categoryAdapter);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));

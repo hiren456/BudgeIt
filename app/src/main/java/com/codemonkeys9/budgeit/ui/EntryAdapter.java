@@ -2,6 +2,7 @@ package com.codemonkeys9.budgeit.ui;
 
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
+import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
+import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
 import java.util.List;
 
@@ -97,5 +100,28 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
 
     public void updateEntries(List<Entry> newEntries) {
         submitList(newEntries);
+    }
+
+
+    public boolean onContextItemSelected(MenuItem item, List<Entry> entries) {
+
+        // Get index *within the currently-displayed list of entries*
+        int entryIndex = item.getGroupId();
+        UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
+        // Get actual, global entry ID
+        int entryId = entries.get(entryIndex).getEntryID();
+        int buttonId = item.getItemId();
+        switch(buttonId) {
+            case R.id.action_delete:
+                entryManager.deleteEntry(entryId);
+                break;
+            case R.id.action_flag:
+                entryManager.flagPurchase(entryId, true);
+                break;
+            case R.id.action_unflag:
+                entryManager.flagPurchase(entryId, false);
+                break;
+        }
+        return true;
     }
 }
