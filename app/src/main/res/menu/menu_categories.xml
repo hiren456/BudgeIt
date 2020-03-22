@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.codemonkeys9.budgeit.ui.MainActivity" >
+    <item
+        android:id="@+id/action_toggle_savings"
+        android:orderInCategory="100"
+        android:title="@string/action_hide_savings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_toggle_budget"
+        android:orderInCategory="100"
+        android:title="@string/action_hide_budget"
+        app:showAsAction="never" />
+
+</menu>

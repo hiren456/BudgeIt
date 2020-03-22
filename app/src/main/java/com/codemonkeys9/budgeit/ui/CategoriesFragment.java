@@ -3,6 +3,8 @@ package com.codemonkeys9.budgeit.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,11 @@ import java.util.List;
 public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCategoryListener {
     private CategoryAdapter categoryAdapter;
 
+    //visibility variables
+    private CategoryVisibility visibility = CategoryVisibility.Both;
+    private MenuItem budgetToggle;
+    private MenuItem savingsToggle;
+
     private UICategoryFetcher categoryFetcher;
     private UICategoryModifier categoryModifier;
     private List<Category> categories;
@@ -39,6 +46,7 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
         RecyclerView recycler = v.findViewById(R.id.category_recycler);
         recycler.setAdapter(this.categoryAdapter);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        setHasOptionsMenu(true);
 
         Button newCategoryButton = v.findViewById(R.id.newCategoryButton);
         newCategoryButton.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +88,65 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
         super.onPause();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_categories, menu);
+        savingsToggle = menu.findItem(R.id.action_toggle_savings);
+        budgetToggle = menu.findItem(R.id.action_toggle_budget);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        savingsToggle.setVisible(true);
+        budgetToggle.setVisible(true);
+
+        if(visibility.isIncomeVisible()) {
+            savingsToggle.setTitle(getString(R.string.action_hide_income));
+            // Don't allow the user to hide both types of entries
+            if(!visibility.areExpensesVisible()) {
+                savingsToggle.setVisible(false);
+            }
+        } else {
+            savingsToggle.setTitle(getString(R.string.action_show_income));
+        }
+
+        if(visibility.areExpensesVisible()) {
+            budgetToggle.setTitle(getString(R.string.action_hide_expenses));
+            // Don't allow the user to hide both types of entries
+            if(!visibility.isIncomeVisible()) {
+                budgetToggle.setVisible(false);
+            }
+        } else {
+            budgetToggle.setTitle(getString(R.string.action_show_expenses));
+        }
+
+
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_toggle_savings) {
+            visibility = visibility.toggleSavings();
+        } else if (id == R.id.action_toggle_budget) {
+            visibility = visibility.toggleBudget();
+        }
+        if(id == R.id.action_toggle_savings|| id == R.id.action_toggle_budget) {
+            refreshList();
+            // Make sure Android updates the options menu next time it gets displayed
+            getActivity().invalidateOptionsMenu();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 
     @Override
@@ -104,7 +171,18 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
     }
 
     private void refreshList() {
-        CategoryList categoryList = this.categoryFetcher.fetchAllCategories();
+        CategoryList categoryList = null;
+        switch (visibility){
+            case Savings:
+                categoryList = categoryFetcher.fetchAllSavingsCategories();
+                break;
+            case Budget:
+                categoryList = categoryFetcher.fetchAllBudgetCategories();
+                break;
+            case Both:
+                categoryList = categoryFetcher.fetchAllCategories();
+                break;
+        }
         this.categories = categoryList.getReverseChrono();
         categoryAdapter.updateCategories(this.categories);
     }
