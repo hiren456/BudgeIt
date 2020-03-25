@@ -112,7 +112,12 @@ public class NewEntryActivity extends AppCompatActivity {
         boolean purchase = selected == EXPENSE;
 
         try {
-            int id = entryManager.createEntry(amount, details, date, purchase, category.getID());
+            int id;
+            if(category != null) {
+                id = entryManager.createEntry(amount, details, date, purchase, category.getID());
+            } else {
+                id = entryManager.createEntry(amount, details, date, purchase);
+            }
             if(purchase) {
                 entryManager.flagPurchase(id, this.badSwitch.isChecked());
             }
@@ -122,13 +127,6 @@ public class NewEntryActivity extends AppCompatActivity {
             String userErrorMessage = e.getUserErrorMessage();
             Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();
             return null;
-        }
-        catch(NullPointerException npe){
-            int id = entryManager.createEntry(amount, details, date, purchase);
-            if(purchase) {
-                entryManager.flagPurchase(id, this.badSwitch.isChecked());
-            }
-            return id;
         }
     }
 
