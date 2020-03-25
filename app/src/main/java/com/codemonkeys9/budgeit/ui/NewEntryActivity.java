@@ -50,9 +50,11 @@ public class NewEntryActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitEntry();
-                setResult(RESULT_OK);
-                finish();
+                Integer id = submitEntry();
+                if(id != null) {
+                    setResult(RESULT_OK);
+                    finish();
+                }
             }
         });
 
@@ -94,7 +96,11 @@ public class NewEntryActivity extends AppCompatActivity {
         this.badSwitch.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
 
-    public void submitEntry(){
+    /*
+    Submits an entry.
+    If the submission was successful, returns the created entry's ID. If not, returns null.
+     */
+    private Integer submitEntry(){
         UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
 
         String amount = ((EditText)findViewById(R.id.editText_amount)).getText().toString();
@@ -110,18 +116,20 @@ public class NewEntryActivity extends AppCompatActivity {
             if(purchase) {
                 entryManager.flagPurchase(id, this.badSwitch.isChecked());
             }
+            return id;
         }
         catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();
+            return null;
         }
         catch(NullPointerException npe){
             int id = entryManager.createEntry(amount, details, date, purchase);
             if(purchase) {
                 entryManager.flagPurchase(id, this.badSwitch.isChecked());
             }
+            return id;
         }
-
     }
 
 }
