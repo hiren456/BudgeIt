@@ -2,6 +2,7 @@ package com.codemonkeys9.budgeit.ui;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -66,7 +67,11 @@ public class CategoryViewActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         // We will get context item events for all fragments in MainPager. We have to return false
         // in order for other fragments to have a chance to handle them.
-        entryAdapter.onContextItemSelected(item, entries);
+
+        // To start an activity from the context menu in the entry adapter
+        // I had to change it to take a fragment as a parameter.
+        // I don't know how to get this code working with that
+        //entryAdapter.onContextItemSelected(item,entries);
         refreshTimeline();
         return true;
     }

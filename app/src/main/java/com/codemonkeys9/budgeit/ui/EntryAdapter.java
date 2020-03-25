@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.ui;
 
+import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +43,10 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(this.getAdapterPosition(), R.id.action_delete, 0, "Delete");
+            menu.add(this.getAdapterPosition(), R.id.modify_category, 0, "Change Category");
+            menu.add(this.getAdapterPosition(), R.id.modify_amount, 0, "Modify Amount");
+            menu.add(this.getAdapterPosition(), R.id.modify_date, 0, "Modify Date");
+            menu.add(this.getAdapterPosition(), R.id.modify_description, 0, "Modify Description");
             if(flagged) {
                 menu.add(this.getAdapterPosition(), R.id.action_unflag, 0, "Unflag");
             } else if(flaggable) {
@@ -103,7 +109,7 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
     }
 
 
-    public boolean onContextItemSelected(MenuItem item, List<Entry> entries) {
+    public boolean onContextItemSelected(MenuItem item, Fragment fragment, List<Entry> entries) {
 
         // Get index *within the currently-displayed list of entries*
         int entryIndex = item.getGroupId();
@@ -111,6 +117,8 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         // Get actual, global entry ID
         int entryId = entries.get(entryIndex).getEntryID();
         int buttonId = item.getItemId();
+
+        Intent i;
         switch(buttonId) {
             case R.id.action_delete:
                 entryManager.deleteEntry(entryId);
@@ -120,6 +128,26 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
                 break;
             case R.id.action_unflag:
                 entryManager.flagPurchase(entryId, false);
+                break;
+            case R.id.modify_amount:
+                i = new Intent(fragment.getContext() , ModifyAmountActivity.class);
+                i.putExtra("entryId",entryId);
+                fragment.startActivity(i);
+                break;
+            case R.id.modify_description:
+                i = new Intent(fragment.getContext() , ModifyDescriptionActivity.class);
+                i.putExtra("entryId",entryId);
+                fragment.startActivity(i);
+                break;
+            case R.id.modify_date:
+                i = new Intent(fragment.getContext() , ModifyDateActivity.class);
+                i.putExtra("entryId",entryId);
+                fragment.startActivity(i);
+                break;
+            case R.id.modify_category:
+                i = new Intent(fragment.getContext() , ChangeCategoryActivity.class);
+                i.putExtra("entryId",entryId);
+                fragment.startActivity(i);
                 break;
         }
         return true;

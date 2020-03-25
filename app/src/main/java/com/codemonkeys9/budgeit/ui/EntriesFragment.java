@@ -69,8 +69,8 @@ public class EntriesFragment extends Fragment {
         return v;
     }
     private void openNewEntryActivity() {
-        Intent i = new Intent(getContext(), NewEntryActivity.class);
-        startActivity(i);
+        Intent i = new Intent(this.getContext(), NewEntryActivity.class);
+        this.startActivity(i);
     }
 
     @Override
@@ -239,7 +239,7 @@ public class EntriesFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         if(!this.active) return false;
 
-        entryAdapter.onContextItemSelected(item, entries);
+        entryAdapter.onContextItemSelected(item, this , entries);
 
         refreshTimeline();
         return true;
