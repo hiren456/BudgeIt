@@ -23,7 +23,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.codemonkeys9.budgeit.ui.testutils.BudgitUITestUtils.childAtPosition;
 import static com.codemonkeys9.budgeit.ui.testutils.BudgitUITestUtils.withRecyclerView;
-import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -33,7 +32,7 @@ public class DeleteEntryTest {
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Before
-    public void createEntrytoDelete(){
+    public void createEntryToDelete(){
 
         //Create the entry to test on
         onView(withId(R.id.newEntryButton)).perform(click());

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,9 +29,12 @@ import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class EntriesFragment extends Fragment {
     private EntryAdapter entryAdapter;
     private EntryVisibility visibility = EntryVisibility.Both; // defaults to all entries
+    static final int DATE_RANGE_REQUEST = 0;
 
     String startDate = "past";
     String endDate = "now";
@@ -269,5 +273,19 @@ public class EntriesFragment extends Fragment {
         }
         this.entries = entryList.getReverseChrono();
         entryAdapter.updateEntries(this.entries);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == DATE_RANGE_REQUEST) {
+            if(data.hasExtra("start_date") && data.hasExtra("end_date")) {
+                Bundle extras = data.getExtras();
+                hasDateFilter = true;
+                startDate = extras.getString("start_date");
+                endDate = extras.getString("end_date");
+            }
+        }
+
     }
 }

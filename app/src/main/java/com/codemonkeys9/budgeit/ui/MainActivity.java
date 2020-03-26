@@ -1,6 +1,5 @@
 package com.codemonkeys9.budgeit.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,18 +37,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == DATE_RANGE_REQUEST) {
-            if(data.hasExtra("start_date") && data.hasExtra("end_date")) {
-                Bundle extras = data.getExtras();
-                entriesFrag.hasDateFilter = true;
-                entriesFrag.startDate = extras.getString("start_date");
-                entriesFrag.endDate = extras.getString("end_date");
-            }
-        }
-    }
 }
 
