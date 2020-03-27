@@ -53,6 +53,10 @@ public class EntriesFragment extends Fragment {
 
     RecyclerView recycler;
 
+    // This variable is updated when a new entry is created to its ID. This is used so we can scroll
+    // to its position. This is necessary because we use ListAdapter and DiffUtil for diffing lists,
+    // and that is done asynchronously on a background thread. So we have to register an observer
+    // and perform the scrolling there.
     Integer newID = null;
     final RecyclerView.AdapterDataObserver recyclerViewObserver = new RecyclerView.AdapterDataObserver() {
         @Override
