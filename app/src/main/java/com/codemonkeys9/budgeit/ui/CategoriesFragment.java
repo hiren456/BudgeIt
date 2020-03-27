@@ -44,6 +44,17 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
 
     RecyclerView recycler;
 
+    Integer newID = null;
+    final RecyclerView.AdapterDataObserver recyclerViewObserver = new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            if(newID != null) {
+                scrollToID(newID);
+                newID = null;
+            }
+        }
+    };
+
     private boolean active = false;
 
     @Override
@@ -56,6 +67,8 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         setHasOptionsMenu(true);
 
+        this.categoryAdapter.registerAdapterDataObserver(this.recyclerViewObserver);
+
         Button newCategoryButton = v.findViewById(R.id.newCategoryButton);
         newCategoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +79,14 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
 
         return v;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        this.categoryAdapter.unregisterAdapterDataObserver(this.recyclerViewObserver);
+    }
+
     private void openNewCategoryActivity() {
         Intent i = new Intent(getContext(), NewCategoryActivity.class);
         startActivityForResult(i, NEW_CATEGORY);
@@ -216,7 +237,7 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
                     refreshList();
                     Bundle extras = data.getExtras();
                     int catID = extras.getInt("newly_created_category_id");
-                    scrollToID(catID);
+                    this.newID = catID;
                 }
             }
         }

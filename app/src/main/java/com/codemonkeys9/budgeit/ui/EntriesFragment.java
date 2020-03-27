@@ -53,6 +53,17 @@ public class EntriesFragment extends Fragment {
 
     RecyclerView recycler;
 
+    Integer newID = null;
+    final RecyclerView.AdapterDataObserver recyclerViewObserver = new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            if(newID != null) {
+                scrollToID(newID);
+                newID = null;
+            }
+        }
+    };
+
     private boolean active = false;
 
     @Override
@@ -66,6 +77,8 @@ public class EntriesFragment extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         setHasOptionsMenu(true);
 
+        this.entryAdapter.registerAdapterDataObserver(this.recyclerViewObserver);
+
         Button newEntryButton = v.findViewById(R.id.newEntryButton);
         newEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,9 +87,16 @@ public class EntriesFragment extends Fragment {
             }
         });
 
-
         return v;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        this.entryAdapter.unregisterAdapterDataObserver(this.recyclerViewObserver);
+    }
+
     private void openNewEntryActivity() {
         Intent i = new Intent(getContext(), NewEntryActivity.class);
         startActivityForResult(i, NEW_ENTRY);
@@ -297,8 +317,7 @@ public class EntriesFragment extends Fragment {
                 if(data.hasExtra("newly_created_entry_id")) {
                     refreshTimeline();
                     Bundle extras = data.getExtras();
-                    int entryID = extras.getInt("newly_created_entry_id");
-                    scrollToID(entryID);
+                    this.newID = extras.getInt("newly_created_entry_id");
                 }
             }
         }
