@@ -45,11 +45,13 @@ public class EntriesFragment extends Fragment {
 
     private UIEntryManager entryManager;
     private UIEntryFetcher entryFetcher;
-    private List<Entry> entries;
+    private EntryList entries;
 
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
     private MenuItem dateFilterToggle;
+
+    RecyclerView recycler;
 
     private boolean active = false;
 
@@ -166,11 +168,11 @@ public class EntriesFragment extends Fragment {
 
         this.entryManager = UIEntryManagerFactory.createUIEntryManager();
         this.entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
-        EntryList entryList = entryFetcher.fetchAllEntrys();
-        this.entries = entryList.getReverseChrono();
+        this.entries = entryFetcher.fetchAllEntrys();
+        List<Entry> entryList = entries.getReverseChrono();
 
 
-        if(entries.isEmpty()) {
+        if(entryList.isEmpty()) {
             UICategoryCreator categoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
             UIEntryCategorizer entryCategorizer = UIEntryCategorizerFactory.createUIEntryCategorizer();
 
@@ -222,16 +224,16 @@ public class EntriesFragment extends Fragment {
                     entryCategorizer.categorizeEntry(what, misc);
                 }
             }
-            entryList = entryFetcher.fetchAllEntrys();
-            entries = entryList.getReverseChrono();
+            entries = entryFetcher.fetchAllEntrys();
         }
 
-        this.entryAdapter = new EntryAdapter(entries);
+        this.entryAdapter = new EntryAdapter(entries.getReverseChrono());
     }
 
     @Override
     public void onResume() {
         this.active = true;
+        this.recycler = getView().findViewById(R.id.entry_recycler);
         refreshTimeline();
         super.onResume();
     }
@@ -274,21 +276,34 @@ public class EntriesFragment extends Fragment {
                 entryList = entryFetcher.fetchAllEntrys(startDate,endDate);
                 break;
         }
-        this.entries = entryList.getReverseChrono();
-        entryAdapter.updateEntries(this.entries);
+        this.entries = entryList;
+        entryAdapter.updateEntries(this.entries.getReverseChrono());
+    }
+
+    public void scrollToID(int entryID) {
+        int target = this.entries.getReverseChronoIndexOfEntryWithID(entryID);
+        recycler.smoothScrollToPosition(target);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == DATE_RANGE_REQUEST) {
-            if(data.hasExtra("start_date") && data.hasExtra("end_date")) {
-                Bundle extras = data.getExtras();
-                hasDateFilter = true;
-                startDate = extras.getString("start_date");
-                endDate = extras.getString("end_date");
+        if(resultCode == RESULT_OK) {
+            if(requestCode == DATE_RANGE_REQUEST) {
+                if (data.hasExtra("start_date") && data.hasExtra("end_date")) {
+                    Bundle extras = data.getExtras();
+                    hasDateFilter = true;
+                    startDate = extras.getString("start_date");
+                    endDate = extras.getString("end_date");
+                }
+            } else if(requestCode == NEW_ENTRY) {
+                if(data.hasExtra("newly_created_entry_id")) {
+                    refreshTimeline();
+                    Bundle extras = data.getExtras();
+                    int entryID = extras.getInt("newly_created_entry_id");
+                    scrollToID(entryID);
+                }
             }
         }
-
     }
 }
