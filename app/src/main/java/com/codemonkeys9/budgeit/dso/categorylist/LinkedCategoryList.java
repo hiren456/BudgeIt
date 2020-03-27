@@ -42,6 +42,19 @@ class LinkedCategoryList implements CategoryList {
     }
 
     @Override
+    public int getReverseChronoIndexOfCategoryWithID(int catID) {
+        List<Category> list = this.getReverseChrono();
+        for(int i = 0; i < list.size(); i++) {
+            if(list.get(i).getID() == catID) {
+                return i;
+            }
+        }
+
+        // If we get to this point, `catID` is not in the list
+        throw new IllegalArgumentException("Category with ID " + catID + " is not in the list");
+    }
+
+    @Override
     public int size() {
         return this.ll.size();
     }

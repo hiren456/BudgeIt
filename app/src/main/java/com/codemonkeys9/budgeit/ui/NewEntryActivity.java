@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -50,9 +51,13 @@ public class NewEntryActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitEntry();
-                setResult(RESULT_OK);
-                finish();
+                Integer id = submitEntry();
+                if(id != null) {
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("newly_created_entry_id", (int)id);
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
+                }
             }
         });
 
@@ -94,7 +99,11 @@ public class NewEntryActivity extends AppCompatActivity {
         this.badSwitch.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
 
-    public void submitEntry(){
+    /*
+    Submits an entry.
+    If the submission was successful, returns the created entry's ID. If not, returns null.
+     */
+    private Integer submitEntry(){
         UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
 
         String amount = ((EditText)findViewById(R.id.editText_amount)).getText().toString();
@@ -106,22 +115,22 @@ public class NewEntryActivity extends AppCompatActivity {
         boolean purchase = selected == EXPENSE;
 
         try {
-            int id = entryManager.createEntry(amount, details, date, purchase, category.getID());
+            int id;
+            if(category != null) {
+                id = entryManager.createEntry(amount, details, date, purchase, category.getID());
+            } else {
+                id = entryManager.createEntry(amount, details, date, purchase);
+            }
             if(purchase) {
                 entryManager.flagPurchase(id, this.badSwitch.isChecked());
             }
+            return id;
         }
         catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();
+            return null;
         }
-        catch(NullPointerException npe){
-            int id = entryManager.createEntry(amount, details, date, purchase);
-            if(purchase) {
-                entryManager.flagPurchase(id, this.badSwitch.isChecked());
-            }
-        }
-
     }
 
 }

@@ -102,14 +102,12 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         submitList(newEntries);
     }
 
-
-    public boolean onContextItemSelected(MenuItem item, List<Entry> entries) {
-
+    public boolean onContextItemSelected(MenuItem item) {
         // Get index *within the currently-displayed list of entries*
         int entryIndex = item.getGroupId();
         UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
         // Get actual, global entry ID
-        int entryId = entries.get(entryIndex).getEntryID();
+        int entryId = getCurrentList().get(entryIndex).getEntryID();
         int buttonId = item.getItemId();
         switch(buttonId) {
             case R.id.action_delete:
@@ -122,6 +120,7 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
                 entryManager.flagPurchase(entryId, false);
                 break;
         }
+
         return true;
     }
 }

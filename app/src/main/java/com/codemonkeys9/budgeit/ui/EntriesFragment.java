@@ -34,7 +34,10 @@ import static android.app.Activity.RESULT_OK;
 public class EntriesFragment extends Fragment {
     private EntryAdapter entryAdapter;
     private EntryVisibility visibility = EntryVisibility.Both; // defaults to all entries
+
+    // Request codes for activities that need to return data
     static final int DATE_RANGE_REQUEST = 0;
+    static final int NEW_ENTRY = 1;
 
     String startDate = "past";
     String endDate = "now";
@@ -42,11 +45,13 @@ public class EntriesFragment extends Fragment {
 
     private UIEntryManager entryManager;
     private UIEntryFetcher entryFetcher;
-    private List<Entry> entries;
+    private EntryList entries;
 
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
     private MenuItem dateFilterToggle;
+
+    RecyclerView recycler;
 
     private boolean active = false;
 
@@ -74,7 +79,7 @@ public class EntriesFragment extends Fragment {
     }
     private void openNewEntryActivity() {
         Intent i = new Intent(getContext(), NewEntryActivity.class);
-        startActivity(i);
+        startActivityForResult(i, NEW_ENTRY);
     }
 
     @Override
@@ -148,8 +153,8 @@ public class EntriesFragment extends Fragment {
                 getActivity().invalidateOptionsMenu();
             } else {
                 // hasDateFilter is set to true in onActivityResult
-                Intent i = new Intent(getActivity(), DateRangeActivity.class);
-                startActivityForResult(i, MainActivity.DATE_RANGE_REQUEST);
+                Intent i = new Intent(getContext(), DateRangeActivity.class);
+                startActivityForResult(i, DATE_RANGE_REQUEST);
             }
             return true;
         }
@@ -163,11 +168,11 @@ public class EntriesFragment extends Fragment {
 
         this.entryManager = UIEntryManagerFactory.createUIEntryManager();
         this.entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
-        EntryList entryList = entryFetcher.fetchAllEntrys();
-        this.entries = entryList.getReverseChrono();
+        this.entries = entryFetcher.fetchAllEntrys();
+        List<Entry> entryList = entries.getReverseChrono();
 
 
-        if(entries.isEmpty()) {
+        if(entryList.isEmpty()) {
             UICategoryCreator categoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
             UIEntryCategorizer entryCategorizer = UIEntryCategorizerFactory.createUIEntryCategorizer();
 
@@ -219,16 +224,16 @@ public class EntriesFragment extends Fragment {
                     entryCategorizer.categorizeEntry(what, misc);
                 }
             }
-            entryList = entryFetcher.fetchAllEntrys();
-            entries = entryList.getReverseChrono();
+            entries = entryFetcher.fetchAllEntrys();
         }
 
-        this.entryAdapter = new EntryAdapter(entries);
+        this.entryAdapter = new EntryAdapter(entries.getReverseChrono());
     }
 
     @Override
     public void onResume() {
         this.active = true;
+        this.recycler = getView().findViewById(R.id.entry_recycler);
         refreshTimeline();
         super.onResume();
     }
@@ -243,15 +248,13 @@ public class EntriesFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         if(!this.active) return false;
 
-        entryAdapter.onContextItemSelected(item, entries);
+        entryAdapter.onContextItemSelected(item);
 
         refreshTimeline();
         return true;
     }
 
     private void refreshTimeline() {
-        EntryList entryList = null;
-
         // if the user inputs -123456789 and then 123456789
         // or any other invalid date range
         // either a InvalidDateException
@@ -262,30 +265,42 @@ public class EntriesFragment extends Fragment {
         // getUserErrorMessage method
         switch(visibility) {
             case Income:
-                entryList = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
+                this.entries = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
                 break;
             case Expenses:
-                entryList = entryFetcher.fetchAllPurchaseEntrys(startDate,endDate);
+                this.entries = entryFetcher.fetchAllPurchaseEntrys(startDate,endDate);
                 break;
             case Both:
-                entryList = entryFetcher.fetchAllEntrys(startDate,endDate);
+                this.entries = entryFetcher.fetchAllEntrys(startDate,endDate);
                 break;
         }
-        this.entries = entryList.getReverseChrono();
-        entryAdapter.updateEntries(this.entries);
+        entryAdapter.updateEntries(this.entries.getReverseChrono());
+    }
+
+    public void scrollToID(int entryID) {
+        int target = this.entries.getReverseChronoIndexOfEntryWithID(entryID);
+        recycler.smoothScrollToPosition(target);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == DATE_RANGE_REQUEST) {
-            if(data.hasExtra("start_date") && data.hasExtra("end_date")) {
-                Bundle extras = data.getExtras();
-                hasDateFilter = true;
-                startDate = extras.getString("start_date");
-                endDate = extras.getString("end_date");
+        if(resultCode == RESULT_OK) {
+            if(requestCode == DATE_RANGE_REQUEST) {
+                if (data.hasExtra("start_date") && data.hasExtra("end_date")) {
+                    Bundle extras = data.getExtras();
+                    hasDateFilter = true;
+                    startDate = extras.getString("start_date");
+                    endDate = extras.getString("end_date");
+                }
+            } else if(requestCode == NEW_ENTRY) {
+                if(data.hasExtra("newly_created_entry_id")) {
+                    refreshTimeline();
+                    Bundle extras = data.getExtras();
+                    int entryID = extras.getInt("newly_created_entry_id");
+                    scrollToID(entryID);
+                }
             }
         }
-
     }
 }

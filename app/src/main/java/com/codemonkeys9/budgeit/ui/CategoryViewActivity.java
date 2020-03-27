@@ -66,7 +66,7 @@ public class CategoryViewActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         // We will get context item events for all fragments in MainPager. We have to return false
         // in order for other fragments to have a chance to handle them.
-        entryAdapter.onContextItemSelected(item, entries);
+        entryAdapter.onContextItemSelected(item);
         refreshTimeline();
         return true;
     }
