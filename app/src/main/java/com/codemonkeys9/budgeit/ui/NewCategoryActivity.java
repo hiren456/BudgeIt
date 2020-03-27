@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,9 +33,13 @@ public class NewCategoryActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitCategory();
-                setResult(RESULT_OK);
-                finish();
+                Integer id = submitCategory();
+                if(id != null) {
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("newly_created_category_id", (int)id);
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
+                }
             }
         });
 
@@ -43,7 +48,11 @@ public class NewCategoryActivity extends AppCompatActivity {
         this.categoryTypeControl.setSelectedSegment(0);
     }
 
-    public void submitCategory(){
+    /*
+    Submits a category.
+    If the submission was successful, returns the created category's ID. If not, returns null.
+     */
+    public Integer submitCategory() {
         UICategoryCreator categoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
 
         String amount = ((EditText)findViewById(R.id.editText_amount)).getText().toString();
@@ -52,17 +61,15 @@ public class NewCategoryActivity extends AppCompatActivity {
         SegmentedControl entryTypeControl = findViewById(R.id.control_incomeOrExpense);
         int selected = entryTypeControl.getLastSelectedAbsolutePosition();
         boolean budget = selected == BUDGET;
-        int id = 0;
 
         try {
-            if(budget) id = categoryCreator.createBudgetCategory(amount, details);
-            else id = categoryCreator.createSavingsCategory(amount, details);
+            if(budget) return categoryCreator.createBudgetCategory(amount, details);
+            else       return categoryCreator.createSavingsCategory(amount, details);
         } catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast.makeText(this, "Invalid category: "+userErrorMessage, Toast.LENGTH_LONG).show();
-
+            return null;
         }
-
     }
 
 }

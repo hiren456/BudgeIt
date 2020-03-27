@@ -255,8 +255,6 @@ public class EntriesFragment extends Fragment {
     }
 
     private void refreshTimeline() {
-        EntryList entryList = null;
-
         // if the user inputs -123456789 and then 123456789
         // or any other invalid date range
         // either a InvalidDateException
@@ -267,16 +265,15 @@ public class EntriesFragment extends Fragment {
         // getUserErrorMessage method
         switch(visibility) {
             case Income:
-                entryList = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
+                this.entries = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
                 break;
             case Expenses:
-                entryList = entryFetcher.fetchAllPurchaseEntrys(startDate,endDate);
+                this.entries = entryFetcher.fetchAllPurchaseEntrys(startDate,endDate);
                 break;
             case Both:
-                entryList = entryFetcher.fetchAllEntrys(startDate,endDate);
+                this.entries = entryFetcher.fetchAllEntrys(startDate,endDate);
                 break;
         }
-        this.entries = entryList;
         entryAdapter.updateEntries(this.entries.getReverseChrono());
     }
 

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,8 +25,13 @@ import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifier
 
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCategoryListener {
     private CategoryAdapter categoryAdapter;
+
+    // Request codes for activities that need to return data
+    private static int NEW_CATEGORY = 0;
 
     //visibility variables
     private CategoryVisibility visibility = CategoryVisibility.Both;
@@ -34,7 +40,9 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
 
     private UICategoryFetcher categoryFetcher;
     private UICategoryModifier categoryModifier;
-    private List<Category> categories;
+    private CategoryList categories;
+
+    RecyclerView recycler;
 
     private boolean active = false;
 
@@ -60,7 +68,7 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
     }
     private void openNewCategoryActivity() {
         Intent i = new Intent(getContext(), NewCategoryActivity.class);
-        startActivity(i);
+        startActivityForResult(i, NEW_CATEGORY);
     }
 
     @Override
@@ -70,15 +78,15 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
         this.categoryFetcher = UICategoryFetcherFactory.createUICategoryFetcher();
         this.categoryModifier = UICategoryModifierFactory.createUICategoryModifier();
 
-        CategoryList categoryList = categoryFetcher.fetchAllCategories();
-        this.categories = categoryList.getReverseChrono();
-        this.categoryAdapter = new CategoryAdapter(categories, this);
+        this.categories = categoryFetcher.fetchAllCategories();
+        this.categoryAdapter = new CategoryAdapter(this.categories.getReverseChrono(), this);
     }
 
     @Override
     public void onResume() {
         this.active = true;
         refreshList();
+        this.recycler = getView().findViewById(R.id.category_recycler);
         super.onResume();
     }
 
@@ -121,7 +129,6 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
             budgetToggle.setTitle(getString(R.string.action_show_budget));
         }
 
-
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -147,8 +154,6 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         // We will get context item events for all fragments in MainPager. We have to return false
@@ -171,20 +176,18 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
     }
 
     private void refreshList() {
-        CategoryList categoryList = null;
         switch (visibility){
             case Savings:
-                categoryList = categoryFetcher.fetchAllSavingsCategories();
+                this.categories = categoryFetcher.fetchAllSavingsCategories();
                 break;
             case Budget:
-                categoryList = categoryFetcher.fetchAllBudgetCategories();
+                this.categories = categoryFetcher.fetchAllBudgetCategories();
                 break;
             case Both:
-                categoryList = categoryFetcher.fetchAllCategories();
+                this.categories = categoryFetcher.fetchAllCategories();
                 break;
         }
-        this.categories = categoryList.getReverseChrono();
-        categoryAdapter.updateCategories(this.categories);
+        categoryAdapter.updateCategories(this.categories.getReverseChrono());
     }
 
     @Override
@@ -197,5 +200,25 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
         Intent i = new Intent(getContext(), CategoryViewActivity.class);
         i.putExtra("catID", catID);
         startActivity(i);
+    }
+
+    public void scrollToID(int catID) {
+        int target = this.categories.getReverseChronoIndexOfCategoryWithID(catID);
+        recycler.smoothScrollToPosition(target);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            if(requestCode == NEW_CATEGORY) {
+                if(data.hasExtra("newly_created_category_id")) {
+                    refreshList();
+                    Bundle extras = data.getExtras();
+                    int catID = extras.getInt("newly_created_category_id");
+                    scrollToID(catID);
+                }
+            }
+        }
     }
 }
