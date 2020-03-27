@@ -243,7 +243,7 @@ public class EntriesFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         if(!this.active) return false;
 
-        entryAdapter.onContextItemSelected(item, entries);
+        entryAdapter.onContextItemSelected(item);
 
         refreshTimeline();
         return true;
