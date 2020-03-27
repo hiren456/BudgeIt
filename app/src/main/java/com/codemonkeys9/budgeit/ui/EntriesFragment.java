@@ -73,8 +73,8 @@ public class EntriesFragment extends Fragment {
         return v;
     }
     private void openNewEntryActivity() {
-        Intent i = new Intent(getContext(), NewEntryActivity.class);
-        startActivity(i);
+        Intent i = new Intent(getActivity(), NewEntryActivity.class);
+        startActivityForResult(i, MainActivity.NEW_ENTRY);
     }
 
     @Override

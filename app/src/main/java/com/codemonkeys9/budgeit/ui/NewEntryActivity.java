@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,7 +53,9 @@ public class NewEntryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Integer id = submitEntry();
                 if(id != null) {
-                    setResult(RESULT_OK);
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("newly_created_entry_id", (int)id);
+                    setResult(RESULT_OK, resultIntent);
                     finish();
                 }
             }

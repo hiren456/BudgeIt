@@ -12,6 +12,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 public class MainActivity extends AppCompatActivity {
     static final int DATE_RANGE_REQUEST = 0;
+    static final int NEW_ENTRY = 1;
     ViewPager mainPager;
     EntriesFragment entriesFrag;
     CategoriesFragment categoriesFrag;
