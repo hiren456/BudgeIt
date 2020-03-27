@@ -34,7 +34,10 @@ import static android.app.Activity.RESULT_OK;
 public class EntriesFragment extends Fragment {
     private EntryAdapter entryAdapter;
     private EntryVisibility visibility = EntryVisibility.Both; // defaults to all entries
+
+    // Request codes for activities that need to return data
     static final int DATE_RANGE_REQUEST = 0;
+    static final int NEW_ENTRY = 1;
 
     String startDate = "past";
     String endDate = "now";
@@ -73,8 +76,8 @@ public class EntriesFragment extends Fragment {
         return v;
     }
     private void openNewEntryActivity() {
-        Intent i = new Intent(getActivity(), NewEntryActivity.class);
-        startActivityForResult(i, MainActivity.NEW_ENTRY);
+        Intent i = new Intent(getContext(), NewEntryActivity.class);
+        startActivityForResult(i, NEW_ENTRY);
     }
 
     @Override
@@ -148,8 +151,8 @@ public class EntriesFragment extends Fragment {
                 getActivity().invalidateOptionsMenu();
             } else {
                 // hasDateFilter is set to true in onActivityResult
-                Intent i = new Intent(getActivity(), DateRangeActivity.class);
-                startActivityForResult(i, MainActivity.DATE_RANGE_REQUEST);
+                Intent i = new Intent(getContext(), DateRangeActivity.class);
+                startActivityForResult(i, DATE_RANGE_REQUEST);
             }
             return true;
         }

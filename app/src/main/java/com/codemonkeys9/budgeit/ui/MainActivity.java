@@ -11,12 +11,6 @@ import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 public class MainActivity extends AppCompatActivity {
-    static final int DATE_RANGE_REQUEST = 0;
-    static final int NEW_ENTRY = 1;
-    ViewPager mainPager;
-    EntriesFragment entriesFrag;
-    CategoriesFragment categoriesFrag;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,13 +24,9 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setLogo(R.drawable.budgeit_logo);
         setSupportActionBar(toolbar);
 
-        mainPager = findViewById(R.id.main_pager);
+        ViewPager mainPager = findViewById(R.id.main_pager);
         MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager());
-        entriesFrag = adapter.getEntriesFragment();
-        categoriesFrag = adapter.getCategoriesFragment();
         mainPager.setAdapter(adapter);
-
     }
-
 }
 
