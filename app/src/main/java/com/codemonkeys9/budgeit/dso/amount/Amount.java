@@ -19,4 +19,5 @@ public interface Amount {
     int getValue();
 
     boolean equals(Amount other);
+    Amount clone();
 }
