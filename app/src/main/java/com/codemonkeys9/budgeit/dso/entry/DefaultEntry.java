@@ -28,4 +28,9 @@ abstract class DefaultEntry extends DefaultBaseEntry implements Entry {
     public int getEntryID() {
         return this.entryID;
     }
+
+    @Override
+    public boolean equals(Entry other) {
+        return this.getEntryID() == other.getEntryID() && super.equals(other);
+    }
 }
