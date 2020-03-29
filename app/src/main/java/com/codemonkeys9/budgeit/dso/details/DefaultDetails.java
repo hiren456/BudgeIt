@@ -25,5 +25,9 @@ class DefaultDetails implements Details {
         }
     }
 
+    @Override
+    public DefaultDetails clone() {
+        return new DefaultDetails(details);
+    }
 }
 
