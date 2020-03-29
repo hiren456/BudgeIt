@@ -9,8 +9,9 @@ public interface RecurringEntry extends BaseEntry {
     int getRecurringEntryID();
     RecurrencePeriod getRecurrencePeriod();
 
-    RecurringEntry modifyEntry(Amount amount, Details details, Date startDate, RecurrencePeriod recurrencePeriod);
+    RecurringEntry modifyEntry(Amount amount, Details details, Date startDate);
     RecurringEntry changeCategory(int catID);
+    RecurringEntry changeRecurrencePeriod(RecurrencePeriod period);
 
     boolean equals(RecurringEntry other);
 }
