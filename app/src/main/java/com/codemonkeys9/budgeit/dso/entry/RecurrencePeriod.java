@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.dso.entry.recurringentry;
+package com.codemonkeys9.budgeit.dso.entry;
 
 public interface RecurrencePeriod {
     int getDays();
@@ -7,4 +7,5 @@ public interface RecurrencePeriod {
     int getYears();
 
     boolean equals(RecurrencePeriod other);
+    RecurrencePeriod clone();
 }

@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.dso.entry.recurringentry;
+package com.codemonkeys9.budgeit.dso.entry;
 
 public class RecurrencePeriodFactory {
     public static RecurrencePeriod createRecurrencePeriod(int days, int weeks, int months, int years) {

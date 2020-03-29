@@ -1,9 +1,8 @@
-package com.codemonkeys9.budgeit.dso.entry.recurringentry;
+package com.codemonkeys9.budgeit.dso.entry;
 
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.details.Details;
-import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 
 public interface RecurringEntry extends BaseEntry {
     // getters

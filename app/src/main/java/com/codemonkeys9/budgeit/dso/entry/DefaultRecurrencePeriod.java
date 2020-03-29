@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.dso.entry.recurringentry;
+package com.codemonkeys9.budgeit.dso.entry;
 
 class DefaultRecurrencePeriod implements RecurrencePeriod {
     int days, weeks, months, years;
@@ -25,5 +25,10 @@ class DefaultRecurrencePeriod implements RecurrencePeriod {
                this.getWeeks()  == other.getWeeks()  &&
                this.getMonths() == other.getMonths() &&
                this.getYears()  == other.getYears();
+    }
+
+    @Override
+    public DefaultRecurrencePeriod clone() {
+        return new DefaultRecurrencePeriod(days, weeks, months, years);
     }
 }
