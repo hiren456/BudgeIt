@@ -10,7 +10,7 @@ abstract class DefaultBaseEntry implements BaseEntry {
     Details details;
     Date date;
 
-    DefaultBaseEntry(Amount amount, Details details, Date date,int catID) {
+    DefaultBaseEntry(Amount amount, Details details, Date date, int catID) {
 
         // check that parameters are valid
         if(date == null){
@@ -52,6 +52,25 @@ abstract class DefaultBaseEntry implements BaseEntry {
     @Override
     public Date getDate() {
         return this.date;
+    }
+
+    @Override
+    public abstract DefaultBaseEntry clone();
+
+    @Override
+    public DefaultBaseEntry modifyEntry(Amount amount,Details details, Date date) {
+        DefaultBaseEntry entry = this.clone();
+        entry.amount = amount.clone();
+        entry.details = details.clone();
+        entry.date = date.clone();
+        return entry;
+    }
+
+    @Override
+    public DefaultBaseEntry changeCategory(int catID) {
+        DefaultBaseEntry entry = this.clone();
+        entry.catID = catID;
+        return entry;
     }
 
     @Override

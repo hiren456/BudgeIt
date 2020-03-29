@@ -12,6 +12,19 @@ abstract class DefaultEntry extends DefaultBaseEntry implements Entry {
     }
 
     @Override
+    public DefaultEntry modifyEntry(Amount amount, Details details, Date date) {
+        return (DefaultEntry) super.modifyEntry(amount, details, date);
+    }
+
+    @Override
+    public abstract DefaultEntry clone();
+
+    @Override
+    public DefaultEntry changeCategory(int catID) {
+        return (DefaultEntry) super.changeCategory(catID);
+    }
+
+    @Override
     public int getEntryID() {
         return this.entryID;
     }

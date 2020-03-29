@@ -16,5 +16,6 @@ public interface BaseEntry {
     BaseEntry modifyEntry(Amount amount, Details details, Date date);
     BaseEntry changeCategory(int catID);
 
+    BaseEntry clone();
     boolean equals(BaseEntry other);
 }
