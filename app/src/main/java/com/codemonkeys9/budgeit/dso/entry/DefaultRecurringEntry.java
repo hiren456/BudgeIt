@@ -41,4 +41,11 @@ abstract class DefaultRecurringEntry extends DefaultBaseEntry implements Recurri
 
     @Override
     public RecurrencePeriod getRecurrencePeriod() { return period; }
+
+    @Override
+    public boolean equals(RecurringEntry other) {
+        return this.getRecurringEntryID() == other.getRecurringEntryID() &&
+               this.getRecurrencePeriod() == other.getRecurrencePeriod() &&
+               super.equals(other);
+    }
 }
