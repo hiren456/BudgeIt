@@ -5,4 +5,6 @@ public interface RecurrencePeriod {
     int getWeeks();
     int getMonths();
     int getYears();
+
+    boolean equals(RecurrencePeriod other);
 }

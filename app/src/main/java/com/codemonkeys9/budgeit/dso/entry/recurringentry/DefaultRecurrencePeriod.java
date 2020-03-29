@@ -18,4 +18,12 @@ class DefaultRecurrencePeriod implements RecurrencePeriod {
     public int getMonths() { return months; }
     @Override
     public int getYears() { return years; }
+    
+    @Override
+    public boolean equals(RecurrencePeriod other) {
+        return this.getDays()   == other.getDays()   &&
+               this.getWeeks()  == other.getWeeks()  &&
+               this.getMonths() == other.getMonths() &&
+               this.getYears()  == other.getYears();
+    }
 }
