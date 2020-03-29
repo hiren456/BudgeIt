@@ -16,5 +16,5 @@ public interface BaseEntry {
     BaseEntry modifyEntry(Amount amount, Details details, Date date);
     BaseEntry changeCategory(int catID);
 
-    boolean equals(Entry other);
+    boolean equals(BaseEntry other);
 }

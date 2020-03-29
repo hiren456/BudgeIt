@@ -53,4 +53,15 @@ abstract class DefaultBaseEntry implements BaseEntry {
     public Date getDate() {
         return this.date;
     }
+
+    @Override
+    public boolean equals(BaseEntry other) {
+        boolean amountSame = getAmount().equals(other.getAmount());
+        boolean detailsSame = getDetails().equals(other.getDetails());
+        boolean dateSame = getDate().equals(other.getDate());
+        boolean typeSame = this.getClass() == other.getClass();
+
+        return amountSame && detailsSame
+                && dateSame && typeSame;
+    }
 }

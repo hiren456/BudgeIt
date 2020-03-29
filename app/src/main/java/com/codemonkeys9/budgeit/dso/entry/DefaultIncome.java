@@ -34,16 +34,4 @@ class DefaultIncome extends DefaultEntry implements Income {
 
         return new DefaultIncome(newAmount,newEntryID,newDetails,newDate,newCatID);
     }
-
-    @Override
-    public boolean equals(Entry other) {
-        boolean idSame = getEntryID() == other.getEntryID();
-        boolean amountSame = getAmount().equals(other.getAmount());
-        boolean detailsSame = getDetails().equals(other.getDetails());
-        boolean dateSame = getDate().equals(other.getDate());
-        boolean typeSame = other instanceof Income;
-
-        return idSame && amountSame && detailsSame
-                && dateSame && typeSame;
-    }
 }
