@@ -29,4 +29,5 @@ public interface CategoryList {
     int size();
 
     Category get(int i);
+    Category getInReverseChrono(int i);
 }

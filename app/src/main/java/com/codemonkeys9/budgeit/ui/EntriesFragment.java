@@ -205,6 +205,10 @@ public class EntriesFragment extends Fragment {
             int income = categoryCreator.createSavingsCategory("2000", "Income");
             int transportation = categoryCreator.createBudgetCategory("100", "Transportation");
             int alyx = entryManager.createEntry("60", "Half-Life: Alyx Pre-order", "2019-12-01", true);
+            System.out.println("Games has id: "+games);
+            System.out.println("Misc has id: "+misc);
+            System.out.println("Income has id: "+income);
+            System.out.println("Transportation has id: "+transportation);
             entryCategorizer.categorizeEntry(alyx, games);
             ADD_FAKE_DATA:
             for (int year = 2018; year <= 2020; year++) {

@@ -23,8 +23,6 @@ import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFa
 import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifier;
 import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifierFactory;
 
-import java.util.List;
-
 import static android.app.Activity.RESULT_OK;
 
 public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCategoryListener {
@@ -134,20 +132,20 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
         savingsToggle.setVisible(true);
         budgetToggle.setVisible(true);
 
-        if(visibility.isIncomeVisible()) {
+        if(visibility.areSavingsVisible()) {
             savingsToggle.setTitle(getString(R.string.action_hide_savings));
             // Don't allow the user to hide both types of entries
-            if(!visibility.areExpensesVisible()) {
+            if(!visibility.areBudgetsVisible()) {
                 savingsToggle.setVisible(false);
             }
         } else {
             savingsToggle.setTitle(getString(R.string.action_show_savings));
         }
 
-        if(visibility.areExpensesVisible()) {
+        if(visibility.areBudgetsVisible()) {
             budgetToggle.setTitle(getString(R.string.action_hide_budget));
             // Don't allow the user to hide both types of entries
-            if(!visibility.isIncomeVisible()) {
+            if(!visibility.areSavingsVisible()) {
                 budgetToggle.setVisible(false);
             }
         } else {
@@ -188,7 +186,7 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
         // Get index *within the currently-displayed list of categories*
         int categoryIndex = item.getGroupId();
         // Get actual, global entry ID
-        int categoryId = categories.get(categoryIndex).getID();
+        int categoryId = categories.getInReverseChrono(categoryIndex).getID();
         int buttonId = item.getItemId();
 
         switch(buttonId) {
@@ -217,7 +215,7 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
 
     @Override
     public void onCategoryClick(int position) {
-        Category c = categories.get(position);
+        Category c = categories.getInReverseChrono(position);
         openCategory(c.getID());
     }
 
