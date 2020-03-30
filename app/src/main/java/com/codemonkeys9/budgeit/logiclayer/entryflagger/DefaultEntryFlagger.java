@@ -12,7 +12,7 @@ class DefaultEntryFlagger implements EntryFlagger {
             throws PurchaseDoesNotExistException {
         Database db = DatabaseHolder.getDatabase();
 
-        Entry entry = db.selectByID(id);
+        Entry entry = db.selectDefaultEntryByID(id);
 
         if(entry == null){
             throw new PurchaseDoesNotExistException("Purchase with id "+id+" does not exist");
@@ -31,6 +31,6 @@ class DefaultEntryFlagger implements EntryFlagger {
             newPurchase = purchase.unflag();
         }
 
-        db.updateEntry(newPurchase);
+        db.updateDefaultEntry(newPurchase);
     }
 }

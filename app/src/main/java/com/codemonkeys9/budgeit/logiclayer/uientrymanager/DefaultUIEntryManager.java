@@ -41,7 +41,7 @@ class DefaultUIEntryManager implements UIEntryManager {
         Database db  = DatabaseHolder.getDatabase();
 
         // db returns false if entry is not found
-        if(!db.deleteEntry(entryID)){
+        if(!db.deleteDefaultEntry(entryID)){
             throw new EntryDoesNotExistException("Entry with ID " + entryID +" does not exist");
         }
     }

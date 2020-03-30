@@ -18,17 +18,20 @@ import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.EntryDateComparator;
 import com.codemonkeys9.budgeit.dso.entry.Income;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
+import com.codemonkeys9.budgeit.dso.entry.RecurringEntry;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class RealDatabase extends SQLiteOpenHelper implements Database {
+public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements Database {
 
     //db constants
     private static final int DATABASE_VERSION = 1;
@@ -64,7 +67,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     private int initialCategoryID;
 
 
-    public RealDatabase(Context context, int initialEntryID,int initialCategoryID) {
+    public EntryCategorySQLitePersistence(Context context, int initialEntryID, int initialCategoryID) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.initialEntryID = initialEntryID;
         this.initialCategoryID = initialCategoryID;
@@ -129,7 +132,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     Inserts an Entry into the database.
     If the Entry with the same ID is in the db throws runtime exception
      */
-    public void insertEntry(Entry entry){
+    public void insertDefaultEntry(Entry entry){
         //get the db
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -220,7 +223,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     Update the entry
     return true if the entry is found in the database and then updated, otherwise return false
      */
-    public boolean updateEntry(Entry entry){
+    public boolean updateDefaultEntry(Entry entry){
         //get the db
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -267,7 +270,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     return an entry by ID
     if not found returns null
      */
-    public Entry selectByID(int ID){
+    public Entry selectDefaultEntryByID(int ID){
         Entry entry = null;
         SQLiteDatabase db = this.getReadableDatabase(); //connect to db
 
@@ -319,7 +322,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     return a list of all entries ordered by date
     or an empty list if db is empty
      */
-    public List<Entry> getAllEntries(){
+    public List<Entry> getAllDefaultEntries(){
         Entry entry = null;
         ArrayList<Entry> entryList = new ArrayList<Entry>();
 
@@ -374,7 +377,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     returns the list of entries from that fall within the dateInterval
     returns empty list if the are no entries ordered by date
      */
-    public List<Entry> selectByDate(DateInterval dateInterval){
+    public List<Entry> selectDefaultEntriesByDate(DateInterval dateInterval){
         Entry entry = null;
         ArrayList<Entry> entryList = new ArrayList<Entry>();
 
@@ -416,6 +419,8 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
                 Details details = DetailsFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DETAILS)));
                 Date date = DateFactory.fromString(cursor.getString(cursor.getColumnIndex(ENTRY_DATE)));
                 int type = cursor.getInt(cursor.getColumnIndex(ENTRY_TYPE));
+                System.out.println("*******");
+                System.out.println(details.getValue());
 
                 //check for purchase or income
                 if(type == 0){
@@ -438,7 +443,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     return a list of entries ordered by the date with the same category ID
     or an empty list if there are no such entries
      */
-    public List<Entry> getEntriesByCategoryID(int ID){
+    public List<Entry> getDefaultEntriesByCategoryID(int ID){
         Entry entry = null;
         ArrayList<Entry> entryList = new ArrayList<Entry>();
 
@@ -488,7 +493,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
     delete an entry and return true if the entry deleted successfully,
     otherwise return false
      */
-    public boolean deleteEntry(int ID){
+    public boolean deleteDefaultEntry(int ID){
         //get the db
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -497,6 +502,79 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
         db.close();
 
         return num > 0;
+    }
+
+
+    /*
+    Inserts a recurring entry into the database.
+    If the entry with the same ID is in the db throws runtime exception
+     */
+    @Override
+    public void insertRecurringEntry(RecurringEntry entry) {
+
+    }
+
+    /*
+    Update the recurring entry
+    return true if the entry is found in the database and then updated, otherwise return false
+     */
+    @Override
+    public boolean updateRecurringEntry(RecurringEntry entry) {
+
+        return false;
+    }
+
+    /*
+    return a list of all recurring entries sorted by date
+    or an empty list if db is empty
+     */
+    @Override
+    public List<RecurringEntry> getAllRecurringEntries() {
+
+        return null;
+    }
+
+
+    /*
+    return a list of recurring entries sorted by the date with the same category ID
+    or an empty list if there are no such entries
+     */
+    @Override
+    public List<RecurringEntry> getRecurringEntriesByCategoryID(int ID){
+
+        return null;
+    }
+
+
+    /*
+    return a recurring entry by ID
+    if not found returns null
+     */
+    @Override
+    public RecurringEntry selectRecurringEntryByID(int ID) {
+        return null;
+    }
+
+
+    /*
+    returns the list of recurring entries from that fall within the dateInterval
+    returns empty list if the are no entries
+     */
+    @Override
+    public List<RecurringEntry> selectRecurringEntriesByDate(DateInterval dateInterval) {
+
+        return null;
+    }
+
+
+    /*
+    delete a recurring entry and return true if the entry deleted successfully,
+    otherwise return false
+     */
+    @Override
+    public boolean deleteRecurringEntry(int ID) {
+
+        return false;
     }
 
     /*

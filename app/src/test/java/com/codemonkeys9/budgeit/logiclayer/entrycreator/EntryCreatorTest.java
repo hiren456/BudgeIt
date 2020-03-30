@@ -19,7 +19,6 @@ import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -62,7 +61,7 @@ public class EntryCreatorTest {
                 details1, date1);
 
         DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        List<Entry> entryList = database.selectByDate(interval);
+        List<Entry> entryList = database.selectDefaultEntriesByDate(interval);
         assertEquals(entryList.size(),1);
 
         Entry entry1 = entryList.get(0);
@@ -96,7 +95,7 @@ public class EntryCreatorTest {
                 details3, date3);
 
         DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        List<Entry> entryList = database.selectByDate(interval);
+        List<Entry> entryList = database.selectDefaultEntriesByDate(interval);
         assertEquals(entryList.size(),3);
 
         Entry entry1 = entryList.get(1);

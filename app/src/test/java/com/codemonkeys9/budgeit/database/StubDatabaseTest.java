@@ -80,9 +80,9 @@ public class StubDatabaseTest {
         Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1, catID);
 
         //insert it into the database
-        db.insertEntry(entry1);
+        db.insertDefaultEntry(entry1);
 
-        Entry retEntry1 = db.selectByID(81);
+        Entry retEntry1 = db.selectDefaultEntryByID(81);
 
         // test that it is the one we want
         assertNotNull("Database returns null when it should return an entry using selecBYID", retEntry1);
@@ -145,15 +145,15 @@ public class StubDatabaseTest {
 
         //insert them into the database
         db.insertCategory(category);
-        db.insertEntry(entry1);
-        db.insertEntry(entry2);
-        db.insertEntry(entry3);
-        db.insertEntry(entry4);
+        db.insertDefaultEntry(entry1);
+        db.insertDefaultEntry(entry2);
+        db.insertDefaultEntry(entry3);
+        db.insertDefaultEntry(entry4);
 
 
-        Entry retEntry2 = db.selectByID(72);
-        Entry retEntry3 = db.selectByID(-7);
-        Entry retEntry4 = db.selectByID(6);
+        Entry retEntry2 = db.selectDefaultEntryByID(72);
+        Entry retEntry3 = db.selectDefaultEntryByID(-7);
+        Entry retEntry4 = db.selectDefaultEntryByID(6);
 
         assertNotNull("Database returns null when it should return an entry using selecByID with many inserts 2", retEntry2);
         assertNotNull("Database returns null when it should return an entry using selecByID with many inserts 3", retEntry3);
@@ -243,17 +243,17 @@ public class StubDatabaseTest {
 
         //insert them into the database
         db.insertCategory(category);
-        db.insertEntry(entry1);
-        db.insertEntry(entry2);
-        db.insertEntry(entry3);
-        db.insertEntry(entry4);
+        db.insertDefaultEntry(entry1);
+        db.insertDefaultEntry(entry2);
+        db.insertDefaultEntry(entry3);
+        db.insertDefaultEntry(entry4);
 
         DateInterval interval = DateIntervalFactory.fromDate(
                 DateFactory.fromInts(2001, 10, 7),
                 DateFactory.fromInts(2009, 7, 7)
         );
 
-        List<Entry> retList = db.selectByDate(interval);
+        List<Entry> retList = db.selectDefaultEntriesByDate(interval);
 
         // test that we got what was expected
         assertEquals("Expected select by date to return 3 entrys but it does not", 3, retList.size());
@@ -311,11 +311,11 @@ public class StubDatabaseTest {
         Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1, catID);
 
         //insert the entry into the database
-        db.insertEntry(entry1);
+        db.insertDefaultEntry(entry1);
 
         //delete the entry from database
-        boolean isDeleted = db.deleteEntry(81);
-        Entry retEntry = db.selectByID(81);
+        boolean isDeleted = db.deleteDefaultEntry(81);
+        Entry retEntry = db.selectDefaultEntryByID(81);
 
         assertTrue("Database returns wrong result of deletion", isDeleted);
         assertNull("Database did not delete the entry", retEntry);
@@ -358,20 +358,20 @@ public class StubDatabaseTest {
         Entry entry4 = PurchaseFactory.createPurchase(amount4, entryID4, details4, date4, catID);
 
         //insert entries into the database
-        db.insertEntry(entry1);
-        db.insertEntry(entry2);
-        db.insertEntry(entry3);
-        db.insertEntry(entry4);
+        db.insertDefaultEntry(entry1);
+        db.insertDefaultEntry(entry2);
+        db.insertDefaultEntry(entry3);
+        db.insertDefaultEntry(entry4);
 
         //delete the entry from database
-        boolean isDeleted2 = db.deleteEntry(72);
-        boolean isDeleted3 = db.deleteEntry(-7);
+        boolean isDeleted2 = db.deleteDefaultEntry(72);
+        boolean isDeleted3 = db.deleteDefaultEntry(-7);
 
         //select entries from the database
-        Entry retEntry1 = db.selectByID(81);
-        Entry retEntry2 = db.selectByID(72);
-        Entry retEntry3 = db.selectByID(-7);
-        Entry retEntry4 = db.selectByID(6);
+        Entry retEntry1 = db.selectDefaultEntryByID(81);
+        Entry retEntry2 = db.selectDefaultEntryByID(72);
+        Entry retEntry3 = db.selectDefaultEntryByID(-7);
+        Entry retEntry4 = db.selectDefaultEntryByID(6);
 
         assertEquals("Database returns wrong entry ID", 81, retEntry1.getEntryID()); //1 entry
 
@@ -420,22 +420,22 @@ public class StubDatabaseTest {
         Entry entry4 = PurchaseFactory.createPurchase(amount4, entryID4, details4, date4, catID);
 
         //insert entries into the database
-        db.insertEntry(entry1);
-        db.insertEntry(entry2);
-        db.insertEntry(entry3);
-        db.insertEntry(entry4);
+        db.insertDefaultEntry(entry1);
+        db.insertDefaultEntry(entry2);
+        db.insertDefaultEntry(entry3);
+        db.insertDefaultEntry(entry4);
 
         //delete the entry from database
-        boolean isDeleted1 = db.deleteEntry(81);
-        boolean isDeleted2 = db.deleteEntry(72);
-        boolean isDeleted3 = db.deleteEntry(-7);
-        boolean isDeleted4 = db.deleteEntry(6);
+        boolean isDeleted1 = db.deleteDefaultEntry(81);
+        boolean isDeleted2 = db.deleteDefaultEntry(72);
+        boolean isDeleted3 = db.deleteDefaultEntry(-7);
+        boolean isDeleted4 = db.deleteDefaultEntry(6);
 
         //select entries from the database
-        Entry retEntry1 = db.selectByID(81);
-        Entry retEntry2 = db.selectByID(72);
-        Entry retEntry3 = db.selectByID(-7);
-        Entry retEntry4 = db.selectByID(6);
+        Entry retEntry1 = db.selectDefaultEntryByID(81);
+        Entry retEntry2 = db.selectDefaultEntryByID(72);
+        Entry retEntry3 = db.selectDefaultEntryByID(-7);
+        Entry retEntry4 = db.selectDefaultEntryByID(6);
 
         assertTrue("Database returns wrong result of deletion", isDeleted1);
         assertNull("Database did not delete the entry", retEntry1);
@@ -452,7 +452,7 @@ public class StubDatabaseTest {
     public void selectFromEmptyTest() {
 
         //select an entry from the database
-        Entry retEntry1 = db.selectByID(81);
+        Entry retEntry1 = db.selectDefaultEntryByID(81);
 
         assertNull(retEntry1);
     }
@@ -461,7 +461,7 @@ public class StubDatabaseTest {
     public void deleteFromEmptyTest() {
 
         //select an entry from the db
-        boolean isDeleted1 = db.deleteEntry(6);
+        boolean isDeleted1 = db.deleteDefaultEntry(6);
 
         assertFalse(isDeleted1);
     }
@@ -474,7 +474,7 @@ public class StubDatabaseTest {
                 DateFactory.fromInts(2001, 10, 7),
                 DateFactory.fromInts(2009, 7, 7)
         );
-        List<Entry> retList = db.selectByDate(interval);
+        List<Entry> retList = db.selectDefaultEntriesByDate(interval);
 
         assertEquals("List is not empty", 0, retList.size());
     }
@@ -495,7 +495,7 @@ public class StubDatabaseTest {
         Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1, catID);
 
         //insert it into the database
-        db.insertEntry(entry1);
+        db.insertDefaultEntry(entry1);
 
         //update an entry
         Amount updatedAmount = AmountFactory.fromInt(60);
@@ -503,9 +503,9 @@ public class StubDatabaseTest {
         Date updatedDate = DateFactory.fromInts(2017, 3, 4);
 
         entry1 = entry1.modifyEntry(updatedAmount, updatedDetails, updatedDate);
-        boolean isUpdated = db.updateEntry(entry1);
+        boolean isUpdated = db.updateDefaultEntry(entry1);
 
-        Entry retEntry1 = db.selectByID(entryID1);
+        Entry retEntry1 = db.selectDefaultEntryByID(entryID1);
 
         // test that it is the one we want
         assertNotNull("Database returns null when it should return an entry using selecBYID", retEntry1);
@@ -535,8 +535,8 @@ public class StubDatabaseTest {
         Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1, catID1);
 
         //update an entry
-        boolean isUpdated = db.updateEntry(entry1);
-        Entry retEntry1 = db.selectByID(entryID1);
+        boolean isUpdated = db.updateDefaultEntry(entry1);
+        Entry retEntry1 = db.selectDefaultEntryByID(entryID1);
 
         assertNull("Database should not contain the entry, but it does", retEntry1);
         assertFalse("Database is updated, but should not", isUpdated);
@@ -567,8 +567,8 @@ public class StubDatabaseTest {
         Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1, catID);
 
         //insert it into the database
-        db.insertEntry(entry1);
-        db.insertEntry(entry1);
+        db.insertDefaultEntry(entry1);
+        db.insertDefaultEntry(entry1);
 
     }
 
@@ -694,9 +694,9 @@ public class StubDatabaseTest {
         Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1, catID1);
 
         //insert it into the database
-        db.insertEntry(entry1);
+        db.insertDefaultEntry(entry1);
 
-        Entry retEntry1 = db.selectByID(81);
+        Entry retEntry1 = db.selectDefaultEntryByID(81);
 
         // test that it is the one we want
         assertNotNull("Database returns null when it should return a category using selectCategoryBYID", retEntry1);
@@ -769,14 +769,14 @@ public class StubDatabaseTest {
         db.insertCategory(category);
         db.insertCategory(category1);
 
-        db.insertEntry(entry1);
-        db.insertEntry(entry2);
-        db.insertEntry(entry3);
-        db.insertEntry(entry4);
-        db.insertEntry(entry5);
+        db.insertDefaultEntry(entry1);
+        db.insertDefaultEntry(entry2);
+        db.insertDefaultEntry(entry3);
+        db.insertDefaultEntry(entry4);
+        db.insertDefaultEntry(entry5);
 
-        List<Entry> entryList1 = db.getEntriesByCategoryID(catID);
-        List<Entry> entryList2 = db.getEntriesByCategoryID(catID1);
+        List<Entry> entryList1 = db.getDefaultEntriesByCategoryID(catID);
+        List<Entry> entryList2 = db.getDefaultEntriesByCategoryID(catID1);
 
         assertEquals("There should be 2 entries with catID = 23 ", 2, entryList1.size());
         assertEquals("There should be 3 entries with catID1 = 21", 3, entryList2.size());
@@ -815,18 +815,18 @@ public class StubDatabaseTest {
 
 
         db.insertCategory(category);
-        db.insertEntry(entry1);
-        db.insertEntry(entry2);
-        db.insertEntry(entry3);
+        db.insertDefaultEntry(entry1);
+        db.insertDefaultEntry(entry2);
+        db.insertDefaultEntry(entry3);
 
         db.deleteCategory(catID);
 
         IDManager manager = IDManagerFactory.createIDManager();
         int defaultCatID = manager.getDefaultID("Category");
 
-        List<Entry> entryList = db.getEntriesByCategoryID(catID);
-        List<Entry> entryListDefault = db.getEntriesByCategoryID(defaultCatID);
-        List<Entry> entryListExist = db.getAllEntries();
+        List<Entry> entryList = db.getDefaultEntriesByCategoryID(catID);
+        List<Entry> entryListDefault = db.getDefaultEntriesByCategoryID(defaultCatID);
+        List<Entry> entryListExist = db.getAllDefaultEntries();
 
         assertEquals("There should be 3 entries with default catID", 3, entryListDefault.size());
         assertEquals("There should be 0 entries with catID = 23", 0, entryList.size());
@@ -926,7 +926,7 @@ public class StubDatabaseTest {
         Date date1 = DateFactory.fromInts(2001, 7, 7);
         Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1, catID);
 
-        db.insertEntry(entry1); //should throw an exception
+        db.insertDefaultEntry(entry1); //should throw an exception
     }
 
     @Test

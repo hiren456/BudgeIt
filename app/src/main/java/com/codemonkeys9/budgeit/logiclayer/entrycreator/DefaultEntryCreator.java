@@ -26,7 +26,7 @@ class DefaultEntryCreator implements EntryCreator {
         int entryID = idManager.getNewID("Entry");
         int catID = idManager.getDefaultID("Category");
 
-        database.insertEntry(PurchaseFactory.createPurchase(amount,entryID,details,date,catID,false));
+        database.insertDefaultEntry(PurchaseFactory.createPurchase(amount,entryID,details,date,catID,false));
         return entryID;
     }
 
@@ -35,7 +35,7 @@ class DefaultEntryCreator implements EntryCreator {
         int entryID = idManager.getNewID("Entry");
         int catID = idManager.getDefaultID("Category");
 
-        database.insertEntry(PurchaseFactory.createPurchase(amount,entryID,details,date,catID,flag));
+        database.insertDefaultEntry(PurchaseFactory.createPurchase(amount,entryID,details,date,catID,flag));
         return entryID;
     }
 
@@ -44,7 +44,7 @@ class DefaultEntryCreator implements EntryCreator {
         int entryID = idManager.getNewID("Entry");
         int catID = idManager.getDefaultID("Category");
 
-        database.insertEntry(IncomeFactory.createIncome(amount,entryID,details,date,catID));
+        database.insertDefaultEntry(IncomeFactory.createIncome(amount,entryID,details,date,catID));
         return entryID;
     }
 

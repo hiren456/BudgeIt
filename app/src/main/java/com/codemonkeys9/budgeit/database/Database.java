@@ -3,52 +3,95 @@ package com.codemonkeys9.budgeit.database;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.RecurringEntry;
 
 import java.util.List;
 
 public interface Database {
 
     /*
-    Inserts an Entry into the database.
+    Inserts a default entry into the database.
     If the Entry with the same ID is in the db throws runtime exception
      */
-    void insertEntry(Entry entry);
+    void insertDefaultEntry(Entry entry);
 
     /*
-    Update the entry
+    Update the default entry
     return true if the entry is found in the database and then updated, otherwise return false
      */
-    boolean updateEntry(Entry entry);
+    boolean updateDefaultEntry(Entry entry);
 
     /*
-    return an entry by ID
+    return a default entry by ID
     if not found returns null
      */
-    Entry selectByID(int ID);
+    Entry selectDefaultEntryByID(int ID);
 
     /*
-    return a list of all entries sorted by date
+    return a list of all default entries sorted by date
     or an empty list if db is empty
      */
-    List<Entry> getAllEntries();
+    List<Entry> getAllDefaultEntries();
 
     /*
-    returns the list of entries from that fall within the dateInterval
+    returns the list of default entries from that fall within the dateInterval
     returns empty list if the are no entries
      */
-    List<Entry> selectByDate(DateInterval dateInterval);
+    List<Entry> selectDefaultEntriesByDate(DateInterval dateInterval);
 
     /*
-    return a list of entries sorted by the date with the same category ID
+    return a list of default entries sorted by the date with the same category ID
     or an empty list if there are no such entries
      */
-    List<Entry> getEntriesByCategoryID(int ID);
+    List<Entry> getDefaultEntriesByCategoryID(int ID);
 
     /*
-    delete an entry and return true if the entry deleted successfully,
+    delete a default entry and return true if the entry deleted successfully,
     otherwise return false
      */
-    boolean deleteEntry(int ID);
+    boolean deleteDefaultEntry(int ID);
+
+    /*
+    Inserts a recurring entry into the database.
+    If the Entry with the same ID is in the db throws runtime exception
+     */
+    void insertRecurringEntry(RecurringEntry entry);
+
+    /*
+    Update the recurring entry
+    return true if the entry is found in the database and then updated, otherwise return false
+     */
+    boolean updateRecurringEntry(RecurringEntry entry);
+
+    /*
+    return a recurring entry by ID
+    if not found returns null
+     */
+    RecurringEntry selectRecurringEntryByID(int ID);
+
+    /*
+    return a list of all recurring entries sorted by date
+    or an empty list if db is empty
+     */
+    List<RecurringEntry> getAllRecurringEntries();
+
+    /*
+    returns the list of recurring entries from that fall within the dateInterval
+    returns empty list if the are no entries
+     */
+    List<RecurringEntry> selectRecurringEntriesByDate(DateInterval dateInterval);
+
+    /*
+    return a list of recurring entries sorted by the date with the same category ID
+    or an empty list if there are no such entries
+     */
+    List<RecurringEntry> getRecurringEntriesByCategoryID(int ID);
+
+    /*
+    delete a recurring entry and return true if the entry deleted successfully,
+    otherwise return false
+     */
+    boolean deleteRecurringEntry(int ID);
 
     /*
     Inserts a Category into the database.

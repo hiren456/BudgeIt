@@ -1,13 +1,10 @@
 package com.codemonkeys9.budgeit.logiclayer.uientrymanager;
 
-import android.provider.ContactsContract;
-
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
-import com.codemonkeys9.budgeit.dso.category.BudgetCategory;
 import com.codemonkeys9.budgeit.dso.category.BudgetCategoryFactory;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.date.Date;
@@ -61,11 +58,11 @@ public class UIEntryManagerTest {
 
         Database db = DatabaseHolder.getDatabase();
         db.insertCategory(category);
-        db.insertEntry(entry);
+        db.insertDefaultEntry(entry);
 
 
         manager.deleteEntry(42);
-        assertNull(db.selectByID(42));
+        assertNull(db.selectDefaultEntryByID(42));
     }
 
     @Test
@@ -88,7 +85,7 @@ public class UIEntryManagerTest {
 
         Database db = DatabaseHolder.getDatabase();
         db.insertCategory(category);
-        db.insertEntry(entry);
+        db.insertDefaultEntry(entry);
 
 
         try{

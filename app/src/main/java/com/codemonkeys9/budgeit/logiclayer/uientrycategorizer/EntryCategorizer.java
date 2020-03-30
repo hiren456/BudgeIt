@@ -28,12 +28,12 @@ class EntryCategorizer implements UIEntryCategorizer {
         Category newCat = cat.modifyCategory(cat.getName(),cat.getGoal()
                 , DateFactory.fromString("now"));
         Entry newEntry = entry.changeCategory(categoryID);
-        db.updateEntry(newEntry);
+        db.updateDefaultEntry(newEntry);
         db.updateCategory(newCat);
     }
 
     private Entry fetchEntry(int id){
-        Entry entry = this.db.selectByID(id);
+        Entry entry = this.db.selectDefaultEntryByID(id);
         if(entry == null){
             throw new EntryDoesNotExistException("Entry with id " +id+" does not exist");
         }
