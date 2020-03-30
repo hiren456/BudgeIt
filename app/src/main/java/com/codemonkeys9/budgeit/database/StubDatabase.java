@@ -361,13 +361,23 @@ class StubDatabase implements Database {
         int defaultCatID = manager.getDefaultID("Category");
 
         if (removed != null) {
-            //update category also update entry
+            //update category also update default entry
             for (Entry entry : this.defaultEntryMap.values()) {
                 int catID = entry.getCatID();
 
                 if (catID == ID) {
                     entry = entry.changeCategory(defaultCatID);
                     this.defaultEntryMap.put(entry.getEntryID(), entry);
+                }
+            }
+
+            //update category also update recurring entry
+            for (RecurringEntry entry : this.recurringEntryMap.values()) {
+                int catID = entry.getCatID();
+
+                if (catID == ID) {
+                    entry = entry.changeCategory(defaultCatID);
+                    this.recurringEntryMap.put(entry.getRecurringEntryID(), entry);
                 }
             }
         }
@@ -412,6 +422,7 @@ class StubDatabase implements Database {
      */
     public void clean(){
         defaultEntryMap.clear();
+        recurringEntryMap.clear();
         categoryMap.clear();
     }
 }
