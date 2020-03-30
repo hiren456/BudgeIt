@@ -1,11 +1,8 @@
 package com.codemonkeys9.budgeit.dso.entry;
 
 import com.codemonkeys9.budgeit.dso.amount.Amount;
-import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
 import com.codemonkeys9.budgeit.dso.date.Date;
-import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
-import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 
 class DefaultPurchase extends DefaultEntry implements Purchase {
     boolean flag;
@@ -21,66 +18,32 @@ class DefaultPurchase extends DefaultEntry implements Purchase {
     }
 
     @Override
-    public Purchase flag() {
-        Amount newAmount = AmountFactory.fromInt(this.amount.getValue());
-        int newEntryID = this.entryID;
-        int newCatID = catID;
-        Details newDetails = DetailsFactory.fromString(this.details.getValue());
-        Date newDate = DateFactory.fromInts(this.date.getYear(),this.date.getMonth(),this.date.getDay());
-
-        return new DefaultPurchase(newAmount,newEntryID,newDetails,newDate,newCatID,true);
+    public DefaultPurchase flag() {
+        DefaultPurchase purchase = this.clone();
+        purchase.flag = true;
+        return purchase;
     }
 
     @Override
-    public Purchase unflag() {
-        Amount newAmount = AmountFactory.fromInt(this.amount.getValue());
-        int newEntryID = this.entryID;
-        int newCatID = catID;
-        Details newDetails = DetailsFactory.fromString(this.details.getValue());
-        Date newDate = DateFactory.fromInts(this.date.getYear(),this.date.getMonth(),this.date.getDay());
-
-        return new DefaultPurchase(newAmount,newEntryID,newDetails,newDate,newCatID,false);
+    public DefaultPurchase unflag() {
+        DefaultPurchase purchase = this.clone();
+        purchase.flag = false;
+        return purchase;
     }
 
     @Override
-    public Purchase modifyEntry(Amount amount, Details details, Date date) {
-
-        Amount newAmount = AmountFactory.fromInt(amount.getValue());
-        int newEntryID = this.entryID;
-        int newCatID = catID;
-        Details newDetails = DetailsFactory.fromString(details.getValue());
-        Date newDate = DateFactory.fromInts(date.getYear(),date.getMonth(),date.getDay());
-
-        return new DefaultPurchase(newAmount,newEntryID,newDetails,newDate,newCatID,this.flag);
-    }
-
-    @Override
-    public Entry changeCategory(int catID) {
-        Amount newAmount = AmountFactory.fromInt(this.amount.getValue());
-        int newEntryID = this.entryID;
-        int newCatID = catID;
-        Details newDetails = DetailsFactory.fromString(this.details.getValue());
-        Date newDate = DateFactory.fromInts(this.date.getYear(),this.date.getMonth(),this.date.getDay());
-
-        return new DefaultPurchase(newAmount,newEntryID,newDetails,newDate,newCatID,this.flag);
+    public DefaultPurchase clone() {
+        return new DefaultPurchase(amount.clone(), entryID, details.clone(), date.clone(), catID, flag);
     }
 
     @Override
     public boolean equals(Entry other) {
-        boolean idSame = getEntryID() == other.getEntryID();
-        boolean amountSame = getAmount().equals(other.getAmount());
-        boolean detailsSame = getDetails().equals(other.getDetails());
-        boolean dateSame = getDate().equals(other.getDate());
+        if(!super.equals(other)) return false;
 
-        boolean flaggedSame = false;
-        boolean typeSame = false;
-
-        if(other instanceof Purchase){
-            typeSame = true;
-            flaggedSame = flagged() == ((Purchase) other).flagged();
+        if(other instanceof Purchase) {
+            return flagged() == ((Purchase) other).flagged();
+        } else {
+            throw new RuntimeException("If `other` is not an instance of Purchase, super.equals() should return false");
         }
-
-        return idSame && amountSame && detailsSame
-                && dateSame && typeSame && flaggedSame;
     }
 }

@@ -13,4 +13,5 @@ public interface Details {
     String getValue();
 
     boolean equals(Details other);
+    Details clone();
 }
