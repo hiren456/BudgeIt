@@ -22,6 +22,12 @@ import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 import java.util.List;
 
 final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
+    private EntryAdapter.OnEntryListener onEntryListener;
+
+    public interface OnEntryListener{
+        void onEntryClick(int position);
+    }
+
     final static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         TextView description;
         TextView amount;
@@ -109,47 +115,4 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
     }
 
 
-    public boolean onContextItemSelected(MenuItem item, Fragment fragment, List<Entry> entries) {
-
-        // Get index *within the currently-displayed list of entries*
-        int entryIndex = item.getGroupId();
-        UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
-        // Get actual, global entry ID
-        int entryId = entries.get(entryIndex).getEntryID();
-        int buttonId = item.getItemId();
-
-        Intent i;
-        switch(buttonId) {
-            case R.id.action_delete:
-                entryManager.deleteEntry(entryId);
-                break;
-            case R.id.action_flag:
-                entryManager.flagPurchase(entryId, true);
-                break;
-            case R.id.action_unflag:
-                entryManager.flagPurchase(entryId, false);
-                break;
-            case R.id.modify_amount:
-                i = new Intent(fragment.getContext() , ModifyEntryAmountActivity.class);
-                i.putExtra("entryId",entryId);
-                fragment.startActivity(i);
-                break;
-            case R.id.modify_description:
-                i = new Intent(fragment.getContext() , ModifyEntryDescriptionActivity.class);
-                i.putExtra("entryId",entryId);
-                fragment.startActivity(i);
-                break;
-            case R.id.modify_date:
-                i = new Intent(fragment.getContext() , ModifyEntryDateActivity.class);
-                i.putExtra("entryId",entryId);
-                fragment.startActivity(i);
-                break;
-            case R.id.modify_category:
-                i = new Intent(fragment.getContext() , ChangeEntryCategoryActivity.class);
-                i.putExtra("entryId",entryId);
-                fragment.startActivity(i);
-                break;
-        }
-        return true;
-    }
 }

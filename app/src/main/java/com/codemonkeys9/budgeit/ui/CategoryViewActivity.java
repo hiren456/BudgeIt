@@ -65,12 +65,8 @@ public class CategoryViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        // We will get context item events for all fragments in MainPager. We have to return false
-        // in order for other fragments to have a chance to handle them.
-
-        // To start an activity from the context menu in the entry adapter
-        // I had to change it to take a fragment as a parameter.
-        // I don't know how to get this code working with that
+        // onContextItemSelected is no longer in the adapter
+        // it is now in the fragment
         //entryAdapter.onContextItemSelected(item,entries);
         refreshTimeline();
         return true;

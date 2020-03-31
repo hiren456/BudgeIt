@@ -28,7 +28,7 @@ import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
 import java.util.List;
 
-public class EntriesFragment extends Fragment {
+public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryListener{
     private EntryAdapter entryAdapter;
     private EntryVisibility visibility = EntryVisibility.Both; // defaults to all entries
 
@@ -235,27 +235,9 @@ public class EntriesFragment extends Fragment {
         super.onPause();
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        if(!this.active) return false;
-
-        entryAdapter.onContextItemSelected(item, this , entries);
-
-        refreshTimeline();
-        return true;
-    }
-
     private void refreshTimeline() {
         EntryList entryList = null;
 
-        // if the user inputs -123456789 and then 123456789
-        // or any other invalid date range
-        // either a InvalidDateException
-        // or a InvalidDateInterval exception will be thrown
-        // you should probably catch them both by catching
-        // the UserInputException and printing out
-        // an error message to the user with UserInputException's
-        // getUserErrorMessage method
         switch(visibility) {
             case Income:
                 entryList = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
@@ -269,5 +251,60 @@ public class EntriesFragment extends Fragment {
         }
         this.entries = entryList.getReverseChrono();
         entryAdapter.updateEntries(this.entries);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // We will get context item events for all fragments in MainPager. We have to return false
+        // in order for other fragments to have a chance to handle them.
+        if(!this.active) return false;
+
+        // Get index *within the currently-displayed list of entries*
+        int entryIndex = item.getGroupId();
+        UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
+        // Get actual, global entry ID
+        int entryId = entries.get(entryIndex).getEntryID();
+        int buttonId = item.getItemId();
+
+        Intent i;
+        switch(buttonId) {
+            case R.id.action_delete:
+                entryManager.deleteEntry(entryId);
+                break;
+            case R.id.action_flag:
+                entryManager.flagPurchase(entryId, true);
+                break;
+            case R.id.action_unflag:
+                entryManager.flagPurchase(entryId, false);
+                break;
+            case R.id.modify_amount:
+                i = new Intent(getContext() , ModifyEntryAmountActivity.class);
+                i.putExtra("entryId",entryId);
+                startActivity(i);
+                break;
+            case R.id.modify_description:
+                i = new Intent(getContext() , ModifyEntryDescriptionActivity.class);
+                i.putExtra("entryId",entryId);
+                startActivity(i);
+                break;
+            case R.id.modify_date:
+                i = new Intent(getContext() , ModifyEntryDateActivity.class);
+                i.putExtra("entryId",entryId);
+                startActivity(i);
+                break;
+            case R.id.modify_category:
+                i = new Intent(getContext() , ChangeEntryCategoryActivity.class);
+                i.putExtra("entryId",entryId);
+                startActivity(i);
+                break;
+        }
+
+        refreshTimeline();
+        return true;
+    }
+
+    @Override
+    public void onEntryClick(int position) {
+        //do nothing
     }
 }
