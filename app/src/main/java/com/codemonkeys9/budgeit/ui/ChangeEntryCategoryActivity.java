@@ -29,7 +29,7 @@ import segmented_control.widget.custom.android.com.segmentedcontrol.SegmentedCon
 import segmented_control.widget.custom.android.com.segmentedcontrol.item_row_column.SegmentViewHolder;
 import segmented_control.widget.custom.android.com.segmentedcontrol.listeners.OnSegmentSelectedListener;
 
-public class ChangeCategoryActivity extends AppCompatActivity {
+public class ChangeEntryCategoryActivity extends AppCompatActivity {
     Spinner dropdown;
     Category category;
     int entryId;

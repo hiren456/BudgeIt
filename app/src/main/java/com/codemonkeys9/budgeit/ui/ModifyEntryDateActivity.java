@@ -13,13 +13,13 @@ import com.codemonkeys9.budgeit.exceptions.UserInputException;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
-public class ModifyAmountActivity extends AppCompatActivity {
+public class ModifyEntryDateActivity extends AppCompatActivity {
     int entryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.modify_entry_amount);
+        setContentView(R.layout.modify_entry_date);
         this.entryId = getIntent().getIntExtra("entryId",0);
 
         Button submitButton = findViewById(R.id.button_submit);
@@ -32,11 +32,10 @@ public class ModifyAmountActivity extends AppCompatActivity {
             }
         });
     }
-
     public void submitEntry(){
         UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
 
-        String amount = ((EditText)findViewById(R.id.editText_amount)).getText().toString();
+        String date = ((EditText)findViewById(R.id.editText_date)).getText().toString();
 
         try {
         }

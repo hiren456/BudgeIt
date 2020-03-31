@@ -130,22 +130,22 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
                 entryManager.flagPurchase(entryId, false);
                 break;
             case R.id.modify_amount:
-                i = new Intent(fragment.getContext() , ModifyAmountActivity.class);
+                i = new Intent(fragment.getContext() , ModifyEntryAmountActivity.class);
                 i.putExtra("entryId",entryId);
                 fragment.startActivity(i);
                 break;
             case R.id.modify_description:
-                i = new Intent(fragment.getContext() , ModifyDescriptionActivity.class);
+                i = new Intent(fragment.getContext() , ModifyEntryDescriptionActivity.class);
                 i.putExtra("entryId",entryId);
                 fragment.startActivity(i);
                 break;
             case R.id.modify_date:
-                i = new Intent(fragment.getContext() , ModifyDateActivity.class);
+                i = new Intent(fragment.getContext() , ModifyEntryDateActivity.class);
                 i.putExtra("entryId",entryId);
                 fragment.startActivity(i);
                 break;
             case R.id.modify_category:
-                i = new Intent(fragment.getContext() , ChangeCategoryActivity.class);
+                i = new Intent(fragment.getContext() , ChangeEntryCategoryActivity.class);
                 i.putExtra("entryId",entryId);
                 fragment.startActivity(i);
                 break;

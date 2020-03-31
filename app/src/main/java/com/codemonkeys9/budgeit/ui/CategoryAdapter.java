@@ -45,6 +45,8 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(this.getAdapterPosition(), R.id.action_delete, 0, "Delete");
+            menu.add(this.getAdapterPosition(), R.id.modify_amount, 0, "Modify Amount");
+            menu.add(this.getAdapterPosition(), R.id.modify_description, 0, "Modify Description");
         }
 
         @Override

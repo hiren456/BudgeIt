@@ -12,10 +12,12 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.CategoryViewActivity"></activity>
         <activity android:name=".ui.NewCategoryActivity" />
-        <activity android:name=".ui.ModifyAmountActivity" />
-        <activity android:name=".ui.ModifyDateActivity" />
-        <activity android:name=".ui.ModifyDescriptionActivity" />
-        <activity android:name=".ui.ChangeCategoryActivity" />
+        <activity android:name=".ui.ModifyEntryAmountActivity" />
+        <activity android:name=".ui.ModifyCategoryAmountActivity" />
+        <activity android:name=".ui.ModifyEntryDateActivity" />
+        <activity android:name=".ui.ModifyEntryDescriptionActivity" />
+        <activity android:name=".ui.ModifyCategoryDescriptionActivity" />
+        <activity android:name=".ui.ChangeEntryCategoryActivity" />
         <activity
             android:name=".ui.DateRangeActivity"
             android:parentActivityName=".ui.MainActivity" />
