@@ -14,8 +14,6 @@ import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFa
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

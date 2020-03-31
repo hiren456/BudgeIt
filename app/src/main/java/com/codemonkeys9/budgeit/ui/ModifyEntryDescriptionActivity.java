@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.dso.details.Details;
+import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
@@ -38,6 +40,8 @@ public class ModifyEntryDescriptionActivity extends AppCompatActivity {
         String date = ((EditText)findViewById(R.id.editText_details)).getText().toString();
 
         try {
+            Details details = DetailsFactory.fromString(date);
+            entryManager.changeName(entryId,details);
         }
         catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();

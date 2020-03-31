@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
@@ -38,6 +40,8 @@ public class ModifyEntryDateActivity extends AppCompatActivity {
         String date = ((EditText)findViewById(R.id.editText_date)).getText().toString();
 
         try {
+            Date dsoDate = DateFactory.fromString(date);
+            entryManager.changeDate(entryId,dsoDate);
         }
         catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();

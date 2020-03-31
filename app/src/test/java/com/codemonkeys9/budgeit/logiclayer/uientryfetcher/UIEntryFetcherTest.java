@@ -18,7 +18,6 @@ import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
