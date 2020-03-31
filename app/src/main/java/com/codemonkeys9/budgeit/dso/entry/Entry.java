@@ -4,16 +4,13 @@ import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.details.Details;
 
-public interface Entry {
-
+public interface Entry extends BaseEntry {
     // getters
-    Amount getAmount();
     int getEntryID();
-    int getCatID();
-    Details getDetails();
-    Date getDate();
 
+    @Override
     Entry modifyEntry(Amount amount,Details details, Date date);
+    @Override
     Entry changeCategory(int catID);
 
     boolean equals(Entry other);

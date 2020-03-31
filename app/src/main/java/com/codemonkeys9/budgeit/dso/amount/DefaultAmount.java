@@ -69,4 +69,9 @@ class DefaultAmount implements Amount{
     public boolean equals(Amount other){
         return this.amount == other.getValue();
     }
+
+    @Override
+    public DefaultAmount clone() {
+        return new DefaultAmount(amount);
+    }
 }

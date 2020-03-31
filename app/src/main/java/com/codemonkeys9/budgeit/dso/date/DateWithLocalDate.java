@@ -63,6 +63,11 @@ public class DateWithLocalDate implements Date {
     }
 
     @Override
+    public DateWithLocalDate clone() {
+        return new DateWithLocalDate(getYear(), getMonth(), getDay());
+    }
+
+    @Override
     public boolean inFuture() {
         LocalDate now = LocalDate.now();
         return this.date.isAfter(now);
