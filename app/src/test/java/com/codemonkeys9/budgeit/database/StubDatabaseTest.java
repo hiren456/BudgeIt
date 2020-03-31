@@ -19,6 +19,7 @@ import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
 import com.codemonkeys9.budgeit.dso.entry.RecurrencePeriod;
 import com.codemonkeys9.budgeit.dso.entry.RecurrencePeriodFactory;
 import com.codemonkeys9.budgeit.dso.entry.RecurringEntry;
+import com.codemonkeys9.budgeit.dso.entry.RecurringIncome;
 import com.codemonkeys9.budgeit.dso.entry.RecurringIncomeFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
@@ -447,7 +448,7 @@ public class StubDatabaseTest {
         Details details3 = DetailsFactory.fromString("I am running out of ideas");
         Date date3 = DateFactory.fromInts(2009, 7, 6);
         RecurrencePeriod period3 = RecurrencePeriodFactory.createRecurrencePeriod(1, 2, 3, 4);
-        RecurringEntry entry3 = RecurringIncomeFactory.createRecurringIncome(amount3, entryID3, details3, date3, catID, period3);
+        RecurringEntry entry3 = RecurringIncomeFactory.createRecurringIncome(amount3, entryID3, details3, date3, 0, period3);
 
         //Create valid RecurringEntry4
         Amount amount4 = AmountFactory.fromInt(724);
@@ -906,7 +907,7 @@ public class StubDatabaseTest {
         RecurrencePeriod updatedPeriod = RecurrencePeriodFactory.createRecurrencePeriod(1, 2, 3, 4);
 
         //modify this recurring entry
-        entry1 = entry1.modifyEntry(updatedAmount, updatedDetails, updatedDate);
+        entry1 = ((RecurringIncome) entry1.modifyEntry(updatedAmount, updatedDetails, updatedDate));
         entry1 = entry1.changeRecurrencePeriod(updatedPeriod);
         boolean isUpdated = db.updateRecurringEntry(entry1);
 
