@@ -22,6 +22,8 @@ import com.codemonkeys9.budgeit.dso.entry.Income;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
+import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
+import com.codemonkeys9.budgeit.dso.entrylist.EntryListFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
@@ -440,7 +442,7 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
      */
     public List<Entry> getEntriesByCategoryID(int ID){
         Entry entry = null;
-        ArrayList<Entry> entryList = new ArrayList<Entry>();
+        ArrayList<Entry> listOfEntries = new ArrayList<Entry>();
 
         //get the default id of category
         IDManager manager = IDManagerFactory.createIDManager();
@@ -476,12 +478,11 @@ public class RealDatabase extends SQLiteOpenHelper implements Database {
                 }
 
                 //add entry to the list
-                entryList.add(entry);
+                listOfEntries.add(entry);
             } while (cursor.moveToNext());
             cursor.close();
         }
-
-        return entryList;
+        return listOfEntries;
     }
 
     /*

@@ -6,6 +6,8 @@ import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.entry.EntryDateComparator;
+import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
+import com.codemonkeys9.budgeit.dso.entrylist.EntryListFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
@@ -99,19 +101,18 @@ class StubDatabase implements Database {
      */
     @Override
     public List<Entry> getEntriesByCategoryID(int ID){
-        ArrayList<Entry> returnList = new ArrayList<Entry>();
+        ArrayList<Entry> list = new ArrayList<Entry>();
 
         // find all entries with the same category ID
         for ( Entry entry : this.entryMap.values()){
             if (entry.getCatID() == ID){
-                returnList.add(entry);
+                list.add(entry);
             }
         }
 
         // sort the entries by date
-        Collections.sort(returnList,new EntryDateComparator());
-
-        return returnList;
+        Collections.sort(list,new EntryDateComparator());
+        return list;
     }
 
 
