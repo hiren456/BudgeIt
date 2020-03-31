@@ -2,6 +2,8 @@ package com.codemonkeys9.budgeit.logiclayer.uientrymanager;
 
 import android.provider.ContactsContract;
 
+import androidx.test.espresso.Espresso;
+
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
@@ -10,6 +12,7 @@ import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
 import com.codemonkeys9.budgeit.dso.category.BudgetCategory;
 import com.codemonkeys9.budgeit.dso.category.BudgetCategoryFactory;
 import com.codemonkeys9.budgeit.dso.category.Category;
+import com.codemonkeys9.budgeit.dso.category.SavingsCategoryFactory;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
@@ -17,6 +20,7 @@ import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
+import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
 import com.codemonkeys9.budgeit.exceptions.CategoryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.FutureDateException;
@@ -25,6 +29,8 @@ import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
+import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifier;
+import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifierFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 
@@ -38,6 +44,22 @@ public class UIEntryManagerTest {
     public void createDb() {
         IDManager idManager = IDManagerFactory.createIDManager();
         DatabaseHolder.initTestable(DatabaseFactory.createStubDatabase(idManager.getInitialID("Entry"),idManager.getInitialID("Category")));
+
+        Database db = DatabaseHolder.getDatabase();
+
+        Amount goal = AmountFactory.fromString( "200.00");
+        Details name = DetailsFactory.fromString( "Food");
+        Date date = DateFactory.fromInts(1999,04,23);
+        int entryID = 24;
+        Entry entry = PurchaseFactory.createPurchase(goal,entryID,name,date,idManager.getDefaultID("Category"));
+        db.insertEntry(entry);
+
+        Amount goal2 = AmountFactory.fromString( "7000.00");
+        Details name2 = DetailsFactory.fromString( "Phone");
+        Date date2 = DateFactory.fromInts(1999,04,23);
+        int entryID2 = 25;
+        Entry entry2 = IncomeFactory.createIncome(goal,entryID2,name,date,idManager.getDefaultID("Category"));
+        db.insertEntry(entry2);
     }
 
     @Test
@@ -327,6 +349,109 @@ public class UIEntryManagerTest {
             manager.flagPurchase(54,true);
             fail();
         }catch(PurchaseDoesNotExistException e){
+
+        }catch (Exception e){
+            fail();
+        }
+    }
+
+    // This test is new and should be replaced with mockito
+    @Test
+    public void changeGoalEntryTest() {
+        UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
+        Database db = DatabaseHolder.getDatabase();
+
+        Entry oldEntry =  db.selectByID(24);
+        Amount newAmount = AmountFactory.fromInt(50000);
+        mod.changeAmount(24,newAmount);
+        Entry newEntry =  db.selectByID(24);
+
+        assertTrue(oldEntry.getDate().equals(newEntry.getDate()));
+        assertTrue(oldEntry.getDetails().equals(newEntry.getDetails()));
+        assertTrue(newAmount.equals(newEntry.getAmount()));
+    }
+
+    // This test is new and should be replaced with mockito
+    @Test
+    public void changeGoalNonExistentEntryTest() {
+        UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
+        Database db = DatabaseHolder.getDatabase();
+
+        Amount newAmount = AmountFactory.fromInt(50000);
+
+        try{
+            mod.changeAmount(Integer.MIN_VALUE,newAmount);
+            fail();
+        }catch (EntryDoesNotExistException e){
+
+        }catch (Exception e){
+            fail();
+        }
+
+    }
+
+    // This test is new and should be replaced with mockito
+    @Test
+    public void changeNameEntryTest() {
+        UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
+        Database db = DatabaseHolder.getDatabase();
+
+        Entry oldEntry =  db.selectByID(24);
+        Details newName = DetailsFactory.fromString("Better Food");
+        mod.changeName(24,newName);
+        Entry newEntry =  db.selectByID(24);
+
+        assertTrue(oldEntry.getDate().equals(newEntry.getDate()));
+        assertTrue(newName.equals(newEntry.getDetails()));
+        assertTrue(oldEntry.getAmount().equals(newEntry.getAmount()));
+    }
+
+    // This test is new and should be replaced with mockito
+    @Test
+    public void changeNameNonExistentEntryTest() {
+        UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
+        Database db = DatabaseHolder.getDatabase();
+
+        Details newName = DetailsFactory.fromString("Better Food");
+
+        try{
+            mod.changeName(Integer.MIN_VALUE,newName);
+            fail();
+        }catch (EntryDoesNotExistException e){
+
+        }catch (Exception e){
+            fail();
+        }
+    }
+
+    // This test is new and should be replaced with mockito
+    @Test
+    public void changeDateEntryTest() {
+        UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
+        Database db = DatabaseHolder.getDatabase();
+
+        Entry oldEntry =  db.selectByID(24);
+        Date newDate = DateFactory.fromString("2018-03-21");
+        mod.changeDate(24,newDate);
+        Entry newEntry =  db.selectByID(24);
+
+        assertTrue(newDate.equals(newEntry.getDate()));
+        assertTrue(oldEntry.getDetails().equals(newEntry.getDetails()));
+        assertTrue(oldEntry.getAmount().equals(newEntry.getAmount()));
+    }
+
+    // This test is new and should be replaced with mockito
+    @Test
+    public void changeDateNonExistentEntryTest() {
+        UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
+        Database db = DatabaseHolder.getDatabase();
+
+        Date newDate = DateFactory.fromString("2018-03-21");
+
+        try{
+            mod.changeDate(Integer.MIN_VALUE,newDate);
+            fail();
+        }catch (EntryDoesNotExistException e){
 
         }catch (Exception e){
             fail();
