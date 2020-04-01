@@ -14,18 +14,15 @@ abstract class DefaultBaseEntry implements BaseEntry {
 
         // check that parameters are valid
         if(date == null){
-
-            throw new NullPointerException();
+            throw new NullPointerException("date is null");
         }
 
         if(details == null){
-
-            throw new NullPointerException();
+            throw new NullPointerException("details is null");
         }
 
         if(amount == null){
-
-            throw new NullPointerException();
+            throw new NullPointerException("amount is null");
         }
 
         this.amount = amount;

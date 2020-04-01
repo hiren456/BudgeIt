@@ -20,8 +20,7 @@ class DefaultDetails implements Details {
 
     private void validateDetails(String details){
         if(details == null){
-
-            throw new NullPointerException();
+            throw new NullPointerException("details is null");
         }
     }
 
