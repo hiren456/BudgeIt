@@ -5,12 +5,6 @@ import android.content.Context;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.bouncycastle.jce.provider.JCERSAPrivateCrtKey;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
@@ -28,19 +22,21 @@ import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
-import com.codemonkeys9.budgeit.logiclayer.uicalculator.UIEntryCalculatorTest;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifier;
 import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifierFactory;
-import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizer;
-import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizerFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.IOException;
 import java.util.List;

@@ -189,9 +189,20 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
         int categoryId = categories.getInReverseChrono(categoryIndex).getID();
         int buttonId = item.getItemId();
 
+        Intent i;
         switch(buttonId) {
             case R.id.action_delete:
                 categoryModifier.deleteCategory(categoryId);
+                break;
+            case R.id.modify_amount:
+                i = new Intent(getContext(), ModifyCategoryAmountActivity.class);
+                i.putExtra("catId",categoryId);
+                startActivity(i);
+                break;
+            case R.id.modify_description:
+                i = new Intent(getContext() , ModifyCategoryDescriptionActivity.class);
+                i.putExtra("catId",categoryId);
+                startActivity(i);
                 break;
         }
         refreshList();

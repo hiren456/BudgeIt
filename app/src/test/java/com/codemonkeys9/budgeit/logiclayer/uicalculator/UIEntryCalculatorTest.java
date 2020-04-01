@@ -16,9 +16,7 @@ import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class UIEntryCalculatorTest {
     @Before

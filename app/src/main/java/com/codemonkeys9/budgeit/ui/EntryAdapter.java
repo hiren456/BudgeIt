@@ -1,8 +1,9 @@
 package com.codemonkeys9.budgeit.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -20,6 +21,12 @@ import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 import java.util.List;
 
 final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
+    private EntryAdapter.OnEntryListener onEntryListener;
+
+    public interface OnEntryListener{
+        void onEntryClick(int position);
+    }
+
     final static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         TextView description;
         TextView amount;
@@ -41,6 +48,10 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(this.getAdapterPosition(), R.id.action_delete, 0, "Delete");
+            menu.add(this.getAdapterPosition(), R.id.modify_category, 0, "Change Category");
+            menu.add(this.getAdapterPosition(), R.id.modify_amount, 0, "Modify Amount");
+            menu.add(this.getAdapterPosition(), R.id.modify_date, 0, "Modify Date");
+            menu.add(this.getAdapterPosition(), R.id.modify_description, 0, "Modify Description");
             if(flagged) {
                 menu.add(this.getAdapterPosition(), R.id.action_unflag, 0, "Unflag");
             } else if(flaggable) {
@@ -102,13 +113,10 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         submitList(newEntries);
     }
 
-    public boolean onContextItemSelected(MenuItem item) {
-        // Get index *within the currently-displayed list of entries*
-        int entryIndex = item.getGroupId();
+    public boolean onContextItemSelected(Context context, int entryId, int buttonId){
         UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
-        // Get actual, global entry ID
-        int entryId = getCurrentList().get(entryIndex).getEntryID();
-        int buttonId = item.getItemId();
+
+        Intent i;
         switch(buttonId) {
             case R.id.action_delete:
                 entryManager.deleteEntry(entryId);
@@ -119,8 +127,30 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
             case R.id.action_unflag:
                 entryManager.flagPurchase(entryId, false);
                 break;
+            case R.id.modify_amount:
+                i = new Intent(context , ModifyEntryAmountActivity.class);
+                i.putExtra("entryId",entryId);
+                context.startActivity(i);
+                break;
+            case R.id.modify_description:
+                i = new Intent(context , ModifyEntryDescriptionActivity.class);
+                i.putExtra("entryId",entryId);
+                context.startActivity(i);
+                break;
+            case R.id.modify_date:
+                i = new Intent(context , ModifyEntryDateActivity.class);
+                i.putExtra("entryId",entryId);
+                context.startActivity(i);
+                break;
+            case R.id.modify_category:
+                i = new Intent(context , ChangeEntryCategoryActivity.class);
+                i.putExtra("entryId",entryId);
+                context.startActivity(i);
+                break;
         }
 
         return true;
     }
+
+
 }

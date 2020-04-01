@@ -8,7 +8,16 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
+import com.codemonkeys9.budgeit.dso.amount.Amount;
+import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
+import com.codemonkeys9.budgeit.dso.details.Details;
+import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
+import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
@@ -33,6 +42,20 @@ public class IntegrationUIEntryManagerTest extends UIEntryManagerTest {
         DatabaseHolder.initTestable(DatabaseFactory.createTestableDatabase(
                 context,idManager.getInitialID("Entry"),idManager.getInitialID("Category")));
         db = DatabaseHolder.getDatabase();
+
+        Amount goal = AmountFactory.fromString( "200.00");
+        Details name = DetailsFactory.fromString( "Food");
+        Date date = DateFactory.fromInts(1999,04,23);
+        int entryID = 24;
+        Entry entry = PurchaseFactory.createPurchase(goal,entryID,name,date,idManager.getDefaultID("Category"));
+        db.insertEntry(entry);
+
+        Amount goal2 = AmountFactory.fromString( "7000.00");
+        Details name2 = DetailsFactory.fromString( "Phone");
+        Date date2 = DateFactory.fromInts(1999,04,23);
+        int entryID2 = 25;
+        Entry entry2 = IncomeFactory.createIncome(goal,entryID2,name,date,idManager.getDefaultID("Category"));
+        db.insertEntry(entry2);
     }
 
     @After
