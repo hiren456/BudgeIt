@@ -1,7 +1,6 @@
 package com.codemonkeys9.budgeit.logiclayer.uientrymanager;
 
 import com.codemonkeys9.budgeit.database.Database;
-import com.codemonkeys9.budgeit.database.DatabaseFactory;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
@@ -19,27 +18,20 @@ import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
 import com.codemonkeys9.budgeit.exceptions.CategoryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.FutureDateException;
-import com.codemonkeys9.budgeit.exceptions.PurchaseDoesNotExistException;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
-import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
-import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
-import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
-import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
-import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.util.IdentityHashMap;
-
-import static org.mockito.Mockito.*;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 public class UIEntryManagerTest {
     Purchase purchase;
@@ -54,12 +46,16 @@ public class UIEntryManagerTest {
     Database db;
     IDManager idManager;
 
+    // SUT
+    UIEntryManager manager;
+
     @Before
     public void createDb() {
-        this.idManager = IDManagerFactory.createIDManager();
         this.db = mock(Database.class);
-
         DatabaseHolder.initTestable(this.db);
+        this.idManager = mock(IDManager.class);
+        this.manager = UIEntryManagerFactory.createUIEntryManager(this.idManager);
+
 
         Amount goal;
         Details name;
@@ -67,11 +63,13 @@ public class UIEntryManagerTest {
         int entryID;
         int catID;
 
+        when(this.idManager.getDefaultID("Category")).thenReturn(0);
+
         goal = AmountFactory.fromString( "200.00");
         name = DetailsFactory.fromString( "Food");
         date = DateFactory.fromInts(1999,04,23);
         entryID = 24;
-        this.purchase = PurchaseFactory.createPurchase(goal,entryID,name,date,idManager.getDefaultID("Category"));
+        this.purchase = PurchaseFactory.createPurchase(goal,entryID,name,date,this.idManager.getDefaultID("Category"));
 
         goal = AmountFactory.fromString( "200.00");
         name = DetailsFactory.fromString( "Food");
@@ -84,7 +82,7 @@ public class UIEntryManagerTest {
         name = DetailsFactory.fromString( "Paycheck");
         date = DateFactory.fromInts(1999,04,23);
         entryID = 25;
-        this.income = IncomeFactory.createIncome(goal,entryID,name,date,idManager.getDefaultID("Category"));
+        this.income = IncomeFactory.createIncome(goal,entryID,name,date,this.idManager.getDefaultID("Category"));
 
         goal = AmountFactory.fromString( "7000.00");
         name = DetailsFactory.fromString( "Paycheck");
@@ -102,17 +100,13 @@ public class UIEntryManagerTest {
 
     @Test
     public void deleteValidEntry(){
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
-        when(this.db.deleteEntry(42)).thenReturn(true);
-        manager.deleteEntry(42);
-        verify(this.db).deleteEntry(42);
+        when(this.db.deleteEntry(24)).thenReturn(true);
+        manager.deleteEntry(24);
+        verify(this.db).deleteEntry(24);
     }
 
     @Test
     public void deleteInValidEntry(){
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         when(this.db.deleteEntry(40)).thenReturn(false);
 
         try{
@@ -127,8 +121,6 @@ public class UIEntryManagerTest {
 
     @Test
     public void inFutureTest() {
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         String amount = "200.00";
         String details = "Food";
         String date = "3000-04-23";
@@ -148,19 +140,13 @@ public class UIEntryManagerTest {
     }
     @Test
     public void createPurchaseTest(){
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         String amount = this.purchase.getAmount().getDisplay();
         String details = this.purchase.getDetails().getValue();
         // Date object needs a getValue method
         String date = "1999-04-23";
         boolean purchase = true;
 
-        // This assumes something about the id manager's implementation
-        // This is bad and needs to be fixed by allowing a
-        // dependency injection for the id manager
-        when(this.db.getIDCounter("Entry")).thenReturn(24 - 1);
-
+        when(this.idManager.getNewID("Entry")).thenReturn(24);
         int entryId = manager.createEntry(amount,details,date,purchase);
 
         assertEquals(24,entryId);
@@ -169,13 +155,11 @@ public class UIEntryManagerTest {
         verify(this.db).insertEntry(argument.capture());
         assertTrue(this.purchase.equals(argument.getValue()));
 
-        verify(this.db).getIDCounter("Entry");
+        verify(this.idManager).getNewID("Entry");
     }
 
     @Test
     public void createPurchaseWithCatTest(){
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         String amount = this.categorizedPurchase.getAmount().getDisplay();
         String details = this.categorizedPurchase.getDetails().getValue();
         // Date object needs a getValue method
@@ -183,7 +167,7 @@ public class UIEntryManagerTest {
         int catID = this.categorizedPurchase.getCatID();
         boolean purchase = true;
 
-        when(this.db.getIDCounter("Entry")).thenReturn(24-1);
+        when(this.idManager.getNewID("Entry")).thenReturn(24);
         when(this.db.selectCategoryByID(this.category.getID())).thenReturn(this.category);
         when(this.db.selectByID(this.categorizedPurchase.getEntryID())).thenReturn(this.categorizedPurchase);
 
@@ -195,13 +179,11 @@ public class UIEntryManagerTest {
         verify(this.db).insertEntry(argument.capture());
         assertTrue(this.purchase.equals(argument.getValue()));
 
-        verify(this.db).getIDCounter("Entry");
+        verify(this.idManager).getNewID("Entry");
     }
 
     @Test
     public void createPurchaseWithCatInvalidCatIDTest(){
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         String amount = this.categorizedPurchase.getAmount().getDisplay();
         String details = this.categorizedPurchase.getDetails().getValue();
         // Date object needs a getValue method
@@ -209,7 +191,7 @@ public class UIEntryManagerTest {
         int invalidCatID = Integer.MIN_VALUE;
         boolean purchase = true;
 
-        when(this.db.getIDCounter("Entry")).thenReturn(24-1);
+        when(this.idManager.getNewID("Entry")).thenReturn(24);
         when(this.db.selectCategoryByID(invalidCatID)).thenReturn(null);
         when(this.db.selectByID(this.categorizedPurchase.getEntryID())).thenReturn(this.purchase);
 
@@ -222,12 +204,10 @@ public class UIEntryManagerTest {
             fail();
         }
 
-        verify(this.db).getIDCounter("Entry");
+        verify(this.idManager).getNewID("Entry");
     }
     @Test
     public void flagUnflaggedEntryTest(){
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         when(this.db.selectByID(this.purchase.getEntryID())).thenReturn(this.purchase);
 
         manager.flagPurchase(this.purchase,true);
@@ -241,8 +221,6 @@ public class UIEntryManagerTest {
 
     @Test
     public void flagFlaggedEntryTest(){
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         Purchase flaggedPurchase = this.purchase.flag();
         when(this.db.selectByID(flaggedPurchase.getEntryID())).thenReturn(flaggedPurchase);
 
@@ -255,8 +233,6 @@ public class UIEntryManagerTest {
 
     @Test
     public void unflagUnflaggedEntryTest(){
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         when(this.db.selectByID(this.purchase.getEntryID())).thenReturn(this.purchase);
 
         manager.flagPurchase(this.purchase,false);
@@ -268,8 +244,6 @@ public class UIEntryManagerTest {
 
     @Test
     public void unflagFlaggedEntryTest(){
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         Purchase flaggedPurchase = this.purchase.flag();
         when(this.db.selectByID(flaggedPurchase.getEntryID())).thenReturn(flaggedPurchase);
 
@@ -282,8 +256,6 @@ public class UIEntryManagerTest {
 
     @Test
     public void unflagNonexistentEntryTest(){
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         int invalidEntryID = Integer.MAX_VALUE;
 
         when(this.db.selectByID(invalidEntryID)).thenReturn(null);
@@ -300,8 +272,6 @@ public class UIEntryManagerTest {
 
     @Test
     public void flagNonexistentEntryTest(){
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         int invalidEntryID = Integer.MAX_VALUE;
 
         when(this.db.selectByID(invalidEntryID)).thenReturn(null);
@@ -318,8 +288,6 @@ public class UIEntryManagerTest {
 
     @Test
     public void changeGoalEntryTest() {
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         when(this.db.selectByID(this.purchase.getEntryID())).thenReturn(this.purchase);
 
         Amount newAmount = AmountFactory.fromInt(50000);
@@ -331,11 +299,8 @@ public class UIEntryManagerTest {
         assertTrue(modifiedPurchase.equals(argument.getValue()));
     }
 
-    // This test is new and should be replaced with mockito
     @Test
     public void changeGoalNonExistentEntryTest() {
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         int invalidEntryId = Integer.MAX_VALUE;
         when(this.db.selectByID(invalidEntryId)).thenReturn(null);
 
@@ -353,8 +318,6 @@ public class UIEntryManagerTest {
 
     @Test
     public void changeNameEntryTest() {
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         when(this.db.selectByID(this.purchase.getEntryID())).thenReturn(this.purchase);
 
         Details newName = DetailsFactory.fromString("Better Food");
@@ -368,8 +331,6 @@ public class UIEntryManagerTest {
 
     @Test
     public void changeNameNonExistentEntryTest() {
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         int invalidEntryId = Integer.MAX_VALUE;
         when(this.db.selectByID(invalidEntryId)).thenReturn(null);
 
@@ -387,9 +348,7 @@ public class UIEntryManagerTest {
 
     @Test
     public void changeDateEntryTest() {
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
-        when(this.db.selectByID(this.purchase.getEntryID())).thenReturn(this.purchase);
+        when(db.selectByID(this.purchase.getEntryID())).thenReturn(this.purchase);
 
         Date newDate = DateFactory.fromString("2018-03-21");
         manager.changeDate(this.purchase.getEntryID(),newDate);
@@ -400,11 +359,8 @@ public class UIEntryManagerTest {
         assertTrue(modifiedPurchase.equals(argument.getValue()));
     }
 
-    // This test is new and should be replaced with mockito
     @Test
     public void changeDateNonExistentEntryTest() {
-        UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
-
         int invalidEntryId = Integer.MAX_VALUE;
         when(this.db.selectByID(invalidEntryId)).thenReturn(null);
 
