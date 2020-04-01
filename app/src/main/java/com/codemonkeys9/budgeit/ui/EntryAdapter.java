@@ -114,7 +114,6 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
     }
 
     public boolean onContextItemSelected(Context context, int entryId, int buttonId){
-
         UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
 
         Intent i;
@@ -149,6 +148,7 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
                 context.startActivity(i);
                 break;
         }
+
         return true;
     }
 

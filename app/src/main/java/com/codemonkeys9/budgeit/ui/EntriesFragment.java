@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,9 +29,15 @@ import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryListener{
     private EntryAdapter entryAdapter;
     private EntryVisibility visibility = EntryVisibility.Both; // defaults to all entries
+
+    // Request codes for activities that need to return data
+    static final int DATE_RANGE_REQUEST = 0;
+    static final int NEW_ENTRY = 1;
 
     String startDate = "past";
     String endDate = "now";
@@ -38,11 +45,28 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
 
     private UIEntryManager entryManager;
     private UIEntryFetcher entryFetcher;
-    private List<Entry> entries;
+    private EntryList entries;
 
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
     private MenuItem dateFilterToggle;
+
+    RecyclerView recycler;
+
+    // This variable is updated when a new entry is created to its ID. This is used so we can scroll
+    // to its position. This is necessary because we use ListAdapter and DiffUtil for diffing lists,
+    // and that is done asynchronously on a background thread. So we have to register an observer
+    // and perform the scrolling there.
+    Integer newID = null;
+    final RecyclerView.AdapterDataObserver recyclerViewObserver = new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            if(newID != null) {
+                scrollToID(newID);
+                newID = null;
+            }
+        }
+    };
 
     private boolean active = false;
 
@@ -57,6 +81,8 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         setHasOptionsMenu(true);
 
+        this.entryAdapter.registerAdapterDataObserver(this.recyclerViewObserver);
+
         Button newEntryButton = v.findViewById(R.id.newEntryButton);
         newEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,12 +91,19 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
             }
         });
 
-
         return v;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        this.entryAdapter.unregisterAdapterDataObserver(this.recyclerViewObserver);
+    }
+
     private void openNewEntryActivity() {
-        Intent i = new Intent(this.getContext(), NewEntryActivity.class);
-        this.startActivity(i);
+        Intent i = new Intent(getContext(), NewEntryActivity.class);
+        startActivityForResult(i, NEW_ENTRY);
     }
 
     @Override
@@ -144,8 +177,8 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
                 getActivity().invalidateOptionsMenu();
             } else {
                 // hasDateFilter is set to true in onActivityResult
-                Intent i = new Intent(getActivity(), DateRangeActivity.class);
-                startActivityForResult(i, MainActivity.DATE_RANGE_REQUEST);
+                Intent i = new Intent(getContext(), DateRangeActivity.class);
+                startActivityForResult(i, DATE_RANGE_REQUEST);
             }
             return true;
         }
@@ -159,11 +192,11 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
 
         this.entryManager = UIEntryManagerFactory.createUIEntryManager();
         this.entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
-        EntryList entryList = entryFetcher.fetchAllEntrys();
-        this.entries = entryList.getReverseChrono();
+        this.entries = entryFetcher.fetchAllEntrys();
+        List<Entry> entryList = entries.getReverseChrono();
 
 
-        if(entries.isEmpty()) {
+        if(entryList.isEmpty()) {
             UICategoryCreator categoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
             UIEntryCategorizer entryCategorizer = UIEntryCategorizerFactory.createUIEntryCategorizer();
 
@@ -172,6 +205,10 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
             int income = categoryCreator.createSavingsCategory("2000", "Income");
             int transportation = categoryCreator.createBudgetCategory("100", "Transportation");
             int alyx = entryManager.createEntry("60", "Half-Life: Alyx Pre-order", "2019-12-01", true);
+            System.out.println("Games has id: "+games);
+            System.out.println("Misc has id: "+misc);
+            System.out.println("Income has id: "+income);
+            System.out.println("Transportation has id: "+transportation);
             entryCategorizer.categorizeEntry(alyx, games);
             ADD_FAKE_DATA:
             for (int year = 2018; year <= 2020; year++) {
@@ -215,16 +252,16 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
                     entryCategorizer.categorizeEntry(what, misc);
                 }
             }
-            entryList = entryFetcher.fetchAllEntrys();
-            entries = entryList.getReverseChrono();
+            entries = entryFetcher.fetchAllEntrys();
         }
 
-        this.entryAdapter = new EntryAdapter(entries);
+        this.entryAdapter = new EntryAdapter(entries.getReverseChrono());
     }
 
     @Override
     public void onResume() {
         this.active = true;
+        this.recycler = getView().findViewById(R.id.entry_recycler);
         refreshTimeline();
         super.onResume();
     }
@@ -235,27 +272,50 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
         super.onPause();
     }
 
-    private void refreshTimeline() {
-        EntryList entryList = null;
 
+    private void refreshTimeline() {
         switch(visibility) {
             case Income:
-                entryList = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
+                this.entries = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
                 break;
             case Expenses:
-                entryList = entryFetcher.fetchAllPurchaseEntrys(startDate,endDate);
+                this.entries = entryFetcher.fetchAllPurchaseEntrys(startDate,endDate);
                 break;
             case Both:
-                entryList = entryFetcher.fetchAllEntrys(startDate,endDate);
+                this.entries = entryFetcher.fetchAllEntrys(startDate,endDate);
                 break;
         }
-        this.entries = entryList.getReverseChrono();
-        entryAdapter.updateEntries(this.entries);
+        entryAdapter.updateEntries(this.entries.getReverseChrono());
+    }
+
+    public void scrollToID(int entryID) {
+        int target = this.entries.getReverseChronoIndexOfEntryWithID(entryID);
+        recycler.smoothScrollToPosition(target);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            if(requestCode == DATE_RANGE_REQUEST) {
+                if (data.hasExtra("start_date") && data.hasExtra("end_date")) {
+                    Bundle extras = data.getExtras();
+                    hasDateFilter = true;
+                    startDate = extras.getString("start_date");
+                    endDate = extras.getString("end_date");
+                }
+            } else if(requestCode == NEW_ENTRY) {
+                if(data.hasExtra("newly_created_entry_id")) {
+                    refreshTimeline();
+                    Bundle extras = data.getExtras();
+                    this.newID = extras.getInt("newly_created_entry_id");
+                }
+            }
+        }
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
         // We will get context item events for all fragments in MainPager. We have to return false
         // in order for other fragments to have a chance to handle them.
         if(!this.active) return false;
@@ -263,7 +323,7 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
         // Get index *within the currently-displayed list of entries*
         int entryIndex = item.getGroupId();
         // Get actual, global entry ID
-        int entryId = entries.get(entryIndex).getEntryID();
+        int entryId = entries.getReverseChrono().get(entryIndex).getEntryID();
         int buttonId = item.getItemId();
 
         boolean b = entryAdapter.onContextItemSelected(getContext(), entryId, buttonId);

@@ -48,6 +48,19 @@ class LinkedListEntryList implements EntryList {
     }
 
     @Override
+    public int getReverseChronoIndexOfEntryWithID(int entryID) {
+        List<Entry> list = this.getReverseChrono();
+        for(int i = 0; i < list.size(); i++) {
+            if(list.get(i).getEntryID() == entryID) {
+                return i;
+            }
+        }
+
+        // If we get to this point, `entryID` is not in the list
+        throw new IllegalArgumentException("Entry with ID " + entryID + " is not in the list");
+    }
+
+    @Override
     public int size() {
         return this.chronoList.size();
     }

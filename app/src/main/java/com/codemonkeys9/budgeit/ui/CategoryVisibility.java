@@ -35,11 +35,11 @@ enum CategoryVisibility {
         return null;
     }
 
-    public boolean isIncomeVisible() {
+    public boolean areSavingsVisible() {
         return this == Savings || this == Both;
     }
 
-    public boolean areExpensesVisible() {
+    public boolean areBudgetsVisible() {
         return this == Budget || this == Both;
     }
 }

@@ -65,10 +65,6 @@ public class CategoryViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        // onContextItemSelected is no longer in the adapter
-        // it is now in the fragment
-        //entryAdapter.onContextItemSelected(item,entries);
-
         // Get index *within the currently-displayed list of entries*
         int entryIndex = item.getGroupId();
         // Get actual, global entry ID

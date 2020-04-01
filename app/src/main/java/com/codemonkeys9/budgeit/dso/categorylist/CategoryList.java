@@ -18,6 +18,10 @@ public interface CategoryList {
     List<Category> getReverseChrono();
     Iterator<Category> getReverseChronoIter();
 
+    /*
+    Returns index in a reverse chronologically-ordered list of the category with the desired ID
+     */
+    int getReverseChronoIndexOfCategoryWithID(int catID);
 
     /*
     returns the size of the list
@@ -25,4 +29,5 @@ public interface CategoryList {
     int size();
 
     Category get(int i);
+    Category getInReverseChrono(int i);
 }

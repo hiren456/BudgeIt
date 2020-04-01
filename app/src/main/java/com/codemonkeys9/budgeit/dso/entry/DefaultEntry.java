@@ -3,41 +3,25 @@ import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.details.Details;
 
-abstract class DefaultEntry implements Entry {
-    Amount amount;
+abstract class DefaultEntry extends DefaultBaseEntry implements Entry {
     int entryID;
-    int catID;
-    Details details;
-    Date date;
 
-    DefaultEntry(Amount amount, int entryID, Details details, Date date,int catID) {
-
-        // check that parameters are valid
-        if(date == null){
-
-            throw new NullPointerException();
-        }
-
-        if(details == null){
-
-            throw new NullPointerException();
-        }
-
-        if(amount == null){
-
-            throw new NullPointerException();
-        }
-
-        this.amount = amount;
+    DefaultEntry(Amount amount, int entryID, Details details, Date date, int catID) {
+        super(amount, details, date, catID);
         this.entryID = entryID;
-        this.catID = catID;
-        this.details = details;
-        this.date = date;
     }
 
     @Override
-    public Amount getAmount() {
-        return this.amount;
+    public DefaultEntry modifyEntry(Amount amount, Details details, Date date) {
+        return (DefaultEntry) super.modifyEntry(amount, details, date);
+    }
+
+    @Override
+    public abstract DefaultEntry clone();
+
+    @Override
+    public DefaultEntry changeCategory(int catID) {
+        return (DefaultEntry) super.changeCategory(catID);
     }
 
     @Override
@@ -46,17 +30,7 @@ abstract class DefaultEntry implements Entry {
     }
 
     @Override
-    public int getCatID() {
-        return this.catID;
-    }
-
-    @Override
-    public Details getDetails() {
-        return this.details;
-    }
-
-    @Override
-    public Date getDate() {
-        return this.date;
+    public boolean equals(Entry other) {
+        return this.getEntryID() == other.getEntryID() && super.equals(other);
     }
 }
