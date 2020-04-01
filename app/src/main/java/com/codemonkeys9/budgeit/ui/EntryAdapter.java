@@ -1,14 +1,13 @@
 package com.codemonkeys9.budgeit.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -112,6 +111,45 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
 
     public void updateEntries(List<Entry> newEntries) {
         submitList(newEntries);
+    }
+
+    public boolean onContextItemSelected(Context context, int entryId, int buttonId){
+
+        UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
+
+        Intent i;
+        switch(buttonId) {
+            case R.id.action_delete:
+                entryManager.deleteEntry(entryId);
+                break;
+            case R.id.action_flag:
+                entryManager.flagPurchase(entryId, true);
+                break;
+            case R.id.action_unflag:
+                entryManager.flagPurchase(entryId, false);
+                break;
+            case R.id.modify_amount:
+                i = new Intent(context , ModifyEntryAmountActivity.class);
+                i.putExtra("entryId",entryId);
+                context.startActivity(i);
+                break;
+            case R.id.modify_description:
+                i = new Intent(context , ModifyEntryDescriptionActivity.class);
+                i.putExtra("entryId",entryId);
+                context.startActivity(i);
+                break;
+            case R.id.modify_date:
+                i = new Intent(context , ModifyEntryDateActivity.class);
+                i.putExtra("entryId",entryId);
+                context.startActivity(i);
+                break;
+            case R.id.modify_category:
+                i = new Intent(context , ChangeEntryCategoryActivity.class);
+                i.putExtra("entryId",entryId);
+                context.startActivity(i);
+                break;
+        }
+        return true;
     }
 
 

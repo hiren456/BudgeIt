@@ -2,7 +2,6 @@ package com.codemonkeys9.budgeit.ui;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -63,13 +62,23 @@ public class CategoryViewActivity extends AppCompatActivity {
         entryAdapter.updateEntries(this.entries);
     }
 
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         // onContextItemSelected is no longer in the adapter
         // it is now in the fragment
         //entryAdapter.onContextItemSelected(item,entries);
+
+        // Get index *within the currently-displayed list of entries*
+        int entryIndex = item.getGroupId();
+        // Get actual, global entry ID
+        int entryId = entries.get(entryIndex).getEntryID();
+        int buttonId = item.getItemId();
+        entryAdapter.onContextItemSelected(this, entryId, buttonId);
         refreshTimeline();
         return true;
     }
+
+
 
 }

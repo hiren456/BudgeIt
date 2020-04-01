@@ -255,53 +255,22 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+
         // We will get context item events for all fragments in MainPager. We have to return false
         // in order for other fragments to have a chance to handle them.
         if(!this.active) return false;
 
         // Get index *within the currently-displayed list of entries*
         int entryIndex = item.getGroupId();
-        UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
         // Get actual, global entry ID
         int entryId = entries.get(entryIndex).getEntryID();
         int buttonId = item.getItemId();
 
-        Intent i;
-        switch(buttonId) {
-            case R.id.action_delete:
-                entryManager.deleteEntry(entryId);
-                break;
-            case R.id.action_flag:
-                entryManager.flagPurchase(entryId, true);
-                break;
-            case R.id.action_unflag:
-                entryManager.flagPurchase(entryId, false);
-                break;
-            case R.id.modify_amount:
-                i = new Intent(getContext() , ModifyEntryAmountActivity.class);
-                i.putExtra("entryId",entryId);
-                startActivity(i);
-                break;
-            case R.id.modify_description:
-                i = new Intent(getContext() , ModifyEntryDescriptionActivity.class);
-                i.putExtra("entryId",entryId);
-                startActivity(i);
-                break;
-            case R.id.modify_date:
-                i = new Intent(getContext() , ModifyEntryDateActivity.class);
-                i.putExtra("entryId",entryId);
-                startActivity(i);
-                break;
-            case R.id.modify_category:
-                i = new Intent(getContext() , ChangeEntryCategoryActivity.class);
-                i.putExtra("entryId",entryId);
-                startActivity(i);
-                break;
-        }
-
+        boolean b = entryAdapter.onContextItemSelected(getContext(), entryId, buttonId);
         refreshTimeline();
         return true;
     }
+
 
     @Override
     public void onEntryClick(int position) {
