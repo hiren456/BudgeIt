@@ -59,14 +59,14 @@ public class IntegrationUIEntryManagerTest {
         Date date = DateFactory.fromInts(1999,04,23);
         int entryID = 24;
         Entry entry = PurchaseFactory.createPurchase(goal,entryID,name,date,idManager.getDefaultID("Category"));
-        db.insertEntry(entry);
+        db.insertDefaultEntry(entry);
 
         Amount goal2 = AmountFactory.fromString( "7000.00");
         Details name2 = DetailsFactory.fromString( "Phone");
         Date date2 = DateFactory.fromInts(1999,04,23);
         int entryID2 = 25;
         Entry entry2 = IncomeFactory.createIncome(goal,entryID2,name,date,idManager.getDefaultID("Category"));
-        db.insertEntry(entry2);
+        db.insertDefaultEntry(entry2);
     }
 
     @After
@@ -96,11 +96,11 @@ public class IntegrationUIEntryManagerTest {
 
         Database db = DatabaseHolder.getDatabase();
         db.insertCategory(category);
-        db.insertEntry(entry);
+        db.insertDefaultEntry(entry);
 
 
         manager.deleteEntry(42);
-        assertNull(db.selectByID(42));
+        assertNull(db.selectDefaultEntryByID(42));
     }
 
     @Test
@@ -123,7 +123,7 @@ public class IntegrationUIEntryManagerTest {
 
         Database db = DatabaseHolder.getDatabase();
         db.insertCategory(category);
-        db.insertEntry(entry);
+        db.insertDefaultEntry(entry);
 
 
         try{
@@ -368,23 +368,21 @@ public class IntegrationUIEntryManagerTest {
         }
     }
 
-    // This test is new and should be replaced with mockito
     @Test
     public void changeGoalEntryTest() {
         UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
         Database db = DatabaseHolder.getDatabase();
 
-        Entry oldEntry =  db.selectByID(24);
+        Entry oldEntry =  db.selectDefaultEntryByID(24);
         Amount newAmount = AmountFactory.fromInt(50000);
         mod.changeAmount(24,newAmount);
-        Entry newEntry =  db.selectByID(24);
+        Entry newEntry =  db.selectDefaultEntryByID(24);
 
         assertTrue(oldEntry.getDate().equals(newEntry.getDate()));
         assertTrue(oldEntry.getDetails().equals(newEntry.getDetails()));
         assertTrue(newAmount.equals(newEntry.getAmount()));
     }
 
-    // This test is new and should be replaced with mockito
     @Test
     public void changeGoalNonExistentEntryTest() {
         UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
@@ -403,23 +401,21 @@ public class IntegrationUIEntryManagerTest {
 
     }
 
-    // This test is new and should be replaced with mockito
     @Test
     public void changeNameEntryTest() {
         UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
         Database db = DatabaseHolder.getDatabase();
 
-        Entry oldEntry =  db.selectByID(24);
+        Entry oldEntry =  db.selectDefaultEntryByID(24);
         Details newName = DetailsFactory.fromString("Better Food");
         mod.changeName(24,newName);
-        Entry newEntry =  db.selectByID(24);
+        Entry newEntry =  db.selectDefaultEntryByID(24);
 
         assertTrue(oldEntry.getDate().equals(newEntry.getDate()));
         assertTrue(newName.equals(newEntry.getDetails()));
         assertTrue(oldEntry.getAmount().equals(newEntry.getAmount()));
     }
 
-    // This test is new and should be replaced with mockito
     @Test
     public void changeNameNonExistentEntryTest() {
         UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
@@ -443,10 +439,10 @@ public class IntegrationUIEntryManagerTest {
         UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
         Database db = DatabaseHolder.getDatabase();
 
-        Entry oldEntry =  db.selectByID(24);
+        Entry oldEntry =  db.selectDefaultEntryByID(24);
         Date newDate = DateFactory.fromString("2018-03-21");
         mod.changeDate(24,newDate);
-        Entry newEntry =  db.selectByID(24);
+        Entry newEntry =  db.selectDefaultEntryByID(24);
 
         assertTrue(newDate.equals(newEntry.getDate()));
         assertTrue(oldEntry.getDetails().equals(newEntry.getDetails()));

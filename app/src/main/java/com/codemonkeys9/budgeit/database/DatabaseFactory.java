@@ -6,7 +6,7 @@ import com.codemonkeys9.budgeit.application.BudApplication;
 
 public class DatabaseFactory {
     public static Database createDatabase(int initialEntryID,int initialCategoryID){
-        return new RealDatabase(BudApplication.getContext(),initialEntryID,initialCategoryID);
+        return new EntryCategorySQLitePersistence(BudApplication.getContext(),initialEntryID,initialCategoryID);
     }
 
     public static Database createStubDatabase(int initialEntryID,int initialCategoryID){
@@ -15,6 +15,6 @@ public class DatabaseFactory {
 
 
     public static Database createTestableDatabase(Context context, int initialEntryID, int initialCategoryID){
-        return new RealDatabase(context,initialEntryID,initialCategoryID);
+        return new EntryCategorySQLitePersistence(context,initialEntryID,initialCategoryID);
     }
 }
