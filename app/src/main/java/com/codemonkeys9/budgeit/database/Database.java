@@ -1,6 +1,7 @@
 package com.codemonkeys9.budgeit.database;
 
 import com.codemonkeys9.budgeit.dso.category.Category;
+import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.RecurringEntry;
@@ -8,6 +9,17 @@ import com.codemonkeys9.budgeit.dso.entry.RecurringEntry;
 import java.util.List;
 
 public interface Database {
+
+    /*
+    Get the date that the logic layer
+    last checked type
+     */
+    Date getDateLastChecked(String type);
+
+    /*
+    Update the date last checked
+     */
+    boolean updateDateLastChecked(String type, Date date);
 
     /*
     Inserts a default entry into the database.

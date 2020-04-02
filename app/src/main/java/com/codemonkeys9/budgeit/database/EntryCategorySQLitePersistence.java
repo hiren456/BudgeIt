@@ -46,6 +46,7 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
     private static final String DEFAULT_ENTRY_TABLE = "defEntries";
     private static final String RECURRING_ENTRY_TABLE = "recEntries";
     private static final String IDS_TABLE = "ids";
+    private static final String DATE_LAST_CHECKED_TABLE = "dateLastChecked";
 
     //categories table attributes
     private static final String CAT_ID = "catID"; //also in entry table
@@ -77,6 +78,10 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
     private static final String ID_NAME_CAT = "Category";
     private static final String ID_NAME_ENTRY = "Entry";
 
+    //date last checked table attributes
+    private static final String DATE = "date";
+    private static final String TYPE  = "type";
+
     private int initialEntryID;
     private int initialCategoryID;
 
@@ -87,6 +92,7 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
         this.initialCategoryID = initialCategoryID;
         //fill ids table
         fillIDSWhenFirstCreated(initialEntryID, initialCategoryID);
+        fillDateLastCheckedWhenFirstCreated();
     }
 
     /*
@@ -130,11 +136,16 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
                         ID_NAME + " TEXT PRIMARY KEY," + //primary key
                         ID_NUM + " INTEGER" + " )";
 
+        String dateLastCheckedCreateSQL =
+                "CREATE TABLE " + DATE_LAST_CHECKED_TABLE + " ( " +
+                        TYPE + " TEXT PRIMARY KEY," + //primary key
+                        DATE + " TEXT" + " )";
+
         db.execSQL(catCreateSQL);
         db.execSQL(defEntCreateSQL);
         db.execSQL(recEntCreateSQL);
         db.execSQL(idCreateSQL);
-
+        db.execSQL(dateLastCheckedCreateSQL);
     }
 
 
@@ -146,6 +157,7 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
             db.execSQL("DROP TABLE IF EXISTS " + DEFAULT_ENTRY_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + RECURRING_ENTRY_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + IDS_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + DATE_LAST_CHECKED_TABLE);
             onCreate(db);
         }
     }
@@ -158,10 +170,50 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
     }
 
 
+    @Override
+    public Date getDateLastChecked(String type) {
+        Date date = null;
+        SQLiteDatabase db = this.getReadableDatabase(); //connect to db
+
+        String sql = "SELECT * FROM " + DATE_LAST_CHECKED_TABLE + " WHERE " + TYPE + "=" + "'"+type+"'"; //prepare query
+
+        Cursor cursor = db.rawQuery(sql, null); //exxute query
+
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            date = DateFactory.fromString(cursor.getString(cursor.getColumnIndex(DATE)));
+
+            cursor.close();
+        }
+
+        db.close();
+
+        return date;
+    }
+
+    @Override
+    public boolean updateDateLastChecked(String type,Date date) {
+        //get the db
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        //the date is in "yyyy-mm-dd" format
+        String stringDate = makeDate(date.getYear(), date.getMonth(), date.getDay());
+        values.put(DATE, stringDate);
+
+        // update this entry in the db
+        int num = db.update(DATE_LAST_CHECKED_TABLE, values, TYPE + "=?",
+                new String[]{type});
+        db.close();
+
+        return num > 0;
+    }
+
     /*
-    Inserts an Entry into the database.
-    If the Entry with the same ID is in the db throws runtime exception
-     */
+        Inserts an Entry into the database.
+        If the Entry with the same ID is in the db throws runtime exception
+         */
     public void insertDefaultEntry(Entry entry){
         //get the db
         SQLiteDatabase db = this.getWritableDatabase();
@@ -1114,6 +1166,43 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
         }
 
         db.close();
+    }
+
+    /*
+    fills date last checked table when db is created
+     */
+    private void fillDateLastCheckedWhenFirstCreated(){
+        // get the db
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String sql = "SELECT * FROM " + DATE_LAST_CHECKED_TABLE; //prepare query
+
+        Cursor cursor = db.rawQuery(sql, null); //execute query
+
+        Date now = DateFactory.fromString("now");
+        String stringDate = makeDate(now.getYear(),now.getMonth(),now.getDay());
+
+        //IDS table should be empty
+        if (cursor != null && cursor.getCount() == 0) {
+
+            //add some important info to db
+            //fill ids table
+            ContentValues values = new ContentValues();
+            values.put(TYPE,"Recurring Entry");
+            values.put(DATE,stringDate);
+            db.insert(DATE_LAST_CHECKED_TABLE, null, values);
+
+            values = new ContentValues();
+            values.put(TYPE,"Category Period");
+            values.put(DATE,stringDate);
+            db.insert(DATE_LAST_CHECKED_TABLE, null, values);
+
+            cursor.close();
+        }
+
+        db.close();
+
+
     }
 
 
