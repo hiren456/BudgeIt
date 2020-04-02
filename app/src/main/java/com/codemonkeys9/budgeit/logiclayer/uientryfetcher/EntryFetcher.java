@@ -2,7 +2,6 @@ package com.codemonkeys9.budgeit.logiclayer.uientryfetcher;
 
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
-import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
@@ -11,7 +10,6 @@ import com.codemonkeys9.budgeit.dso.entrylist.EntryListFactory;
 import com.codemonkeys9.budgeit.exceptions.CategoryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 
-import java.security.KeyStore;
 import java.util.List;
 
 class EntryFetcher implements UIEntryFetcher {
@@ -69,7 +67,7 @@ class EntryFetcher implements UIEntryFetcher {
 
     @Override
     public EntryList fetchEntrysInCategory(int catID) throws CategoryDoesNotExistException {
-        List<Entry> list = db.getEntriesByCategoryID(catID);
+        List<Entry> list = db.getDefaultEntriesByCategoryID(catID);
         if(list == null){
             throw new CategoryDoesNotExistException("Category with id: " + catID+ " does not exist.");
         }
@@ -78,7 +76,7 @@ class EntryFetcher implements UIEntryFetcher {
 
     @Override
     public Entry fetchEntrysByID(int entryID) throws EntryDoesNotExistException {
-        Entry entry = db.selectByID(entryID);
+        Entry entry = db.selectDefaultEntryByID(entryID);
         if(entry == null){
             throw new EntryDoesNotExistException("Entry with id: " + entryID+" does not exist.");
         }
@@ -93,7 +91,7 @@ class EntryFetcher implements UIEntryFetcher {
         return EntryListFactory.fromChrono(list);
     }
     private List<Entry> fetchList(DateInterval dateInterval){
-        return db.selectByDate(dateInterval);
+        return db.selectDefaultEntriesByDate(dateInterval);
     }
 
 }
