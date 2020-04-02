@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
+import com.codemonkeys9.budgeit.logiclayer.uientrycolourizer.UIEntryColourizer;
+import com.codemonkeys9.budgeit.logiclayer.uientrycolourizer.UIEntryColourizerFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
@@ -85,27 +87,20 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         return new ViewHolder(entryView);
     }
 
-    // Colors are encoded in ARGB format, one byte (or two hex digits) per channel.
-    private static final int RED   = 0xFFFF0000;
-    private static final int GREEN = 0xFF00AA00;
-    private static final int BLACK = 0xFF000000;
-
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Entry entry = getItem(position);
 
-        boolean purchase = entry instanceof Purchase;
-        boolean flagged = purchase && ((Purchase)entry).flagged();
-
-        viewHolder.flaggable = purchase;
-        viewHolder.flagged = flagged;
+        viewHolder.flaggable = entry instanceof Purchase;
+        viewHolder.flagged = viewHolder.flaggable && ((Purchase)entry).flagged();
 
         viewHolder.date.setText(entry.getDate().getDisplay());
 
-        viewHolder.description.setTextColor(flagged ? RED : BLACK);
+        UIEntryColourizer colourizer = UIEntryColourizerFactory.createUIEntryColourizer();
+        viewHolder.description.setTextColor(colourizer.getDescriptionColour(entry));
         viewHolder.description.setText(entry.getDetails().getValue());
 
-        viewHolder.amount.setTextColor(purchase ? RED : GREEN);
+        viewHolder.amount.setTextColor(colourizer.getAmountColour(entry));
         viewHolder.amount.setText(entry.getAmount().getDisplay());
     }
 

@@ -62,11 +62,11 @@ public class UIEntryCategorizerTest {
         Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2001,7,7);
         Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,23);
-        db.insertEntry(entry1);
+        db.insertDefaultEntry(entry1);
 
 
         categorizer.categorizeEntry(81,24);
-        Entry newEntry = db.selectByID(81);
+        Entry newEntry = db.selectDefaultEntryByID(81);
         assertEquals(24,newEntry.getCatID());
     }
 
@@ -90,7 +90,7 @@ public class UIEntryCategorizerTest {
         Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2001,7,7);
         Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
-        db.insertEntry(entry1);
+        db.insertDefaultEntry(entry1);
 
         try{
             categorizer.categorizeEntry(Integer.MAX_VALUE,24);
@@ -122,7 +122,7 @@ public class UIEntryCategorizerTest {
         Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2001,7,7);
         Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
-        db.insertEntry(entry1);
+        db.insertDefaultEntry(entry1);
 
         try{
             categorizer.categorizeEntry(81,Integer.MAX_VALUE);
@@ -152,7 +152,7 @@ public class UIEntryCategorizerTest {
         Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2001,7,7);
         Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
-        db.insertEntry(entry1);
+        db.insertDefaultEntry(entry1);
 
 
         categorizer.categorizeEntry(81,24);

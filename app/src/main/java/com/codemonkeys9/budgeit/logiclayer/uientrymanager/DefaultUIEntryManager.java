@@ -43,7 +43,7 @@ class DefaultUIEntryManager implements UIEntryManager {
     @Override
     public void deleteEntry(int entryID) throws EntryDoesNotExistException {
         // db returns false if entry is not found
-        if(!db.deleteEntry(entryID)){
+        if(!db.deleteDefaultEntry(entryID)){
             throw new EntryDoesNotExistException("Entry with ID " + entryID +" does not exist");
         }
     }
@@ -93,7 +93,7 @@ class DefaultUIEntryManager implements UIEntryManager {
         Entry entry = getEntry(id);
 
         Entry newEntry = entry.modifyEntry(entry.getAmount(),newDetails,entry.getDate());
-        db.updateEntry(newEntry);
+        db.updateDefaultEntry(newEntry);
     }
 
     @Override
@@ -106,7 +106,7 @@ class DefaultUIEntryManager implements UIEntryManager {
         Entry entry = getEntry(id);
 
         Entry newEntry = entry.modifyEntry(entry.getAmount(),entry.getDetails(),newDate);
-        db.updateEntry(newEntry);
+        db.updateDefaultEntry(newEntry);
     }
 
     @Override
@@ -119,7 +119,7 @@ class DefaultUIEntryManager implements UIEntryManager {
         Entry entry = getEntry(id);
 
         Entry newEntry = entry.modifyEntry(newAmount,entry.getDetails(),entry.getDate());
-        db.updateEntry(newEntry);
+        db.updateDefaultEntry(newEntry);
     }
 
     @Override
@@ -128,7 +128,7 @@ class DefaultUIEntryManager implements UIEntryManager {
     }
 
     private Entry getEntry(int id){
-        Entry entry = db.selectByID(id);
+        Entry entry = db.selectDefaultEntryByID(id);
 
         if(entry == null){
             throw new EntryDoesNotExistException("Entry with id "+ id + " does not exist");

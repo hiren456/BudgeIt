@@ -12,13 +12,10 @@ public class DateWithLocalDate implements Date {
 
     DateWithLocalDate(String date) {
         if(date == null){
-
-            throw new NullPointerException();
+            throw new NullPointerException("date is null");
         }else if(date.equals("now")){
-
             this.date = LocalDate.now();
         } else if(date.equals("past")) {
-
             this.date = LocalDate.parse("1970-01-01");
         }else{
             try {

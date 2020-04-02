@@ -8,4 +8,8 @@ public class EntryCreatorFactory {
         IDManager idManager = IDManagerFactory.createIDManager();
         return new DefaultEntryCreator(idManager);
     }
+
+    public static EntryCreator createEntryCreator(IDManager idManager){
+        return new DefaultEntryCreator(idManager);
+    }
 }

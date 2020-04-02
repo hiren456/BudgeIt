@@ -12,7 +12,7 @@ class Incrementor implements IDManager {
         if(idName.equals("Entry") || idName.equals("Category")) {
             ret = 1;
         }else{
-            throw new InvalidIDTypeException();
+            throw new InvalidIDTypeException(idName);
         }
 
         return ret;
@@ -24,7 +24,7 @@ class Incrementor implements IDManager {
         if(idName.equals("Category")) {
             ret = 0;
         }else{
-            throw new InvalidIDTypeException();
+            throw new InvalidIDTypeException(idName);
         }
 
         return ret;
@@ -33,13 +33,13 @@ class Incrementor implements IDManager {
     @Override
     public int getNewID(String idName) {
         if(!idName.equals("Entry") && !idName.equals("Category")) {
-            throw new InvalidIDTypeException();
+            throw new InvalidIDTypeException(idName);
         }
 
         Database db = DatabaseHolder.getDatabase();
         int currID = db.getIDCounter(idName);
         int nextID = currID + 1;
-        db.updateIDCounter(idName,nextID);
+        db.updateIDCounter(idName, nextID);
 
         return nextID;
     }
