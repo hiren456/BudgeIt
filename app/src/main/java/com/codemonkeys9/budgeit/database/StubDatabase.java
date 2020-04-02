@@ -6,8 +6,6 @@ import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.entry.EntryDateComparator;
-import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
-import com.codemonkeys9.budgeit.dso.entrylist.EntryListFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 

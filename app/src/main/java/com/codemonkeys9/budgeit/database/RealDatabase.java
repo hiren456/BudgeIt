@@ -22,8 +22,6 @@ import com.codemonkeys9.budgeit.dso.entry.Income;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
-import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
-import com.codemonkeys9.budgeit.dso.entrylist.EntryListFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
