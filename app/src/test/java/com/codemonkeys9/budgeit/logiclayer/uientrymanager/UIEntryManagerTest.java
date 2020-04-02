@@ -104,16 +104,16 @@ public class UIEntryManagerTest {
     public void deleteValidEntry(){
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
 
-        when(this.db.deleteEntry(42)).thenReturn(true);
+        when(this.db.deleteDefaultEntry(42)).thenReturn(true);
         manager.deleteEntry(42);
-        verify(this.db).deleteEntry(42);
+        verify(this.db).deleteDefaultEntry(42);
     }
 
     @Test
     public void deleteInValidEntry(){
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
 
-        when(this.db.deleteEntry(40)).thenReturn(false);
+        when(this.db.deleteDefaultEntry(40)).thenReturn(false);
 
         try{
             manager.deleteEntry(40);
@@ -166,7 +166,7 @@ public class UIEntryManagerTest {
         assertEquals(24,entryId);
 
         ArgumentCaptor<Purchase> argument = ArgumentCaptor.forClass(Purchase.class);
-        verify(this.db).insertEntry(argument.capture());
+        verify(this.db).insertDefaultEntry(argument.capture());
         assertTrue(this.purchase.equals(argument.getValue()));
 
         verify(this.db).getIDCounter("Entry");
@@ -185,14 +185,14 @@ public class UIEntryManagerTest {
 
         when(this.db.getIDCounter("Entry")).thenReturn(24-1);
         when(this.db.selectCategoryByID(this.category.getID())).thenReturn(this.category);
-        when(this.db.selectByID(this.categorizedPurchase.getEntryID())).thenReturn(this.categorizedPurchase);
+        when(this.db.selectDefaultEntryByID(this.categorizedPurchase.getEntryID())).thenReturn(this.categorizedPurchase);
 
         int entryID = manager.createEntry(amount,details,date,purchase,catID);
 
         assertEquals(entryID, 24);
 
         ArgumentCaptor<Purchase> argument = ArgumentCaptor.forClass(Purchase.class);
-        verify(this.db).insertEntry(argument.capture());
+        verify(this.db).insertDefaultEntry(argument.capture());
         assertTrue(this.purchase.equals(argument.getValue()));
 
         verify(this.db).getIDCounter("Entry");
@@ -211,7 +211,7 @@ public class UIEntryManagerTest {
 
         when(this.db.getIDCounter("Entry")).thenReturn(24-1);
         when(this.db.selectCategoryByID(invalidCatID)).thenReturn(null);
-        when(this.db.selectByID(this.categorizedPurchase.getEntryID())).thenReturn(this.purchase);
+        when(this.db.selectDefaultEntryByID(this.categorizedPurchase.getEntryID())).thenReturn(this.purchase);
 
         try{
             manager.createEntry(amount,details,date,purchase,Integer.MIN_VALUE);
@@ -228,14 +228,14 @@ public class UIEntryManagerTest {
     public void flagUnflaggedEntryTest(){
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
 
-        when(this.db.selectByID(this.purchase.getEntryID())).thenReturn(this.purchase);
+        when(this.db.selectDefaultEntryByID(this.purchase.getEntryID())).thenReturn(this.purchase);
 
         manager.flagPurchase(this.purchase,true);
 
         Purchase flaggedPurchase = this.purchase.flag();
 
         ArgumentCaptor<Purchase> argument = ArgumentCaptor.forClass(Purchase.class);
-        verify(this.db).updateEntry(argument.capture());
+        verify(this.db).updateDefaultEntry(argument.capture());
         assertTrue(flaggedPurchase.equals(argument.getValue()));
     }
 
@@ -244,12 +244,12 @@ public class UIEntryManagerTest {
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
 
         Purchase flaggedPurchase = this.purchase.flag();
-        when(this.db.selectByID(flaggedPurchase.getEntryID())).thenReturn(flaggedPurchase);
+        when(this.db.selectDefaultEntryByID(flaggedPurchase.getEntryID())).thenReturn(flaggedPurchase);
 
         manager.flagPurchase(flaggedPurchase,true);
 
         ArgumentCaptor<Purchase> argument = ArgumentCaptor.forClass(Purchase.class);
-        verify(this.db).updateEntry(argument.capture());
+        verify(this.db).updateDefaultEntry(argument.capture());
         assertTrue(flaggedPurchase.equals(argument.getValue()));
     }
 
@@ -257,12 +257,12 @@ public class UIEntryManagerTest {
     public void unflagUnflaggedEntryTest(){
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
 
-        when(this.db.selectByID(this.purchase.getEntryID())).thenReturn(this.purchase);
+        when(this.db.selectDefaultEntryByID(this.purchase.getEntryID())).thenReturn(this.purchase);
 
         manager.flagPurchase(this.purchase,false);
 
         ArgumentCaptor<Purchase> argument = ArgumentCaptor.forClass(Purchase.class);
-        verify(this.db).updateEntry(argument.capture());
+        verify(this.db).updateDefaultEntry(argument.capture());
         assertTrue(this.purchase.equals(argument.getValue()));
     }
 
@@ -271,12 +271,12 @@ public class UIEntryManagerTest {
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
 
         Purchase flaggedPurchase = this.purchase.flag();
-        when(this.db.selectByID(flaggedPurchase.getEntryID())).thenReturn(flaggedPurchase);
+        when(this.db.selectDefaultEntryByID(flaggedPurchase.getEntryID())).thenReturn(flaggedPurchase);
 
         manager.flagPurchase(flaggedPurchase,false);
 
         ArgumentCaptor<Purchase> argument = ArgumentCaptor.forClass(Purchase.class);
-        verify(this.db).updateEntry(argument.capture());
+        verify(this.db).updateDefaultEntry(argument.capture());
         assertTrue(this.purchase.equals(argument.getValue()));
     }
 
@@ -286,7 +286,7 @@ public class UIEntryManagerTest {
 
         int invalidEntryID = Integer.MAX_VALUE;
 
-        when(this.db.selectByID(invalidEntryID)).thenReturn(null);
+        when(this.db.selectDefaultEntryByID(invalidEntryID)).thenReturn(null);
 
         try{
             manager.flagPurchase(invalidEntryID,false);
@@ -304,7 +304,7 @@ public class UIEntryManagerTest {
 
         int invalidEntryID = Integer.MAX_VALUE;
 
-        when(this.db.selectByID(invalidEntryID)).thenReturn(null);
+        when(this.db.selectDefaultEntryByID(invalidEntryID)).thenReturn(null);
 
         try{
             manager.flagPurchase(invalidEntryID,true);
@@ -320,14 +320,14 @@ public class UIEntryManagerTest {
     public void changeGoalEntryTest() {
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
 
-        when(this.db.selectByID(this.purchase.getEntryID())).thenReturn(this.purchase);
+        when(this.db.selectDefaultEntryByID(this.purchase.getEntryID())).thenReturn(this.purchase);
 
         Amount newAmount = AmountFactory.fromInt(50000);
         manager.changeAmount(this.purchase.getEntryID(),newAmount);
         Entry modifiedPurchase = this.purchase.modifyEntry(newAmount,this.purchase.getDetails(),this.purchase.getDate());
 
         ArgumentCaptor<Entry> argument = ArgumentCaptor.forClass(Entry.class);
-        verify(this.db).updateEntry(argument.capture());
+        verify(this.db).updateDefaultEntry(argument.capture());
         assertTrue(modifiedPurchase.equals(argument.getValue()));
     }
 
@@ -337,7 +337,7 @@ public class UIEntryManagerTest {
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
 
         int invalidEntryId = Integer.MAX_VALUE;
-        when(this.db.selectByID(invalidEntryId)).thenReturn(null);
+        when(this.db.selectDefaultEntryByID(invalidEntryId)).thenReturn(null);
 
         Amount newAmount = AmountFactory.fromInt(50000);
 
@@ -355,14 +355,14 @@ public class UIEntryManagerTest {
     public void changeNameEntryTest() {
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
 
-        when(this.db.selectByID(this.purchase.getEntryID())).thenReturn(this.purchase);
+        when(this.db.selectDefaultEntryByID(this.purchase.getEntryID())).thenReturn(this.purchase);
 
         Details newName = DetailsFactory.fromString("Better Food");
         manager.changeName(this.purchase.getEntryID(),newName);
         Entry modifiedPurchase = this.purchase.modifyEntry(this.purchase.getAmount(),newName,this.purchase.getDate());
 
         ArgumentCaptor<Entry> argument = ArgumentCaptor.forClass(Entry.class);
-        verify(this.db).updateEntry(argument.capture());
+        verify(this.db).updateDefaultEntry(argument.capture());
         assertTrue(modifiedPurchase.equals(argument.getValue()));
     }
 
@@ -371,7 +371,7 @@ public class UIEntryManagerTest {
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
 
         int invalidEntryId = Integer.MAX_VALUE;
-        when(this.db.selectByID(invalidEntryId)).thenReturn(null);
+        when(this.db.selectDefaultEntryByID(invalidEntryId)).thenReturn(null);
 
         Details newName = DetailsFactory.fromString("Better Food");
 
@@ -389,14 +389,14 @@ public class UIEntryManagerTest {
     public void changeDateEntryTest() {
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
 
-        when(this.db.selectByID(this.purchase.getEntryID())).thenReturn(this.purchase);
+        when(this.db.selectDefaultEntryByID(this.purchase.getEntryID())).thenReturn(this.purchase);
 
         Date newDate = DateFactory.fromString("2018-03-21");
         manager.changeDate(this.purchase.getEntryID(),newDate);
         Entry modifiedPurchase = this.purchase.modifyEntry(this.purchase.getAmount(),this.purchase.getDetails(),newDate);
 
         ArgumentCaptor<Entry> argument = ArgumentCaptor.forClass(Entry.class);
-        verify(this.db).updateEntry(argument.capture());
+        verify(this.db).updateDefaultEntry(argument.capture());
         assertTrue(modifiedPurchase.equals(argument.getValue()));
     }
 
@@ -406,7 +406,7 @@ public class UIEntryManagerTest {
         UIEntryManager manager = UIEntryManagerFactory.createUIEntryManager();
 
         int invalidEntryId = Integer.MAX_VALUE;
-        when(this.db.selectByID(invalidEntryId)).thenReturn(null);
+        when(this.db.selectDefaultEntryByID(invalidEntryId)).thenReturn(null);
 
         Date newDate = DateFactory.fromString("2018-03-21");
 

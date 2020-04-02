@@ -110,13 +110,13 @@ class StubDatabase implements Database {
         // find all entries with the same category ID
         for ( Entry entry : this.defaultEntryMap.values()){
             if (entry.getCatID() == ID){
-                list.add(entry);
+                returnList.add(entry);
             }
         }
 
         // sort the entries by date
-        Collections.sort(list,new EntryDateComparator());
-        return list;
+        Collections.sort(returnList, new EntryDateComparator());
+        return returnList;
     }
 
 

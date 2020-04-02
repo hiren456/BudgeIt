@@ -48,14 +48,14 @@ public class IntegrationUIEntryManagerTest extends UIEntryManagerTest {
         Date date = DateFactory.fromInts(1999,04,23);
         int entryID = 24;
         Entry entry = PurchaseFactory.createPurchase(goal,entryID,name,date,idManager.getDefaultID("Category"));
-        db.insertEntry(entry);
+        db.insertDefaultEntry(entry);
 
         Amount goal2 = AmountFactory.fromString( "7000.00");
         Details name2 = DetailsFactory.fromString( "Phone");
         Date date2 = DateFactory.fromInts(1999,04,23);
         int entryID2 = 25;
         Entry entry2 = IncomeFactory.createIncome(goal,entryID2,name,date,idManager.getDefaultID("Category"));
-        db.insertEntry(entry2);
+        db.insertDefaultEntry(entry2);
     }
 
     @After
