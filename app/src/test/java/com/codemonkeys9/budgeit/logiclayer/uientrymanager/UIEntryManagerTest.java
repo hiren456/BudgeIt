@@ -34,12 +34,11 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 public class UIEntryManagerTest {
+    // DSOs
     Purchase purchase;
     Purchase categorizedPurchase;
-
     Income income;
     Income categorizedIncome;
-
     Category category;
 
     // mocked object
