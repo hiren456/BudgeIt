@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="modify_amount" type="id" />
+    <item name="modify_date" type="id" />
+    <item name="modify_description" type="id" />
+    <item name="modify_category" type="id" />
+</resources>

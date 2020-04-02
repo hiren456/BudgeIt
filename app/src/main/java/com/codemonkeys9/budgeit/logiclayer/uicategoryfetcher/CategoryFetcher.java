@@ -37,6 +37,11 @@ class CategoryFetcher implements UICategoryFetcher {
         return ret;
     }
 
+    @Override
+    public Category getCategoryWithID(int catID) {
+        return null;
+    }
+
     private List<Category> getAll(){
         return db.getAllCategories();
     }

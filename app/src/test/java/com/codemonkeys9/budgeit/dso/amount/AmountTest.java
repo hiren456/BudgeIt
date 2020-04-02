@@ -2,7 +2,8 @@ package com.codemonkeys9.budgeit.dso.amount;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AmountTest {
     @Test

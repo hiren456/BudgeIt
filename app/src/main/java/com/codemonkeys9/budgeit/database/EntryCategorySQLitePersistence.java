@@ -476,7 +476,7 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
      */
     public List<Entry> getDefaultEntriesByCategoryID(int ID){
         Entry entry = null;
-        ArrayList<Entry> entryList = new ArrayList<Entry>();
+        ArrayList<Entry> listOfEntries = new ArrayList<Entry>();
 
         //get the default id of category
         IDManager manager = IDManagerFactory.createIDManager();
@@ -512,12 +512,11 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
                 }
 
                 //add entry to the list
-                entryList.add(entry);
+                listOfEntries.add(entry);
             } while (cursor.moveToNext());
             cursor.close();
         }
-
-        return entryList;
+        return listOfEntries;
     }
 
     /*

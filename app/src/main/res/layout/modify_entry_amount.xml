@@ -5,27 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.NewEntryActivity">
-
+    tools:context=".ui.ModifyEntryAmountActivity">
 
     <EditText
         android:id="@+id/editText_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editText_details"
+        android:layout_alignParentTop="true"
         android:ems="10"
         android:gravity="top|start"
         android:hint="amount"
         android:inputType="numberDecimal" />
-
-    <EditText
-        android:id="@+id/editText_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:hint="name"
-        android:inputType="text" />
 
     <Button
         android:id="@+id/button_submit"
@@ -34,19 +24,5 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:text="Submit" />
-
-    <segmented_control.widget.custom.android.com.segmentedcontrol.SegmentedControl
-        android:id="@+id/control_incomeOrExpense"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editText_amount"
-        android:layout_margin="8dp"
-        app:columnCount="2"
-        app:distributeEvenly="true"
-        app:radius="12dp"
-        app:segments="@array/category_types"
-        app:supportedSelectionsCount="1"
-        app:textVerticalPadding="6dp" />
-
 
 </RelativeLayout>

@@ -1,8 +1,11 @@
 package com.codemonkeys9.budgeit.dso.details;
 
+import com.codemonkeys9.budgeit.exceptions.InvalidDetailStringException;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.fail;
+import static org.junit.Assert.assertTrue;
 
 public class DetailsTest {
     @Test
@@ -30,5 +33,19 @@ public class DetailsTest {
         value = "Goodbye";
 
         assertTrue("Hello".equals(details.getValue()));
+    }
+
+    @Test
+    public void emptyDetailsTest(){
+        String stringDetails = "";
+        try{
+            Details details = DetailsFactory.fromString(stringDetails);
+            fail();
+        }catch (InvalidDetailStringException e ){
+
+        }catch (Exception e){
+            fail();
+        }
+
     }
 }

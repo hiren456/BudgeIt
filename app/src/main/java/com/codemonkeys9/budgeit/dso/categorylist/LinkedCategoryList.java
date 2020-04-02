@@ -62,4 +62,5 @@ class LinkedCategoryList implements CategoryList {
     public Category get(int i){
         return ll.get(i);
     }
+    public Category getInReverseChrono(int i){ return this.getReverseChrono().get(i);}
 }

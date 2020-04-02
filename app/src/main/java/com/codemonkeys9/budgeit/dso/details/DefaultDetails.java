@@ -1,10 +1,13 @@
 package com.codemonkeys9.budgeit.dso.details;
 
+import com.codemonkeys9.budgeit.exceptions.InvalidDetailStringException;
+
 class DefaultDetails implements Details {
 
     String details;
 
     DefaultDetails(String details) {
+        validateDetails(details);
         this.details = details;
     }
 
@@ -20,8 +23,10 @@ class DefaultDetails implements Details {
 
     private void validateDetails(String details){
         if(details == null){
-
-            throw new NullPointerException();
+            throw new NullPointerException("details is null");
+        }
+        if(details.equals("")){
+            throw new InvalidDetailStringException(details);
         }
     }
 

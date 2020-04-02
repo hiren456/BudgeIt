@@ -33,7 +33,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class EntriesFragment extends Fragment {
+public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryListener{
     private EntryAdapter entryAdapter;
     private EntryVisibility visibility = EntryVisibility.Both; // defaults to all entries
 
@@ -207,6 +207,10 @@ public class EntriesFragment extends Fragment {
             int income = categoryCreator.createSavingsCategory("2000", "Income");
             int transportation = categoryCreator.createBudgetCategory("100", "Transportation");
             int alyx = entryManager.createEntry("60", "Half-Life: Alyx Pre-order", "2019-12-01", true);
+            System.out.println("Games has id: "+games);
+            System.out.println("Misc has id: "+misc);
+            System.out.println("Income has id: "+income);
+            System.out.println("Transportation has id: "+transportation);
             entryCategorizer.categorizeEntry(alyx, games);
             ADD_FAKE_DATA:
             for (int year = 2018; year <= 2020; year++) {
@@ -270,25 +274,8 @@ public class EntriesFragment extends Fragment {
         super.onPause();
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        if(!this.active) return false;
-
-        entryAdapter.onContextItemSelected(item);
-
-        refreshTimeline();
-        return true;
-    }
 
     private void refreshTimeline() {
-        // if the user inputs -123456789 and then 123456789
-        // or any other invalid date range
-        // either a InvalidDateException
-        // or a InvalidDateInterval exception will be thrown
-        // you should probably catch them both by catching
-        // the UserInputException and printing out
-        // an error message to the user with UserInputException's
-        // getUserErrorMessage method
         switch(visibility) {
             case Income:
                 this.entries = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
@@ -327,5 +314,28 @@ public class EntriesFragment extends Fragment {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // We will get context item events for all fragments in MainPager. We have to return false
+        // in order for other fragments to have a chance to handle them.
+        if(!this.active) return false;
+
+        // Get index *within the currently-displayed list of entries*
+        int entryIndex = item.getGroupId();
+        // Get actual, global entry ID
+        int entryId = entries.getReverseChrono().get(entryIndex).getEntryID();
+        int buttonId = item.getItemId();
+
+        boolean b = entryAdapter.onContextItemSelected(getContext(), entryId, buttonId);
+        refreshTimeline();
+        return true;
+    }
+
+
+    @Override
+    public void onEntryClick(int position) {
+        //do nothing
     }
 }

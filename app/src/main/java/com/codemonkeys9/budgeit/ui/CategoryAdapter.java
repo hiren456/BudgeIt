@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codemonkeys9.budgeit.R;
-import com.codemonkeys9.budgeit.dso.category.BudgetCategory;
 import com.codemonkeys9.budgeit.dso.category.Category;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycolourizer.UICategoryColourizer;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycolourizer.UICategoryColourizerFactory;
 
 import java.util.List;
 
@@ -45,6 +46,8 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(this.getAdapterPosition(), R.id.action_delete, 0, "Delete");
+            menu.add(this.getAdapterPosition(), R.id.modify_amount, 0, "Modify Amount");
+            menu.add(this.getAdapterPosition(), R.id.modify_description, 0, "Modify Description");
         }
 
         @Override
@@ -82,22 +85,12 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-
         Category category = getItem(position);
         viewHolder.description.setText(category.getName().getValue());
         viewHolder.date.setText(category.getDateLastModified().getDisplay());
 
-        // Decide which color to make the amount based on whether it is negative or positive
-        // Colors are encoded in ARGB format, one byte (or two hex digits) per channel.
-        int color;
-        if(category instanceof BudgetCategory) {
-            // Red
-            color = 0xFFFF0000;
-        } else {
-            // Green
-            color = 0xFF00AA00;
-        }
-        viewHolder.amount.setTextColor(color);
+        UICategoryColourizer colourizer = UICategoryColourizerFactory.createUICategoryColourizer();
+        viewHolder.amount.setTextColor(colourizer.getAmountColour(category));
         viewHolder.amount.setText(category.getGoal().getDisplay());
     }
 

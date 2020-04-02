@@ -12,16 +12,13 @@ abstract class DefaultCategory implements Category{
 
     DefaultCategory(Details name, Amount goal, int id,Date dateLastModified){
         if(name == null){
-
-            throw new NullPointerException();
+            throw new NullPointerException("name is null");
         }
         if(goal == null){
-
-            throw new NullPointerException();
+            throw new NullPointerException("goal is null");
         }
         if(dateLastModified == null){
-
-            throw new NullPointerException();
+            throw new NullPointerException("dateLastModified is null");
         }
 
         this.dateLastModified = dateLastModified;
