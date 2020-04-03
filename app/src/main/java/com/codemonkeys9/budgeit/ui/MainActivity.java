@@ -14,10 +14,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // This is necessary for LocalDate to work with
-        // API < 23
-        AndroidThreeTen.init(this);
-        DatabaseHolder.init();
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
