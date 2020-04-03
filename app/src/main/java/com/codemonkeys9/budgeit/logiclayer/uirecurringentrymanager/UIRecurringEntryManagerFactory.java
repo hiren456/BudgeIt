@@ -6,9 +6,10 @@ import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 public class UIRecurringEntryManagerFactory {
     public static UIRecurringEntryManager createUIReccuringEntryManager(){
         IDManager idManager = IDManagerFactory.createIDManager();
-        return new RecurringEntryManager(idManager);
+        DateSource dateSource = new IRLDateSource();
+        return new RecurringEntryManager(idManager,dateSource);
     }
-    public static UIRecurringEntryManager createUIReccuringEntryManager(IDManager idManager){
-        return new RecurringEntryManager(idManager);
+    public static UIRecurringEntryManager createUIReccuringEntryManager(IDManager idManager,DateSource dateSource){
+        return new RecurringEntryManager(idManager,dateSource);
     }
 }
