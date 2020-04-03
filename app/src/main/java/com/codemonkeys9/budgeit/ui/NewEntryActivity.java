@@ -6,9 +6,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,13 +35,18 @@ public class NewEntryActivity extends AppCompatActivity {
     private final static int
         INCOME = 0,
         EXPENSE = 1;
-    Spinner dropdown;
+    Spinner categoryDropdown;
     Category category;
 
     UICategoryFetcher categoryFetcher;
 
     SegmentedControl entryTypeControl;
     Switch badSwitch;
+    Switch recurringSwitch;
+    EditText[] recurrenceFields;
+    TextView recurringMessage;
+
+    final int YEARS = 0, MONTHS = 1, WEEKS = 2, DAYS = 3; //for the editText array
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +70,15 @@ public class NewEntryActivity extends AppCompatActivity {
 
         CategoryList categoryList = categoryFetcher.fetchAllCategories();
         List<Category> listOfCategories = categoryList.getReverseChrono();
-        dropdown = findViewById(R.id.spinner_category);
+        categoryDropdown = findViewById(R.id.spinner_category);
         ArrayAdapter<Category> categoryAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_item, listOfCategories);
-        dropdown.setAdapter(categoryAdapter);
+        categoryDropdown.setAdapter(categoryAdapter);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        categoryDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                category = (Category)dropdown.getSelectedItem();
+                category = (Category)categoryDropdown.getSelectedItem();
             }
 
             @Override
@@ -81,6 +88,8 @@ public class NewEntryActivity extends AppCompatActivity {
         });
 
 
+
+        /* BAD SWITCH */
         this.entryTypeControl = findViewById(R.id.control_incomeOrExpense);
         this.entryTypeControl.setSelectedSegment(0);
         this.entryTypeControl.addOnSegmentSelectListener(new OnSegmentSelectedListener() {
@@ -90,13 +99,39 @@ public class NewEntryActivity extends AppCompatActivity {
                 showBadSwitch(segmentViewHolder.getAbsolutePosition() == EXPENSE);
             }
         });
-
         this.badSwitch = findViewById(R.id.switch_bad);
         showBadSwitch(false);
+        /* BAD SWITCH */
+
+        /* RECURRENCE FIELDS */
+        this.recurringSwitch = findViewById(R.id.switch_recurring);
+        this.recurringSwitch.setVisibility(View.VISIBLE);
+        this.recurringMessage = findViewById(R.id.text_recurring_message);
+        recurrenceFields = new EditText[DAYS+1];
+                    recurrenceFields[YEARS] = findViewById(R.id.recurring_years);
+                    recurrenceFields[MONTHS] = findViewById(R.id.recurring_months);
+                    recurrenceFields[WEEKS] = findViewById(R.id.recurring_weeks);
+                    recurrenceFields[DAYS] = findViewById(R.id.recurring_days);
+
+        showRecurringFields(false);
+        recurringSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                showRecurringFields(isChecked);
+            }
+        });
+        /* RECURRENCE FIELDS */
+
     }
 
     void showBadSwitch(boolean show) {
         this.badSwitch.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    void showRecurringFields(boolean show){
+        for(EditText e : recurrenceFields){
+            e.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+        }
+        this.recurringMessage.setVisibility(show? View.VISIBLE : View.INVISIBLE);
     }
 
     /*
