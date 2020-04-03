@@ -68,7 +68,7 @@ class RecurringEntryManager implements UIRecurringEntryManager {
 
                 // The day doesn't matter in this context; we just need to know what the length
                 // of the month is.
-                recurrence = DateFactory.fromInts(year, month, 0);
+                recurrence = DateFactory.fromInts(year, month, 1);
                 int lengthOfMonth = recurrence.getLengthOfMonth();
 
                 // Handwavy heuristic alert: if the user entered a non-zero number of days in the
@@ -90,7 +90,7 @@ class RecurringEntryManager implements UIRecurringEntryManager {
                         }
 
                         // See above regarding the day argument
-                        recurrence = DateFactory.fromInts(year, month, 0);
+                        recurrence = DateFactory.fromInts(year, month, 1);
                         lengthOfMonth = recurrence.getLengthOfMonth();
                     }
                 } else {
