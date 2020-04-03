@@ -19,10 +19,11 @@ class RecurringEntryManager implements UIRecurringEntryManager {
     EntryCreator entryCreator;
     DateSource dateSource = new IRLDateSource();
 
-    public RecurringEntryManager(IDManager idManager){
+    public RecurringEntryManager(IDManager idManager,DateSource dateSource){
         this.idManager = idManager;
         this.db = DatabaseHolder.getDatabase();
         this.entryCreator = EntryCreatorFactory.createEntryCreator(idManager);
+        this.dateSource = dateSource;
     }
 
     @Override
