@@ -4,9 +4,15 @@ import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
+import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.Income;
+import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.dso.entry.RecurrencePeriod;
 import com.codemonkeys9.budgeit.dso.entry.RecurringEntry;
+import com.codemonkeys9.budgeit.dso.entry.RecurringIncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.RecurringPurchase;
+import com.codemonkeys9.budgeit.dso.entry.RecurringPurchaseFactory;
+import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
@@ -28,8 +34,37 @@ class RecurringEntryManager implements UIRecurringEntryManager {
 
     @Override
     public int createRecurringEntry(int entryId, RecurrencePeriod recurrencePeriod) {
+        Entry entry = getEntry(entryId);
 
-        return 0;
+        int recurringEntryId = this.idManager.getNewID("Entry");
+
+        RecurringEntry recurringEntry = null;
+
+        if(entry instanceof Purchase){
+            recurringEntry = RecurringPurchaseFactory
+                    .createPurchase(entry.getAmount(),recurringEntryId,entry.getDetails(),
+                            entry.getDate(),entry.getCatID(),recurrencePeriod,((Purchase) entry).flagged());
+        }
+
+        if(entry instanceof Income){
+            recurringEntry = RecurringIncomeFactory
+                    .createRecurringIncome(entry.getAmount(),recurringEntryId,entry.getDetails(),
+                            entry.getDate(),entry.getCatID(),recurrencePeriod);
+        }
+
+
+        db.insertRecurringEntry(recurringEntry);
+        return recurringEntryId;
+    }
+
+    private Entry getEntry(int entryId){
+        Entry entry = this.db.selectDefaultEntryByID(entryId);
+
+        if(entry == null){
+            throw new EntryDoesNotExistException("Entry with id " + entryId + " does not exist.");
+        }
+
+        return entry;
     }
 
     @Override

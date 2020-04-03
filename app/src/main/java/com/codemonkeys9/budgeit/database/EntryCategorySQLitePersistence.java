@@ -85,7 +85,6 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
     private int initialEntryID;
     private int initialCategoryID;
 
-
     public EntryCategorySQLitePersistence(Context context, int initialEntryID, int initialCategoryID) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.initialEntryID = initialEntryID;

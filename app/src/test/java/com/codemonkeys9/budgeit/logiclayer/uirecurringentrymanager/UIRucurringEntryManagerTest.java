@@ -95,25 +95,24 @@ public class UIRucurringEntryManagerTest {
     @Test
     public void createRecurringPurchaseTest(){
         when(this.db.selectDefaultEntryByID(this.purchase.getEntryID())).thenReturn(this.purchase);
+        when(this.idManager.getNewID("Entry")).thenReturn(this.recurringPurchase.getRecurringEntryID());
         int id = this.manager.createRecurringEntry(this.purchase.getEntryID(),this.period);
 
-        when(this.idManager.getNewID("Recurring Entry")).thenReturn(this.recurringPurchase.getRecurringEntryID());
-
-        verify(this.idManager).getNewID("Recurring Entry");
+        verify(this.idManager).getNewID("Entry");
 
         ArgumentCaptor<RecurringPurchase> argument = ArgumentCaptor.forClass(RecurringPurchase.class);
         verify(this.db).insertRecurringEntry(argument.capture());
+        System.out.println(argument.getValue().getRecurringEntryID());
         assertTrue(this.recurringPurchase.equals(argument.getValue()));
     }
 
     @Test
     public void createRecurringIncomeTest(){
         when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
+        when(this.idManager.getNewID("Entry")).thenReturn(this.recurringIncome.getRecurringEntryID());
         int id = this.manager.createRecurringEntry(this.income.getEntryID(),this.period);
 
-        when(this.idManager.getNewID("Recurring Entry")).thenReturn(this.recurringIncome.getRecurringEntryID());
-
-        verify(this.idManager).getNewID("Recurring Entry");
+        verify(this.idManager).getNewID("Entry");
 
         ArgumentCaptor<RecurringIncome> argument = ArgumentCaptor.forClass(RecurringIncome.class);
         verify(this.db).insertRecurringEntry(argument.capture());
@@ -126,7 +125,7 @@ public class UIRucurringEntryManagerTest {
         when(this.db.selectDefaultEntryByID(invalidId)).thenReturn(null);
 
         try{
-            int id = this.manager.createRecurringEntry(this.income.getEntryID(),this.period);
+            int id = this.manager.createRecurringEntry(invalidId,this.period);
             fail();
         }catch (EntryDoesNotExistException e){
 
@@ -406,7 +405,6 @@ public class UIRucurringEntryManagerTest {
         verify(this.db).updateDateLastChecked(stringArgument.capture(), dateArgument.capture());
         assertTrue(now.equals(dateArgument.getValue()));
         assertTrue("Recurring Entry".equals(stringArgument.getValue()));
-
     }
 
 }
