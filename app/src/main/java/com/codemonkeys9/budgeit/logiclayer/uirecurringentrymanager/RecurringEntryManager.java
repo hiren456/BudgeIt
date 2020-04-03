@@ -8,7 +8,7 @@ import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 class RecurringEntryManager implements UIRecurringEntryManager {
     IDManager idManager;
     Database db;
-
+    DateSource dateSource = new IRLDateSource();
 
     public RecurringEntryManager(IDManager idManager){
         this.idManager = idManager;
