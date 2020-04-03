@@ -45,6 +45,30 @@ public class StubDatabaseTest {
     }
 
     @Test
+    public void updateDateLastCheckedForRecurringTest(){
+        Date newDate = DateFactory.fromString("1999-04-23");
+
+        assertTrue(this.db.updateDateLastChecked("Recurring Entry",newDate));
+        assertTrue(newDate.equals(this.db.getDateLastChecked("Recurring Entry")));
+    }
+
+    @Test
+    public void updateDateLastCheckedForCategoryTest(){
+        Date newDate = DateFactory.fromString("1999-04-23");
+
+        assertTrue(this.db.updateDateLastChecked("Category Period",newDate));
+        assertTrue(newDate.equals(this.db.getDateLastChecked("Category Period")));
+    }
+
+    @Test
+    public void initialDateLastCheckedTest(){
+        Date now = DateFactory.fromString("now");
+
+        assertTrue(now.equals(this.db.getDateLastChecked("Recurring Entry")));
+        assertTrue(now.equals(this.db.getDateLastChecked("Category Period")));
+    }
+
+    @Test
     public void idCounterInitialValueTest() {
 
         assertEquals("When a database is initialized, " +

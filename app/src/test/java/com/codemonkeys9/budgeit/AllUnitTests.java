@@ -1,5 +1,7 @@
 package com.codemonkeys9.budgeit;
 
+import android.provider.Contacts;
+
 import com.codemonkeys9.budgeit.database.DatabaseTest;
 import com.codemonkeys9.budgeit.database.StubDatabaseTest;
 import com.codemonkeys9.budgeit.dso.amount.AmountTest;
@@ -22,6 +24,7 @@ import com.codemonkeys9.budgeit.logiclayer.uicategorymodifier.UICategoryModifier
 import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizerTest;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherTest;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerTest;
+import com.codemonkeys9.budgeit.logiclayer.uirecurringentrymanager.UIRecurringEntryManager;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -49,6 +52,7 @@ import org.junit.runners.Suite;
         UICategoryFetcherTest.class,
         UIEntryCategorizerTest.class,
         UICategoryModifierTest.class,
+        UIRecurringEntryManager.class
 })
 
 public class AllUnitTests {
