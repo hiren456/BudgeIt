@@ -99,6 +99,8 @@ class RecurringEntryManager implements UIRecurringEntryManager {
 
                 recurrence = DateFactory.fromInts(year, month, day);
             }
+
         }
+        this.db.updateDateLastChecked("Recurring Entry",now);
     }
 }
