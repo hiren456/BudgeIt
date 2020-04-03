@@ -30,8 +30,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -240,4 +240,173 @@ public class UIRucurringEntryManagerTest {
         assertTrue(now.equals(dateArgument.getValue()));
         assertTrue("Recurring Entry".equals(stringArgument.getValue()));
     }
+
+    @Test
+    public void threePeriodPassedRecurringIncomeTest(){
+        // "put" income and recurring income into the db
+        when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
+        when(this.db.selectRecurringEntryByID(this.recurringIncome.getRecurringEntryID()))
+                .thenReturn(this.recurringIncome);
+        ArrayList<RecurringEntry> allRecurr = new ArrayList<RecurringEntry>(1);
+        allRecurr.add(this.recurringIncome);
+        when(this.db.getAllRecurringEntries()).thenReturn(allRecurr);
+
+        // Today is 2019-04-22
+        Date now = DateFactory.fromString("2019-04-22");
+        when(this.dateSource.now()).thenReturn(now);
+
+        when(this.db.getDateLastChecked("Recurring Entry"))
+                .thenReturn(DateFactory.fromString("2019-04-01"));
+
+        this.manager.checkAllRecurringEntrys();
+
+        ArgumentCaptor<Entry> argument = ArgumentCaptor.forClass(Entry.class);
+        verify(this.db,times(3)).insertDefaultEntry(argument.capture());
+
+        Date[] dateList = {DateFactory.fromString("2019-04-08"),
+                DateFactory.fromString("2019-04-15"),
+                DateFactory.fromString("2019-04-22")};
+
+        List<Entry> insertedEntrys = argument.getAllValues();
+
+        Entry entry1 = insertedEntrys.get(0);
+        assertTrue(this.income.getAmount().equals(entry1.getAmount()));
+        assertTrue(this.income.getDetails().equals(entry1.getDetails()));
+        Entry entry2 = insertedEntrys.get(1);
+        assertTrue(this.income.getAmount().equals(entry2.getAmount()));
+        assertTrue(this.income.getDetails().equals(entry2.getDetails()));
+        Entry entry3 = insertedEntrys.get(2);
+        assertTrue(this.income.getAmount().equals(entry3.getAmount()));
+        assertTrue(this.income.getDetails().equals(entry3.getDetails()));
+
+        // This is needed because we do not know what order the entries will
+        // be inserted into the db
+        for(int i = 0; i<3;i++){
+            assertTrue(entry1.getDate().equals(dateList[i]) ||
+                    entry2.getDate().equals(dateList[i]) ||
+                    entry3.getDate().equals(dateList[i]));
+        }
+
+
+        verify(this.db).getAllRecurringEntries();
+        verify(this.db).getDateLastChecked("Recurring Entry");
+
+        // the manager should update the dateLastChecked to today's date
+        ArgumentCaptor<String> stringArgument = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Date> dateArgument = ArgumentCaptor.forClass(Date.class);
+        verify(this.db).updateDateLastChecked(stringArgument.capture(), dateArgument.capture());
+        assertTrue(now.equals(dateArgument.getValue()));
+        assertTrue("Recurring Entry".equals(stringArgument.getValue()));
+    }
+
+    @Test
+    public void threePeriodsPassedButDateLastCheckedAtCurrentDateTest(){
+        // "put" income and recurring income into the db
+        when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
+        when(this.db.selectRecurringEntryByID(this.recurringIncome.getRecurringEntryID()))
+                .thenReturn(this.recurringIncome);
+        ArrayList<RecurringEntry> allRecurr = new ArrayList<RecurringEntry>(1);
+        allRecurr.add(this.recurringIncome);
+        when(this.db.getAllRecurringEntries()).thenReturn(allRecurr);
+
+        // Today is 2019-04-22
+        Date now = DateFactory.fromString("2019-04-22");
+        when(this.dateSource.now()).thenReturn(now);
+
+        when(this.db.getDateLastChecked("Recurring Entry"))
+                .thenReturn(DateFactory.fromString("2019-04-22"));
+
+        this.manager.checkAllRecurringEntrys();
+
+        // The manager shouldn't insert anything
+        verify(this.db,never()).insertDefaultEntry(Mockito.any(Entry.class));
+        verify(this.db,never()).insertCategory(Mockito.any(Category.class));
+        verify(this.db,never()).insertRecurringEntry(Mockito.any(RecurringEntry.class));
+    }
+
+    @Test
+    public void onePeriodPassedAcrossMonthTest(){
+        // "put" income and recurring income into the db
+        when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
+        when(this.db.selectRecurringEntryByID(this.recurringIncome.getRecurringEntryID()))
+                .thenReturn(this.recurringIncome);
+        ArrayList<RecurringEntry> allRecurr = new ArrayList<RecurringEntry>(1);
+        allRecurr.add(this.recurringIncome);
+        when(this.db.getAllRecurringEntries()).thenReturn(allRecurr);
+
+        // Today is 2019-04-08
+        Date now = DateFactory.fromString("2019-05-06");
+        when(this.dateSource.now()).thenReturn(now);
+
+        when(this.db.getDateLastChecked("Recurring Entry"))
+                .thenReturn(DateFactory.fromString("2019-04-29"));
+
+        this.manager.checkAllRecurringEntrys();
+
+        ArgumentCaptor<Entry> argument = ArgumentCaptor.forClass(Entry.class);
+        verify(this.db).insertDefaultEntry(argument.capture());
+        Entry onePeriodShiftedIncome = this.income
+                .modifyEntry(this.income.getAmount(),
+                        this.income.getDetails(),
+                        DateFactory.fromString("2019-05-06"));
+        Entry insertedEntry = argument.getValue();
+        assertTrue(onePeriodShiftedIncome.getAmount().equals(insertedEntry.getAmount()));
+        assertTrue(onePeriodShiftedIncome.getDetails().equals(insertedEntry.getDetails()));
+        assertTrue(onePeriodShiftedIncome.getDate().equals(insertedEntry.getDate()));
+        assertNotEquals(insertedEntry.getEntryID(),onePeriodShiftedIncome.getEntryID());
+
+        verify(this.db).getAllRecurringEntries();
+        verify(this.db).getDateLastChecked("Recurring Entry");
+
+        // the manager should update the dateLastChecked to today's date
+        ArgumentCaptor<String> stringArgument = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Date> dateArgument = ArgumentCaptor.forClass(Date.class);
+        verify(this.db).updateDateLastChecked(stringArgument.capture(), dateArgument.capture());
+        assertTrue(now.equals(dateArgument.getValue()));
+        assertTrue("Recurring Entry".equals(stringArgument.getValue()));
+    }
+
+    @Test
+    public void onePeriodPassedAcrossYearTest(){
+        // "put" income and recurring income into the db
+        when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
+        when(this.db.selectRecurringEntryByID(this.recurringIncome.getRecurringEntryID()))
+                .thenReturn(this.recurringIncome);
+        ArrayList<RecurringEntry> allRecurr = new ArrayList<RecurringEntry>(1);
+        allRecurr.add(this.recurringIncome);
+        when(this.db.getAllRecurringEntries()).thenReturn(allRecurr);
+
+        // Today is 2019-04-08
+        Date now = DateFactory.fromString("2020-01-06");
+        when(this.dateSource.now()).thenReturn(now);
+
+        when(this.db.getDateLastChecked("Recurring Entry"))
+                .thenReturn(DateFactory.fromString("2019-12-30"));
+
+        this.manager.checkAllRecurringEntrys();
+
+        ArgumentCaptor<Entry> argument = ArgumentCaptor.forClass(Entry.class);
+        verify(this.db).insertDefaultEntry(argument.capture());
+        Entry onePeriodShiftedIncome = this.income
+                .modifyEntry(this.income.getAmount(),
+                        this.income.getDetails(),
+                        DateFactory.fromString("2020-01-06"));
+        Entry insertedEntry = argument.getValue();
+        assertTrue(onePeriodShiftedIncome.getAmount().equals(insertedEntry.getAmount()));
+        assertTrue(onePeriodShiftedIncome.getDetails().equals(insertedEntry.getDetails()));
+        assertTrue(onePeriodShiftedIncome.getDate().equals(insertedEntry.getDate()));
+        assertNotEquals(insertedEntry.getEntryID(),onePeriodShiftedIncome.getEntryID());
+
+        verify(this.db).getAllRecurringEntries();
+        verify(this.db).getDateLastChecked("Recurring Entry");
+
+        // the manager should update the dateLastChecked to today's date
+        ArgumentCaptor<String> stringArgument = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Date> dateArgument = ArgumentCaptor.forClass(Date.class);
+        verify(this.db).updateDateLastChecked(stringArgument.capture(), dateArgument.capture());
+        assertTrue(now.equals(dateArgument.getValue()));
+        assertTrue("Recurring Entry".equals(stringArgument.getValue()));
+
+    }
+
 }
