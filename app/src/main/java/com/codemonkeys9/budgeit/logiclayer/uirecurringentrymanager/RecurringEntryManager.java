@@ -71,8 +71,9 @@ class RecurringEntryManager implements UIRecurringEntryManager {
                 int lengthOfMonth = recurrence.getLengthOfMonth();
 
                 // Handwavy heuristic alert: if the user entered a non-zero number of days in the
-                // recurrence period, should the calculated date go past the end of the month, we
-                // should respect their wishes and roll over to the next (as many times as necessary).
+                // recurrence period, and if the calculated date goes past the end of the month, we
+                // should respect the user's wishes and roll over to the next (as many times as
+                // necessary).
                 //
                 // On the other hand, if they left the `days` field as 0, we should clamp the date
                 // to the last of the month.
@@ -87,6 +88,7 @@ class RecurringEntryManager implements UIRecurringEntryManager {
                             month -= 12;
                         }
 
+                        // See above regarding the day argument
                         recurrence = DateFactory.fromInts(year, month, 0);
                         lengthOfMonth = recurrence.getLengthOfMonth();
                     }
