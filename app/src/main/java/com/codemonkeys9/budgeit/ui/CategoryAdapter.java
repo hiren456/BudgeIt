@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codemonkeys9.budgeit.R;
-import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculator;
@@ -96,7 +95,7 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
         viewHolder.description.setText(category.getName().getValue());
         viewHolder.date.setText(category.getDateLastModified().getDisplay());
 
-        viewHolder.amountSum.setText(new StringBuilder().append(getCategorySum(category).getAbsoluteValueDisplay()).append(" / ").toString());
+        viewHolder.amountSum.setText(new StringBuilder().append(getCategorySum(category)).append(" / ").toString());
 
         UICategoryColourizer colourizer = UICategoryColourizerFactory.createUICategoryColourizer();
         viewHolder.amountGoal.setTextColor(colourizer.getAmountColour(category));
@@ -104,14 +103,15 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
     }
 
     public void updateSums(List<Category> categories){
-        
+
     }
-    private Amount getCategorySum(Category c){
+
+    private String getCategorySum(Category c){
         UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
         EntryList entryList = entryFetcher.fetchEntrysInCategory(c.getID());
 
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
-        return entryCalculator.sumEntryList(entryList);
+        return entryCalculator.sumEntryList(entryList).getAbsoluteValueDisplay();
     }
 
     public void updateCategories(List<Category> newCategories) {
