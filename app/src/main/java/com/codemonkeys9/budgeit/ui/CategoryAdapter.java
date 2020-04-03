@@ -96,13 +96,16 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
         viewHolder.description.setText(category.getName().getValue());
         viewHolder.date.setText(category.getDateLastModified().getDisplay());
 
-        viewHolder.amountSum.setText(getCategorySum(category).getDisplay() + " / ");
+        viewHolder.amountSum.setText(new StringBuilder().append(getCategorySum(category).getAbsoluteValueDisplay()).append(" / ").toString());
 
         UICategoryColourizer colourizer = UICategoryColourizerFactory.createUICategoryColourizer();
         viewHolder.amountGoal.setTextColor(colourizer.getAmountColour(category));
         viewHolder.amountGoal.setText(category.getGoal().getDisplay());
     }
 
+    public void updateSums(List<Category> categories){
+        
+    }
     private Amount getCategorySum(Category c){
         UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
         EntryList entryList = entryFetcher.fetchEntrysInCategory(c.getID());

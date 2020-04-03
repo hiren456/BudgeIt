@@ -19,6 +19,9 @@ class DefaultAmount implements Amount{
     }
 
     @Override
+    public String getAbsoluteValueDisplay() { return intToString(Math.abs(this.amount)); }
+
+    @Override
     public int getValue() {
         return this.amount;
     }
