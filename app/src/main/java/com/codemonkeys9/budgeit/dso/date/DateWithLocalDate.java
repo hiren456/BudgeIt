@@ -65,6 +65,11 @@ public class DateWithLocalDate implements Date {
     }
 
     @Override
+    public int getLengthOfMonth() {
+        return date.lengthOfMonth();
+    }
+
+    @Override
     public boolean inFuture() {
         LocalDate now = LocalDate.now();
         return this.date.isAfter(now);

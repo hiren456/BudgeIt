@@ -25,6 +25,11 @@ public interface Date extends Comparable<Date> {
      */
     int getDay();
 
+    /*
+    Get length of month, in number of days
+     */
+    int getLengthOfMonth();
+
     boolean equals(Date other);
     Date clone();
 
