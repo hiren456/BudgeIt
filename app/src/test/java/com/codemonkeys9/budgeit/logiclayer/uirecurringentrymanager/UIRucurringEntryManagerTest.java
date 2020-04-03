@@ -31,6 +31,8 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -222,7 +224,11 @@ public class UIRucurringEntryManagerTest {
                 .modifyEntry(this.income.getAmount(),
                         this.income.getDetails(),
                         DateFactory.fromString("2019-04-08"));
-        assertTrue(onePeriodShiftedIncome.equals(argument.getValue()));
+        Entry insertedEntry = argument.getValue();
+        assertTrue(onePeriodShiftedIncome.getAmount().equals(insertedEntry.getAmount()));
+        assertTrue(onePeriodShiftedIncome.getDetails().equals(insertedEntry.getDetails()));
+        assertTrue(onePeriodShiftedIncome.getDate().equals(insertedEntry.getDate()));
+        assertNotEquals(insertedEntry.getEntryID(),onePeriodShiftedIncome.getEntryID());
 
         verify(this.db).getAllRecurringEntries();
         verify(this.db).getDateLastChecked("Recurring Entry");
