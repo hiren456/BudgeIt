@@ -19,6 +19,8 @@ import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
+import com.codemonkeys9.budgeit.logiclayer.UIEntryBuilder.UIEntryBuilder;
+import com.codemonkeys9.budgeit.logiclayer.UIEntryBuilder.UIEntryBuilderFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
@@ -145,27 +147,52 @@ public class NewEntryActivity extends AppCompatActivity {
         String date = ((EditText)findViewById(R.id.editText_date)).getText().toString();
         String details = ((EditText)findViewById(R.id.editText_details)).getText().toString();
 
+
+
         SegmentedControl entryTypeControl = findViewById(R.id.control_incomeOrExpense);
         int selected = entryTypeControl.getLastSelectedAbsolutePosition();
         boolean purchase = selected == EXPENSE;
-
+        UIEntryBuilder entryBuilder = UIEntryBuilderFactory.createUIEntryBuilder();
         try {
-            int id;
+            entryBuilder.buildBaseEntry(amount, details, date, purchase);
             if(category != null) {
-                id = entryManager.createEntry(amount, details, date, purchase, category.getID());
-            } else {
-                id = entryManager.createEntry(amount, details, date, purchase);
+                entryBuilder.addCategory(category.getID());
             }
             if(purchase) {
-                entryManager.flagPurchase(id, this.badSwitch.isChecked());
+                entryBuilder.addFlag(this.badSwitch.isChecked());
             }
-            return id;
+
+            if(recurringSwitch.isChecked()){
+                int[] recVals = getRecurrenceValues();
+                entryBuilder.addRecurrencePeriod(recVals[DAYS],recVals[WEEKS],recVals[MONTHS],recVals[YEARS]);
+            }
+
+            return entryBuilder.getEntryID();
         }
         catch(UserInputException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();
             return null;
         }
+    }
+
+    private int[] getRecurrenceValues(){
+        String[] recValStrings = new String[DAYS+1];
+        int[] recVals = new int[DAYS+1];
+        recValStrings[YEARS] = ((EditText)findViewById(R.id.recurring_years)).getText().toString();
+        recValStrings[MONTHS] = ((EditText)findViewById(R.id.recurring_months)).getText().toString();
+        recValStrings[WEEKS] = ((EditText)findViewById(R.id.recurring_weeks)).getText().toString();
+        recValStrings[DAYS] = ((EditText)findViewById(R.id.recurring_days)).getText().toString();
+
+        for(int i = YEARS; i <= DAYS; i++){
+            try{
+                recVals[i] = Integer.parseInt(recValStrings[i]);
+            }
+            catch(NumberFormatException nfe){
+                recVals[i] = 0;
+            }
+        }
+        return recVals;
     }
 
 }

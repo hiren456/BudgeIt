@@ -75,13 +75,14 @@ class EntryFetcher implements UIEntryFetcher {
     }
 
     @Override
-    public Entry fetchEntrysByID(int entryID) throws EntryDoesNotExistException {
+    public Entry fetchEntryByID(int entryID) throws EntryDoesNotExistException {
         Entry entry = db.selectDefaultEntryByID(entryID);
         if(entry == null){
             throw new EntryDoesNotExistException("Entry with id: " + entryID+" does not exist.");
         }
         return entry;
     }
+
 
     private DateInterval parseInterval(String start,String end){
         DateInterval dateInterval = DateIntervalFactory.fromString(start,end);

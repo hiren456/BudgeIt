@@ -86,9 +86,9 @@ public interface UIEntryFetcher {
     /*
     Fetches the  entry
     with id entryID.
-    Throws EntryDoesNotExist if that entyrID is invalid
+    Throws EntryDoesNotExist if that entryID is invalid
      */
-    Entry fetchEntrysByID(int entryID)
+    Entry fetchEntryByID(int entryID)
             throws EntryDoesNotExistException;
 
 
