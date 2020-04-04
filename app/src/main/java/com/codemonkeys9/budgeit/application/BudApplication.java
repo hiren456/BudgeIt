@@ -3,6 +3,8 @@ package com.codemonkeys9.budgeit.application;
 import android.app.Application;
 
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
+import com.codemonkeys9.budgeit.logiclayer.uirecurringentrymanager.UIRecurringEntryManager;
+import com.codemonkeys9.budgeit.logiclayer.uirecurringentrymanager.UIRecurringEntryManagerFactory;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 public class BudApplication extends Application {
@@ -18,6 +20,9 @@ public class BudApplication extends Application {
         // This is necessary for LocalDate to work with
         // API < 23
         AndroidThreeTen.init(this);
+
+        UIRecurringEntryManager recurringEntryManager = UIRecurringEntryManagerFactory.createUIReccuringEntryManager();
+        recurringEntryManager.checkAllRecurringEntrys();
     }
 
     public static BudApplication getContext() {
