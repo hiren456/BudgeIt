@@ -67,9 +67,9 @@ public class SavingsCategoryTest {
 
         // check to make sure that the category appears on the screen with
         // the proper fields
-        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),1)).
+        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),2)).
                 check(matches(withText("6000.00")));
-        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),1)).
+        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),2)).
                 check(matches(textViewTextColorMatcher(0xFF00AA00)));
         onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),0)).
                 check(matches(withText("Car")));

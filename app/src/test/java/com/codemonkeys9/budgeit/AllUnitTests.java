@@ -25,6 +25,7 @@ import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizer
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherTest;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerTest;
 import com.codemonkeys9.budgeit.logiclayer.uirecurringentrymanager.UIRecurringEntryManager;
+import com.codemonkeys9.budgeit.logiclayer.uirecurringentrymanager.UIRucurringEntryManagerTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -52,7 +53,7 @@ import org.junit.runners.Suite;
         UICategoryFetcherTest.class,
         UIEntryCategorizerTest.class,
         UICategoryModifierTest.class,
-        UIRecurringEntryManager.class
+        UIRucurringEntryManagerTest.class
 })
 
 public class AllUnitTests {
