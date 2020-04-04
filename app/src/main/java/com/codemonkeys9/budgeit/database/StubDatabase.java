@@ -44,10 +44,20 @@ class StubDatabase implements Database {
     }
 
 
+    @Override
+    public Date getDateLastChecked(String type) {
+        return null;
+    }
+
+    @Override
+    public boolean updateDateLastChecked(String type, Date date) {
+        return false;
+    }
+
     /*
-    Inserts an Entry into the database.
-    If the Entry with the same ID is in the db throws runtime exception
-     */
+        Inserts an Entry into the database.
+        If the Entry with the same ID is in the db throws runtime exception
+         */
     @Override
     public void insertDefaultEntry(Entry entry) {
         IDManager manager = IDManagerFactory.createIDManager();
