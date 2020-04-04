@@ -50,6 +50,7 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
 
     private UIEntryManager entryManager;
     private UIEntryFetcher entryFetcher;
+    private UIRecurringEntryManager recurringEntryManager;
     private EntryList entries;
 
     private MenuItem incomeToggle;
@@ -96,7 +97,6 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
             }
         });
 
-        UIRecurringEntryManager recurringEntryManager = UIRecurringEntryManagerFactory.createUIReccuringEntryManager();
         recurringEntryManager.scheduleCheckAllRecurringEntriesEveryDay(
             new NewRecurringEntriesDelegate() {
                 @Override
@@ -211,10 +211,10 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
         super.onCreate(savedInstanceState);
 
         this.entryManager = UIEntryManagerFactory.createUIEntryManager();
+        this.recurringEntryManager = UIRecurringEntryManagerFactory.createUIReccuringEntryManager();
         this.entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
         this.entries = entryFetcher.fetchAllEntrys();
         List<Entry> entryList = entries.getReverseChrono();
-
 
         if(entryList.isEmpty()) {
             UICategoryCreator categoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
