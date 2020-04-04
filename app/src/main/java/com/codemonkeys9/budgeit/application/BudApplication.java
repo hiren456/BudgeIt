@@ -15,11 +15,11 @@ public class BudApplication extends Application {
         super.onCreate();
         bContext = this;
 
-        DatabaseHolder.init();
-
         // This is necessary for LocalDate to work with
         // API < 23
         AndroidThreeTen.init(this);
+
+        DatabaseHolder.init();
 
         UIRecurringEntryManager recurringEntryManager = UIRecurringEntryManagerFactory.createUIReccuringEntryManager();
         recurringEntryManager.checkAllRecurringEntrys();
