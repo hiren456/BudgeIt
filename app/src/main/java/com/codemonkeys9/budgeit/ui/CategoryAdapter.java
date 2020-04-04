@@ -94,7 +94,7 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
         Category category = getItem(position);
         viewHolder.description.setText(category.getName().getValue());
         viewHolder.date.setText(category.getDateLastModified().getDisplay());
-        viewHolder.amountSum.setText(new StringBuilder().append(getCategorySumThisMonth(category)).append(" / ").toString());
+        viewHolder.amountSum.setText("this month: "+getCategorySumThisMonth(category)+" / ");
         UICategoryColourizer colourizer = UICategoryColourizerFactory.createUICategoryColourizer();
         viewHolder.amountGoal.setTextColor(colourizer.getAmountColour(category));
         viewHolder.amountGoal.setText(category.getGoal().getDisplay());
@@ -102,7 +102,7 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
 
     private String getCategorySumThisMonth(Category c){
         UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
-        EntryList entryList = entryFetcher.fetchEntrysInCategory(c.getID());
+        EntryList entryList = entryFetcher.fetchEntrysInCategoryThisMonth(c.getID());
 
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
         String result = entryCalculator.sumEntryList(entryList).getAbsoluteValueDisplay();

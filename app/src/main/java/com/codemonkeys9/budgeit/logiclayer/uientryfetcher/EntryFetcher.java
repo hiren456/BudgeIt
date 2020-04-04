@@ -77,13 +77,13 @@ class EntryFetcher implements UIEntryFetcher {
     }
     @Override
     public EntryList fetchEntrysInCategoryThisMonth(int catID) throws CategoryDoesNotExistException {
-        List<Entry> list = db.getDefaultEntriesByCategoryID(catID);
-        if(list == null){
-            throw new CategoryDoesNotExistException("Category with id: " + catID+ " does not exist.");
-        }
         Date now = DateFactory.fromString("now");
         Date firstOfMonth = DateFactory.fromInts(now.getYear(), now.getMonth(), 1);
         DateInterval dateInterval = DateIntervalFactory.fromDate(firstOfMonth, now);
+        List<Entry> list = db.selectDefaultEntriesByDateAndCategoryID(dateInterval, catID);
+        if(list == null){
+            throw new CategoryDoesNotExistException("Category with id: " + catID+ " does not exist.");
+        }
         return parseList(list);
     }
 
