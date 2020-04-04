@@ -36,6 +36,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
+/*
+This test tests user story #113
+ */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class RecurringEntryTest {
