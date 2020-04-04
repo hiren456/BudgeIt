@@ -23,8 +23,6 @@ import com.codemonkeys9.budgeit.logiclayer.UIEntryBuilder.UIEntryBuilder;
 import com.codemonkeys9.budgeit.logiclayer.UIEntryBuilder.UIEntryBuilderFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
-import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
-import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
 import java.util.List;
 
@@ -141,13 +139,10 @@ public class NewEntryActivity extends AppCompatActivity {
     If the submission was successful, returns the created entry's ID. If not, returns null.
      */
     private Integer submitEntry(){
-        UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
 
         String amount = ((EditText)findViewById(R.id.editText_amount)).getText().toString();
         String date = ((EditText)findViewById(R.id.editText_date)).getText().toString();
         String details = ((EditText)findViewById(R.id.editText_details)).getText().toString();
-
-
 
         SegmentedControl entryTypeControl = findViewById(R.id.control_incomeOrExpense);
         int selected = entryTypeControl.getLastSelectedAbsolutePosition();

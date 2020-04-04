@@ -6,6 +6,8 @@ import com.codemonkeys9.budgeit.dso.amount.AmountFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.Income;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
+import com.codemonkeys9.budgeit.dso.entry.RecurringIncome;
+import com.codemonkeys9.budgeit.dso.entry.RecurringPurchase;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 
 import java.util.Iterator;
@@ -20,10 +22,10 @@ class DefaultEntryCalculator implements EntryCalculator {
         while(iter.hasNext()) {
             Entry next = iter.next();
 
-            if( next instanceof Purchase){
+            if( next instanceof Purchase || next instanceof RecurringPurchase){
                 sum -= next.getAmount().getValue();
             }
-            if( next instanceof Income){
+            if( next instanceof Income || next instanceof RecurringIncome){
                 sum += next.getAmount().getValue();
             }
         }

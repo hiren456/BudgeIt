@@ -43,10 +43,8 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
             date = catView.findViewById(R.id.date);
             amountSum = catView.findViewById(R.id.amount_sum);
             catView.setOnCreateContextMenuListener(this);
-            catView.setOnClickListener(this);
             this.onCategoryListener = onCategoryListener;
             catView.setOnClickListener(this);
-
         }
 
         @Override
@@ -89,21 +87,17 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
         return new ViewHolder(categoryView, onCategoryListener);
     }
 
+
+
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Category category = getItem(position);
         viewHolder.description.setText(category.getName().getValue());
         viewHolder.date.setText(category.getDateLastModified().getDisplay());
-
         viewHolder.amountSum.setText(new StringBuilder().append(getCategorySum(category)).append(" / ").toString());
-
         UICategoryColourizer colourizer = UICategoryColourizerFactory.createUICategoryColourizer();
         viewHolder.amountGoal.setTextColor(colourizer.getAmountColour(category));
         viewHolder.amountGoal.setText(category.getGoal().getDisplay());
-    }
-
-    public void updateSums(List<Category> categories){
-
     }
 
     private String getCategorySum(Category c){
@@ -116,5 +110,6 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
 
     public void updateCategories(List<Category> newCategories) {
         submitList(newCategories);
+
     }
 }
