@@ -402,36 +402,127 @@ public class StubDatabaseTest {
         Entry retEntry4 = retList.get(2);
 
         // test that retEntry2 is the one we want
-        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong amount using selectByDate with many inserts"
                 , amount2.equals(retEntry2.getAmount()));
-        assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
+        assertEquals("Database returns a entry with the wrong entryID using selectByDate with many inserts"
                 , 72, retEntry2.getEntryID());
-        assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong details string using selectByDate with many inserts"
                 , details2.equals(retEntry2.getDetails()));
-        assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong date using selectByDate with many inserts"
                 , date2.equals(retEntry2.getDate()));
 
 
         // test that retEntry3 is the one we want
-        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong amount using selectByDate with many inserts"
                 , amount3.equals(retEntry3.getAmount()));
-        assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
+        assertEquals("Database returns a entry with the wrong entryID using selectByDate with many inserts"
                 , -7, retEntry3.getEntryID());
-        assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong details string using selectByDate with many inserts"
                 , details3.equals(retEntry3.getDetails()));
-        assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong date using selectByDate with many inserts"
                 , date3.equals(retEntry3.getDate()));
 
 
         // test that retEntry4 is the one we want
-        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong amount using selectByDate with many inserts"
                 , amount4.equals(retEntry4.getAmount()));
-        assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
+        assertEquals("Database returns a entry with the wrong entryID using selectByDate with many inserts"
                 , 6, retEntry4.getEntryID());
-        assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong details string using selectByDate with many inserts"
                 , details4.equals(retEntry4.getDetails()));
-        assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong date using selectByDate with many inserts"
                 , date4.equals(retEntry4.getDate()));
+
+    }
+
+
+    @Test
+    public void insertManyThenSelectByDateTestAndCatID() {
+
+        //get the default id of category
+        IDManager manager = IDManagerFactory.createIDManager();
+        int catID = manager.getDefaultID("Category");
+
+        //Create valid category
+        Amount goal = AmountFactory.fromInt(2000);
+        int catID1 = 23;
+        Details name = DetailsFactory.fromString("Purchase may 2016");
+        Date date = DateFactory.fromInts(2016, 4, 20);
+        Category category = BudgetCategoryFactory.createBudgetCategory(name, goal, date, catID1);
+
+        //Create valid Entry1
+        Amount amount1 = AmountFactory.fromInt(7249);
+        int entryID1 = 81;
+        Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
+        Date date1 = DateFactory.fromInts(2001, 7, 7);
+        Entry entry1 = IncomeFactory.createIncome(amount1, entryID1, details1, date1, catID);
+
+        //Create valid Entry2
+        Amount amount2 = AmountFactory.fromInt(520);
+        int entryID2 = 72;
+        Details details2 = DetailsFactory.fromString("Some letters put next to eachother again");
+        Date date2 = DateFactory.fromInts(2005, 11, 7);
+        Entry entry2 = IncomeFactory.createIncome(amount2, entryID2, details2, date2, catID1);
+
+        //Create valid Entry3
+        Amount amount3 = AmountFactory.fromInt(604);
+        int entryID3 = -7;
+        Details details3 = DetailsFactory.fromString("I am running out of ideas");
+        Date date3 = DateFactory.fromInts(2009, 7, 6);
+        Entry entry3 = IncomeFactory.createIncome(amount3, entryID3, details3, date3, catID1);
+
+        //Create valid Entry4
+        Amount amount4 = AmountFactory.fromInt(724);
+        int entryID4 = 6;
+        Details details4 = DetailsFactory.fromString("Ender's game is an interesting book");
+        Date date4 = DateFactory.fromInts(2009, 7, 7);
+        Entry entry4 = PurchaseFactory.createPurchase(amount4, entryID4, details4, date4, catID);
+
+        //insert them into the database
+        db.insertCategory(category);
+        db.insertDefaultEntry(entry1);
+        db.insertDefaultEntry(entry2);
+        db.insertDefaultEntry(entry3);
+        db.insertDefaultEntry(entry4);
+
+        DateInterval interval = DateIntervalFactory.fromDate(
+                DateFactory.fromInts(2005, 10, 7),
+                DateFactory.fromInts(2009, 7, 7)
+        );
+
+        List<Entry> retList = db.selectDefaultEntriesByDateAndCategoryID(interval, catID1);
+
+        // test that we got what was expected
+        assertEquals("Expected select by date and catID to return 2 entries but it does not", 2, retList.size());
+
+        Entry retEntry2 = retList.get(0);
+        Entry retEntry3 = retList.get(1);
+
+
+        // test that retEntry3 is the one we want
+        assertTrue("Database returns a entry with the wrong amount using select by date and catID with many inserts"
+                , amount3.equals(retEntry3.getAmount()));
+        assertEquals("Database returns a entry with the wrong entryID using select by date and catID with many inserts"
+                , -7, retEntry3.getEntryID());
+        assertTrue("Database returns a entry with the wrong details string using select by date and catID with many inserts"
+                , details3.equals(retEntry3.getDetails()));
+        assertTrue("Database returns a entry with the wrong date using select by date and catID with many inserts"
+                , date3.equals(retEntry3.getDate()));
+        assertEquals("Database returns a entry with the wrong catID using select by date and catID with many inserts"
+                , catID1, retEntry3.getCatID());
+
+
+        // test that retEntry2 is the one we want
+        assertTrue("Database returns a entry with the wrong amount using select by date and catID with many inserts"
+                , amount2.equals(retEntry2.getAmount()));
+        assertEquals("Database returns a entry with the wrong entryID using select by date and catID with many inserts"
+                , 72, retEntry2.getEntryID());
+        assertTrue("Database returns a entry with the wrong details string using select by date and catID with many inserts"
+                , details2.equals(retEntry2.getDetails()));
+        assertTrue("Database returns a entry with the wrong date using select by date and catIDD with many inserts"
+                , date2.equals(retEntry2.getDate()));
+        assertEquals("Database returns a entry with the wrong catID using select by date and catID with many inserts"
+                , catID1, retEntry2.getCatID());
 
     }
 
@@ -505,49 +596,147 @@ public class StubDatabaseTest {
         RecurringEntry retEntry4 = retList.get(2);
 
         // test that retEntry2 is the one we want
-        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong amount using selectByDate with many inserts"
                 , amount2.equals(retEntry2.getAmount()));
-        assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
+        assertEquals("Database returns a entry with the wrong entryID using selectDate with many inserts"
                 , 72, retEntry2.getRecurringEntryID());
-        assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong details string using selectDate with many inserts"
                 , details2.equals(retEntry2.getDetails()));
-        assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong date using selectByDate with many inserts"
                 , date2.equals(retEntry2.getDate()));
-        assertEquals("Database returns a entry with the wrong catID using selectByID"
+        assertEquals("Database returns a entry with the wrong catID using selectByDate"
                 , catID1, retEntry2.getCatID());
-        assertTrue("Database returns an entry with the wrong recurrence period using selectByID with many inserts"
+        assertTrue("Database returns an entry with the wrong recurrence period using selectByDate with many inserts"
                 , (retEntry2.getRecurrencePeriod().equals(period2)));
 
 
         // test that retEntry3 is the one we want
-        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong amount using selectByDate with many inserts"
                 , amount3.equals(retEntry3.getAmount()));
-        assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
+        assertEquals("Database returns a entry with the wrong entryID using selectByDate with many inserts"
                 , -7, retEntry3.getRecurringEntryID());
-        assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong details string using selectByDate with many inserts"
                 , details3.equals(retEntry3.getDetails()));
-        assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong date using selectByDate with many inserts"
                 , date3.equals(retEntry3.getDate()));
-        assertEquals("Database returns a entry with the wrong catID using selectByID"
+        assertEquals("Database returns a entry with the wrong catID using selectByDate"
                 , catID, retEntry3.getCatID());
-        assertTrue("Database returns an entry with the wrong recurrence period using selectByID with many inserts"
+        assertTrue("Database returns an entry with the wrong recurrence period using selectByDate with many inserts"
                 , (retEntry3.getRecurrencePeriod().equals(period3)));
 
 
         // test that retEntry4 is the one we want
-        assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong amount using selectByDate with many inserts"
                 , amount4.equals(retEntry4.getAmount()));
-        assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
+        assertEquals("Database returns a entry with the wrong entryID using selectByDate with many inserts"
                 , 6, retEntry4.getRecurringEntryID());
-        assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong details string using selectByDate with many inserts"
                 , details4.equals(retEntry4.getDetails()));
-        assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
+        assertTrue("Database returns a entry with the wrong date using selectByDate with many inserts"
                 , date4.equals(retEntry4.getDate()));
-        assertEquals("Database returns a entry with the wrong catID using selectByID"
+        assertEquals("Database returns a entry with the wrong catID using selectByDate"
                 , catID, retEntry4.getCatID());
-        assertTrue("Database returns an entry with the wrong recurrence period using selectByID with many inserts"
+        assertTrue("Database returns an entry with the wrong recurrence period using selectByDate with many inserts"
                 , (retEntry4.getRecurrencePeriod().equals(period4)));
 
+    }
+
+
+    @Test
+    public void insertManyThenSelectByDateAndCatIDRecurringTest() {
+
+        //get the default id of category
+        IDManager manager = IDManagerFactory.createIDManager();
+        int catID = manager.getDefaultID("Category");
+
+        //Create valid category
+        Amount goal = AmountFactory.fromInt(2000);
+        int catID1 = 23;
+        Details name = DetailsFactory.fromString("Purchase may 2016");
+        Date date = DateFactory.fromInts(2016, 4, 20);
+        Category category = BudgetCategoryFactory.createBudgetCategory(name, goal, date, catID1);
+
+        //Create valid RecurringEntry1
+        Amount amount1 = AmountFactory.fromInt(7249);
+        int entryID1 = 81;
+        Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
+        Date date1 = DateFactory.fromInts(2001, 7, 7);
+        RecurrencePeriod period1 = RecurrencePeriodFactory.createRecurrencePeriod(0, 2, 0, 0);
+        RecurringEntry entry1 = RecurringIncomeFactory.createRecurringIncome(amount1, entryID1, details1, date1, catID1, period1);
+
+        //Create valid RecurringEntry2
+        Amount amount2 = AmountFactory.fromInt(520);
+        int entryID2 = 72;
+        Details details2 = DetailsFactory.fromString("Some letters put next to eachother again");
+        Date date2 = DateFactory.fromInts(2001, 11, 7);
+        RecurrencePeriod period2 = RecurrencePeriodFactory.createRecurrencePeriod(10, 0, 0, 0);
+        RecurringEntry entry2 = RecurringIncomeFactory.createRecurringIncome(amount2, entryID2, details2, date2, catID, period2);
+
+        //Create valid RecurringEntry3
+        Amount amount3 = AmountFactory.fromInt(604);
+        int entryID3 = -7;
+        Details details3 = DetailsFactory.fromString("I am running out of ideas");
+        Date date3 = DateFactory.fromInts(2009, 7, 6);
+        RecurrencePeriod period3 = RecurrencePeriodFactory.createRecurrencePeriod(1, 2, 3, 4);
+        RecurringEntry entry3 = RecurringIncomeFactory.createRecurringIncome(amount3, entryID3, details3, date3, catID, period3);
+
+        //Create valid RecurringEntry4
+        Amount amount4 = AmountFactory.fromInt(724);
+        int entryID4 = 6;
+        Details details4 = DetailsFactory.fromString("Ender's game is an interesting book");
+        Date date4 = DateFactory.fromInts(2009, 7, 7);
+        RecurrencePeriod period4 = RecurrencePeriodFactory.createRecurrencePeriod(4, 2, 3, 1);
+        RecurringEntry entry4 = RecurringIncomeFactory.createRecurringIncome(amount4, entryID4, details4, date4, catID1, period4);
+
+        //insert them into the database
+        db.insertCategory(category);
+        db.insertRecurringEntry(entry1);
+        db.insertRecurringEntry(entry2);
+        db.insertRecurringEntry(entry3);
+        db.insertRecurringEntry(entry4);
+
+
+        DateInterval interval = DateIntervalFactory.fromDate(
+                DateFactory.fromInts(2001, 10, 7),
+                DateFactory.fromInts(2009, 7, 7)
+        );
+
+        List<RecurringEntry> retList = db.selectRecurringEntriesByDateAndCategoryID(interval, catID);
+
+        // test that we got what was expected
+        assertEquals("Expected select by date to return 3 entrys but it does not", 2, retList.size());
+
+        RecurringEntry retEntry2 = retList.get(0);
+        RecurringEntry retEntry3 = retList.get(1);
+
+        // test that retEntry2 is the one we want
+        assertTrue("Database returns a entry with the wrong amount using select by date and catID with many inserts"
+                , amount2.equals(retEntry2.getAmount()));
+        assertEquals("Database returns a entry with the wrong entryID using select by date and catID with many inserts"
+                , 72, retEntry2.getRecurringEntryID());
+        assertTrue("Database returns a entry with the wrong details string using select by date and catID with many inserts"
+                , details2.equals(retEntry2.getDetails()));
+        assertTrue("Database returns a entry with the wrong date using select by date and catID with many inserts"
+                , date2.equals(retEntry2.getDate()));
+        assertEquals("Database returns a entry with the wrong catID using  select by date and catID"
+                , catID, retEntry2.getCatID());
+        assertTrue("Database returns an entry with the wrong recurrence period using  select by date and catID with many inserts"
+                , (retEntry2.getRecurrencePeriod().equals(period2)));
+
+
+        // test that retEntry3 is the one we want
+        assertTrue("Database returns a entry with the wrong amount using select by date and catID with many inserts"
+                , amount3.equals(retEntry3.getAmount()));
+        assertEquals("Database returns a entry with the wrong entryID using select by date and catID with many inserts"
+                , -7, retEntry3.getRecurringEntryID());
+        assertTrue("Database returns a entry with the wrong details string using select by date and catID with many inserts"
+                , details3.equals(retEntry3.getDetails()));
+        assertTrue("Database returns a entry with the wrong date using select by date and catID with many inserts"
+                , date3.equals(retEntry3.getDate()));
+        assertEquals("Database returns a entry with the wrong catID using select by date and catID"
+                , catID, retEntry3.getCatID());
+        assertTrue("Database returns an entry with the wrong recurrence period using select by date and catID with many inserts"
+                , (retEntry3.getRecurrencePeriod().equals(period3)));
 
     }
 

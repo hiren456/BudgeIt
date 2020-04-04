@@ -18,6 +18,7 @@ import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.EntryDateComparator;
 import com.codemonkeys9.budgeit.dso.entry.Income;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
@@ -33,6 +34,7 @@ import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements Database {
@@ -521,6 +523,29 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
         return entryList;
     }
 
+
+    /*
+    returns the list of default entries from that fall within the dateInterval
+    and by category specified category ID, returns empty list if the are no entries
+     */
+    @Override
+    public List<Entry> selectDefaultEntriesByDateAndCategoryID(DateInterval dateInterval, int catID){
+        // find all entries that fall within date interval
+        List<Entry> entryByDateList = this.selectDefaultEntriesByDate(dateInterval);
+        ArrayList<Entry> returnList = new ArrayList<Entry>();
+
+        // find all entries with the same category ID
+        for ( Entry entry : entryByDateList){
+            if (entry.getCatID() == catID){
+                returnList.add(entry);
+            }
+        }
+
+        // sort the entries by date
+        Collections.sort(returnList, new EntryDateComparator());
+        return returnList;
+    }
+
     /*
     return a list of entries ordered by the date with the same category ID
     or an empty list if there are no such entries
@@ -959,6 +984,29 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
         }
 
         return entryList;
+    }
+
+
+    /*
+    returns the list of recurring entries from that fall within the dateInterval
+    and by category specified category ID, returns empty list if the are no entries
+    */
+    @Override
+    public List<RecurringEntry> selectRecurringEntriesByDateAndCategoryID(DateInterval dateInterval, int catID){
+        // find all entries that fall within date interval
+        List<RecurringEntry> entryByDateList = this.selectRecurringEntriesByDate(dateInterval);
+        ArrayList<RecurringEntry> returnList = new ArrayList<RecurringEntry>();
+
+        // find all entries with the same category ID
+        for (RecurringEntry entry : entryByDateList ){
+            if (entry.getCatID() == catID){
+                returnList.add(entry);
+            }
+        }
+
+        // sort the entries by date
+        Collections.sort(returnList, new EntryDateComparator());
+        return returnList;
     }
 
 
