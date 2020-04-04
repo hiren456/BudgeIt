@@ -32,4 +32,6 @@ class DefaultEntryCalculator implements EntryCalculator {
 
         return AmountFactory.fromInt(sum);
     }
+
+    
 }
