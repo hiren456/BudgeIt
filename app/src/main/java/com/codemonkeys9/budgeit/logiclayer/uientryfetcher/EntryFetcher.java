@@ -2,6 +2,8 @@ package com.codemonkeys9.budgeit.logiclayer.uientryfetcher;
 
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
+import com.codemonkeys9.budgeit.dso.date.Date;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
@@ -71,6 +73,17 @@ class EntryFetcher implements UIEntryFetcher {
         if(list == null){
             throw new CategoryDoesNotExistException("Category with id: " + catID+ " does not exist.");
         }
+        return parseList(list);
+    }
+    @Override
+    public EntryList fetchEntrysInCategoryThisMonth(int catID) throws CategoryDoesNotExistException {
+        List<Entry> list = db.getDefaultEntriesByCategoryID(catID);
+        if(list == null){
+            throw new CategoryDoesNotExistException("Category with id: " + catID+ " does not exist.");
+        }
+        Date now = DateFactory.fromString("now");
+        Date firstOfMonth = DateFactory.fromInts(now.getYear(), now.getMonth(), 1);
+        DateInterval dateInterval = DateIntervalFactory.fromDate(firstOfMonth, now);
         return parseList(list);
     }
 
