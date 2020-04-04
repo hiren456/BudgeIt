@@ -18,16 +18,18 @@ import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 class RecurringEntryManager implements UIRecurringEntryManager {
     IDManager idManager;
     Database db;
     EntryCreator entryCreator;
-    DateSource dateSource = new IRLDateSource();
+    DateSource dateSource;
 
-    public RecurringEntryManager(IDManager idManager,DateSource dateSource){
+    public RecurringEntryManager(IDManager idManager, Database db, DateSource dateSource){
         this.idManager = idManager;
-        this.db = DatabaseHolder.getDatabase();
+        this.db = db;
         this.entryCreator = EntryCreatorFactory.createEntryCreator(idManager);
         this.dateSource = dateSource;
     }
@@ -51,7 +53,6 @@ class RecurringEntryManager implements UIRecurringEntryManager {
                     .createRecurringIncome(entry.getAmount(),recurringEntryId,entry.getDetails(),
                             entry.getDate(),entry.getCatID(),recurrencePeriod);
         }
-
 
         db.insertRecurringEntry(recurringEntry);
         return recurringEntryId;
@@ -80,7 +81,7 @@ class RecurringEntryManager implements UIRecurringEntryManager {
             // Iterate over all recurrences between the original date and now (inclusive)
             while(recurrence.compareTo(now) <= 0) {
                 // Create the entry
-                if(lastChecked.compareTo(recurrence) < 0) {
+                if (lastChecked.compareTo(recurrence) < 0) {
                     if (entry instanceof RecurringPurchase) {
                         RecurringPurchase purchase = (RecurringPurchase) entry;
                         this.entryCreator.createPurchase(entry.getAmount(), entry.getDetails(), recurrence.clone(), purchase.flagged());
@@ -93,10 +94,10 @@ class RecurringEntryManager implements UIRecurringEntryManager {
                 RecurrencePeriod period = entry.getRecurrencePeriod();
                 int year = recurrence.getYear() + period.getYears();
                 int month = recurrence.getMonth() + period.getMonths();
-                int day = recurrence.getDay() + period.getDays();
+                int day = recurrence.getDay() + period.getDays() + period.getWeeks() * 7;
 
                 // Correct the month
-                while(month > 12) {
+                while (month > 12) {
                     year += 1;
                     month -= 12;
                 }
@@ -106,16 +107,16 @@ class RecurringEntryManager implements UIRecurringEntryManager {
                 recurrence = DateFactory.fromInts(year, month, 1);
                 int lengthOfMonth = recurrence.getLengthOfMonth();
 
-                // Handwavy heuristic alert: if the user entered a non-zero number of days in the
-                // recurrence period, and if the calculated date goes past the end of the month, we
-                // should respect the user's wishes and roll over to the next (as many times as
-                // necessary).
+                // Handwavy heuristic alert: if the user entered a non-zero number of days and/or
+                // weeks in the recurrence period, and if the calculated date goes past the end of
+                // the month, we should respect the user's wishes and roll over to the next (as many
+                // times as necessary).
                 //
-                // On the other hand, if they left the `days` field as 0, we should clamp the date
-                // to the last of the month.
+                // On the other hand, if they entered 0 in both the days and weeks fields, we should
+                // clamp the date to the last of the month.
                 // Example: recurrence period 1 month, start date January 31st
                 //          first recurrence date: February 28th (or 29th on a leap year)
-                if(period.getDays() > 0) {
+                if (period.getDays() + period.getWeeks() > 0) {
                     while (day > lengthOfMonth) {
                         month += 1;
                         day -= lengthOfMonth;
@@ -131,11 +132,25 @@ class RecurringEntryManager implements UIRecurringEntryManager {
                 } else {
                     day = Math.min(lengthOfMonth, day);
                 }
-
+                Date oldDate = recurrence;
                 recurrence = DateFactory.fromInts(year, month, day);
             }
-
         }
         this.db.updateDateLastChecked("Recurring Entry",now);
+    }
+
+    @Override
+    public void scheduleCheckAllRecurringEntriesEveryDay(final NewRecurringEntriesDelegate delegate) {
+        Timer timer = new Timer("check recurring entries", false);
+        timer.schedule(
+            new TimerTask() {
+                public void run() {
+                    checkAllRecurringEntrys();
+                    delegate.receivedNewEntries();
+                    scheduleCheckAllRecurringEntriesEveryDay(delegate);
+                }
+            },
+            dateSource.tomorrowAtMidnight()
+        );
     }
 }

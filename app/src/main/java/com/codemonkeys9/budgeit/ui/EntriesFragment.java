@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
@@ -28,6 +29,9 @@ import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
+import com.codemonkeys9.budgeit.logiclayer.uirecurringentrymanager.NewRecurringEntriesDelegate;
+import com.codemonkeys9.budgeit.logiclayer.uirecurringentrymanager.UIRecurringEntryManager;
+import com.codemonkeys9.budgeit.logiclayer.uirecurringentrymanager.UIRecurringEntryManagerFactory;
 
 import java.util.List;
 
@@ -45,9 +49,10 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
     String endDate = "now";
     boolean hasDateFilter = false;
 
-    private UIEntryManager entryManager;
-    private UIEntryFetcher entryFetcher;
-    private EntryList entries;
+    UIEntryManager entryManager;
+    UIEntryFetcher entryFetcher;
+    UIRecurringEntryManager recurringEntryManager;
+    EntryList entries;
 
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
@@ -75,7 +80,6 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_entries, container, false);
         RecyclerView recycler = v.findViewById(R.id.entry_recycler);
@@ -93,7 +97,27 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
             }
         });
 
+        scheduleCheckRecurringEntries();
+
         return v;
+    }
+
+    void scheduleCheckRecurringEntries() {
+        recurringEntryManager.scheduleCheckAllRecurringEntriesEveryDay(
+                new NewRecurringEntriesDelegate() {
+                    @Override
+                    public void receivedNewEntries() {
+                        getActivity().runOnUiThread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        refreshTimeline();
+                                    }
+                                }
+                        );
+                    }
+                }
+        );
     }
 
     @Override
@@ -193,10 +217,10 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
         super.onCreate(savedInstanceState);
 
         this.entryManager = UIEntryManagerFactory.createUIEntryManager();
+        this.recurringEntryManager = UIRecurringEntryManagerFactory.createUIReccuringEntryManager();
         this.entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
         this.entries = entryFetcher.fetchAllEntrys();
         List<Entry> entryList = entries.getReverseChrono();
-
 
         if(entryList.isEmpty()) {
             UICategoryCreator categoryCreator = UICategoryCreatorFactory.createUICategoryCreator();

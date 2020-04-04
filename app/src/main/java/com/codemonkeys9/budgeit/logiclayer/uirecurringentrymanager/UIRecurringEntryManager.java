@@ -4,7 +4,8 @@ import com.codemonkeys9.budgeit.dso.entry.RecurrencePeriod;
 import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 
 public interface UIRecurringEntryManager {
-    public int createRecurringEntry(int entryId, RecurrencePeriod recurrencePeriod)
+    int createRecurringEntry(int entryId, RecurrencePeriod recurrencePeriod)
             throws EntryDoesNotExistException;
-    public void checkAllRecurringEntrys();
+    void checkAllRecurringEntrys();
+    void scheduleCheckAllRecurringEntriesEveryDay(NewRecurringEntriesDelegate delegate);
 }
