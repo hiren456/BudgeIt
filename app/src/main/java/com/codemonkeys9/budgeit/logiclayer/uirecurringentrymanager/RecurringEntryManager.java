@@ -18,6 +18,8 @@ import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 class RecurringEntryManager implements UIRecurringEntryManager {
     IDManager idManager;
@@ -137,5 +139,20 @@ class RecurringEntryManager implements UIRecurringEntryManager {
 
         }
         this.db.updateDateLastChecked("Recurring Entry",now);
+    }
+
+    @Override
+    public void scheduleCheckAllRecurringEntriesEveryDay(final NewRecurringEntriesDelegate delegate) {
+        Timer timer = new Timer("check recurring entries", false);
+        timer.schedule(
+            new TimerTask() {
+                public void run() {
+                    checkAllRecurringEntrys();
+                    delegate.receivedNewEntries();
+                    scheduleCheckAllRecurringEntriesEveryDay(delegate);
+                }
+            },
+            dateSource.tomorrowAtMidnight()
+        );
     }
 }

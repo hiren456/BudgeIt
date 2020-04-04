@@ -7,4 +7,5 @@ public interface UIRecurringEntryManager {
     int createRecurringEntry(int entryId, RecurrencePeriod recurrencePeriod)
             throws EntryDoesNotExistException;
     void checkAllRecurringEntrys();
+    void scheduleCheckAllRecurringEntriesEveryDay(NewRecurringEntriesDelegate delegate);
 }
