@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
+import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
@@ -48,10 +49,10 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
     String endDate = "now";
     boolean hasDateFilter = false;
 
-    private UIEntryManager entryManager;
-    private UIEntryFetcher entryFetcher;
-    private UIRecurringEntryManager recurringEntryManager;
-    private EntryList entries;
+    UIEntryManager entryManager;
+    UIEntryFetcher entryFetcher;
+    UIRecurringEntryManager recurringEntryManager;
+    EntryList entries;
 
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
@@ -79,7 +80,6 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_entries, container, false);
         RecyclerView recycler = v.findViewById(R.id.entry_recycler);
@@ -97,21 +97,27 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
             }
         });
 
-        recurringEntryManager.scheduleCheckAllRecurringEntriesEveryDay(
-            new NewRecurringEntriesDelegate() {
-                @Override
-                public void receivedNewEntries() {
-                    getActivity().runOnUiThread(
-                        new Runnable() {
-                            @Override
-                            public void run() { refreshTimeline(); }
-                        }
-                    );
-                }
-            }
-        );
+        scheduleCheckRecurringEntries();
 
         return v;
+    }
+
+    void scheduleCheckRecurringEntries() {
+        recurringEntryManager.scheduleCheckAllRecurringEntriesEveryDay(
+                new NewRecurringEntriesDelegate() {
+                    @Override
+                    public void receivedNewEntries() {
+                        getActivity().runOnUiThread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        refreshTimeline();
+                                    }
+                                }
+                        );
+                    }
+                }
+        );
     }
 
     @Override

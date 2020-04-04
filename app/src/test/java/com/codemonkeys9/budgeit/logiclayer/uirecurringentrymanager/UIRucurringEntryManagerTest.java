@@ -60,7 +60,7 @@ public class UIRucurringEntryManagerTest {
         this.db = mock(Database.class);
         DatabaseHolder.initTestable(this.db);
 
-        this.manager = UIRecurringEntryManagerFactory.createUIReccuringEntryManager(this.idManager,this.dateSource);
+        this.manager = UIRecurringEntryManagerFactory.createUIReccuringEntryManager(this.idManager, DatabaseHolder.getDatabase(), this.dateSource);
 
         Amount goal;
         Details name;

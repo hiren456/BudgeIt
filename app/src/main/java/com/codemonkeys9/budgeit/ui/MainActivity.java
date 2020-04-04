@@ -11,6 +11,8 @@ import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 public class MainActivity extends AppCompatActivity {
+    MainPagerAdapter pagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ViewPager mainPager = findViewById(R.id.main_pager);
-        MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager());
-        mainPager.setAdapter(adapter);
+        this.pagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
+        mainPager.setAdapter(pagerAdapter);
     }
 }
 
