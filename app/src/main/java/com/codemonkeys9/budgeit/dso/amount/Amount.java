@@ -12,6 +12,8 @@ public interface Amount {
      */
     String getDisplay();
 
+    String getAbsoluteValueDisplay();
+
     /*
     Returns the amount as a fixed point integer
     ie. 99.99 gets returned as 9999
