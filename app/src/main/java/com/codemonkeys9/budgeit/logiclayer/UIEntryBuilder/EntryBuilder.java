@@ -38,7 +38,7 @@ public class EntryBuilder implements  UIEntryBuilder{
         Entry e = entryFetcher.fetchEntryByID(entryID);
         UIRecurringEntryManager recurringEntryManager = UIRecurringEntryManagerFactory.createUIReccuringEntryManager();
 
-        entryID = recurringEntryManager.createRecurringEntry(entryID, recurrencePeriod);
+        recurringEntryManager.createRecurringEntry(entryID, recurrencePeriod);
     }
     public int getEntryID(){
         return entryID;
