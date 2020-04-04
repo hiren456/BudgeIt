@@ -105,7 +105,9 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
         EntryList entryList = entryFetcher.fetchEntrysInCategory(c.getID());
 
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
-        return entryCalculator.sumEntryList(entryList).getAbsoluteValueDisplay();
+        String result = entryCalculator.sumEntryList(entryList).getAbsoluteValueDisplay();
+        if(result.equals(".00")) return "0";
+        else return result;
     }
 
     public void updateCategories(List<Category> newCategories) {
