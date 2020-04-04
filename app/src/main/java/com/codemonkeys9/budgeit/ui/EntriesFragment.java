@@ -28,6 +28,9 @@ import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
+import com.codemonkeys9.budgeit.logiclayer.uirecurringentrymanager.NewRecurringEntriesDelegate;
+import com.codemonkeys9.budgeit.logiclayer.uirecurringentrymanager.UIRecurringEntryManager;
+import com.codemonkeys9.budgeit.logiclayer.uirecurringentrymanager.UIRecurringEntryManagerFactory;
 
 import java.util.List;
 
@@ -92,6 +95,21 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
                 openNewEntryActivity();
             }
         });
+
+        UIRecurringEntryManager recurringEntryManager = UIRecurringEntryManagerFactory.createUIReccuringEntryManager();
+        recurringEntryManager.scheduleCheckAllRecurringEntriesEveryDay(
+            new NewRecurringEntriesDelegate() {
+                @Override
+                public void receivedNewEntries() {
+                    getActivity().runOnUiThread(
+                        new Runnable() {
+                            @Override
+                            public void run() { refreshTimeline(); }
+                        }
+                    );
+                }
+            }
+        );
 
         return v;
     }
