@@ -51,6 +51,13 @@ public interface Database {
      */
     List<Entry> selectDefaultEntriesByDate(DateInterval dateInterval);
 
+
+    /*
+    returns the list of default entries from that fall within the dateInterval
+    and by category specified category ID, returns empty list if the are no entries
+     */
+    List<Entry> selectDefaultEntriesByDateAndCategoryID(DateInterval dateInterval, int catID);
+
     /*
     return a list of default entries sorted by the date with the same category ID
     or an empty list if there are no such entries
@@ -92,6 +99,12 @@ public interface Database {
     returns empty list if the are no entries
      */
     List<RecurringEntry> selectRecurringEntriesByDate(DateInterval dateInterval);
+
+    /*
+    returns the list of recurring entries from that fall within the dateInterval
+    and by category specified category ID, returns empty list if the are no entries
+     */
+    List<RecurringEntry> selectRecurringEntriesByDateAndCategoryID(DateInterval dateInterval, int catID);
 
     /*
     return a list of recurring entries sorted by the date with the same category ID

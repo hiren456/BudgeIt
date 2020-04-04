@@ -222,7 +222,7 @@ public class CategoriesFragment extends Fragment implements CategoryAdapter.OnCa
                 break;
         }
         categoryAdapter.updateCategories(this.categories.getReverseChrono());
-        categoryAdapter.updateSums(this.categories.getReverseChrono());
+        categoryAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -165,6 +165,29 @@ class StubDatabase implements Database {
 
 
     /*
+    returns the list of default entries from that fall within the dateInterval
+    and by category specified category ID, returns empty list if the are no entries
+     */
+    @Override
+    public List<Entry> selectDefaultEntriesByDateAndCategoryID(DateInterval dateInterval, int catID){
+        // find all entries that fall within date interval
+        List<Entry> entryByDateList = this.selectDefaultEntriesByDate(dateInterval);
+        ArrayList<Entry> returnList = new ArrayList<Entry>();
+
+        // find all entries with the same category ID
+        for ( Entry entry : entryByDateList){
+            if (entry.getCatID() == catID){
+                returnList.add(entry);
+            }
+        }
+
+        // sort the entries by date
+        Collections.sort(returnList, new EntryDateComparator());
+        return returnList;
+    }
+
+
+    /*
     delete an entry and return true if the entry deleted successfully,
     otherwise return false
      */
@@ -283,6 +306,29 @@ class StubDatabase implements Database {
         // sort entries by date
         Collections.sort(returnList,new EntryDateComparator());
 
+        return returnList;
+    }
+
+
+    /*
+    returns the list of recurring entries from that fall within the dateInterval
+    and by category specified category ID, returns empty list if the are no entries
+     */
+    @Override
+    public List<RecurringEntry> selectRecurringEntriesByDateAndCategoryID(DateInterval dateInterval, int catID){
+        // find all entries that fall within date interval
+        List<RecurringEntry> entryByDateList = this.selectRecurringEntriesByDate(dateInterval);
+        ArrayList<RecurringEntry> returnList = new ArrayList<RecurringEntry>();
+
+        // find all entries with the same category ID
+        for (RecurringEntry entry : entryByDateList ){
+            if (entry.getCatID() == catID){
+                returnList.add(entry);
+            }
+        }
+
+        // sort the entries by date
+        Collections.sort(returnList, new EntryDateComparator());
         return returnList;
     }
 

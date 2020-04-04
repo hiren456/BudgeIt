@@ -43,10 +43,8 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
             date = catView.findViewById(R.id.date);
             amountSum = catView.findViewById(R.id.amount_sum);
             catView.setOnCreateContextMenuListener(this);
-            catView.setOnClickListener(this);
             this.onCategoryListener = onCategoryListener;
             catView.setOnClickListener(this);
-
         }
 
         @Override
@@ -89,32 +87,31 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
         return new ViewHolder(categoryView, onCategoryListener);
     }
 
+
+
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Category category = getItem(position);
         viewHolder.description.setText(category.getName().getValue());
         viewHolder.date.setText(category.getDateLastModified().getDisplay());
-
-        viewHolder.amountSum.setText(new StringBuilder().append(getCategorySum(category)).append(" / ").toString());
-
+        viewHolder.amountSum.setText("this month: "+getCategorySumThisMonth(category)+" / ");
         UICategoryColourizer colourizer = UICategoryColourizerFactory.createUICategoryColourizer();
         viewHolder.amountGoal.setTextColor(colourizer.getAmountColour(category));
         viewHolder.amountGoal.setText(category.getGoal().getDisplay());
     }
 
-    public void updateSums(List<Category> categories){
-
-    }
-
-    private String getCategorySum(Category c){
+    private String getCategorySumThisMonth(Category c){
         UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
-        EntryList entryList = entryFetcher.fetchEntrysInCategory(c.getID());
+        EntryList entryList = entryFetcher.fetchEntrysInCategoryThisMonth(c.getID());
 
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
-        return entryCalculator.sumEntryList(entryList).getAbsoluteValueDisplay();
+        String result = entryCalculator.sumEntryList(entryList).getAbsoluteValueDisplay();
+        if(result.equals(".00")) return "0";
+        else return result;
     }
 
     public void updateCategories(List<Category> newCategories) {
         submitList(newCategories);
+
     }
 }

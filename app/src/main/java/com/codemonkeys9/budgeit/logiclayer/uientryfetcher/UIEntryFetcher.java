@@ -83,6 +83,9 @@ public interface UIEntryFetcher {
     EntryList fetchEntrysInCategory(int catID)
             throws CategoryDoesNotExistException;
 
+    EntryList fetchEntrysInCategoryThisMonth(int catID)
+            throws CategoryDoesNotExistException;
+
     /*
     Fetches the  entry
     with id entryID.
