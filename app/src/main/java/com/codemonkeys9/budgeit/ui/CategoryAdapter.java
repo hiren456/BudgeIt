@@ -12,8 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.category.Category;
+import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
+import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculator;
+import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycolourizer.UICategoryColourizer;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycolourizer.UICategoryColourizerFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 
 import java.util.List;
 
@@ -26,20 +31,21 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
 
     final static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener {
         TextView description;
-        TextView amount;
+        TextView amountGoal;
         TextView date;
+        TextView amountSum;
         OnCategoryListener onCategoryListener;
 
-        ViewHolder(final View entryView, OnCategoryListener onCategoryListener) {
-            super(entryView);
-            description = entryView.findViewById(R.id.description);
-            amount = entryView.findViewById(R.id.amount);
-            date = entryView.findViewById(R.id.date);
-            entryView.setOnCreateContextMenuListener(this);
-            entryView.setOnClickListener(this);
+        ViewHolder(final View catView, OnCategoryListener onCategoryListener) {
+            super(catView);
+            description = catView.findViewById(R.id.description);
+            amountGoal = catView.findViewById(R.id.amount_goal);
+            date = catView.findViewById(R.id.date);
+            amountSum = catView.findViewById(R.id.amount_sum);
+            catView.setOnCreateContextMenuListener(this);
+            catView.setOnClickListener(this);
             this.onCategoryListener = onCategoryListener;
-            entryView.setOnClickListener(this);
-
+            catView.setOnClickListener(this);
 
         }
 
@@ -79,8 +85,8 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View entryView = inflater.inflate(R.layout.timeline_entry, parent, false);
-        return new ViewHolder(entryView, onCategoryListener);
+        final View categoryView = inflater.inflate(R.layout.timeline_category, parent, false);
+        return new ViewHolder(categoryView, onCategoryListener);
     }
 
     @Override
@@ -89,9 +95,23 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
         viewHolder.description.setText(category.getName().getValue());
         viewHolder.date.setText(category.getDateLastModified().getDisplay());
 
+        viewHolder.amountSum.setText(new StringBuilder().append(getCategorySum(category)).append(" / ").toString());
+
         UICategoryColourizer colourizer = UICategoryColourizerFactory.createUICategoryColourizer();
-        viewHolder.amount.setTextColor(colourizer.getAmountColour(category));
-        viewHolder.amount.setText(category.getGoal().getDisplay());
+        viewHolder.amountGoal.setTextColor(colourizer.getAmountColour(category));
+        viewHolder.amountGoal.setText(category.getGoal().getDisplay());
+    }
+
+    public void updateSums(List<Category> categories){
+
+    }
+
+    private String getCategorySum(Category c){
+        UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
+        EntryList entryList = entryFetcher.fetchEntrysInCategory(c.getID());
+
+        EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
+        return entryCalculator.sumEntryList(entryList).getAbsoluteValueDisplay();
     }
 
     public void updateCategories(List<Category> newCategories) {

@@ -77,4 +77,66 @@
         android:layout_marginRight="20dp"
         android:text="@string/bad" />
 
+    <Switch
+        android:id="@+id/switch_recurring"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/switch_bad"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/recurring_entry" />
+    <TextView
+        android:id="@+id/text_recurring_message"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/recurring_message"
+        android:layout_below="@id/switch_recurring"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/text_recurring_message"
+        android:gravity="center|start"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <EditText
+            android:id="@+id/recurring_years"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/years"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/recurring_months"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/months"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/recurring_weeks"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/weeks"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/recurring_days"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/days"
+            android:inputType="number" />
+
+    </LinearLayout>
+
+
 </RelativeLayout>

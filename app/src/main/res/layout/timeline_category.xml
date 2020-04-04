@@ -8,20 +8,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/amount"
         android:layout_marginLeft="5sp"
         android:layout_marginTop="5sp"
-        android:textSize="17sp"
-        android:textColor="#000" />
-
+        android:layout_toLeftOf="@+id/amount_sum"
+        android:textColor="#000"
+        android:textSize="17sp" />
     <TextView
-        android:id="@+id/amount"
+        android:id="@+id/amount_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/amount_goal"
+        android:layout_marginTop="5sp"
+        android:layout_marginRight="5sp" />
+    <TextView
+        android:id="@+id/amount_goal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginTop="5sp"
         android:layout_marginRight="5sp" />
-
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
