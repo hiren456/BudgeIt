@@ -27,6 +27,8 @@ import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 
 import java.util.List;
 
+import lecho.lib.hellocharts.view.PieChartView;
+
 final class CategoryAdapter extends ListAdapter<Category, RecyclerView.ViewHolder>{
     private OnCategoryListener onCategoryListener;
 
@@ -38,8 +40,11 @@ final class CategoryAdapter extends ListAdapter<Category, RecyclerView.ViewHolde
     }
 
     final static class PieChartViewHolder extends RecyclerView.ViewHolder {
+        PieChartView budgetPie, savingsPie;
         PieChartViewHolder(final View view) {
             super(view);
+            this.budgetPie = view.findViewById(R.id.budget_pie);
+            this.savingsPie = view.findViewById(R.id.savings_pie);
         }
     }
 
@@ -108,11 +113,10 @@ final class CategoryAdapter extends ListAdapter<Category, RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        int layout = -1;
         View view;
         switch(viewType) {
             case PIE_CHART:
-                view = inflater.inflate(R.layout.pie_chart, parent, false);
+                view = inflater.inflate(R.layout.pie_charts, parent, false);
                 return new PieChartViewHolder(view);
             case CATEGORY:
                 view = inflater.inflate(R.layout.timeline_category, parent, false);
@@ -133,7 +137,6 @@ final class CategoryAdapter extends ListAdapter<Category, RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder baseViewHolder, int position) {
-        System.out.println("THIS HAPPENS");
         switch(getItemViewType(position)) {
             case PIE_CHART:
 
