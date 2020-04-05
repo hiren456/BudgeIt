@@ -7,6 +7,14 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.NewEntryActivity">
 
+    <EditText
+        android:id="@+id/editText_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:hint="name"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/editText_amount"
@@ -17,15 +25,6 @@
         android:gravity="top|start"
         android:hint="amount"
         android:inputType="numberDecimal" />
-
-    <EditText
-        android:id="@+id/editText_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:hint="name"
-        android:inputType="text" />
 
     <Button
         android:id="@+id/button_submit"
