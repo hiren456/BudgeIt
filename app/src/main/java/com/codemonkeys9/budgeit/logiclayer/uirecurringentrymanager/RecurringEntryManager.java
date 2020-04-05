@@ -54,6 +54,15 @@ class RecurringEntryManager implements UIRecurringEntryManager {
         }
 
         db.insertRecurringEntry(recurringEntry);
+
+        // Add all recurrences after up until today
+        Date recurrence = getNextRecurrence(recurringEntry.getDate(), recurringEntry.getRecurrencePeriod());
+        Date now = dateSource.now();
+        while(recurrence.compareTo(now) <= 0) {
+            addRecurrence(recurringEntry, recurrence);
+            recurrence = getNextRecurrence(recurrence, recurringEntry.getRecurrencePeriod());
+        }
+
         return recurringEntryId;
     }
 
@@ -111,6 +120,15 @@ class RecurringEntryManager implements UIRecurringEntryManager {
         return DateFactory.fromInts(year, month, day);
     }
 
+    private void addRecurrence(RecurringEntry entry, Date recurrence) {
+        if (entry instanceof RecurringPurchase) {
+            RecurringPurchase purchase = (RecurringPurchase) entry;
+            this.entryCreator.createPurchase(entry.getAmount(), entry.getDetails(), recurrence.clone(), purchase.flagged());
+        } else {
+            this.entryCreator.createIncome(entry.getAmount(), entry.getDetails(), recurrence.clone());
+        }
+    }
+
     @Override
     public void checkAllRecurringEntrys() {
         Date lastChecked = db.getDateLastChecked("Recurring Entry");
@@ -124,14 +142,7 @@ class RecurringEntryManager implements UIRecurringEntryManager {
             // Iterate over all recurrences between the original date and now (inclusive)
             while(recurrence.compareTo(now) <= 0) {
                 // Create the entry
-                if (lastChecked.compareTo(recurrence) < 0) {
-                    if (entry instanceof RecurringPurchase) {
-                        RecurringPurchase purchase = (RecurringPurchase) entry;
-                        this.entryCreator.createPurchase(entry.getAmount(), entry.getDetails(), recurrence.clone(), purchase.flagged());
-                    } else {
-                        this.entryCreator.createIncome(entry.getAmount(), entry.getDetails(), recurrence.clone());
-                    }
-                }
+                if (lastChecked.compareTo(recurrence) < 0) addRecurrence(entry, recurrence);
 
                 // Get the next recurrence
                 recurrence = getNextRecurrence(recurrence, entry.getRecurrencePeriod());
