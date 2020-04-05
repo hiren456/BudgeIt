@@ -10,20 +10,58 @@
         android:roundIcon="@mipmap/budgeit_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.RecurringEntriesActivity"></activity>
-        <activity android:name=".ui.CategoryViewActivity" />
-        <activity android:name=".ui.NewCategoryActivity" />
-        <activity android:name=".ui.ModifyEntryAmountActivity" />
-        <activity android:name=".ui.ModifyCategoryAmountActivity" />
-        <activity android:name=".ui.ModifyEntryDateActivity" />
-        <activity android:name=".ui.ModifyEntryDescriptionActivity" />
-        <activity android:name=".ui.ModifyCategoryDescriptionActivity" />
-        <activity android:name=".ui.ChangeEntryCategoryActivity" />
+        <activity
+            android:name=".ui.RecurringEntriesActivity"
+            android:fitsSystemWindows="true"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.CategoryViewActivity"
+            android:fitsSystemWindows="true"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.ModifyEntryAmountActivity"
+            android:fitsSystemWindows="true"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.ModifyCategoryAmountActivity"
+            android:fitsSystemWindows="true"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+        android:name=".ui.ModifyEntryDateActivity"
+        android:fitsSystemWindows="true"
+        android:parentActivityName=".ui.MainActivity"
+        android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.ModifyEntryDescriptionActivity"
+            android:fitsSystemWindows="true"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.ModifyCategoryDescriptionActivity"
+            android:fitsSystemWindows="true"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.ChangeEntryCategoryActivity"
+            android:fitsSystemWindows="true"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.DateRangeActivity"
-            android:parentActivityName=".ui.MainActivity" />
+            android:fitsSystemWindows="true"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.NewEntryActivity"
+            android:fitsSystemWindows="true"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.NewCategoryActivity"
             android:fitsSystemWindows="true"
             android:parentActivityName=".ui.MainActivity"
             android:windowSoftInputMode="adjustResize" />
@@ -33,7 +71,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
