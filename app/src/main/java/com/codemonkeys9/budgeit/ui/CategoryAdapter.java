@@ -1,5 +1,6 @@
 package com.codemonkeys9.budgeit.ui;
 
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.ContextMenu;
@@ -16,21 +17,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.category.Category;
-import com.codemonkeys9.budgeit.dso.entry.RecurrencePeriod;
+import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculator;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycolourizer.UICategoryColourizer;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycolourizer.UICategoryColourizerFactory;
+import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
+import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import lecho.lib.hellocharts.model.PieChartData;
+import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.view.PieChartView;
 
 final class CategoryAdapter extends ListAdapter<Category, RecyclerView.ViewHolder>{
     private OnCategoryListener onCategoryListener;
+    // Completely arbitrary. Just used to consistently seed the RNG for the colours of the pie chart
+    // slices. Otherwise, they would change colour every time you saw them.
+    private static final long BUDGET_SEED = 54063;
+    private static final long SAVINGS_SEED = 795774;
 
     private static final int PIE_CHART = 0;
     private static final int CATEGORY = 1;
@@ -38,6 +50,8 @@ final class CategoryAdapter extends ListAdapter<Category, RecyclerView.ViewHolde
     public interface OnCategoryListener{
         void onCategoryClick(int position);
     }
+
+    UICategoryFetcher categoryFetcher;
 
     final static class PieChartViewHolder extends RecyclerView.ViewHolder {
         PieChartView budgetPie, savingsPie;
@@ -108,6 +122,7 @@ final class CategoryAdapter extends ListAdapter<Category, RecyclerView.ViewHolde
         cats.add(0, null);
         submitList(cats);
         this.onCategoryListener = onCategoryListener;
+        this.categoryFetcher = UICategoryFetcherFactory.createUICategoryFetcher();
     }
 
     @Override
@@ -138,10 +153,14 @@ final class CategoryAdapter extends ListAdapter<Category, RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder baseViewHolder, int position) {
         switch(getItemViewType(position)) {
-            case PIE_CHART:
-
-                break;
-            case CATEGORY:
+            case PIE_CHART: {
+                PieChartViewHolder viewHolder = (PieChartViewHolder) baseViewHolder;
+                PieChartData budgetData = pieData(categoryFetcher.fetchAllBudgetCategories(), "Budget", BUDGET_SEED);
+                PieChartData savingsData = pieData(categoryFetcher.fetchAllSavingsCategories(), "Savings", SAVINGS_SEED);
+                viewHolder.budgetPie.setPieChartData(budgetData);
+                viewHolder.savingsPie.setPieChartData(savingsData);
+            } break;
+            case CATEGORY: {
                 CategoryViewHolder viewHolder = (CategoryViewHolder) baseViewHolder;
                 Category category = getItem(position);
                 viewHolder.description.setText(category.getName().getValue());
@@ -159,8 +178,33 @@ final class CategoryAdapter extends ListAdapter<Category, RecyclerView.ViewHolde
                 viewHolder.monthlyProgressBar.setProgressDrawable(progressDrawable);
                 viewHolder.monthlyProgressBar.setMax(category.getGoal().getValue());
                 viewHolder.monthlyProgressBar.setProgress(absSum);
-                break;
+            } break;
         }
+    }
+
+    private PieChartData pieData(CategoryList list, String label, long seed) {
+        List<Category> cats = list.getChrono();
+        List<SliceValue> slices = new ArrayList<>();
+        Random rand = new Random(seed);
+        for(Category cat: cats) {
+            int absSum = Math.abs(getCategorySumThisMonth(cat).getValue());
+            if(absSum == 0) continue;
+            int r = rand.nextInt(256);
+            int g = rand.nextInt(256);
+            int b = rand.nextInt(256);
+            SliceValue slice = new SliceValue(absSum, Color.argb(0xFF, r, g, b));
+            slice.setLabel(cat.getName().getValue());
+            slices.add(slice);
+        }
+
+        PieChartData data = new PieChartData(slices);
+        data.setHasLabels(true);
+        data.setHasCenterCircle(true);
+        data.setCenterText1(label);
+        data.setHasLabelsOutside(false);
+        data.setCenterText1FontSize(15);
+
+        return data;
     }
 
     private String convertCategorySumToString(Amount sum) {
