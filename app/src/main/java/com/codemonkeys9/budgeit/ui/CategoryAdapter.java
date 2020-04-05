@@ -37,6 +37,12 @@ final class CategoryAdapter extends ListAdapter<Category, RecyclerView.ViewHolde
         void onCategoryClick(int position);
     }
 
+    final static class PieChartViewHolder extends RecyclerView.ViewHolder {
+        PieChartViewHolder(final View view) {
+            super(view);
+        }
+    }
+
     final static class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener {
         TextView description;
         TextView amountGoal;
@@ -72,12 +78,6 @@ final class CategoryAdapter extends ListAdapter<Category, RecyclerView.ViewHolde
 
         public int getCategoryPosition() {
             return getAdapterPosition() - 1;
-        }
-    }
-
-    final static class PieChartViewHolder extends RecyclerView.ViewHolder {
-        PieChartViewHolder(final View view) {
-            super(view);
         }
     }
 
@@ -136,6 +136,7 @@ final class CategoryAdapter extends ListAdapter<Category, RecyclerView.ViewHolde
         System.out.println("THIS HAPPENS");
         switch(getItemViewType(position)) {
             case PIE_CHART:
+
                 break;
             case CATEGORY:
                 CategoryViewHolder viewHolder = (CategoryViewHolder) baseViewHolder;
