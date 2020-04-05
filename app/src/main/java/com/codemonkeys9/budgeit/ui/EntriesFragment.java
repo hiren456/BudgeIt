@@ -253,8 +253,7 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
             ADD_FAKE_DATA:
             for (int year = 2018; year <= 2020; year++) {
                 for (int month = 1; month <= 12; month++) {
-                    if (year == 2020 && month > 3) break;
-                    if (year == 2020 && month > 2) break ADD_FAKE_DATA;
+                    if (year == 2020 && month > 4) break ADD_FAKE_DATA;
                     // ensures that month has two digits
                     String monthString;
                     if (month < 10) {
@@ -274,22 +273,27 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
                             dayString = "" + day;
                         }
 
-                        int entry = entryManager.createEntry("50", "Gas", year + "-" + monthString + "-" + dayString, true);
-                        entryCategorizer.categorizeEntry(entry, transportation);
+                        if(year < 2020 || day < 6) {
+                            int entry = entryManager.createEntry("50", "Gas", year + "-" + monthString + "-" + dayString, true);
+                            entryCategorizer.categorizeEntry(entry, transportation);
+                        }
                     }
                     // Paycheck every two weeks-ish
                     int pay1 = entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01", false);
-                    int pay2 = entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15", false);
                     entryCategorizer.categorizeEntry(pay1, income);
-                    entryCategorizer.categorizeEntry(pay2, income);
 
-                    int what = entryManager.createEntry(
-                            "120",
-                            "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
-                            year + "-" + monthString + "-13",
-                            true
-                    );
-                    entryCategorizer.categorizeEntry(what, misc);
+                    if(year < 2020) {
+                        int pay2 = entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15", false);
+                        entryCategorizer.categorizeEntry(pay2, income);
+
+                        int what = entryManager.createEntry(
+                                "120",
+                                "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
+                                year + "-" + monthString + "-13",
+                                true
+                        );
+                        entryCategorizer.categorizeEntry(what, misc);
+                    }
                 }
             }
             entries = entryFetcher.fetchAllEntrys();
