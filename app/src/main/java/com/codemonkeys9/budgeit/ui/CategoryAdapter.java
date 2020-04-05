@@ -1,9 +1,12 @@
 package com.codemonkeys9.budgeit.ui;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.DiffUtil;
@@ -11,6 +14,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.entrycalculator.EntryCalculator;
@@ -34,6 +38,7 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
         TextView amountGoal;
         TextView date;
         TextView amountSum;
+        ProgressBar monthlyProgressBar;
         OnCategoryListener onCategoryListener;
 
         ViewHolder(final View catView, OnCategoryListener onCategoryListener) {
@@ -42,6 +47,7 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
             amountGoal = catView.findViewById(R.id.amount_goal);
             date = catView.findViewById(R.id.date);
             amountSum = catView.findViewById(R.id.amount_sum);
+            monthlyProgressBar = catView.findViewById(R.id.monthlyProgressBar);
             catView.setOnCreateContextMenuListener(this);
             this.onCategoryListener = onCategoryListener;
             catView.setOnClickListener(this);
@@ -94,20 +100,33 @@ final class CategoryAdapter extends ListAdapter<Category, CategoryAdapter.ViewHo
         Category category = getItem(position);
         viewHolder.description.setText(category.getName().getValue());
         viewHolder.date.setText(category.getDateLastModified().getDisplay());
-        viewHolder.amountSum.setText("this month: "+getCategorySumThisMonth(category)+" / ");
+        Amount sum = getCategorySumThisMonth(category);
+        viewHolder.amountSum.setText("this month: " + convertCategorySumToString(sum) + " / ");
         UICategoryColourizer colourizer = UICategoryColourizerFactory.createUICategoryColourizer();
         viewHolder.amountGoal.setTextColor(colourizer.getAmountColour(category));
         viewHolder.amountGoal.setText(category.getGoal().getDisplay());
+
+        int absSum = Math.abs(sum.getValue());
+        int progressBarColour = colourizer.getProgressBarColour(category, absSum);
+        Drawable progressDrawable = viewHolder.monthlyProgressBar.getProgressDrawable().mutate();
+        progressDrawable.setColorFilter(progressBarColour, PorterDuff.Mode.MULTIPLY);
+        viewHolder.monthlyProgressBar.setProgressDrawable(progressDrawable);
+        viewHolder.monthlyProgressBar.setMax(category.getGoal().getValue());
+        viewHolder.monthlyProgressBar.setProgress(absSum);
     }
 
-    private String getCategorySumThisMonth(Category c){
+    private String convertCategorySumToString(Amount sum) {
+        String result = sum.getAbsoluteValueDisplay();
+        if(result.equals(".00")) return "0";
+        else return result;
+    }
+
+    private Amount getCategorySumThisMonth(Category c){
         UIEntryFetcher entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
         EntryList entryList = entryFetcher.fetchEntrysInCategoryThisMonth(c.getID());
 
         EntryCalculator entryCalculator = EntryCalculatorFactory.createEntryCalculator();
-        String result = entryCalculator.sumEntryList(entryList).getAbsoluteValueDisplay();
-        if(result.equals(".00")) return "0";
-        else return result;
+        return entryCalculator.sumEntryList(entryList);
     }
 
     public void updateCategories(List<Category> newCategories) {

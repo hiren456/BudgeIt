@@ -36,4 +36,14 @@
         android:layout_marginLeft="5sp"
         android:layout_marginBottom="5sp"
         android:textColor="#777" />
+
+    <ProgressBar
+        android:id="@+id/monthlyProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:layout_marginLeft="5pt"
+        android:layout_marginRight="5pt"
+        android:indeterminate="false" />
 </RelativeLayout>
