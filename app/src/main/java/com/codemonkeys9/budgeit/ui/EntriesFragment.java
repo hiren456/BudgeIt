@@ -16,12 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codemonkeys9.budgeit.R;
-<<<<<<< HEAD
-import com.codemonkeys9.budgeit.database.Database;
-import com.codemonkeys9.budgeit.database.DatabaseHolder;
-import com.codemonkeys9.budgeit.dso.date.DateFactory;
-=======
->>>>>>> fix-category-totals
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
