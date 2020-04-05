@@ -35,7 +35,7 @@ abstract class DefaultRecurringEntry extends DefaultBaseEntry implements Recurri
     }
 
     @Override
-    public int getRecurringEntryID() {
+    public int getEntryID() {
         return this.recurringEntryID;
     }
 
@@ -44,7 +44,7 @@ abstract class DefaultRecurringEntry extends DefaultBaseEntry implements Recurri
 
     @Override
     public boolean equals(RecurringEntry other) {
-        return this.getRecurringEntryID() == other.getRecurringEntryID() &&
+        return this.getEntryID() == other.getEntryID() &&
                this.getRecurrencePeriod() == other.getRecurrencePeriod() &&
                super.equals(other);
     }

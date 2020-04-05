@@ -15,29 +15,30 @@ import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
 
 import java.util.List;
 
-public class CategoryViewActivity extends AppCompatActivity {
-
-    int catID;
+public class RecurringEntriesActivity extends AppCompatActivity {
     UIEntryFetcher entryFetcher;
     private List<BaseEntry> entries;
     EntryAdapter entryAdapter;
+    boolean mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_view);
-        catID = getIntent().getIntExtra("catID", 0);
-
+        setContentView(R.layout.activity_recurring_entries);
         entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
-        EntryList entryList = entryFetcher.fetchEntrysInCategory(catID);
-        entries = entryList.getReverseChrono();
+        String mode = getIntent().getStringExtra("mode");
+        this.mode = mode.equals("income");
+
+        EntryList entryList;
+        if(this.mode) entryList = entryFetcher.fetchAllRecurringIncomes();
+        else entryList = entryFetcher.fetchAllRecurringExpenses();
+        entries = entryList.getChrono();
         entryAdapter = new EntryAdapter(entries);
         setUpRecyclerView();
-
     }
 
     private void setUpRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.category_entry_recycler);
+        RecyclerView recyclerView = findViewById(R.id.recurring_recycler);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
@@ -57,8 +58,10 @@ public class CategoryViewActivity extends AppCompatActivity {
     }
 
     private void refreshTimeline() {
-        EntryList entryList = entryFetcher.fetchEntrysInCategory(catID);
-        this.entries = entryList.getReverseChrono();
+        EntryList entryList;
+        if(mode) entryList = entryFetcher.fetchAllRecurringIncomes();
+        else entryList = entryFetcher.fetchAllRecurringExpenses();
+        this.entries = entryList.getChrono();
         entryAdapter.updateEntries(this.entries);
     }
 
@@ -74,7 +77,4 @@ public class CategoryViewActivity extends AppCompatActivity {
         refreshTimeline();
         return true;
     }
-
-
-
 }

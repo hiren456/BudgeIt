@@ -75,6 +75,9 @@ public interface UIEntryFetcher {
      */
     EntryList fetchAllEntrys();
 
+    EntryList fetchAllRecurringIncomes();
+    EntryList fetchAllRecurringExpenses();
+
     /*
     Fetches all entrys that are in  the category
     with id catID.

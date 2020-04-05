@@ -3,6 +3,7 @@ package com.codemonkeys9.budgeit.database;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.category.CategoryDateComparator;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.entry.EntryDateComparator;
@@ -19,7 +20,7 @@ class StubDatabase implements Database {
 
     // This is where all the default entries are stored
     // they are searched and inserted by their ID
-    private HashMap<Integer,Entry> defaultEntryMap;
+    private HashMap<Integer, BaseEntry> defaultEntryMap;
 
     // This is where all the recurring entries are stored
     // they are searched and inserted by their ID
@@ -34,7 +35,7 @@ class StubDatabase implements Database {
 
     StubDatabase(int initialEntryID,int initialCategoryID){
 
-        this.defaultEntryMap = new HashMap<Integer,Entry>();
+        this.defaultEntryMap = new HashMap<Integer, BaseEntry>();
         this.recurringEntryMap = new HashMap<Integer,RecurringEntry>();
         this.categoryMap = new HashMap<Integer, Category>();
 
@@ -79,7 +80,7 @@ class StubDatabase implements Database {
     return true if the entry is found in the database and then updated, otherwise return false
      */
     @Override
-    public boolean updateDefaultEntry(Entry entry) {
+    public boolean updateDefaultEntry(BaseEntry entry) {
         IDManager manager = IDManagerFactory.createIDManager();
         int defaultCatID = manager.getDefaultID("Category");
 
@@ -101,8 +102,8 @@ class StubDatabase implements Database {
     or an empty list if db is empty
      */
     @Override
-    public List<Entry> getAllDefaultEntries() {
-        List<Entry> entList = new ArrayList<>(defaultEntryMap.values());
+    public List<BaseEntry> getAllDefaultEntries() {
+        List<BaseEntry> entList = new ArrayList<>(defaultEntryMap.values());
         // sort the entries by date
         Collections.sort(entList,new EntryDateComparator());
         return entList;
@@ -114,11 +115,11 @@ class StubDatabase implements Database {
     or an empty list if there are no such entries
      */
     @Override
-    public List<Entry> getDefaultEntriesByCategoryID(int ID){
-        ArrayList<Entry> returnList = new ArrayList<Entry>();
+    public List<BaseEntry> getDefaultEntriesByCategoryID(int ID){
+        ArrayList<BaseEntry> returnList = new ArrayList<>();
 
         // find all entries with the same category ID
-        for ( Entry entry : this.defaultEntryMap.values()){
+        for ( BaseEntry entry : this.defaultEntryMap.values()){
             if (entry.getCatID() == ID){
                 returnList.add(entry);
             }
@@ -135,7 +136,7 @@ class StubDatabase implements Database {
     if not found returns null
      */
     @Override
-    public Entry selectDefaultEntryByID(int ID) {
+    public BaseEntry selectDefaultEntryByID(int ID) {
         return this.defaultEntryMap.get(ID);
     }
 
@@ -145,11 +146,11 @@ class StubDatabase implements Database {
     returns empty list if the are no entries
      */
     @Override
-    public List<Entry> selectDefaultEntriesByDate(DateInterval dateInterval) {
-        ArrayList<Entry> returnList = new ArrayList<Entry>();
+    public List<BaseEntry> selectDefaultEntriesByDate(DateInterval dateInterval) {
+        ArrayList<BaseEntry> returnList = new ArrayList<>();
 
         // find all entries within the specified range
-        for ( Entry entry : this.defaultEntryMap.values()){
+        for ( BaseEntry entry : this.defaultEntryMap.values()){
             Date date = entry.getDate();
 
             if(dateInterval.in(date)){
@@ -169,13 +170,13 @@ class StubDatabase implements Database {
     and by category specified category ID, returns empty list if the are no entries
      */
     @Override
-    public List<Entry> selectDefaultEntriesByDateAndCategoryID(DateInterval dateInterval, int catID){
+    public List<BaseEntry> selectDefaultEntriesByDateAndCategoryID(DateInterval dateInterval, int catID){
         // find all entries that fall within date interval
-        List<Entry> entryByDateList = this.selectDefaultEntriesByDate(dateInterval);
-        ArrayList<Entry> returnList = new ArrayList<Entry>();
+        List<BaseEntry> entryByDateList = this.selectDefaultEntriesByDate(dateInterval);
+        ArrayList<BaseEntry> returnList = new ArrayList<>();
 
         // find all entries with the same category ID
-        for ( Entry entry : entryByDateList){
+        for ( BaseEntry entry : entryByDateList){
             if (entry.getCatID() == catID){
                 returnList.add(entry);
             }
@@ -194,7 +195,7 @@ class StubDatabase implements Database {
     @Override
     public boolean deleteDefaultEntry(int ID) {
 
-        Entry removed = this.defaultEntryMap.remove(ID);
+        BaseEntry removed = this.defaultEntryMap.remove(ID);
         return removed != null;
     }
 
@@ -209,12 +210,12 @@ class StubDatabase implements Database {
         int defaultCatID = manager.getDefaultID("Category");
 
         //Checks if an entry with the same key is already in the database
-        if(recurringEntryMap.containsKey(entry.getRecurringEntryID())){
+        if(recurringEntryMap.containsKey(entry.getEntryID())){
             throw new RuntimeException("The recurring entry you try to insert already exists in the database!");
         }else if (entry.getCatID() != defaultCatID && !categoryMap.containsKey(entry.getCatID())){
             throw new RuntimeException("There is no category with this catID to insert the entry");
         }else{
-            this.recurringEntryMap.put(entry.getRecurringEntryID(), entry);
+            this.recurringEntryMap.put(entry.getEntryID(), entry);
         }
 
     }
@@ -232,8 +233,8 @@ class StubDatabase implements Database {
         boolean isCatID = categoryMap.containsKey(entry.getCatID()) || entry.getCatID() == defaultCatID;
 
         // Checks if an entry with the same key is already in the database
-        if( recurringEntryMap.containsKey(entry.getRecurringEntryID()) && isCatID){
-            this.recurringEntryMap.put(entry.getRecurringEntryID(),entry);
+        if( recurringEntryMap.containsKey(entry.getEntryID()) && isCatID){
+            this.recurringEntryMap.put(entry.getEntryID(),entry);
         }else{
             isUpdated = false;
         }
@@ -417,7 +418,7 @@ class StubDatabase implements Database {
 
         if (removed != null) {
             //update category also update default entry
-            for (Entry entry : this.defaultEntryMap.values()) {
+            for (BaseEntry entry : this.defaultEntryMap.values()) {
                 int catID = entry.getCatID();
 
                 if (catID == ID) {
@@ -432,7 +433,7 @@ class StubDatabase implements Database {
 
                 if (catID == ID) {
                     entry = entry.changeCategory(defaultCatID);
-                    this.recurringEntryMap.put(entry.getRecurringEntryID(), entry);
+                    this.recurringEntryMap.put(entry.getEntryID(), entry);
                 }
             }
         }

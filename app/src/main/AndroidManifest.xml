@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/budgeit_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.CategoryViewActivity"></activity>
+        <activity android:name=".ui.RecurringEntriesActivity"></activity>
+        <activity android:name=".ui.CategoryViewActivity" />
         <activity android:name=".ui.NewCategoryActivity" />
         <activity android:name=".ui.ModifyEntryAmountActivity" />
         <activity android:name=".ui.ModifyCategoryAmountActivity" />

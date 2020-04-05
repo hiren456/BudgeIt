@@ -16,6 +16,7 @@ import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
@@ -168,7 +169,7 @@ public class IntegrationUIEntryManagerTest {
 
         manager.createEntry(amount,details,date,purchase);
 
-        Entry entry = fetcher.fetchAllEntrys().getChrono().get(0);
+        BaseEntry entry = fetcher.fetchAllEntrys().getChrono().get(0);
 
         assertTrue(amount.equals(entry.getAmount().getDisplay()));
         assertTrue(details.equals(entry.getDetails().getValue()));
@@ -192,7 +193,7 @@ public class IntegrationUIEntryManagerTest {
 
         manager.createEntry(amount,details,date,purchase,catID);
 
-        Entry entry = fetcher.fetchAllEntrys().getChrono().get(0);
+        BaseEntry entry = fetcher.fetchAllEntrys().getChrono().get(0);
 
         assertTrue(amount.equals(entry.getAmount().getDisplay()));
         assertTrue(details.equals(entry.getDetails().getValue()));
@@ -373,10 +374,10 @@ public class IntegrationUIEntryManagerTest {
         UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
         Database db = DatabaseHolder.getDatabase();
 
-        Entry oldEntry =  db.selectDefaultEntryByID(24);
+        BaseEntry oldEntry =  db.selectDefaultEntryByID(24);
         Amount newAmount = AmountFactory.fromInt(50000);
         mod.changeAmount(24,newAmount);
-        Entry newEntry =  db.selectDefaultEntryByID(24);
+        BaseEntry newEntry =  db.selectDefaultEntryByID(24);
 
         assertTrue(oldEntry.getDate().equals(newEntry.getDate()));
         assertTrue(oldEntry.getDetails().equals(newEntry.getDetails()));
@@ -406,10 +407,10 @@ public class IntegrationUIEntryManagerTest {
         UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
         Database db = DatabaseHolder.getDatabase();
 
-        Entry oldEntry =  db.selectDefaultEntryByID(24);
+        BaseEntry oldEntry =  db.selectDefaultEntryByID(24);
         Details newName = DetailsFactory.fromString("Better Food");
         mod.changeName(24,newName);
-        Entry newEntry =  db.selectDefaultEntryByID(24);
+        BaseEntry newEntry =  db.selectDefaultEntryByID(24);
 
         assertTrue(oldEntry.getDate().equals(newEntry.getDate()));
         assertTrue(newName.equals(newEntry.getDetails()));
@@ -439,10 +440,10 @@ public class IntegrationUIEntryManagerTest {
         UIEntryManager mod = UIEntryManagerFactory.createUIEntryManager();
         Database db = DatabaseHolder.getDatabase();
 
-        Entry oldEntry =  db.selectDefaultEntryByID(24);
+        BaseEntry oldEntry =  db.selectDefaultEntryByID(24);
         Date newDate = DateFactory.fromString("2018-03-21");
         mod.changeDate(24,newDate);
-        Entry newEntry =  db.selectDefaultEntryByID(24);
+        BaseEntry newEntry =  db.selectDefaultEntryByID(24);
 
         assertTrue(newDate.equals(newEntry.getDate()));
         assertTrue(oldEntry.getDetails().equals(newEntry.getDetails()));

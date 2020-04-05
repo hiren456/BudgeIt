@@ -1,6 +1,6 @@
 package com.codemonkeys9.budgeit.dso.entrylist;
 
-import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -9,29 +9,29 @@ import java.util.List;
 
 class LinkedListEntryList implements EntryList {
 
-    List<Entry> chronoList;
+    List<BaseEntry> chronoList;
 
-    LinkedListEntryList(List<Entry> list) {
+    LinkedListEntryList(List<BaseEntry> list) {
         this.chronoList = list;
     }
 
     @Override
-    public List<Entry> getChrono() {
-        List<Entry> copy = new LinkedList<Entry>(this.chronoList);
+    public List<BaseEntry> getChrono() {
+        List<BaseEntry> copy = new LinkedList<>(this.chronoList);
 
         return copy;
     }
 
     @Override
-    public Iterator<Entry> getChronoIter() {
-        List<Entry> copy = new LinkedList<Entry>(this.chronoList);
+    public Iterator<BaseEntry> getChronoIter() {
+        List<BaseEntry> copy = new LinkedList<>(this.chronoList);
 
         return copy.iterator();
     }
 
     @Override
-    public List<Entry> getReverseChrono() {
-        List<Entry> copy = new LinkedList<Entry>(this.chronoList);
+    public List<BaseEntry> getReverseChrono() {
+        List<BaseEntry> copy = new LinkedList<>(this.chronoList);
 
         Collections.reverse(copy);
 
@@ -39,8 +39,8 @@ class LinkedListEntryList implements EntryList {
     }
 
     @Override
-    public Iterator<Entry> getReverseChronoIter() {
-        List<Entry> copy = new LinkedList<Entry>(this.chronoList);
+    public Iterator<BaseEntry> getReverseChronoIter() {
+        List<BaseEntry> copy = new LinkedList<>(this.chronoList);
 
         Collections.reverse(copy);
 
@@ -49,7 +49,7 @@ class LinkedListEntryList implements EntryList {
 
     @Override
     public int getReverseChronoIndexOfEntryWithID(int entryID) {
-        List<Entry> list = this.getReverseChrono();
+        List<BaseEntry> list = this.getReverseChrono();
         for(int i = 0; i < list.size(); i++) {
             if(list.get(i).getEntryID() == entryID) {
                 return i;

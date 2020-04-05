@@ -2,7 +2,7 @@ package com.codemonkeys9.budgeit.logiclayer.entryflagger;
 
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.exceptions.PurchaseDoesNotExistException;
 
@@ -12,7 +12,7 @@ class DefaultEntryFlagger implements EntryFlagger {
             throws PurchaseDoesNotExistException {
         Database db = DatabaseHolder.getDatabase();
 
-        Entry entry = db.selectDefaultEntryByID(id);
+        BaseEntry entry = db.selectDefaultEntryByID(id);
 
         if(entry == null){
             throw new PurchaseDoesNotExistException("Purchase with id "+id+" does not exist");

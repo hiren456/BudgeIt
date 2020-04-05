@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codemonkeys9.budgeit.R;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.logiclayer.uientrycolourizer.UIEntryColourizer;
 import com.codemonkeys9.budgeit.logiclayer.uientrycolourizer.UIEntryColourizerFactory;
@@ -22,7 +22,7 @@ import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
 import java.util.List;
 
-final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
+final class EntryAdapter extends ListAdapter<BaseEntry, EntryAdapter.ViewHolder> {
     private EntryAdapter.OnEntryListener onEntryListener;
 
     public interface OnEntryListener{
@@ -62,20 +62,20 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         }
     }
 
-    private static final DiffUtil.ItemCallback<Entry> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Entry>() {
+    private static final DiffUtil.ItemCallback<BaseEntry> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<BaseEntry>() {
                 @Override
-                public boolean areItemsTheSame(Entry oldEntry, Entry newEntry) {
+                public boolean areItemsTheSame(BaseEntry oldEntry, BaseEntry newEntry) {
                     return oldEntry.getEntryID() == newEntry.getEntryID();
                 }
 
                 @Override
-                public boolean areContentsTheSame(Entry oldEntry, Entry newEntry) {
+                public boolean areContentsTheSame(BaseEntry oldEntry, BaseEntry newEntry) {
                     return oldEntry.equals(newEntry);
                 }
             };
 
-    public EntryAdapter(List<Entry> entries) {
+    public EntryAdapter(List<BaseEntry> entries) {
         super(DIFF_CALLBACK);
         submitList(entries);
     }
@@ -89,7 +89,7 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Entry entry = getItem(position);
+        BaseEntry entry = getItem(position);
 
         viewHolder.flaggable = entry instanceof Purchase;
         viewHolder.flagged = viewHolder.flaggable && ((Purchase)entry).flagged();
@@ -104,7 +104,7 @@ final class EntryAdapter extends ListAdapter<Entry, EntryAdapter.ViewHolder> {
         viewHolder.amount.setText(entry.getAmount().getDisplay());
     }
 
-    public void updateEntries(List<Entry> newEntries) {
+    public void updateEntries(List<BaseEntry> newEntries) {
         submitList(newEntries);
     }
 

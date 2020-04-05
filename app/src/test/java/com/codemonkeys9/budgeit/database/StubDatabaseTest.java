@@ -46,10 +46,8 @@ public class StubDatabaseTest extends DatabaseTest{
     @Override
     @Test
     public void updateDateLastCheckedForCategoryTest(){
-<<<<<<< HEAD
         // This functionality is unneeded in the stub as
         // the tests that use it use mockito
-=======
         Date newDate = DateFactory.fromString("1999-04-23");
 
         assertTrue(this.db.updateDateLastChecked("Category Period",newDate));
@@ -108,7 +106,7 @@ public class StubDatabaseTest extends DatabaseTest{
         //insert it into the database
         db.insertDefaultEntry(entry1);
 
-        Entry retEntry1 = db.selectDefaultEntryByID(81);
+        BaseEntry retEntry1 = db.selectDefaultEntryByID(81);
 
         // test that it is the one we want
         assertNotNull("Database returns null when it should return an entry using selecBYID", retEntry1);
@@ -177,9 +175,9 @@ public class StubDatabaseTest extends DatabaseTest{
         db.insertDefaultEntry(entry4);
 
 
-        Entry retEntry2 = db.selectDefaultEntryByID(72);
-        Entry retEntry3 = db.selectDefaultEntryByID(-7);
-        Entry retEntry4 = db.selectDefaultEntryByID(6);
+        BaseEntry retEntry2 = db.selectDefaultEntryByID(72);
+        BaseEntry retEntry3 = db.selectDefaultEntryByID(-7);
+        BaseEntry retEntry4 = db.selectDefaultEntryByID(6);
 
         assertNotNull("Database returns null when it should return an entry using selecByID with many inserts 2", retEntry2);
         assertNotNull("Database returns null when it should return an entry using selecByID with many inserts 3", retEntry3);
@@ -292,7 +290,7 @@ public class StubDatabaseTest extends DatabaseTest{
         assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
                 , amount2.equals(retEntry2.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
-                , 72, retEntry2.getRecurringEntryID());
+                , 72, retEntry2.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
                 , details2.equals(retEntry2.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
@@ -307,7 +305,7 @@ public class StubDatabaseTest extends DatabaseTest{
         assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
                 , amount3.equals(retEntry3.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
-                , -7, retEntry3.getRecurringEntryID());
+                , -7, retEntry3.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
                 , details3.equals(retEntry3.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
@@ -322,7 +320,7 @@ public class StubDatabaseTest extends DatabaseTest{
         assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
                 , amount4.equals(retEntry4.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
-                , 6, retEntry4.getRecurringEntryID());
+                , 6, retEntry4.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
                 , details4.equals(retEntry4.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
@@ -388,14 +386,14 @@ public class StubDatabaseTest extends DatabaseTest{
                 DateFactory.fromInts(2009, 7, 7)
         );
 
-        List<Entry> retList = db.selectDefaultEntriesByDate(interval);
+        List<BaseEntry> retList = db.selectDefaultEntriesByDate(interval);
 
         // test that we got what was expected
         assertEquals("Expected select by date to return 3 entrys but it does not", 3, retList.size());
 
-        Entry retEntry2 = retList.get(0);
-        Entry retEntry3 = retList.get(1);
-        Entry retEntry4 = retList.get(2);
+        BaseEntry retEntry2 = retList.get(0);
+        BaseEntry retEntry3 = retList.get(1);
+        BaseEntry retEntry4 = retList.get(2);
 
         // test that retEntry2 is the one we want
         assertTrue("Database returns a entry with the wrong amount using selectByDate with many inserts"
@@ -429,17 +427,15 @@ public class StubDatabaseTest extends DatabaseTest{
         assertTrue("Database returns a entry with the wrong date using selectByDate with many inserts"
                 , date4.equals(retEntry4.getDate()));
 
->>>>>>> fix-category-totals
     }
 
     @Override
     @Test
-<<<<<<< HEAD
-    public void updateDateLastCheckedForRecurringTest(){
+    public void updateDateLastCheckedForRecurringTest() {
         // This functionality is unneeded in the stub as
         // the tests that use it use mockito
-=======
-    public void insertManyThenSelectByDateTestAndCatID() {
+    }
+    public void insertManyThenSelectByDateTestAndCatID(){
 
         //get the default id of category
         IDManager manager = IDManagerFactory.createIDManager();
@@ -492,13 +488,13 @@ public class StubDatabaseTest extends DatabaseTest{
                 DateFactory.fromInts(2009, 7, 7)
         );
 
-        List<Entry> retList = db.selectDefaultEntriesByDateAndCategoryID(interval, catID1);
+        List<BaseEntry> retList = db.selectDefaultEntriesByDateAndCategoryID(interval, catID1);
 
         // test that we got what was expected
         assertEquals("Expected select by date and catID to return 2 entries but it does not", 2, retList.size());
 
-        Entry retEntry2 = retList.get(0);
-        Entry retEntry3 = retList.get(1);
+        BaseEntry retEntry2 = retList.get(0);
+        BaseEntry retEntry3 = retList.get(1);
 
 
         // test that retEntry3 is the one we want
@@ -601,7 +597,7 @@ public class StubDatabaseTest extends DatabaseTest{
         assertTrue("Database returns a entry with the wrong amount using selectByDate with many inserts"
                 , amount2.equals(retEntry2.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using selectDate with many inserts"
-                , 72, retEntry2.getRecurringEntryID());
+                , 72, retEntry2.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectDate with many inserts"
                 , details2.equals(retEntry2.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByDate with many inserts"
@@ -616,7 +612,7 @@ public class StubDatabaseTest extends DatabaseTest{
         assertTrue("Database returns a entry with the wrong amount using selectByDate with many inserts"
                 , amount3.equals(retEntry3.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using selectByDate with many inserts"
-                , -7, retEntry3.getRecurringEntryID());
+                , -7, retEntry3.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByDate with many inserts"
                 , details3.equals(retEntry3.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByDate with many inserts"
@@ -631,7 +627,7 @@ public class StubDatabaseTest extends DatabaseTest{
         assertTrue("Database returns a entry with the wrong amount using selectByDate with many inserts"
                 , amount4.equals(retEntry4.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using selectByDate with many inserts"
-                , 6, retEntry4.getRecurringEntryID());
+                , 6, retEntry4.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByDate with many inserts"
                 , details4.equals(retEntry4.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByDate with many inserts"
@@ -715,7 +711,7 @@ public class StubDatabaseTest extends DatabaseTest{
         assertTrue("Database returns a entry with the wrong amount using select by date and catID with many inserts"
                 , amount2.equals(retEntry2.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using select by date and catID with many inserts"
-                , 72, retEntry2.getRecurringEntryID());
+                , 72, retEntry2.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using select by date and catID with many inserts"
                 , details2.equals(retEntry2.getDetails()));
         assertTrue("Database returns a entry with the wrong date using select by date and catID with many inserts"
@@ -730,7 +726,7 @@ public class StubDatabaseTest extends DatabaseTest{
         assertTrue("Database returns a entry with the wrong amount using select by date and catID with many inserts"
                 , amount3.equals(retEntry3.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using select by date and catID with many inserts"
-                , -7, retEntry3.getRecurringEntryID());
+                , -7, retEntry3.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using select by date and catID with many inserts"
                 , details3.equals(retEntry3.getDetails()));
         assertTrue("Database returns a entry with the wrong date using select by date and catID with many inserts"
@@ -761,7 +757,7 @@ public class StubDatabaseTest extends DatabaseTest{
 
         //delete the entry from database
         boolean isDeleted = db.deleteDefaultEntry(81);
-        Entry retEntry = db.selectDefaultEntryByID(81);
+        BaseEntry retEntry = db.selectDefaultEntryByID(81);
 
         assertTrue("Database returns wrong result of deletion", isDeleted);
         assertNull("Database did not delete the entry", retEntry);
@@ -814,10 +810,10 @@ public class StubDatabaseTest extends DatabaseTest{
         boolean isDeleted3 = db.deleteDefaultEntry(-7);
 
         //select entries from the database
-        Entry retEntry1 = db.selectDefaultEntryByID(81);
-        Entry retEntry2 = db.selectDefaultEntryByID(72);
-        Entry retEntry3 = db.selectDefaultEntryByID(-7);
-        Entry retEntry4 = db.selectDefaultEntryByID(6);
+        BaseEntry retEntry1 = db.selectDefaultEntryByID(81);
+        BaseEntry retEntry2 = db.selectDefaultEntryByID(72);
+        BaseEntry retEntry3 = db.selectDefaultEntryByID(-7);
+        BaseEntry retEntry4 = db.selectDefaultEntryByID(6);
 
         assertEquals("Database returns wrong entry ID", 81, retEntry1.getEntryID()); //1 entry
 
@@ -878,10 +874,10 @@ public class StubDatabaseTest extends DatabaseTest{
         boolean isDeleted4 = db.deleteDefaultEntry(6);
 
         //select entries from the database
-        Entry retEntry1 = db.selectDefaultEntryByID(81);
-        Entry retEntry2 = db.selectDefaultEntryByID(72);
-        Entry retEntry3 = db.selectDefaultEntryByID(-7);
-        Entry retEntry4 = db.selectDefaultEntryByID(6);
+        BaseEntry retEntry1 = db.selectDefaultEntryByID(81);
+        BaseEntry retEntry2 = db.selectDefaultEntryByID(72);
+        BaseEntry retEntry3 = db.selectDefaultEntryByID(-7);
+        BaseEntry retEntry4 = db.selectDefaultEntryByID(6);
 
         assertTrue("Database returns wrong result of deletion", isDeleted1);
         assertNull("Database did not delete the entry", retEntry1);
@@ -971,7 +967,7 @@ public class StubDatabaseTest extends DatabaseTest{
         assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
                 , amount4.equals(retEntry4.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
-                , 6, retEntry4.getRecurringEntryID());
+                , 6, retEntry4.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
                 , details4.equals(retEntry4.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
@@ -995,7 +991,7 @@ public class StubDatabaseTest extends DatabaseTest{
     public void selectFromEmptyTest() {
 
         //select an entry from the database
-        Entry retEntry1 = db.selectDefaultEntryByID(81);
+        BaseEntry retEntry1 = db.selectDefaultEntryByID(81);
 
         assertNull(retEntry1);
     }
@@ -1017,7 +1013,7 @@ public class StubDatabaseTest extends DatabaseTest{
                 DateFactory.fromInts(2001, 10, 7),
                 DateFactory.fromInts(2009, 7, 7)
         );
-        List<Entry> retList = db.selectDefaultEntriesByDate(interval);
+        List<BaseEntry> retList = db.selectDefaultEntriesByDate(interval);
 
         assertEquals("List is not empty", 0, retList.size());
     }
@@ -1080,7 +1076,7 @@ public class StubDatabaseTest extends DatabaseTest{
         entry1 = entry1.modifyEntry(updatedAmount, updatedDetails, updatedDate);
         boolean isUpdated = db.updateDefaultEntry(entry1);
 
-        Entry retEntry1 = db.selectDefaultEntryByID(entryID1);
+        BaseEntry retEntry1 = db.selectDefaultEntryByID(entryID1);
 
         // test that it is the one we want
         assertNotNull("Database returns null when it should return an entry using selecBYID", retEntry1);
@@ -1135,7 +1131,7 @@ public class StubDatabaseTest extends DatabaseTest{
         assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
                 , updatedAmount.equals(retEntry1.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
-                , entryID1, retEntry1.getRecurringEntryID());
+                , entryID1, retEntry1.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
                 , updatedDetails.equals(retEntry1.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
@@ -1159,7 +1155,7 @@ public class StubDatabaseTest extends DatabaseTest{
 
         //update an entry
         boolean isUpdated = db.updateDefaultEntry(entry1);
-        Entry retEntry1 = db.selectDefaultEntryByID(entryID1);
+        BaseEntry retEntry1 = db.selectDefaultEntryByID(entryID1);
 
         assertNull("Database should not contain the entry, but it does", retEntry1);
         assertFalse("Database is updated, but should not", isUpdated);
@@ -1367,7 +1363,7 @@ public class StubDatabaseTest extends DatabaseTest{
         //insert it into the database
         db.insertDefaultEntry(entry1);
 
-        Entry retEntry1 = db.selectDefaultEntryByID(81);
+        BaseEntry retEntry1 = db.selectDefaultEntryByID(81);
 
         // test that it is the one we want
         assertNotNull("Database returns null when it should return a category using selectCategoryBYID", retEntry1);
@@ -1410,7 +1406,7 @@ public class StubDatabaseTest extends DatabaseTest{
         assertTrue("Database returns a entry with the wrong amount using selectByID with many inserts"
                 , amount1.equals(retEntry1.getAmount()));
         assertEquals("Database returns a entry with the wrong entryID using selectByID with many inserts"
-                , entryID1, retEntry1.getRecurringEntryID());
+                , entryID1, retEntry1.getEntryID());
         assertTrue("Database returns a entry with the wrong details string using selectByID with many inserts"
                 , details1.equals(retEntry1.getDetails()));
         assertTrue("Database returns a entry with the wrong date using selectByID with many inserts"
@@ -1560,8 +1556,8 @@ public class StubDatabaseTest extends DatabaseTest{
         db.insertDefaultEntry(entry4);
         db.insertDefaultEntry(entry5);
 
-        List<Entry> entryList1 = db.getDefaultEntriesByCategoryID(catID);
-        List<Entry> entryList2 = db.getDefaultEntriesByCategoryID(catID1);
+        List<BaseEntry> entryList1 = db.getDefaultEntriesByCategoryID(catID);
+        List<BaseEntry> entryList2 = db.getDefaultEntriesByCategoryID(catID1);
 
         assertEquals("There should be 2 entries with catID = 23 ", 2, entryList1.size());
         assertEquals("There should be 3 entries with catID1 = 21", 3, entryList2.size());
@@ -1609,9 +1605,9 @@ public class StubDatabaseTest extends DatabaseTest{
         IDManager manager = IDManagerFactory.createIDManager();
         int defaultCatID = manager.getDefaultID("Category");
 
-        List<Entry> entryList = db.getDefaultEntriesByCategoryID(catID);
-        List<Entry> entryListDefault = db.getDefaultEntriesByCategoryID(defaultCatID);
-        List<Entry> entryListExist = db.getAllDefaultEntries();
+        List<BaseEntry> entryList = db.getDefaultEntriesByCategoryID(catID);
+        List<BaseEntry> entryListDefault = db.getDefaultEntriesByCategoryID(defaultCatID);
+        List<BaseEntry> entryListExist = db.getAllDefaultEntries();
 
         assertEquals("There should be 3 entries with default catID", 3, entryListDefault.size());
         assertEquals("There should be 0 entries with catID = 23", 0, entryList.size());
@@ -1821,7 +1817,7 @@ public class StubDatabaseTest extends DatabaseTest{
         db.clean();
 
         List<Category> cats = db.getAllCategories();
-        List<Entry> entries = db.getAllDefaultEntries();
+        List<BaseEntry> entries = db.getAllDefaultEntries();
         List<RecurringEntry> rentries = db.getAllRecurringEntries();
 
         assertEquals("There should be 0 Categories", 0, cats.size());
@@ -1829,13 +1825,6 @@ public class StubDatabaseTest extends DatabaseTest{
         assertEquals("There should be 0 Recurring Entries", 0, rentries.size());
 
 
->>>>>>> fix-category-totals
     }
 
-    @Override
-    @Test
-    public void initialDateLastCheckedTest(){
-        // This functionality is unneeded in the stub as
-        // the tests that use it use mockito
-    }
 }

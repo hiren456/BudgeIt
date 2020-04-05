@@ -8,6 +8,7 @@ import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
@@ -65,7 +66,7 @@ public class EntryCalculatorTest {
         Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
         // add them to a list
-        List<Entry> entries = new ArrayList<Entry>(4);
+        List<BaseEntry> entries = new ArrayList<BaseEntry>(4);
         entries.add(0,entry1);
         entries.add(1,entry2);
         entries.add(2,entry3);
@@ -93,7 +94,7 @@ public class EntryCalculatorTest {
         Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
         // add them to a list
-        List<Entry> entries = new ArrayList<Entry>(4);
+        List<BaseEntry> entries = new ArrayList<>(4);
         entries.add(0,entry1);
         EntryList entryList = EntryListFactory.fromChrono(entries);
 
@@ -107,7 +108,7 @@ public class EntryCalculatorTest {
     @Test
     public void sumNoneTest() {
         // add them to a list
-        List<Entry> entries = new ArrayList<Entry>(4);
+        List<BaseEntry> entries = new ArrayList<>(4);
         EntryList entryList = EntryListFactory.fromChrono(entries);
 
         int expectedSum = 0;

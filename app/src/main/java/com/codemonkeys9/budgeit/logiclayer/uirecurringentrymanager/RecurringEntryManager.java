@@ -1,10 +1,9 @@
 package com.codemonkeys9.budgeit.logiclayer.uirecurringentrymanager;
 
 import com.codemonkeys9.budgeit.database.Database;
-import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entry.Income;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.dso.entry.RecurrencePeriod;
@@ -36,7 +35,7 @@ class RecurringEntryManager implements UIRecurringEntryManager {
 
     @Override
     public int createRecurringEntry(int entryId, RecurrencePeriod recurrencePeriod) {
-        Entry entry = getEntry(entryId);
+        BaseEntry entry = getEntry(entryId);
 
         int recurringEntryId = this.idManager.getNewID("Entry");
 
@@ -58,8 +57,8 @@ class RecurringEntryManager implements UIRecurringEntryManager {
         return recurringEntryId;
     }
 
-    private Entry getEntry(int entryId){
-        Entry entry = this.db.selectDefaultEntryByID(entryId);
+    private BaseEntry getEntry(int entryId){
+        BaseEntry entry = this.db.selectDefaultEntryByID(entryId);
 
         if(entry == null){
             throw new EntryDoesNotExistException("Entry with id " + entryId + " does not exist.");

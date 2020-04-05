@@ -16,7 +16,7 @@ import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entry.Income;
 import com.codemonkeys9.budgeit.dso.entry.Purchase;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
@@ -197,7 +197,7 @@ public class IntegrationTests {
         EntryList purPastJan = fetcher.fetchAllPurchaseEntrys("2019-02-01","now");
         EntryList purBeforeApr = fetcher.fetchAllPurchaseEntrys("past","2019-03-10");
 
-        List<Entry> list = all.getChrono();
+        List<BaseEntry> list = all.getChrono();
         assertEquals(4,all.size());
 
         assertTrue(list.get(0).getAmount().getDisplay().equals("450.00"));
@@ -229,7 +229,7 @@ public class IntegrationTests {
         assertTrue(list.get(3) instanceof Income);
 
         //Check accros lists
-        List<Entry> compList = allBeforeApr.getChrono();
+        List<BaseEntry> compList = allBeforeApr.getChrono();
         assertEquals(2,compList.size());
         assertTrue(list.get(0).equals(compList.get(0)));
         assertTrue(list.get(1).equals(compList.get(1)));

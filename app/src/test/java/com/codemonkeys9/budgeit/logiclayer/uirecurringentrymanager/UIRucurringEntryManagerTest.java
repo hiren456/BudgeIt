@@ -95,21 +95,21 @@ public class UIRucurringEntryManagerTest {
     @Test
     public void createRecurringPurchaseTest(){
         when(this.db.selectDefaultEntryByID(this.purchase.getEntryID())).thenReturn(this.purchase);
-        when(this.idManager.getNewID("Entry")).thenReturn(this.recurringPurchase.getRecurringEntryID());
+        when(this.idManager.getNewID("Entry")).thenReturn(this.recurringPurchase.getEntryID());
         int id = this.manager.createRecurringEntry(this.purchase.getEntryID(),this.period);
 
         verify(this.idManager).getNewID("Entry");
 
         ArgumentCaptor<RecurringPurchase> argument = ArgumentCaptor.forClass(RecurringPurchase.class);
         verify(this.db).insertRecurringEntry(argument.capture());
-        System.out.println(argument.getValue().getRecurringEntryID());
+        System.out.println(argument.getValue().getEntryID());
         assertTrue(this.recurringPurchase.equals(argument.getValue()));
     }
 
     @Test
     public void createRecurringIncomeTest(){
         when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
-        when(this.idManager.getNewID("Entry")).thenReturn(this.recurringIncome.getRecurringEntryID());
+        when(this.idManager.getNewID("Entry")).thenReturn(this.recurringIncome.getEntryID());
         int id = this.manager.createRecurringEntry(this.income.getEntryID(),this.period);
 
         verify(this.idManager).getNewID("Entry");
@@ -139,7 +139,7 @@ public class UIRucurringEntryManagerTest {
     public void noTimePassedReccuingIncomeTest(){
         // "put" income and recurring income into the db
         when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
-        when(this.db.selectRecurringEntryByID(this.recurringIncome.getRecurringEntryID()))
+        when(this.db.selectRecurringEntryByID(this.recurringIncome.getEntryID()))
                 .thenReturn(this.recurringIncome);
         ArrayList<RecurringEntry> allRecurr = new ArrayList<RecurringEntry>(1);
         allRecurr.add(this.recurringIncome);
@@ -164,7 +164,7 @@ public class UIRucurringEntryManagerTest {
     public void noPeriodPassedRecurringIncomeTest(){
         // "put" income and recurring income into the db
         when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
-        when(this.db.selectRecurringEntryByID(this.recurringIncome.getRecurringEntryID()))
+        when(this.db.selectRecurringEntryByID(this.recurringIncome.getEntryID()))
                 .thenReturn(this.recurringIncome);
         ArrayList<RecurringEntry> allRecurr = new ArrayList<RecurringEntry>(1);
         allRecurr.add(this.recurringIncome);
@@ -202,7 +202,7 @@ public class UIRucurringEntryManagerTest {
     public void onePeriodPassedRecurringIncomeTest(){
         // "put" income and recurring income into the db
         when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
-        when(this.db.selectRecurringEntryByID(this.recurringIncome.getRecurringEntryID()))
+        when(this.db.selectRecurringEntryByID(this.recurringIncome.getEntryID()))
                 .thenReturn(this.recurringIncome);
         ArrayList<RecurringEntry> allRecurr = new ArrayList<RecurringEntry>(1);
         allRecurr.add(this.recurringIncome);
@@ -244,7 +244,7 @@ public class UIRucurringEntryManagerTest {
     public void threePeriodPassedRecurringIncomeTest(){
         // "put" income and recurring income into the db
         when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
-        when(this.db.selectRecurringEntryByID(this.recurringIncome.getRecurringEntryID()))
+        when(this.db.selectRecurringEntryByID(this.recurringIncome.getEntryID()))
                 .thenReturn(this.recurringIncome);
         ArrayList<RecurringEntry> allRecurr = new ArrayList<RecurringEntry>(1);
         allRecurr.add(this.recurringIncome);
@@ -302,7 +302,7 @@ public class UIRucurringEntryManagerTest {
     public void threePeriodsPassedButDateLastCheckedAtCurrentDateTest(){
         // "put" income and recurring income into the db
         when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
-        when(this.db.selectRecurringEntryByID(this.recurringIncome.getRecurringEntryID()))
+        when(this.db.selectRecurringEntryByID(this.recurringIncome.getEntryID()))
                 .thenReturn(this.recurringIncome);
         ArrayList<RecurringEntry> allRecurr = new ArrayList<RecurringEntry>(1);
         allRecurr.add(this.recurringIncome);
@@ -327,7 +327,7 @@ public class UIRucurringEntryManagerTest {
     public void onePeriodPassedAcrossMonthTest(){
         // "put" income and recurring income into the db
         when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
-        when(this.db.selectRecurringEntryByID(this.recurringIncome.getRecurringEntryID()))
+        when(this.db.selectRecurringEntryByID(this.recurringIncome.getEntryID()))
                 .thenReturn(this.recurringIncome);
         ArrayList<RecurringEntry> allRecurr = new ArrayList<RecurringEntry>(1);
         allRecurr.add(this.recurringIncome);
@@ -369,7 +369,7 @@ public class UIRucurringEntryManagerTest {
     public void onePeriodPassedAcrossYearTest(){
         // "put" income and recurring income into the db
         when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
-        when(this.db.selectRecurringEntryByID(this.recurringIncome.getRecurringEntryID()))
+        when(this.db.selectRecurringEntryByID(this.recurringIncome.getEntryID()))
                 .thenReturn(this.recurringIncome);
         ArrayList<RecurringEntry> allRecurr = new ArrayList<RecurringEntry>(1);
         allRecurr.add(this.recurringIncome);

@@ -8,7 +8,7 @@ import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
@@ -63,7 +63,7 @@ public class UIEntryFetcherTest {
         EntryList entryList = entryFetcher.fetchAllIncomeEntrys("1999-01-24", "now");
         assertEquals(entryList.size(),1);
 
-        Entry entry1 = entryList.getReverseChrono().get(0);
+        BaseEntry entry1 = entryList.getReverseChrono().get(0);
 
         assertTrue(amount1.equals(entry1.getAmount()));
         assertTrue(details1.equals(entry1.getDetails()));
@@ -104,9 +104,9 @@ public class UIEntryFetcherTest {
         EntryList entryList = entryFetcher.fetchAllPurchaseEntrys("1999-01-24", "now");
         assertEquals(entryList.size(),2);
 
-        List<Entry> entries = entryList.getReverseChrono();
-        Entry entry2 = entries.get(0);
-        Entry entry4 = entries.get(1);
+        List<BaseEntry> entries = entryList.getReverseChrono();
+        BaseEntry entry2 = entries.get(0);
+        BaseEntry entry4 = entries.get(1);
 
         assertTrue(amount2.equals(entry2.getAmount()));
         assertTrue(details2.equals(entry2.getDetails()));
@@ -151,10 +151,10 @@ public class UIEntryFetcherTest {
         EntryList entryList = entryFetcher.fetchAllEntrys("1999-01-24", "now");
         assertEquals(entryList.size(),3);
 
-        List<Entry> entries = entryList.getReverseChrono();
-        Entry entry1 = entries.get(2);
-        Entry entry2 = entries.get(0);
-        Entry entry4 = entries.get(1);
+        List<BaseEntry> entries = entryList.getReverseChrono();
+        BaseEntry entry1 = entries.get(2);
+        BaseEntry entry2 = entries.get(0);
+        BaseEntry entry4 = entries.get(1);
 
         assertTrue(amount1.equals(entry1.getAmount()));
         assertTrue(details1.equals(entry1.getDetails()));
@@ -202,7 +202,7 @@ public class UIEntryFetcherTest {
         EntryList entryList = entryFetcher.fetchAllIncomeEntrys("1999-01-24", "2019-01-01");
         assertEquals(entryList.size(),1);
 
-        Entry entry1 = entryList.getReverseChrono().get(0);
+        BaseEntry entry1 = entryList.getReverseChrono().get(0);
 
         assertTrue(amount1.equals(entry1.getAmount()));
         assertTrue(details1.equals(entry1.getDetails()));
@@ -243,9 +243,9 @@ public class UIEntryFetcherTest {
         EntryList entryList = entryFetcher.fetchAllPurchaseEntrys("1999-01-24", "2019-01-01");
         assertEquals(entryList.size(),2);
 
-        List<Entry> entries = entryList.getReverseChrono();
-        Entry entry2 = entries.get(0);
-        Entry entry4 = entries.get(1);
+        List<BaseEntry> entries = entryList.getReverseChrono();
+        BaseEntry entry2 = entries.get(0);
+        BaseEntry entry4 = entries.get(1);
 
         assertTrue(amount2.equals(entry2.getAmount()));
         assertTrue(details2.equals(entry2.getDetails()));
@@ -291,10 +291,10 @@ public class UIEntryFetcherTest {
         EntryList entryList = entryFetcher.fetchAllEntrys("1999-01-24", "2019-01-01");
         assertEquals(entryList.size(),3);
 
-        List<Entry> entries = entryList.getReverseChrono();
-        Entry entry1 = entries.get(2);
-        Entry entry2 = entries.get(0);
-        Entry entry4 = entries.get(1);
+        List<BaseEntry> entries = entryList.getReverseChrono();
+        BaseEntry entry1 = entries.get(2);
+        BaseEntry entry2 = entries.get(0);
+        BaseEntry entry4 = entries.get(1);
 
         assertTrue(amount1.equals(entry1.getAmount()));
         assertTrue(details1.equals(entry1.getDetails()));
@@ -342,9 +342,9 @@ public class UIEntryFetcherTest {
         EntryList entryList = entryFetcher.fetchAllIncomeEntrys();
         assertEquals(entryList.size(),2);
 
-        List<Entry> entries = entryList.getReverseChrono();
-        Entry entry1 = entries.get(0);
-        Entry entry3 = entries.get(1);
+        List<BaseEntry> entries = entryList.getReverseChrono();
+        BaseEntry entry1 = entries.get(0);
+        BaseEntry entry3 = entries.get(1);
 
         assertTrue(amount1.equals(entry1.getAmount()));
         assertTrue(details1.equals(entry1.getDetails()));
@@ -389,9 +389,9 @@ public class UIEntryFetcherTest {
         EntryList entryList = entryFetcher.fetchAllPurchaseEntrys();
         assertEquals(entryList.size(),2);
 
-        List<Entry> entries = entryList.getReverseChrono();
-        Entry entry2 = entries.get(0);
-        Entry entry4 = entries.get(1);
+        List<BaseEntry> entries = entryList.getReverseChrono();
+        BaseEntry entry2 = entries.get(0);
+        BaseEntry entry4 = entries.get(1);
 
         assertTrue(amount2.equals(entry2.getAmount()));
         assertTrue(details2.equals(entry2.getDetails()));
@@ -437,11 +437,11 @@ public class UIEntryFetcherTest {
         EntryList entryList = entryFetcher.fetchAllEntrys();
         assertEquals(entryList.size(),4);
 
-        List<Entry> entries = entryList.getReverseChrono();
-        Entry entry1 = entries.get(2);
-        Entry entry2 = entries.get(0);
-        Entry entry3 = entries.get(3);
-        Entry entry4 = entries.get(1);
+        List<BaseEntry> entries = entryList.getReverseChrono();
+        BaseEntry entry1 = entries.get(2);
+        BaseEntry entry2 = entries.get(0);
+        BaseEntry entry3 = entries.get(3);
+        BaseEntry entry4 = entries.get(1);
 
         assertTrue(amount1.equals(entry1.getAmount()));
         assertTrue(details1.equals(entry1.getDetails()));

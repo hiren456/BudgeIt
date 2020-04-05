@@ -10,6 +10,11 @@ class DefaultRecurringIncome extends DefaultRecurringEntry implements RecurringI
     }
 
     @Override
+    public int getEntryID() {
+        return 0;
+    }
+
+    @Override
     public DefaultRecurringIncome modifyEntry(Amount amount, Details details, Date date) {
         return (DefaultRecurringIncome)super.modifyEntry(amount, details, date);
     }
