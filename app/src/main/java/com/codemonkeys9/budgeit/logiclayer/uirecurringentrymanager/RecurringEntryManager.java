@@ -67,6 +67,50 @@ class RecurringEntryManager implements UIRecurringEntryManager {
         return entry;
     }
 
+    private Date getNextRecurrence(Date start, RecurrencePeriod period) {
+        int year = start.getYear() + period.getYears();
+        int month = start.getMonth() + period.getMonths();
+        int day = start.getDay() + period.getDays() + period.getWeeks() * 7;
+
+        // Correct the month
+        while (month > 12) {
+            year += 1;
+            month -= 12;
+        }
+
+        // The day doesn't matter in this context; we just need to know what the length
+        // of the month is.
+        Date recurrence = DateFactory.fromInts(year, month, 1);
+        int lengthOfMonth = recurrence.getLengthOfMonth();
+
+        // Handwavy heuristic alert: if the user entered a non-zero number of days and/or
+        // weeks in the recurrence period, and if the calculated date goes past the end of
+        // the month, we should respect the user's wishes and roll over to the next (as many
+        // times as necessary).
+        //
+        // On the other hand, if they entered 0 in both the days and weeks fields, we should
+        // clamp the date to the last of the month.
+        // Example: recurrence period 1 month, start date January 31st
+        //          first recurrence date: February 28th (or 29th on a leap year)
+        if (period.getDays() + period.getWeeks() > 0) {
+            while (day > lengthOfMonth) {
+                month += 1;
+                day -= lengthOfMonth;
+                if (month > 12) {
+                    year += 1;
+                    month -= 12;
+                }
+
+                // See above regarding the day argument
+                recurrence = DateFactory.fromInts(year, month, 1);
+                lengthOfMonth = recurrence.getLengthOfMonth();
+            }
+        } else {
+            day = Math.min(lengthOfMonth, day);
+        }
+        return DateFactory.fromInts(year, month, day);
+    }
+
     @Override
     public void checkAllRecurringEntrys() {
         Date lastChecked = db.getDateLastChecked("Recurring Entry");
@@ -75,7 +119,7 @@ class RecurringEntryManager implements UIRecurringEntryManager {
 
         List<RecurringEntry> entries = db.getAllRecurringEntries();
         for(RecurringEntry entry: entries) {
-            Date recurrence = entry.getDate().clone();
+            Date recurrence = entry.getDate();
 
             // Iterate over all recurrences between the original date and now (inclusive)
             while(recurrence.compareTo(now) <= 0) {
@@ -90,49 +134,7 @@ class RecurringEntryManager implements UIRecurringEntryManager {
                 }
 
                 // Get the next recurrence
-                RecurrencePeriod period = entry.getRecurrencePeriod();
-                int year = recurrence.getYear() + period.getYears();
-                int month = recurrence.getMonth() + period.getMonths();
-                int day = recurrence.getDay() + period.getDays() + period.getWeeks() * 7;
-
-                // Correct the month
-                while (month > 12) {
-                    year += 1;
-                    month -= 12;
-                }
-
-                // The day doesn't matter in this context; we just need to know what the length
-                // of the month is.
-                recurrence = DateFactory.fromInts(year, month, 1);
-                int lengthOfMonth = recurrence.getLengthOfMonth();
-
-                // Handwavy heuristic alert: if the user entered a non-zero number of days and/or
-                // weeks in the recurrence period, and if the calculated date goes past the end of
-                // the month, we should respect the user's wishes and roll over to the next (as many
-                // times as necessary).
-                //
-                // On the other hand, if they entered 0 in both the days and weeks fields, we should
-                // clamp the date to the last of the month.
-                // Example: recurrence period 1 month, start date January 31st
-                //          first recurrence date: February 28th (or 29th on a leap year)
-                if (period.getDays() + period.getWeeks() > 0) {
-                    while (day > lengthOfMonth) {
-                        month += 1;
-                        day -= lengthOfMonth;
-                        if (month > 12) {
-                            year += 1;
-                            month -= 12;
-                        }
-
-                        // See above regarding the day argument
-                        recurrence = DateFactory.fromInts(year, month, 1);
-                        lengthOfMonth = recurrence.getLengthOfMonth();
-                    }
-                } else {
-                    day = Math.min(lengthOfMonth, day);
-                }
-                Date oldDate = recurrence;
-                recurrence = DateFactory.fromInts(year, month, day);
+                recurrence = getNextRecurrence(recurrence, entry.getRecurrencePeriod());
             }
         }
         this.db.updateDateLastChecked("Recurring Entry",now);
