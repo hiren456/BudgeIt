@@ -36,7 +36,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryListener{
     private EntryAdapter entryAdapter;
-    private EntryVisibility visibility = EntryVisibility.Both; // defaults to all entries
+    private EntryVisibility visibility = EntryVisibility.All; // defaults to all entries
 
     // Request codes for activities that need to return data
     static final int DATE_RANGE_REQUEST = 0;
@@ -54,8 +54,9 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
     private MenuItem dateFilterToggle;
-    private MenuItem recurringExpensesItem;
-    private MenuItem recurringIncomesItem;
+    private MenuItem recurringExpensesToggle;
+    private MenuItem recurringIncomesToggle;
+    private MenuItem showAllToggle;
 
     RecyclerView recycler;
 
@@ -137,8 +138,9 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
         incomeToggle = menu.findItem(R.id.action_toggle_income);
         expensesToggle = menu.findItem(R.id.action_toggle_expenses);
         dateFilterToggle = menu.findItem(R.id.action_filter_by_date);
-        recurringExpensesItem = menu.findItem(R.id.recurring_expenses);
-        recurringIncomesItem = menu.findItem(R.id.recurring_incomes);
+        recurringExpensesToggle= menu.findItem(R.id.recurring_expenses);
+        recurringIncomesToggle = menu.findItem(R.id.recurring_incomes);
+        showAllToggle = menu.findItem(R.id.recurring_all);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -146,8 +148,9 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
     public void onPrepareOptionsMenu(Menu menu) {
         incomeToggle.setVisible(true);
         expensesToggle.setVisible(true);
-        recurringIncomesItem.setVisible(true);
-        recurringExpensesItem.setVisible(true);
+        recurringIncomesToggle.setVisible(true);
+        recurringExpensesToggle.setVisible(true);
+        showAllToggle.setVisible(false);
 
         if(visibility.isIncomeVisible()) {
             incomeToggle.setTitle(getString(R.string.action_hide_income));
@@ -167,6 +170,14 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
             }
         } else {
             expensesToggle.setTitle(getString(R.string.action_show_expenses));
+        }
+
+        if(visibility.isOnlyRecurringVisible()){
+            showAllToggle.setVisible(true);
+            incomeToggle.setVisible(false);
+            expensesToggle.setVisible(false);
+            recurringIncomesToggle.setVisible(false);
+            recurringExpensesToggle.setVisible(false);
         }
 
         if(hasDateFilter) {
@@ -213,14 +224,16 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
         }
 
         if(id == R.id.recurring_incomes){
-            Intent i = new Intent(getContext(), RecurringEntriesActivity.class);
-            i.putExtra("mode", "income");
-            startActivity(i);
+            visibility = visibility.getRecurringIncome();
+            refreshTimeline();
         }
         if(id == R.id.recurring_expenses){
-            Intent i = new Intent(getContext(), RecurringEntriesActivity.class);
-            i.putExtra("mode", "expenses");
-            startActivity(i);
+            visibility = visibility.getRecurringExpenses();
+            refreshTimeline();
+        }
+        if(id == R.id.recurring_all){
+            visibility = visibility.getAll();
+            refreshTimeline();
         }
 
         return super.onOptionsItemSelected(item);
@@ -325,9 +338,14 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
             case Expenses:
                 this.entries = entryFetcher.fetchAllPurchaseEntrys(startDate,endDate);
                 break;
-            case Both:
-                this.entries = entryFetcher.fetchAllEntrys(startDate,endDate);
+            case RecurringExpenses:
+                this.entries = entryFetcher.fetchAllRecurringExpenses();
                 break;
+            case RecurringIncome:
+                this.entries = entryFetcher.fetchAllRecurringIncomes();
+                break;
+            default:
+                this.entries = entryFetcher.fetchAllEntrys(startDate, endDate);
         }
         entryAdapter.updateEntries(this.entries.getReverseChrono());
     }

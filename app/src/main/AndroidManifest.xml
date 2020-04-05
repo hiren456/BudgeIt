@@ -11,11 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.RecurringEntriesActivity"
-            android:fitsSystemWindows="true"
-            android:parentActivityName=".ui.MainActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".ui.CategoryViewActivity"
             android:fitsSystemWindows="true"
             android:parentActivityName=".ui.MainActivity"

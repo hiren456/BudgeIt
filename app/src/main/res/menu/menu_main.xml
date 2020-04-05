@@ -27,5 +27,10 @@
         android:orderInCategory="100"
         android:title="@string/show_all_recurring_incomes"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/recurring_all"
+        android:orderInCategory="100"
+        android:title="@string/show_all"
+        app:showAsAction="never" />
 
 </menu>

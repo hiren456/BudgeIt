@@ -3,7 +3,9 @@ package com.codemonkeys9.budgeit.ui;
 enum EntryVisibility {
     Income,
     Expenses,
-    Both;
+    RecurringIncome,
+    RecurringExpenses,
+    All;
 
     // Shows or hides income
     public EntryVisibility toggleIncome() {
@@ -11,8 +13,8 @@ enum EntryVisibility {
             case Income:
                 throw new IllegalStateException("Can't hide everything!");
             case Expenses:
-                return Both;
-            case Both:
+                return All;
+            case All:
                 return Expenses;
         }
         // This return is here because Java is too dumb to realize I already handled all the cases
@@ -26,8 +28,8 @@ enum EntryVisibility {
             case Expenses:
                 throw new IllegalStateException("Can't hide everything!");
             case Income:
-                return Both;
-            case Both:
+                return All;
+            case All:
                 return Income;
         }
         // This return is here because Java is too dumb to realize I already handled all the cases
@@ -35,11 +37,24 @@ enum EntryVisibility {
         return null;
     }
 
+    public EntryVisibility getRecurringIncome(){
+        return RecurringIncome;
+    }
+    public EntryVisibility getRecurringExpenses(){
+        return RecurringExpenses;
+    }
+    public EntryVisibility getAll(){
+        return All;
+    }
+
     public boolean isIncomeVisible() {
-        return this == Income || this == Both;
+        return this == Income || this == All;
     }
 
     public boolean areExpensesVisible() {
-        return this == Expenses || this == Both;
+        return this == Expenses || this == All;
     }
+
+    public boolean isOnlyRecurringVisible() { return this == RecurringIncome || this == RecurringExpenses; }
+
 }
