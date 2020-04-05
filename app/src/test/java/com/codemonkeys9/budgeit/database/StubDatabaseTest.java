@@ -23,7 +23,7 @@ public class StubDatabaseTest extends DatabaseTest{
 
     @Override
     @Test
-    public void updateDateLastCheckedForRecurringTest(){
+    public void updateDateLastCheckedForRecurringTest() {
         // This functionality is unneeded in the stub as
         // the tests that use it use mockito
     }
@@ -34,4 +34,5 @@ public class StubDatabaseTest extends DatabaseTest{
         // This functionality is unneeded in the stub as
         // the tests that use it use mockito
     }
+
 }

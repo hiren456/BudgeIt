@@ -6,7 +6,7 @@ import com.codemonkeys9.budgeit.dso.details.Details;
 
 public interface RecurringEntry extends BaseEntry {
     // getters
-    int getRecurringEntryID();
+    int getEntryID();
     RecurrencePeriod getRecurrencePeriod();
 
     RecurringEntry modifyEntry(Amount amount, Details details, Date startDate);

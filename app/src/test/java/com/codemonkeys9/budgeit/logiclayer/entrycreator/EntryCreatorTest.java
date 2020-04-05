@@ -11,7 +11,7 @@ import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateIntervalFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.exceptions.FutureDateException;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManagerFactory;
@@ -63,10 +63,10 @@ public class EntryCreatorTest {
                 details1, date1);
 
         DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        List<Entry> entryList = database.selectDefaultEntriesByDate(interval);
+        List<BaseEntry> entryList = database.selectDefaultEntriesByDate(interval);
         assertEquals(entryList.size(),1);
 
-        Entry entry1 = entryList.get(0);
+        BaseEntry entry1 = entryList.get(0);
 
         assertTrue(amount1.equals(entry1.getAmount()));
         assertTrue(details1.equals(entry1.getDetails()));
@@ -97,12 +97,12 @@ public class EntryCreatorTest {
                 details3, date3);
 
         DateInterval interval = DateIntervalFactory.fromString("past", "now");
-        List<Entry> entryList = database.selectDefaultEntriesByDate(interval);
+        List<BaseEntry> entryList = database.selectDefaultEntriesByDate(interval);
         assertEquals(entryList.size(),3);
 
-        Entry entry1 = entryList.get(1);
-        Entry entry2 = entryList.get(2);
-        Entry entry3 = entryList.get(0);
+        BaseEntry entry1 = entryList.get(1);
+        BaseEntry entry2 = entryList.get(2);
+        BaseEntry entry3 = entryList.get(0);
 
         assertTrue(amount1.equals(entry1.getAmount()));
         assertTrue(details1.equals(entry1.getDetails()));

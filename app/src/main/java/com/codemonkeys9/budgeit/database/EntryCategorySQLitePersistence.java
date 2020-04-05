@@ -17,6 +17,7 @@ import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.EntryDateComparator;
 import com.codemonkeys9.budgeit.dso.entry.Income;
@@ -306,7 +307,7 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
     Update the entry
     return true if the entry is found in the database and then updated, otherwise return false
      */
-    public boolean updateDefaultEntry(Entry entry){
+    public boolean updateDefaultEntry(BaseEntry entry){
         //get the db
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -405,9 +406,9 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
     return a list of all entries ordered by date
     or an empty list if db is empty
      */
-    public List<Entry> getAllDefaultEntries(){
-        Entry entry = null;
-        ArrayList<Entry> entryList = new ArrayList<Entry>();
+    public List<BaseEntry> getAllDefaultEntries(){
+        BaseEntry entry = null;
+        ArrayList<BaseEntry> entryList = new ArrayList<>();
 
         String sql = "SELECT * FROM " + DEFAULT_ENTRY_TABLE + " ORDER BY " + DEFAULT_ENTRY_DATE; //prepare query
 
@@ -460,9 +461,9 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
     returns the list of entries from that fall within the dateInterval
     returns empty list if the are no entries ordered by date
      */
-    public List<Entry> selectDefaultEntriesByDate(DateInterval dateInterval){
-        Entry entry = null;
-        ArrayList<Entry> entryList = new ArrayList<Entry>();
+    public List<BaseEntry> selectDefaultEntriesByDate(DateInterval dateInterval){
+        BaseEntry entry = null;
+        ArrayList<BaseEntry> entryList = new ArrayList<>();
 
         Date startDate = dateInterval.getStart();
         Date endDate = dateInterval.getEnd();
@@ -529,13 +530,13 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
     and by category specified category ID, returns empty list if the are no entries
      */
     @Override
-    public List<Entry> selectDefaultEntriesByDateAndCategoryID(DateInterval dateInterval, int catID){
+    public List<BaseEntry> selectDefaultEntriesByDateAndCategoryID(DateInterval dateInterval, int catID){
         // find all entries that fall within date interval
-        List<Entry> entryByDateList = this.selectDefaultEntriesByDate(dateInterval);
-        ArrayList<Entry> returnList = new ArrayList<Entry>();
+        List<BaseEntry> entryByDateList = this.selectDefaultEntriesByDate(dateInterval);
+        ArrayList<BaseEntry> returnList = new ArrayList<>();
 
         // find all entries with the same category ID
-        for ( Entry entry : entryByDateList){
+        for ( BaseEntry entry : entryByDateList){
             if (entry.getCatID() == catID){
                 returnList.add(entry);
             }
@@ -550,9 +551,9 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
     return a list of entries ordered by the date with the same category ID
     or an empty list if there are no such entries
      */
-    public List<Entry> getDefaultEntriesByCategoryID(int ID){
-        Entry entry = null;
-        ArrayList<Entry> listOfEntries = new ArrayList<Entry>();
+    public List<BaseEntry> getDefaultEntriesByCategoryID(int ID){
+        BaseEntry entry = null;
+        ArrayList<BaseEntry> listOfEntries = new ArrayList<>();
 
         //get the default id of category
         IDManager manager = IDManagerFactory.createIDManager();
@@ -605,6 +606,7 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
 
         // delete the entry with ID from the db
         int num = db.delete(DEFAULT_ENTRY_TABLE, DEFAULT_ENTRY_ID + "=" + ID, null);
+        if(num <= 0) num = db.delete(RECURRING_ENTRY_TABLE, RECURRING_ENTRY_ID + "=" + ID, null);
         db.close();
 
         return num > 0;
@@ -651,7 +653,7 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
             values.put(CAT_ID, catID);
         }
 
-        values.put(RECURRING_ENTRY_ID, entry.getRecurringEntryID());
+        values.put(RECURRING_ENTRY_ID, entry.getEntryID());
         values.put(RECURRING_ENTRY_AMOUNT, entry.getAmount().getValue());
         values.put(RECURRING_ENTRY_DETAILS, entry.getDetails().getValue());
         values.put(RECURRING_ENTRY_TYPE, type);
@@ -802,7 +804,7 @@ public class EntryCategorySQLitePersistence extends SQLiteOpenHelper implements 
 
         // update this entry in the db
         int num = db.update(RECURRING_ENTRY_TABLE, values, RECURRING_ENTRY_ID + "=?",
-                new String[]{String.valueOf(entry.getRecurringEntryID()) });
+                new String[]{String.valueOf(entry.getEntryID()) });
         db.close();
 
         return num > 0;

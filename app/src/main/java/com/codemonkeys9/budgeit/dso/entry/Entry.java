@@ -5,8 +5,6 @@ import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.details.Details;
 
 public interface Entry extends BaseEntry {
-    // getters
-    int getEntryID();
 
     @Override
     Entry modifyEntry(Amount amount,Details details, Date date);

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codemonkeys9.budgeit.R;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entrylist.EntryList;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
 import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
@@ -54,6 +54,8 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
     private MenuItem incomeToggle;
     private MenuItem expensesToggle;
     private MenuItem dateFilterToggle;
+    private MenuItem recurringExpensesItem;
+    private MenuItem recurringIncomesItem;
 
     RecyclerView recycler;
 
@@ -135,6 +137,8 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
         incomeToggle = menu.findItem(R.id.action_toggle_income);
         expensesToggle = menu.findItem(R.id.action_toggle_expenses);
         dateFilterToggle = menu.findItem(R.id.action_filter_by_date);
+        recurringExpensesItem = menu.findItem(R.id.recurring_expenses);
+        recurringIncomesItem = menu.findItem(R.id.recurring_incomes);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -142,6 +146,8 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
     public void onPrepareOptionsMenu(Menu menu) {
         incomeToggle.setVisible(true);
         expensesToggle.setVisible(true);
+        recurringIncomesItem.setVisible(true);
+        recurringExpensesItem.setVisible(true);
 
         if(visibility.isIncomeVisible()) {
             incomeToggle.setTitle(getString(R.string.action_hide_income));
@@ -206,6 +212,17 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
             return true;
         }
 
+        if(id == R.id.recurring_incomes){
+            Intent i = new Intent(getContext(), RecurringEntriesActivity.class);
+            i.putExtra("mode", "income");
+            startActivity(i);
+        }
+        if(id == R.id.recurring_expenses){
+            Intent i = new Intent(getContext(), RecurringEntriesActivity.class);
+            i.putExtra("mode", "expenses");
+            startActivity(i);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -217,7 +234,7 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
         this.recurringEntryManager = UIRecurringEntryManagerFactory.createUIReccuringEntryManager();
         this.entryFetcher = UIEntryFetcherFactory.createUIEntryFetcher();
         this.entries = entryFetcher.fetchAllEntrys();
-        List<Entry> entryList = entries.getReverseChrono();
+        List<BaseEntry> entryList = entries.getReverseChrono();
 
         if(entryList.isEmpty()) {
             UICategoryCreator categoryCreator = UICategoryCreatorFactory.createUICategoryCreator();
@@ -236,8 +253,7 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
             ADD_FAKE_DATA:
             for (int year = 2018; year <= 2020; year++) {
                 for (int month = 1; month <= 12; month++) {
-                    if (year == 2020 && month > 3) break;
-                    if (year == 2020 && month > 2) break ADD_FAKE_DATA;
+                    if (year == 2020 && month > 4) break ADD_FAKE_DATA;
                     // ensures that month has two digits
                     String monthString;
                     if (month < 10) {
@@ -257,22 +273,27 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
                             dayString = "" + day;
                         }
 
-                        int entry = entryManager.createEntry("50", "Gas", year + "-" + monthString + "-" + dayString, true);
-                        entryCategorizer.categorizeEntry(entry, transportation);
+                        if(year < 2020 || day < 6) {
+                            int entry = entryManager.createEntry("50", "Gas", year + "-" + monthString + "-" + dayString, true);
+                            entryCategorizer.categorizeEntry(entry, transportation);
+                        }
                     }
                     // Paycheck every two weeks-ish
                     int pay1 = entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-01", false);
-                    int pay2 = entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15", false);
                     entryCategorizer.categorizeEntry(pay1, income);
-                    entryCategorizer.categorizeEntry(pay2, income);
 
-                    int what = entryManager.createEntry(
-                            "120",
-                            "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
-                            year + "-" + monthString + "-13",
-                            true
-                    );
-                    entryCategorizer.categorizeEntry(what, misc);
+                    if(year < 2020) {
+                        int pay2 = entryManager.createEntry("1000", "Paycheck", year + "-" + monthString + "-15", false);
+                        entryCategorizer.categorizeEntry(pay2, income);
+
+                        int what = entryManager.createEntry(
+                                "120",
+                                "Something with an extremely, exceptionally, extraordinarily, staggeringly, shockingly, positively supercalifragilisticexpialidociously long description",
+                                year + "-" + monthString + "-13",
+                                true
+                        );
+                        entryCategorizer.categorizeEntry(what, misc);
+                    }
                 }
             }
             entries = entryFetcher.fetchAllEntrys();

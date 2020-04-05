@@ -17,4 +17,15 @@
         android:orderInCategory="100"
         android:title="@string/action_filter_by_date"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/recurring_expenses"
+        android:orderInCategory="100"
+        android:title="@string/show_all_recurring_expenses"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/recurring_incomes"
+        android:orderInCategory="100"
+        android:title="@string/show_all_recurring_incomes"
+        app:showAsAction="never" />
+
 </menu>

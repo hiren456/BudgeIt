@@ -3,6 +3,7 @@ package com.codemonkeys9.budgeit.database;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.dateinterval.DateInterval;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.RecurringEntry;
 
@@ -31,38 +32,38 @@ public interface Database {
     Update the default entry
     return true if the entry is found in the database and then updated, otherwise return false
      */
-    boolean updateDefaultEntry(Entry entry);
+    boolean updateDefaultEntry(BaseEntry entry);
 
     /*
     return a default entry by ID
     if not found returns null
      */
-    Entry selectDefaultEntryByID(int ID);
+    BaseEntry selectDefaultEntryByID(int ID);
 
     /*
     return a list of all default entries sorted by date
     or an empty list if db is empty
      */
-    List<Entry> getAllDefaultEntries();
+    List<BaseEntry> getAllDefaultEntries();
 
     /*
     returns the list of default entries from that fall within the dateInterval
     returns empty list if the are no entries
      */
-    List<Entry> selectDefaultEntriesByDate(DateInterval dateInterval);
+    List<BaseEntry> selectDefaultEntriesByDate(DateInterval dateInterval);
 
 
     /*
     returns the list of default entries from that fall within the dateInterval
     and by category specified category ID, returns empty list if the are no entries
      */
-    List<Entry> selectDefaultEntriesByDateAndCategoryID(DateInterval dateInterval, int catID);
+    List<BaseEntry> selectDefaultEntriesByDateAndCategoryID(DateInterval dateInterval, int catID);
 
     /*
     return a list of default entries sorted by the date with the same category ID
     or an empty list if there are no such entries
      */
-    List<Entry> getDefaultEntriesByCategoryID(int ID);
+    List<BaseEntry> getDefaultEntriesByCategoryID(int ID);
 
     /*
     delete a default entry and return true if the entry deleted successfully,

@@ -53,7 +53,6 @@ public class NewEntryActivity extends AppCompatActivity {
         categoryFetcher = UICategoryFetcherFactory.createUICategoryFetcher();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entry);
-
         Button submitButton = findViewById(R.id.button_submit);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,7 +1,5 @@
 package com.codemonkeys9.budgeit.logiclayer.uientrymanager;
 
-import android.provider.ContactsContract;
-
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.dso.amount.Amount;
@@ -10,6 +8,7 @@ import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.exceptions.CategoryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
@@ -36,7 +35,7 @@ class DefaultUIEntryManager implements UIEntryManager {
     }
 
     @Override
-    public void deleteEntry(Entry entry) throws EntryDoesNotExistException {
+    public void deleteEntry(BaseEntry entry) throws EntryDoesNotExistException {
         deleteEntry(entry.getEntryID());
     }
 
@@ -84,7 +83,7 @@ class DefaultUIEntryManager implements UIEntryManager {
     }
 
     @Override
-    public void flagPurchase(Entry entry, boolean flag) throws PurchaseDoesNotExistException {
+    public void flagPurchase(BaseEntry entry, boolean flag) throws PurchaseDoesNotExistException {
         flagger.flagPurchase(entry.getEntryID(),flag);
     }
 
@@ -97,7 +96,7 @@ class DefaultUIEntryManager implements UIEntryManager {
     }
 
     @Override
-    public void changeName(Entry entry, Details newDetails) throws EntryDoesNotExistException {
+    public void changeName(BaseEntry entry, Details newDetails) throws EntryDoesNotExistException {
         this.changeName(entry.getEntryID(),newDetails);
     }
 
@@ -110,7 +109,7 @@ class DefaultUIEntryManager implements UIEntryManager {
     }
 
     @Override
-    public void changeDate(Entry entry, Date newDate) throws EntryDoesNotExistException {
+    public void changeDate(BaseEntry entry, Date newDate) throws EntryDoesNotExistException {
         this.changeDate(entry.getEntryID(),newDate);
     }
 
@@ -123,12 +122,12 @@ class DefaultUIEntryManager implements UIEntryManager {
     }
 
     @Override
-    public void changeAmount(Entry entry, Amount newAmount) throws EntryDoesNotExistException {
+    public void changeAmount(BaseEntry entry, Amount newAmount) throws EntryDoesNotExistException {
         this.changeAmount(entry.getEntryID(),newAmount);
     }
 
     private Entry getEntry(int id){
-        Entry entry = db.selectDefaultEntryByID(id);
+        Entry entry = (Entry)db.selectDefaultEntryByID(id);
 
         if(entry == null){
             throw new EntryDoesNotExistException("Entry with id "+ id + " does not exist");

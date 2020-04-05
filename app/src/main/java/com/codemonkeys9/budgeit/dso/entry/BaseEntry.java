@@ -12,6 +12,7 @@ public interface BaseEntry {
     int getCatID();
     Details getDetails();
     Date getDate();
+    int getEntryID();
 
     BaseEntry modifyEntry(Amount amount, Details details, Date date);
     BaseEntry changeCategory(int catID);

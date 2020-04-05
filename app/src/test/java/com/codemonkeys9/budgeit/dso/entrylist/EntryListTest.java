@@ -6,6 +6,7 @@ import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
 import com.codemonkeys9.budgeit.dso.entry.IncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.PurchaseFactory;
@@ -27,7 +28,7 @@ public class EntryListTest {
         int catID1 = 23;
         Details details1 = DetailsFactory.fromString("Some letters put next to eachother");
         Date date1 = DateFactory.fromInts(2001,7,7);
-        Entry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
+        BaseEntry entry1 = IncomeFactory.createIncome(amount1,entryID1,details1,date1,catID1);
 
         //Create valid Entry2
         Amount amount2 = AmountFactory.fromInt(520);
@@ -35,7 +36,7 @@ public class EntryListTest {
         int catID2 = 24;
         Details details2 = DetailsFactory.fromString("Some letters put next to eachother again");
         Date date2 = DateFactory.fromInts(2001,11,7);
-        Entry entry2 = IncomeFactory.createIncome(amount2,entryID2,details2,date2,catID2);
+        BaseEntry entry2 = IncomeFactory.createIncome(amount2,entryID2,details2,date2,catID2);
 
         //Create valid Entry3
         Amount amount3 = AmountFactory.fromInt(604);
@@ -43,7 +44,7 @@ public class EntryListTest {
         int catID3 = 25;
         Details details3 = DetailsFactory.fromString("I am running out of ideas");
         Date date3 = DateFactory.fromInts(2009,7,6);
-        Entry entry3 = IncomeFactory.createIncome(amount3,entryID3,details3,date3,catID3);
+        BaseEntry entry3 = IncomeFactory.createIncome(amount3,entryID3,details3,date3,catID3);
 
         //Create valid Entry4
         Amount amount4 = AmountFactory.fromInt(724);
@@ -51,9 +52,9 @@ public class EntryListTest {
         int catID4 = 26;
         Details details4 = DetailsFactory.fromString("Ender's game is an interesting book");
         Date date4 = DateFactory.fromInts(2009,7,7);
-        Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
+        BaseEntry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
-        LinkedList<Entry> ll = new LinkedList<Entry>();
+        LinkedList<BaseEntry> ll = new LinkedList<>();
         ll.add(entry1);
         ll.add(entry2);
         ll.add(entry3);
@@ -61,7 +62,7 @@ public class EntryListTest {
 
         EntryList entryList = EntryListFactory.fromChrono(ll);
 
-        List<Entry> chrono = entryList.getChrono();
+        List<BaseEntry> chrono = entryList.getChrono();
 
         assertTrue(ll.get(0).equals(chrono.get(0)));
         assertTrue(ll.get(1).equals(chrono.get(1)));
@@ -103,7 +104,7 @@ public class EntryListTest {
         Date date4 = DateFactory.fromInts(2009,7,7);
         Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
-        LinkedList<Entry> ll = new LinkedList<Entry>();
+        LinkedList<BaseEntry> ll = new LinkedList<>();
         ll.add(entry1);
         ll.add(entry2);
         ll.add(entry3);
@@ -111,7 +112,7 @@ public class EntryListTest {
 
         EntryList entryList = EntryListFactory.fromChrono(ll);
 
-        List<Entry> reverseChrono = entryList.getReverseChrono();
+        List<BaseEntry> reverseChrono = entryList.getReverseChrono();
 
         assertTrue(ll.get(0).equals(reverseChrono.get(3)));
         assertTrue(ll.get(1).equals(reverseChrono.get(2)));
@@ -153,7 +154,7 @@ public class EntryListTest {
         Date date4 = DateFactory.fromInts(2009,7,7);
         Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
-        LinkedList<Entry> ll = new LinkedList<Entry>();
+        LinkedList<BaseEntry> ll = new LinkedList<>();
         ll.add(entry1);
         ll.add(entry2);
         ll.add(entry3);
@@ -199,7 +200,7 @@ public class EntryListTest {
         Date date4 = DateFactory.fromInts(2009,7,7);
         Entry entry4 = PurchaseFactory.createPurchase(amount4,entryID4,details4,date4,catID4);
 
-        LinkedList<Entry> ll = new LinkedList<Entry>();
+        LinkedList<BaseEntry> ll = new LinkedList<>();
         ll.add(entry1);
         ll.add(entry2);
         ll.add(entry3);

@@ -3,7 +3,7 @@ package com.codemonkeys9.budgeit.logiclayer.uientrymanager;
 import com.codemonkeys9.budgeit.dso.amount.Amount;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.details.Details;
-import com.codemonkeys9.budgeit.dso.entry.Entry;
+import com.codemonkeys9.budgeit.dso.entry.BaseEntry;
 import com.codemonkeys9.budgeit.exceptions.CategoryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.FutureDateException;
@@ -18,7 +18,7 @@ public interface UIEntryManager {
     If the entry was not found in the database a
     EntryDoesNotExistException will be thrown
      */
-    void deleteEntry(Entry entry)
+    void deleteEntry(BaseEntry entry)
             throws EntryDoesNotExistException;
     void deleteEntry(int entryID)
             throws EntryDoesNotExistException;
@@ -54,21 +54,21 @@ public interface UIEntryManager {
      */
     void flagPurchase(int id,boolean flag)
             throws PurchaseDoesNotExistException;
-    void flagPurchase(Entry entry, boolean flag)
+    void flagPurchase(BaseEntry entry, boolean flag)
             throws PurchaseDoesNotExistException;
 
     void changeName(int id, Details newDetails)
             throws EntryDoesNotExistException;
-    void changeName(Entry entry, Details newDetails)
+    void changeName(BaseEntry entry, Details newDetails)
             throws EntryDoesNotExistException;
 
     void changeDate(int id, Date newDate)
             throws EntryDoesNotExistException;
-    void changeDate(Entry entry, Date newDate)
+    void changeDate(BaseEntry entry, Date newDate)
             throws EntryDoesNotExistException;
 
     void changeAmount(int id, Amount newAmount)
             throws EntryDoesNotExistException;
-    void changeAmount(Entry entry, Amount newAmount)
+    void changeAmount(BaseEntry entry, Amount newAmount)
             throws EntryDoesNotExistException;
 }
