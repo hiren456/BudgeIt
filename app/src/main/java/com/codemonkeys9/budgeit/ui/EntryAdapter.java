@@ -23,12 +23,6 @@ import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 import java.util.List;
 
 final class EntryAdapter extends ListAdapter<BaseEntry, EntryAdapter.ViewHolder> {
-    private EntryAdapter.OnEntryListener onEntryListener;
-
-    public interface OnEntryListener{
-        void onEntryClick(int position);
-    }
-
     final static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         TextView description;
         TextView amount;

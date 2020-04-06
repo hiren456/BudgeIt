@@ -34,7 +34,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryListener{
+public class EntriesFragment extends Fragment {
     private EntryAdapter entryAdapter;
     private EntryVisibility visibility = EntryVisibility.All; // defaults to all entries
 
@@ -391,11 +391,5 @@ public class EntriesFragment extends Fragment implements EntryAdapter.OnEntryLis
         entryAdapter.onContextItemSelected(getContext(), entryId, buttonId);
         refreshTimeline();
         return true;
-    }
-
-
-    @Override
-    public void onEntryClick(int position) {
-        //do nothing
     }
 }
