@@ -11,10 +11,13 @@ import com.codemonkeys9.budgeit.dso.entry.RecurringEntry;
 import com.codemonkeys9.budgeit.dso.entry.RecurringIncomeFactory;
 import com.codemonkeys9.budgeit.dso.entry.RecurringPurchase;
 import com.codemonkeys9.budgeit.dso.entry.RecurringPurchaseFactory;
+import com.codemonkeys9.budgeit.exceptions.CategoryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreator;
 import com.codemonkeys9.budgeit.logiclayer.entrycreator.EntryCreatorFactory;
 import com.codemonkeys9.budgeit.logiclayer.idmanager.IDManager;
+import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizer;
+import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizerFactory;
 
 import java.util.List;
 import java.util.Timer;
@@ -25,12 +28,14 @@ class RecurringEntryManager implements UIRecurringEntryManager {
     Database db;
     EntryCreator entryCreator;
     DateSource dateSource;
+    UIEntryCategorizer entryCategorizer;
 
     public RecurringEntryManager(IDManager idManager, Database db, DateSource dateSource){
         this.idManager = idManager;
         this.db = db;
         this.entryCreator = EntryCreatorFactory.createEntryCreator(idManager);
         this.dateSource = dateSource;
+        this.entryCategorizer = UIEntryCategorizerFactory.createUIEntryCategorizer();
     }
 
     @Override
@@ -121,11 +126,18 @@ class RecurringEntryManager implements UIRecurringEntryManager {
     }
 
     private void addRecurrence(RecurringEntry entry, Date recurrence) {
+        int id = 0;
         if (entry instanceof RecurringPurchase) {
             RecurringPurchase purchase = (RecurringPurchase) entry;
-            this.entryCreator.createPurchase(entry.getAmount(), entry.getDetails(), recurrence.clone(), purchase.flagged());
+            id = this.entryCreator.createPurchase(entry.getAmount(), entry.getDetails(), recurrence.clone(), purchase.flagged());
         } else {
-            this.entryCreator.createIncome(entry.getAmount(), entry.getDetails(), recurrence.clone());
+            id = this.entryCreator.createIncome(entry.getAmount(), entry.getDetails(), recurrence.clone());
+        }
+        try {
+            this.entryCategorizer.categorizeEntry(id, entry.getCatID());
+        } catch(CategoryDoesNotExistException e) {
+            // HACK: If the category that we try to add doesn't exist, that means the entry doesn't
+            // have a category. Meaning we don't want to add it anyway. So just do nothing.
         }
     }
 

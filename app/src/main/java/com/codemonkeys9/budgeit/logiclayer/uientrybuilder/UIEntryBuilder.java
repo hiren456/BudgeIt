@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.logiclayer.UIEntryBuilder;
+package com.codemonkeys9.budgeit.logiclayer.uientrybuilder;
 
 public interface UIEntryBuilder {
 

@@ -19,8 +19,8 @@ import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
-import com.codemonkeys9.budgeit.logiclayer.UIEntryBuilder.UIEntryBuilder;
-import com.codemonkeys9.budgeit.logiclayer.UIEntryBuilder.UIEntryBuilderFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientrybuilder.UIEntryBuilder;
+import com.codemonkeys9.budgeit.logiclayer.uientrybuilder.UIEntryBuilderFactory;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
 
