@@ -7,11 +7,13 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.exceptions.InvalidAmountException;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
 import com.codemonkeys9.budgeit.ui.testutils.ToastMatcher;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +43,12 @@ public class SavingsCategoryTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+    @Before
+    public void prepDB(){
+        DatabaseHolder.getDatabase().clean();
+        DatabaseHolder.init();
+    }
+
     @After
     public void waitForToastToDisapear(){
         try {
@@ -67,16 +75,16 @@ public class SavingsCategoryTest {
 
         // check to make sure that the category appears on the screen with
         // the proper fields
-        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),2)).
+        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(1),2)).
                 check(matches(withText("6000.00")));
-        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),2)).
+        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(1),2)).
                 check(matches(textViewTextColorMatcher(0xFF00AA00)));
-        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),0)).
+        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(1),0)).
                 check(matches(withText("Car")));
 
         // delete the category we made
         onView(withId(R.id.category_recycler)).
-                perform(RecyclerViewActions.actionOnItemAtPosition(0,longClick()));
+                perform(RecyclerViewActions.actionOnItemAtPosition(1,longClick()));
         onView(withText("Delete")).perform(click());
     }
 

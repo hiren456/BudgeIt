@@ -96,6 +96,9 @@ public class UIRucurringEntryManagerTest {
     public void createRecurringPurchaseTest(){
         when(this.db.selectDefaultEntryByID(this.purchase.getEntryID())).thenReturn(this.purchase);
         when(this.idManager.getNewID("Entry")).thenReturn(this.recurringPurchase.getEntryID());
+        // Today is 2019-04-01
+        Date now = DateFactory.fromString("2019-04-01");
+        when(this.dateSource.now()).thenReturn(now);
         int id = this.manager.createRecurringEntry(this.purchase.getEntryID(),this.period);
 
         verify(this.idManager).getNewID("Entry");
@@ -110,6 +113,9 @@ public class UIRucurringEntryManagerTest {
     public void createRecurringIncomeTest(){
         when(this.db.selectDefaultEntryByID(this.income.getEntryID())).thenReturn(this.income);
         when(this.idManager.getNewID("Entry")).thenReturn(this.recurringIncome.getEntryID());
+        // Today is 2019-04-01
+        Date now = DateFactory.fromString("2019-04-01");
+        when(this.dateSource.now()).thenReturn(now);
         int id = this.manager.createRecurringEntry(this.income.getEntryID(),this.period);
 
         verify(this.idManager).getNewID("Entry");

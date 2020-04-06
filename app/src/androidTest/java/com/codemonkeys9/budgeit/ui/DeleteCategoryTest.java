@@ -7,7 +7,17 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.database.DatabaseHolder;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizer;
+import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizerFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
+import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,8 +45,13 @@ public class DeleteCategoryTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+    public void prepDB(){
+        DatabaseHolder.getDatabase().clean();
+        DatabaseHolder.init();
+    }
     @Before
     public void createCatToDelete(){
+        prepDB();
         // move to category tab
         onView(withText("Categories")).perform(click());
 
@@ -54,11 +69,11 @@ public class DeleteCategoryTest {
     @Test
     public void deleteCategoryTest() {
         // delete the entry that was made
-        onView(withId(R.id.category_recycler)).perform(RecyclerViewActions.actionOnItemAtPosition(0,longClick()));
+        onView(withId(R.id.category_recycler)).perform(RecyclerViewActions.actionOnItemAtPosition(1,longClick()));
         onView(withText("Delete")).perform(click());
 
         // check that the entry made is no longer at the top
-        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(0),0)).
+        onView(childAtPosition(withRecyclerView(R.id.category_recycler).atPosition(1),0)).
                 check(matches(withText("Transportation")));
     }
 }
