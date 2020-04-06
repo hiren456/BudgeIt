@@ -17,7 +17,7 @@ We have added four new interfaces to the logic layer in iteration 3.
 
 The UIRecurringEntryManager creates new recurring entries, checks for recurring entries that will be due and schedule them to be posted. It also uses DateSource that gives detailed time upto milliseconds at the moment.
 
-The UICategoryColourizer and UIEntryColourizer gives the visual effects that helps indicate whether its on the good side(wrt to the budget set by the user) or the bad side. It gets the colour of the amount field and the colour of the monthly progress bar.
+The UICategoryColourizer and UIEntryColourizer gives the visual effects that helps indicate whether its on the good side(with respect to the budget set by the user) or the bad side. It gets the colour of the amount field and the colour of the monthly progress bar.
 
 The UIEntryBuilder builds a basic entry and adds any modifications to it, if needed e.g make it a recurring entry.
 

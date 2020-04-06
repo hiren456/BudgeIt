@@ -129,7 +129,7 @@ public class UIEntryCalculatorTest {
 
         Amount amount = entryCalculator.calculateTotalPurchases("1999-02-01", "2000-03-23");
 
-        assertTrue(amount.getDisplay().equals(".00"));
+        assertTrue(amount.getDisplay().equals("-30000.00"));
     }
 
     @Test
@@ -165,7 +165,7 @@ public class UIEntryCalculatorTest {
 
         Amount amount = entryCalculator.calculateTotalPurchases();
 
-        assertTrue(amount.getDisplay().equals(".00"));
+        assertTrue(amount.getDisplay().equals("-30122.47"));
     }
 
     @Test
@@ -201,7 +201,7 @@ public class UIEntryCalculatorTest {
 
         Amount amount = entryCalculator.calculateTotal("1999-02-01", "2000-03-23");
 
-        assertTrue(amount.getDisplay().equals(".00"));
+        assertTrue(amount.getDisplay().equals("-29899.08"));
     }
 
     @Test
@@ -237,6 +237,6 @@ public class UIEntryCalculatorTest {
 
         Amount amount = entryCalculator.calculateTotal();
 
-        assertTrue(amount.getDisplay().equals(".00"));
+        assertTrue(amount.getDisplay().equals("-30020.56"));
     }
 }

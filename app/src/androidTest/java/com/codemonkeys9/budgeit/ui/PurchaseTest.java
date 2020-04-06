@@ -7,13 +7,23 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.codemonkeys9.budgeit.R;
+import com.codemonkeys9.budgeit.database.DatabaseHolder;
 import com.codemonkeys9.budgeit.exceptions.FutureDateException;
 import com.codemonkeys9.budgeit.exceptions.InvalidAmountException;
 import com.codemonkeys9.budgeit.exceptions.InvalidDateException;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreator;
+import com.codemonkeys9.budgeit.logiclayer.uicategorycreator.UICategoryCreatorFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizer;
+import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizerFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcher;
+import com.codemonkeys9.budgeit.logiclayer.uientryfetcher.UIEntryFetcherFactory;
+import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
+import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 import com.codemonkeys9.budgeit.ui.testutils.ToastMatcher;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +61,12 @@ public class PurchaseTest {
         }
     }
 
+    @Before
+    public void prepDB(){
+        DatabaseHolder.getDatabase().clean();
+        DatabaseHolder.init();
+    }
+
     @Test
     public void createValidEntryTest() {
         // move to new entry screen
@@ -58,7 +74,7 @@ public class PurchaseTest {
 
         // fill fields
         onView(withId(R.id.editText_amount)).perform(typeText("200"));
-        onView(withId(R.id.editText_date)).perform(typeText("2020-02-21"));
+        onView(withId(R.id.editText_date)).perform(typeText("2020-04-04"));
         onView(withId(R.id.editText_details)).perform(typeText("Taxi"));
 
         // select expense
@@ -79,20 +95,20 @@ public class PurchaseTest {
 
         // check to make sure that the entry appears on the screen with
         // the proper fields
-        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),1)).
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(0),1)).
                 check(matches(textViewTextColorMatcher(0xFFFF0000)));
-        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),1)).
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(0),1)).
                 check(matches(withText("200.00")));
-        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),0)).
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(0),0)).
                 check(matches(textViewTextColorMatcher(0xFFFF0000)));
-        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),0)).
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(0),0)).
                 check(matches(withText("Taxi")));
-        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(1),2)).
-                check(matches(withText("February 21, 2020")));
+        onView(childAtPosition(withRecyclerView(R.id.entry_recycler).atPosition(0),2)).
+                check(matches(withText("April 4, 2020")));
 
         // delete the entry we made
         onView(withId(R.id.entry_recycler)).
-                perform(RecyclerViewActions.actionOnItemAtPosition(1,longClick()));
+                perform(RecyclerViewActions.actionOnItemAtPosition(0,longClick()));
         onView(withText("Delete")).perform(click());
     }
 

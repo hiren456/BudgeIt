@@ -39,6 +39,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -475,6 +476,7 @@ public class DatabaseTest{
         Date date1 = DateFactory.fromInts(2001, 7, 7);
         RecurrencePeriod period1 = RecurrencePeriodFactory.createRecurrencePeriod(0, 2, 0, 0);
         RecurringEntry entry1 = RecurringIncomeFactory.createRecurringIncome(amount1, entryID1, details1, date1, catID1, period1);
+        assertEquals(entry1.getEntryID(),entryID1);
 
         //Create valid RecurringEntry2
         Amount amount2 = AmountFactory.fromInt(520);
@@ -503,6 +505,7 @@ public class DatabaseTest{
         //insert them into the database
         db.insertCategory(category);
         db.insertRecurringEntry(entry1);
+        assertNotEquals(entry1.getEntryID(),entry2.getEntryID());
         db.insertRecurringEntry(entry2);
         db.insertRecurringEntry(entry3);
         db.insertRecurringEntry(entry4);
