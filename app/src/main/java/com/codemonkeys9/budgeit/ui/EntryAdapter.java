@@ -102,7 +102,7 @@ final class EntryAdapter extends ListAdapter<BaseEntry, EntryAdapter.ViewHolder>
         submitList(newEntries);
     }
 
-    public boolean onContextItemSelected(Context context, int entryId, int buttonId){
+    public void onContextItemSelected(Context context, int entryId, int buttonId){
         UIEntryManager entryManager = UIEntryManagerFactory.createUIEntryManager();
 
         Intent i;
@@ -137,8 +137,6 @@ final class EntryAdapter extends ListAdapter<BaseEntry, EntryAdapter.ViewHolder>
                 context.startActivity(i);
                 break;
         }
-
-        return true;
     }
 
 
