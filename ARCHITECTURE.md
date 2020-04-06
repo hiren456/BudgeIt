@@ -13,7 +13,7 @@ The Category class stores data that makes up a category: Amount, Details and Dat
 
 **The Logic Layer**
 
-We have added four new interfaces to the logic layer in iteration 2.
+We have added four new interfaces to the logic layer in iteration 3.
 
 The UIRecurringEntryManager creates new recurring entries, checks for recurring entries that will be due and schedule them to be posted. It also uses DateSource that gives detailed time upto milliseconds at the moment.
 
