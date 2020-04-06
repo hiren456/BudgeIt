@@ -5,9 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,19 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.category.Category;
 import com.codemonkeys9.budgeit.dso.categorylist.CategoryList;
+import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcher;
 import com.codemonkeys9.budgeit.logiclayer.uicategoryfetcher.UICategoryFetcherFactory;
 import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizer;
 import com.codemonkeys9.budgeit.logiclayer.uientrycategorizer.UIEntryCategorizerFactory;
-import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
-import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
 
 import java.util.List;
-
-import segmented_control.widget.custom.android.com.segmentedcontrol.SegmentedControl;
-import segmented_control.widget.custom.android.com.segmentedcontrol.item_row_column.SegmentViewHolder;
-import segmented_control.widget.custom.android.com.segmentedcontrol.listeners.OnSegmentSelectedListener;
 
 public class ChangeEntryCategoryActivity extends AppCompatActivity {
     Spinner dropdown;
@@ -80,6 +73,10 @@ public class ChangeEntryCategoryActivity extends AppCompatActivity {
             categorizer.categorizeEntry(entryId,category.getID());
         }
         catch(UserInputException e){
+            String userErrorMessage = e.getUserErrorMessage();
+            Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();
+        }
+        catch(EntryDoesNotExistException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();
         }

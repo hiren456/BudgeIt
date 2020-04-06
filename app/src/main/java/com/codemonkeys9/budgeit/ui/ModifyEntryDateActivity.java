@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.date.Date;
 import com.codemonkeys9.budgeit.dso.date.DateFactory;
+import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
@@ -44,6 +45,10 @@ public class ModifyEntryDateActivity extends AppCompatActivity {
             entryManager.changeDate(entryId,dsoDate);
         }
         catch(UserInputException e){
+            String userErrorMessage = e.getUserErrorMessage();
+            Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();
+        }
+        catch(EntryDoesNotExistException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();
         }

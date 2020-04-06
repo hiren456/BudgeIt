@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.codemonkeys9.budgeit.R;
 import com.codemonkeys9.budgeit.dso.details.Details;
 import com.codemonkeys9.budgeit.dso.details.DetailsFactory;
+import com.codemonkeys9.budgeit.exceptions.EntryDoesNotExistException;
 import com.codemonkeys9.budgeit.exceptions.UserInputException;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManager;
 import com.codemonkeys9.budgeit.logiclayer.uientrymanager.UIEntryManagerFactory;
@@ -44,6 +45,10 @@ public class ModifyEntryDescriptionActivity extends AppCompatActivity {
             entryManager.changeName(entryId,details);
         }
         catch(UserInputException e){
+            String userErrorMessage = e.getUserErrorMessage();
+            Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();
+        }
+        catch(EntryDoesNotExistException e){
             String userErrorMessage = e.getUserErrorMessage();
             Toast.makeText(this, "Invalid entry: "+userErrorMessage, Toast.LENGTH_LONG).show();
         }
