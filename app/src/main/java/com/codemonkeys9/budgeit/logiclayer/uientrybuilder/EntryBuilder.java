@@ -1,4 +1,4 @@
-package com.codemonkeys9.budgeit.logiclayer.UIEntryBuilder;
+package com.codemonkeys9.budgeit.logiclayer.uientrybuilder;
 
 import com.codemonkeys9.budgeit.database.Database;
 import com.codemonkeys9.budgeit.dso.entry.Entry;
