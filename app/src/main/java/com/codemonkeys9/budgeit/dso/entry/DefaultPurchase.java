@@ -37,7 +37,7 @@ class DefaultPurchase extends DefaultEntry implements Purchase {
     }
 
     @Override
-    public boolean equals(Entry other) {
+    public boolean equals(BaseEntry other) {
         if(!super.equals(other)) return false;
 
         if(other instanceof Purchase) {

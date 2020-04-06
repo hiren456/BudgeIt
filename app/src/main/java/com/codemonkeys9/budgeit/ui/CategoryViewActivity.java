@@ -62,7 +62,6 @@ public class CategoryViewActivity extends AppCompatActivity {
         entryAdapter.updateEntries(this.entries);
     }
 
-
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         // Get index *within the currently-displayed list of entries*

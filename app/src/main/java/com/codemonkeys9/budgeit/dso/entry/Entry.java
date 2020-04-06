@@ -10,6 +10,4 @@ public interface Entry extends BaseEntry {
     Entry modifyEntry(Amount amount,Details details, Date date);
     @Override
     Entry changeCategory(int catID);
-
-    boolean equals(Entry other);
 }

@@ -261,12 +261,12 @@ public class EntriesFragment extends Fragment {
 
 
     private void refreshTimeline() {
-        switch(visibility) {
+        switch (visibility) {
             case Income:
-                this.entries = entryFetcher.fetchAllIncomeEntrys(startDate,endDate);
+                this.entries = entryFetcher.fetchAllIncomeEntrys(startDate, endDate);
                 break;
             case Expenses:
-                this.entries = entryFetcher.fetchAllPurchaseEntrys(startDate,endDate);
+                this.entries = entryFetcher.fetchAllPurchaseEntrys(startDate, endDate);
                 break;
             case RecurringExpenses:
                 this.entries = entryFetcher.fetchAllRecurringExpenses();
@@ -277,6 +277,7 @@ public class EntriesFragment extends Fragment {
             default:
                 this.entries = entryFetcher.fetchAllEntrys(startDate, endDate);
         }
+
         entryAdapter.updateEntries(this.entries.getReverseChrono());
     }
 
